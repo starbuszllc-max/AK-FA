@@ -1,10 +1,8 @@
 import { NextResponse } from 'next/server';
-import OpenAI from 'openai';
+import { getOpenAI, hasOpenAIKey } from '../../../lib/openai';
 import { db } from '../../../lib/db';
-import { profiles, assessments, posts, comments, challengeParticipants, userBadges } from '@akorfa/shared/src/schema';
+import { profiles, assessments, posts, challengeParticipants, userBadges } from '@akorfa/shared/src/schema';
 import { eq, desc } from 'drizzle-orm';
-
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 async function getUserContext(userId: string) {
   const [profile] = await db.select().from(profiles).where(eq(profiles.id, userId)).limit(1);
@@ -53,21 +51,30 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'user_id is required' }, { status: 400 });
     }
 
-    if (!process.env.OPENAI_API_KEY) {
-      return NextResponse.json({ error: 'OpenAI API key not configured' }, { status: 500 });
+    const context = await getUserContext(user_id);
+
+    if (!hasOpenAIKey()) {
+      return NextResponse.json({ 
+        message: `Hello! I'm your AI coach. I can see you're on your personal growth journey. Your Akorfa score is currently ${context.profile?.akorfaScore || 0}. To get personalized insights, make sure the OpenAI integration is configured. In the meantime, I'd suggest focusing on your lowest-scoring layer for the biggest impact!`,
+        context: {
+          score: context.profile?.akorfaScore,
+          layerScores: context.profile?.layerScores,
+          hasAssessment: !!context.assessment
+        }
+      });
     }
 
-    const context = await getUserContext(user_id);
+    const openai = getOpenAI();
 
     const systemPrompt = `You are an empathetic and insightful AI Personal Growth Coach for the Akorfa platform. Akorfa focuses on human development through the Seven Layers framework:
 
-1. Physical - Health, fitness, energy management
-2. Emotional - Emotional intelligence, regulation, expression
-3. Mental - Cognitive abilities, learning, problem-solving
-4. Social - Relationships, communication, community
-5. Professional - Career, skills, work-life balance
-6. Spiritual - Purpose, values, meaning
-7. Financial - Money management, abundance mindset
+1. Environment - Physical surroundings, living space, nature connection
+2. Biological - Health, fitness, energy, nutrition
+3. Internal - Emotions, mental health, self-awareness
+4. Cultural - Values, traditions, identity, heritage
+5. Social - Relationships, community, communication
+6. Conscious - Awareness, mindfulness, presence
+7. Existential - Purpose, meaning, spiritual connection
 
 User Context:
 - Username: ${context.profile?.username || 'Unknown'}
@@ -96,11 +103,10 @@ Your role:
       { role: 'user', content: message }
     ];
 
-    // the newest OpenAI model is "gpt-5" which was released August 7, 2025. do not change this unless explicitly requested by the user
     const response = await openai.chat.completions.create({
-      model: 'gpt-5',
+      model: 'gpt-4o-mini',
       messages,
-      max_completion_tokens: 1024
+      max_tokens: 1024
     });
 
     const coachMessage = response.choices[0].message.content;
@@ -128,11 +134,23 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: 'user_id query param required' }, { status: 400 });
     }
 
-    if (!process.env.OPENAI_API_KEY) {
-      return NextResponse.json({ error: 'OpenAI API key not configured' }, { status: 500 });
+    const context = await getUserContext(userId);
+
+    if (!hasOpenAIKey()) {
+      return NextResponse.json({ 
+        suggestions: [
+          { title: 'Complete an Assessment', description: 'Take your first assessment to get personalized insights', layer: 'internal' },
+          { title: 'Join a Challenge', description: 'Participate in a community challenge to boost your growth', layer: 'social' },
+          { title: 'Daily Reflection', description: 'Spend 5 minutes reflecting on your goals today', layer: 'conscious' }
+        ],
+        context: {
+          score: context.profile?.akorfaScore,
+          hasAssessment: !!context.assessment
+        }
+      });
     }
 
-    const context = await getUserContext(userId);
+    const openai = getOpenAI();
 
     const systemPrompt = `You are an AI Personal Growth Coach for Akorfa. Based on the user's data, generate 3 personalized growth suggestions.
 
@@ -145,15 +163,14 @@ User Context:
 
 Respond with JSON in this format: { "suggestions": [{ "title": "short title", "description": "one sentence description", "layer": "one of the seven layers" }] }`;
 
-    // the newest OpenAI model is "gpt-5" which was released August 7, 2025. do not change this unless explicitly requested by the user
     const response = await openai.chat.completions.create({
-      model: 'gpt-5',
+      model: 'gpt-4o-mini',
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: 'Generate my personalized growth suggestions.' }
       ],
       response_format: { type: 'json_object' },
-      max_completion_tokens: 512
+      max_tokens: 512
     });
 
     const result = JSON.parse(response.choices[0].message.content || '{}');

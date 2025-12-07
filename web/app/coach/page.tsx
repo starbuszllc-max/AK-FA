@@ -1,42 +1,46 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { supabaseClient } from '../../lib/supabaseClient';
 import { AICoach } from '../../components/coach';
-import { Sparkles } from 'lucide-react';
+import { VoiceCoach } from '../../components/coach/VoiceCoach';
+import { Sparkles, MessageSquare, Mic } from 'lucide-react';
 
 export default function CoachPage() {
   const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [mode, setMode] = useState<'text' | 'voice'>('text');
 
   useEffect(() => {
-    (async () => {
-      let uid: string | null = null;
-      
-      const demoUserId = localStorage.getItem('demo_user_id');
-      if (demoUserId) {
-        uid = demoUserId;
-      } else {
-        const client = supabaseClient();
-        const { data: sessionData } = await client.auth.getSession();
-        uid = sessionData?.session?.user?.id || null;
-      }
-      
-      setUserId(uid);
-      setLoading(false);
-    })();
+    const demoUserId = localStorage.getItem('demo_user_id');
+    setUserId(demoUserId);
+    setLoading(false);
   }, []);
 
   if (loading) {
-    return <div className="text-gray-600">Loading...</div>;
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      </div>
+    );
   }
 
   if (!userId) {
     return (
-      <div className="bg-white p-6 rounded-lg shadow max-w-md mx-auto">
-        <p className="text-gray-600">Please sign in to access your AI Growth Coach.</p>
-        <a href="/login" className="mt-4 inline-block text-indigo-600 hover:underline">
-          Go to Login
+      <div className="max-w-md mx-auto text-center py-16">
+        <div className="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
+          <Sparkles className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
+        </div>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+          AI Growth Coach
+        </h2>
+        <p className="text-gray-600 dark:text-gray-300 mb-6">
+          Get personalized guidance for your self-discovery journey. Complete onboarding to access your AI coach.
+        </p>
+        <a
+          href="/onboarding"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700 transition-all"
+        >
+          Get Started
         </a>
       </div>
     );
@@ -44,21 +48,50 @@ export default function CoachPage() {
 
   return (
     <div className="max-w-3xl mx-auto">
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+      <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden border border-gray-200 dark:border-slate-700">
         <div className="bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-white" />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                <Sparkles className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-white">AI Growth Coach</h1>
+                <p className="text-indigo-100 text-sm">Your personal guide to balanced development</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-xl font-bold text-white">AI Growth Coach</h1>
-              <p className="text-indigo-100 text-sm">Your personal guide to balanced development</p>
+            
+            <div className="flex bg-white/20 rounded-lg p-1">
+              <button
+                onClick={() => setMode('text')}
+                className={`px-3 py-1.5 rounded-md text-sm font-medium flex items-center gap-1.5 transition-all ${
+                  mode === 'text' ? 'bg-white text-indigo-600' : 'text-white hover:bg-white/10'
+                }`}
+              >
+                <MessageSquare className="w-4 h-4" />
+                Text
+              </button>
+              <button
+                onClick={() => setMode('voice')}
+                className={`px-3 py-1.5 rounded-md text-sm font-medium flex items-center gap-1.5 transition-all ${
+                  mode === 'voice' ? 'bg-white text-indigo-600' : 'text-white hover:bg-white/10'
+                }`}
+              >
+                <Mic className="w-4 h-4" />
+                Voice
+              </button>
             </div>
           </div>
         </div>
         
-        <div className="p-6 h-[600px]">
-          <AICoach userId={userId} />
+        <div className="p-6">
+          {mode === 'text' ? (
+            <div className="h-[500px]">
+              <AICoach userId={userId} />
+            </div>
+          ) : (
+            <VoiceCoach userId={userId} />
+          )}
         </div>
       </div>
     </div>

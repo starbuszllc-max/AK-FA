@@ -4,13 +4,37 @@
 
 Akorfa is a monorepo-based web and mobile platform for human development assessment and social engagement. The system enables users to:
 
-- Complete 7-layer self-assessments (environment, bio, internal, cultural, social, conscious, existential)
+- Complete 7-layer self-assessments (environment, biological, internal, cultural, social, conscious, existential)
 - Calculate system stability metrics using a proprietary formula
 - Participate in a social feed with posts, reactions, and comments
 - Track personal growth through an Akorfa scoring system
 - View and manage assessment data through an admin interface
 
-The platform uses a shared scoring engine (`@akorfa/shared`) consumed by both web (Next.js) and mobile (Expo/React Native) applications, with Supabase providing authentication, database, and real-time capabilities.
+The platform uses a shared scoring engine (`@akorfa/shared`) consumed by both web (Next.js) and mobile (Expo/React Native) applications, with a PostgreSQL database for data persistence.
+
+## Recent Changes (December 2025)
+
+### Phase 1: Modernization
+- **Dark Mode**: Full dark mode support with system preference detection and manual toggle
+- **Lazy Database Initialization**: DATABASE_URL is only required at runtime (using Proxy pattern)
+- **Lazy OpenAI Initialization**: OpenAI client uses lazy loading to avoid build-time errors
+- **Updated Auth Flow**: Replaced Supabase client auth with localStorage-based demo auth
+- **New Onboarding Flow**: 4-step personalized onboarding (name, goals, focus layers, completion)
+- **Gamification Schema**: Added user_streaks, user_levels, groups, daily_insights tables
+- **AI Coach**: Voice-enabled AI coach with fallback when OpenAI not configured
+- **Leaderboard**: Real-time leaderboard showing top users by Akorfa score
+- **Groups/Communities**: Community groups feature for social engagement
+- **Daily Insights**: AI-generated personalized daily insights
+
+### Key Files Changed
+- `web/lib/db.ts` - Lazy database initialization with Proxy pattern
+- `web/lib/openai.ts` - Lazy OpenAI client initialization
+- `web/lib/ThemeContext.tsx` - Dark mode context provider
+- `web/app/onboarding/page.tsx` - New onboarding flow
+- `web/app/insights/page.tsx` - Daily insights page
+- `web/app/leaderboard/page.tsx` - Leaderboard page
+- `web/app/groups/page.tsx` - Communities page
+- `web/components/VoiceCoach.tsx` - Voice AI coach component
 
 ## User Preferences
 
@@ -35,63 +59,71 @@ Preferred communication style: Simple, everyday language.
 **Key patterns**:
 - Dynamic imports for client-heavy components to reduce initial bundle size
 - Tailwind CSS for utility-first styling with custom theme (primary indigo, secondary green)
+- Dark mode support via ThemeContext and Tailwind dark: variants
 - Reusable UI components (`Button`, `Card`, `Header`) following atomic design principles
 - Route groups (`(auth)`) for authentication pages without affecting URL structure
+- Lazy initialization patterns for database and OpenAI to avoid build-time errors
 
 ### Backend Architecture (API Routes)
 
-**Decision**: Next.js API routes (Route Handlers) for server-side logic with Supabase admin client.
+**Decision**: Next.js API routes (Route Handlers) for server-side logic with PostgreSQL database.
 
-**Rationale**: Collocating API routes with the frontend simplifies deployment and enables type-safe server actions. The admin client (`supabaseAdmin()`) uses the service role key for privileged operations like inserting posts and incrementing scores.
+**Rationale**: Collocating API routes with the frontend simplifies deployment and enables type-safe server actions.
 
 **Key endpoints**:
 - `POST /api/assessments` — Persists 7-layer scores and computes overall Akorfa score
 - `POST /api/stability` — Calculates and stores stability metrics
-- `POST /api/posts` — Creates posts, user events, and atomically updates user scores via RPC
-- `POST /api/reactions` — Creates reactions and increments post like counts via RPC
+- `POST /api/posts` — Creates posts, user events, and updates user scores
+- `POST /api/reactions` — Creates reactions and increments post like counts
+- `POST /api/ai-coach` — AI-powered coaching with OpenAI (with fallback)
+- `GET /api/insights` — AI-generated daily insights
+- `POST /api/insights/generate` — Generate and store new daily insight
+- `GET /api/leaderboard` — Top users by Akorfa score
+- `GET /api/groups` — Community groups list
+- `POST /api/groups/join` — Join a community group
+- `POST /api/onboarding` — Complete user onboarding
 
-**Scoring integration**: Each API route imports the shared scoring engine (`@akorfa/shared/dist/scoring`) to compute deltas. For posts, `calculateAkorfaScore({postsCreated:1})` returns a numeric delta that's added to the user's score via `increment_user_score` RPC.
+**Scoring integration**: Each API route imports the shared scoring engine (`@akorfa/shared/src/scoring`) to compute deltas.
 
 ### Authentication & Authorization
 
-**Decision**: Supabase Auth with email/password provider and Row Level Security (RLS).
-
-**Rationale**: Supabase provides JWT-based auth out of the box. RLS policies enforce data isolation at the database level, ensuring users can only read/write their own data (with exceptions for publicly readable content like the feed).
+**Current State**: Demo auth using localStorage for simplified development flow.
 
 **Implementation**:
-- `supabaseClient()` factory creates a browser client with anon key for client-side auth
-- `supabaseAdmin()` factory creates a server client with service role key for privileged writes
-- Auth trigger creates profile records automatically when users sign up (migration `002_auth_and_rls.sql`)
-- Session management via `supabaseClient().auth.getSession()` in client components
+- `demo_user_id` stored in localStorage
+- Onboarding flow creates user profile
+- Dashboard and other pages check for demo_user_id
+
+**Future**: Can be upgraded to full Supabase Auth or other providers.
 
 ### Data Model
 
-**Decision**: Postgres via Supabase with normalized relational schema.
+**Decision**: Postgres with Drizzle ORM and normalized relational schema.
 
-**Tables**:
-- `profiles` — User profile with `akorfa_score`, `username`, `bio`, etc.
+**Core Tables**:
+- `profiles` — User profile with `akorfa_score`, `username`, `bio`, gamification fields
 - `assessments` — 7-layer assessment records with `layer_scores` (JSONB) and `overall_score`
 - `posts` — Feed posts with `content`, `layer`, `like_count`, `comment_count`
 - `reactions` — Post reactions (many-to-many between users and posts)
-- `comments` — Post comments (placeholder, not yet implemented)
-- `user_events` — Activity log for scoring (`event_type`, `points_earned`, `metadata`)
+- `comments` — Post comments
+- `user_events` — Activity log for scoring
 
-**Triggers & RPC functions**:
-- `handle_new_user()` trigger creates profile on auth.users insert
-- `increment_user_score(p_user_id, p_delta)` atomically updates `profiles.akorfa_score`
-- `increment_post_like_count(p_post_id)` atomically updates `posts.like_count`
+**Gamification Tables** (New):
+- `user_levels` — Level definitions with XP requirements
+- `daily_insights` — AI-generated daily insights per user
+- `groups` — Community groups/communities
 
-**Rationale**: JSONB for `layer_scores` enables flexible schema evolution. Atomic RPC functions prevent race conditions when multiple events update the same score simultaneously.
+**Rationale**: JSONB for `layer_scores` enables flexible schema evolution. Drizzle ORM provides type-safe queries.
 
 ### Shared Scoring Logic
 
 **Decision**: Pure TypeScript functions in `@akorfa/shared` with deterministic output.
 
 **Core functions**:
-- `calculateAkorfaScore(input: AkorfaActivityInput): number` — Computes user score from activity metrics (posts, reactions, assessments, challenges)
-- `calculateStability(metrics: StabilityMetrics): number` — Implements the stability equation: `S = R * (L + G) / (|L - G| + C - (A * n))`
+- `calculateAkorfaScore(input: AkorfaActivityInput): number` — Computes user score from activity metrics
+- `calculateStability(metrics: StabilityMetrics): number` — Implements stability equation
 
-**Rationale**: Deterministic scoring ensures consistency across web and mobile. Unit tests (`scoring/index.test.ts`) validate correctness. The package is built to CommonJS (`dist/index.js`) for compatibility with Next.js server-side imports.
+**Import Path**: Use `@akorfa/shared/src/scoring` for development compatibility.
 
 **Scoring rules** (hardcoded weights):
 - Post created: 5 points
@@ -101,33 +133,25 @@ Preferred communication style: Simple, everyday language.
 - Challenge completed: 15 points
 - Streak bonus: 2 points per day (capped at 20)
 
-### Mobile Architecture (Future)
-
-**Decision**: Expo (React Native) with placeholder scaffold.
-
-**Current state**: Minimal `App.tsx` displays a welcome screen. The intent is to import `@akorfa/shared` for scoring and use Supabase client for auth/data.
-
-**Rationale**: Expo provides managed workflow for iOS/Android builds without ejecting. Shared scoring ensures parity with web. Mobile is not yet implemented but the monorepo structure supports it.
-
 ## External Dependencies
 
-### Supabase (Primary Backend)
+### PostgreSQL Database
 
-**Purpose**: Authentication, Postgres database, Row Level Security, real-time subscriptions, storage.
+**Purpose**: Primary data storage for all platform data.
 
 **Configuration**:
-- Project URL and anon key exposed via `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-- Service role key (`SUPABASE_SERVICE_ROLE_KEY`) used server-side for privileged writes
-- Custom email redirect URL configured for auth callbacks
-- CORS enabled for Vercel domain
+- Connection via `DATABASE_URL` environment variable
+- Lazy initialization to avoid build-time errors
+- Drizzle ORM for type-safe queries
 
-**Migrations**: SQL files in `supabase/migrations/` define schema, RLS policies, triggers, and RPC functions. Applied via Supabase dashboard SQL editor.
+### OpenAI (Optional)
 
-### Vercel (Deployment)
+**Purpose**: AI-powered insights, coaching, and content generation.
 
-**Purpose**: Hosts Next.js web app with serverless API routes.
-
-**Configuration**: `vercel.json` specifies build command (`npm run build:shared && cd web && npm run build`) and environment variables. Output directory is `web/.next`.
+**Configuration**:
+- API key via `OPENAI_API_KEY` environment variable
+- Lazy initialization with fallback content when not configured
+- Uses `gpt-4o-mini` model for cost efficiency
 
 ### Next.js 15
 
@@ -141,25 +165,43 @@ Preferred communication style: Simple, everyday language.
 
 ### Tailwind CSS
 
-**Purpose**: Utility-first CSS framework for rapid UI development.
+**Purpose**: Utility-first CSS framework with dark mode support.
 
-**Customization**: Extended theme in `tailwind.config.js` with Akorfa brand colors (primary indigo `#6366f1`, secondary green `#10b981`, accent orange `#f59e0b`).
+**Customization**: Extended theme with Akorfa brand colors and dark mode variants.
+- Dark mode: `dark:` prefix classes
+- Theme toggle via ThemeContext
 
 ### TypeScript
 
 **Purpose**: Type safety across web, mobile, and shared packages.
 
-**Configuration**: Strict mode enabled. Shared package emits type declarations (`dist/index.d.ts`) for consumption by web/mobile.
+**Configuration**: Strict mode enabled. Shared package provides type declarations.
 
-### Testing Framework
+### Lucide React
 
-**Purpose**: Jest with `ts-jest` for unit testing shared scoring logic.
+**Purpose**: Icon library for modern, consistent iconography throughout the app.
 
-**Coverage**: Tests validate `calculateAkorfaScore` and `calculateStability` with sample inputs. Run via `npm run test:shared`.
+## Running the Application
 
-### Third-Party Packages
+1. **Development**: `cd web && npm run dev` (runs on port 5000)
+2. **Build**: `npm run build:shared && cd web && npm run build`
+3. **Required Environment Variables**:
+   - `DATABASE_URL` - PostgreSQL connection string
+   - `OPENAI_API_KEY` - OpenAI API key (optional, for AI features)
 
-- `@supabase/supabase-js` — Supabase client SDK
-- `react` & `react-dom` — UI library
-- `autoprefixer` & `postcss` — CSS processing for Tailwind
-- `expo` & `react-native` — Mobile framework (placeholder)
+## Project Structure
+
+```
+/
+├── shared/           # Shared TypeScript package (@akorfa/shared)
+│   └── src/
+│       ├── schema.ts # Drizzle database schema
+│       └── scoring/  # Scoring logic
+├── web/              # Next.js 15 web application
+│   ├── app/          # App Router pages and API routes
+│   ├── components/   # Reusable UI components
+│   ├── lib/          # Utility functions and context
+│   └── styles/       # Global CSS and Tailwind config
+├── mobile/           # Expo React Native app (placeholder)
+└── supabase/         # Database migrations
+```

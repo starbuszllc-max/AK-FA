@@ -1,10 +1,8 @@
 import { NextResponse } from 'next/server';
-import OpenAI from 'openai';
+import { getOpenAI, hasOpenAIKey } from '../../../lib/openai';
 import { db } from '../../../lib/db';
 import { profiles, assessments, posts, userEvents, challengeParticipants } from '@akorfa/shared/src/schema';
 import { eq, desc, and, gte } from 'drizzle-orm';
-
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export async function GET(req: Request) {
   try {
@@ -13,10 +11,6 @@ export async function GET(req: Request) {
 
     if (!userId) {
       return NextResponse.json({ error: 'user_id query param required' }, { status: 400 });
-    }
-
-    if (!process.env.OPENAI_API_KEY) {
-      return NextResponse.json({ error: 'OpenAI API key not configured' }, { status: 500 });
     }
 
     const [profile] = await db.select().from(profiles).where(eq(profiles.id, userId)).limit(1);
@@ -37,7 +31,11 @@ export async function GET(req: Request) {
 
     const totalPoints = recentEvents.reduce((sum, e) => sum + (e.pointsEarned || 0), 0);
 
-    const systemPrompt = `You are an insightful AI coach for personal development. Generate a brief, personalized daily insight based on the user's activity data.
+    let insight;
+
+    if (hasOpenAIKey()) {
+      const openai = getOpenAI();
+      const systemPrompt = `You are an insightful AI coach for personal development. Generate a brief, personalized daily insight based on the user's activity data.
 
 User Data:
 - Akorfa Score: ${profile.akorfaScore || 0}
@@ -56,17 +54,29 @@ Generate a JSON response with:
   "motivation": "A short motivational message (1 sentence)"
 }`;
 
-    const response = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: 'Generate my daily insight.' }
-      ],
-      response_format: { type: 'json_object' },
-      max_tokens: 300
-    });
+      const response = await openai.chat.completions.create({
+        model: 'gpt-4o-mini',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: 'Generate my daily insight.' }
+        ],
+        response_format: { type: 'json_object' },
+        max_tokens: 300
+      });
 
-    const insight = JSON.parse(response.choices[0].message.content || '{}');
+      insight = JSON.parse(response.choices[0].message.content || '{}');
+    } else {
+      const hour = new Date().getHours();
+      const greeting = hour < 12 ? 'Good morning!' : hour < 17 ? 'Good afternoon!' : 'Good evening!';
+      
+      insight = {
+        greeting,
+        insight: 'Take some time today to reflect on your personal growth journey. Small consistent steps lead to remarkable transformations.',
+        focusArea: 'internal',
+        actionItem: 'Spend 5 minutes journaling about one thing you are grateful for today.',
+        motivation: 'Every day is a new opportunity to become a better version of yourself!'
+      };
+    }
 
     return NextResponse.json({
       insight,

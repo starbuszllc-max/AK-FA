@@ -15,7 +15,9 @@
     "ci": "npm run build:shared && npm run test:shared"
   },
   "dependencies": {
+    "@types/uuid": "^10.0.0",
     "lucide-react": "^0.556.0",
-    "openai": "^6.10.0"
+    "openai": "^6.10.0",
+    "uuid": "^13.0.0"
   }
 }

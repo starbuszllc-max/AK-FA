@@ -1,7 +1,8 @@
 'use client';
 
-import React, {useEffect, useState} from 'react';
-import {supabaseClient} from '../../lib/supabaseClient';
+import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { User, Flame, Zap, Trophy, Settings, ChevronRight } from 'lucide-react';
 import { BadgesList, LevelDisplay } from '../../components/badges';
 import { ActivityHeatmap } from '../../components/heatmap';
 
@@ -9,141 +10,150 @@ export default function ProfilePage() {
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState<string | null>(null);
-  const [creating, setCreating] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    (async () => {
-      let uid: string | null = null;
-      
-      const demoUserId = localStorage.getItem('demo_user_id');
-      if (demoUserId) {
-        uid = demoUserId;
-      } else {
-        const client = supabaseClient();
-        const {data: sessionData} = await client.auth.getSession();
-        uid = sessionData?.session?.user?.id || null;
-      }
-      
-      setUserId(uid);
-      
-      if (!uid) {
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const res = await fetch(`/api/profiles?user_id=${uid}`);
-        const data = await res.json();
-        if (data.profile && !data.error) {
-          const p = data.profile;
-          setProfile({
-            id: p.id,
-            username: p.username,
-            full_name: p.fullName,
-            avatar_url: p.avatarUrl,
-            bio: p.bio,
-            akorfa_score: p.akorfaScore,
-            layer_scores: p.layerScores,
-            metadata: p.metadata
-          });
-        }
-      } catch (err) {
-        console.error('Profile fetch error:', err);
-      }
+    const uid = localStorage.getItem('demo_user_id');
+    setUserId(uid);
+    
+    if (!uid) {
       setLoading(false);
-    })();
+      return;
+    }
+
+    fetchProfile(uid);
   }, []);
 
-  async function createProfile() {
-    if (!userId) return;
-    setCreating(true);
-    setError(null);
-    
-    const client = supabaseClient();
-    const {data: sessionData} = await client.auth.getSession();
-    const email = sessionData?.session?.user?.email || 'user';
-    
-    const {data, error: insertError} = await client
-      .from('profiles')
-      .insert({
-        id: userId,
-        username: email,
-        full_name: email.split('@')[0],
-        akorfa_score: 0,
-        bio: ''
-      })
-      .select()
-      .single();
-    
-    if (insertError) {
-      console.error('Profile creation error:', insertError);
-      setError(insertError.message);
-    } else {
-      setProfile(data);
+  async function fetchProfile(uid: string) {
+    try {
+      const res = await fetch(`/api/profiles?user_id=${uid}`);
+      const data = await res.json();
+      if (data.profile && !data.error) {
+        setProfile(data.profile);
+      }
+    } catch (err) {
+      console.error('Profile fetch error:', err);
     }
-    setCreating(false);
+    setLoading(false);
   }
 
   if (loading) {
-    return <div className="text-gray-600">Loading...</div>;
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      </div>
+    );
   }
 
   if (!userId) {
     return (
-      <div className="bg-white p-6 rounded-md shadow max-w-md">
-        <p className="text-gray-600">Please sign in to view your profile.</p>
-        <a href="/login" className="mt-4 inline-block text-indigo-600 hover:underline">
-          Go to Login
-        </a>
+      <div className="max-w-md mx-auto text-center py-16">
+        <div className="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
+          <User className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
+        </div>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+          Your Profile
+        </h2>
+        <p className="text-gray-600 dark:text-gray-300 mb-6">
+          Complete onboarding to create your profile and start tracking your growth.
+        </p>
+        <Link
+          href="/onboarding"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700 transition-all"
+        >
+          Get Started
+          <ChevronRight className="w-4 h-4" />
+        </Link>
       </div>
     );
   }
 
   if (!profile) {
     return (
-      <div className="bg-white p-6 rounded-md shadow max-w-md">
-        <h1 className="text-xl font-bold mb-4">No Profile Found</h1>
-        <p className="text-gray-600 mb-4">
-          It looks like your profile hasn't been created yet.
-        </p>
-        {error && <p className="text-red-600 mb-4">{error}</p>}
-        <button
-          onClick={createProfile}
-          disabled={creating}
-          className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:opacity-50"
-        >
-          {creating ? 'Creating...' : 'Create Profile'}
-        </button>
+      <div className="max-w-md mx-auto text-center py-16">
+        <p className="text-gray-600 dark:text-gray-300 mb-4">Profile not found.</p>
+        <Link href="/onboarding" className="text-indigo-600 dark:text-indigo-400 hover:underline">
+          Complete Onboarding
+        </Link>
       </div>
     );
   }
 
+  const totalXp = profile.totalXp || 0;
+  const streak = profile.currentStreak || 0;
+  const level = profile.level || 1;
+
   return (
-    <div className="space-y-6 max-w-2xl mx-auto">
-      <div className="bg-white p-6 rounded-lg shadow">
-        <div className="flex items-center gap-4 mb-4">
-          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white text-2xl font-bold">
-            {(profile.full_name || profile.username || 'U').charAt(0).toUpperCase()}
+    <div className="max-w-2xl mx-auto space-y-6">
+      <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-700 overflow-hidden">
+        <div className="h-24 bg-gradient-to-r from-indigo-500 to-purple-600"></div>
+        <div className="px-6 pb-6">
+          <div className="flex items-end gap-4 -mt-12 mb-4">
+            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white text-3xl font-bold border-4 border-white dark:border-slate-800">
+              {(profile.fullName || profile.username || 'U').charAt(0).toUpperCase()}
+            </div>
+            <div className="pb-2">
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+                {profile.fullName || profile.username}
+              </h1>
+              <p className="text-gray-500 dark:text-gray-400">@{profile.username}</p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-xl font-bold text-gray-800">{profile.full_name || profile.username}</h1>
-            <p className="text-gray-500">@{profile.username}</p>
+
+          {profile.bio && (
+            <p className="text-gray-700 dark:text-gray-300 mb-4">{profile.bio}</p>
+          )}
+
+          <div className="grid grid-cols-3 gap-4 mb-4">
+            <div className="text-center p-3 bg-gray-50 dark:bg-slate-700/50 rounded-xl">
+              <div className="flex items-center justify-center gap-1 text-2xl font-bold text-gray-900 dark:text-white">
+                <Zap className="w-5 h-5 text-indigo-500" />
+                {totalXp}
+              </div>
+              <div className="text-sm text-gray-500 dark:text-gray-400">XP</div>
+            </div>
+            <div className="text-center p-3 bg-gray-50 dark:bg-slate-700/50 rounded-xl">
+              <div className="flex items-center justify-center gap-1 text-2xl font-bold text-gray-900 dark:text-white">
+                <Trophy className="w-5 h-5 text-amber-500" />
+                {level}
+              </div>
+              <div className="text-sm text-gray-500 dark:text-gray-400">Level</div>
+            </div>
+            <div className="text-center p-3 bg-gray-50 dark:bg-slate-700/50 rounded-xl">
+              <div className="flex items-center justify-center gap-1 text-2xl font-bold text-gray-900 dark:text-white">
+                <Flame className="w-5 h-5 text-orange-500" />
+                {streak}
+              </div>
+              <div className="text-sm text-gray-500 dark:text-gray-400">Streak</div>
+            </div>
           </div>
+
+          <LevelDisplay score={Number(profile.akorfaScore || 0)} />
         </div>
-        {profile.bio && <p className="text-gray-700 mb-4">{profile.bio}</p>}
-        
-        <LevelDisplay score={Number(profile.akorfa_score || 0)} />
       </div>
 
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-lg font-semibold text-gray-800 mb-4">Activity</h2>
-        <ActivityHeatmap userId={userId!} />
+      <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 p-6">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Activity</h2>
+        <ActivityHeatmap userId={userId} />
       </div>
 
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-lg font-semibold text-gray-800 mb-4">Achievements</h2>
-        <BadgesList userId={userId!} />
+      <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 p-6">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Achievements</h2>
+        <BadgesList userId={userId} />
+      </div>
+
+      <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 p-6">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Goals</h2>
+        {profile.goals && profile.goals.length > 0 ? (
+          <div className="flex flex-wrap gap-2">
+            {profile.goals.map((goal: string, i: number) => (
+              <span key={i} className="px-3 py-1 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 rounded-full text-sm">
+                {goal.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+              </span>
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-500 dark:text-gray-400">No goals set yet.</p>
+        )}
       </div>
     </div>
   );

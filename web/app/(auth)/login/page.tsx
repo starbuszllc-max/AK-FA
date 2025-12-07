@@ -1,77 +1,42 @@
 'use client';
-import React, {useState} from 'react';
-import {useRouter} from 'next/navigation';
-import {supabaseClient} from '../../../lib/supabaseClient';
+
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { Sparkles, ArrowRight } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  async function handleLogin(e: React.FormEvent) {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-    try {
-      const {error: signInError} = await supabaseClient().auth.signInWithPassword({
-        email,
-        password
-      });
-      if (signInError) setError(signInError.message);
-      else {
-        router.push('/feed');
-      }
-    } catch (err: any) {
-      setError(err.message || String(err));
-    } finally {
-      setLoading(false);
+  useEffect(() => {
+    const userId = localStorage.getItem('demo_user_id');
+    if (userId) {
+      router.push('/dashboard');
     }
-  }
+  }, [router]);
 
   return (
-    <div className="max-w-md mx-auto bg-white p-6 rounded-md shadow">
-      <h1 className="text-xl font-bold mb-4">Login</h1>
-      <form onSubmit={handleLogin} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium">Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-200 p-2"
-            required
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium">Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-200 p-2"
-            required
-          />
-        </div>
-
-        {error && <div className="text-red-600">{error}</div>}
-
-        <div>
-          <button
-            type="submit"
-            className="px-4 py-2 bg-indigo-600 text-white rounded-md"
-            disabled={loading}
-          >
-            {loading ? 'Signing in…' : 'Sign in'}
-          </button>
-        </div>
-      </form>
-      <div className="mt-4 text-sm">
-        <a className="text-indigo-600" href="/signup">
-          Create account
-        </a>
+    <div className="max-w-md mx-auto text-center py-16">
+      <div className="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
+        <Sparkles className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
+      </div>
+      <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+        Welcome Back
+      </h1>
+      <p className="text-gray-600 dark:text-gray-300 mb-8">
+        Continue your self-discovery journey with Akorfa. If you&apos;re new here, start with onboarding.
+      </p>
+      <div className="space-y-4">
+        <Link
+          href="/onboarding"
+          className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700 transition-all"
+        >
+          Start Journey
+          <ArrowRight className="w-4 h-4" />
+        </Link>
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          Already started? Your progress is saved in your browser.
+        </p>
       </div>
     </div>
   );

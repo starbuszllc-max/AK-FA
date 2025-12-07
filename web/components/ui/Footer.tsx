@@ -7,7 +7,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full bg-gray-900 text-gray-300 mt-auto">
+    <footer className="w-full bg-gray-900 dark:bg-slate-950 text-gray-300 mt-auto">
       <div className="max-w-6xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-2">
@@ -30,8 +30,13 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/stability" className="hover:text-white transition-colors">
-                  Stability Calculator
+                <Link href="/insights" className="hover:text-white transition-colors">
+                  Daily Insights
+                </Link>
+              </li>
+              <li>
+                <Link href="/challenges" className="hover:text-white transition-colors">
+                  Challenges
                 </Link>
               </li>
               <li>
@@ -43,16 +48,16 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="font-semibold text-white mb-4">Account</h3>
+            <h3 className="font-semibold text-white mb-4">Get Started</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/login" className="hover:text-white transition-colors">
-                  Sign In
+                <Link href="/onboarding" className="hover:text-white transition-colors">
+                  Start Journey
                 </Link>
               </li>
               <li>
-                <Link href="/signup" className="hover:text-white transition-colors">
-                  Create Account
+                <Link href="/coach" className="hover:text-white transition-colors">
+                  AI Coach
                 </Link>
               </li>
               <li>

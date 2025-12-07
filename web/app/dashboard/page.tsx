@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { supabaseClient } from '../../lib/supabaseClient';
+import { Flame, Zap, Trophy, TrendingUp, Target, Sparkles, ChevronRight } from 'lucide-react';
 import StatCard from '../../components/ui/StatCard';
 import ProgressBar from '../../components/ui/ProgressBar';
 import Loading from '../../components/ui/Loading';
@@ -19,6 +19,28 @@ interface DashboardData {
 const layerNames = ['Environment', 'Biological', 'Internal', 'Cultural', 'Social', 'Conscious', 'Existential'];
 const layerColors = ['green', 'blue', 'purple', 'orange', 'pink', 'indigo', 'red'] as const;
 
+function calculateLevel(xp: number): { level: number; progress: number; xpForNext: number } {
+  const baseXp = 100;
+  const multiplier = 1.5;
+  let level = 1;
+  let totalXpNeeded = baseXp;
+  
+  while (xp >= totalXpNeeded) {
+    level++;
+    totalXpNeeded += Math.floor(baseXp * Math.pow(multiplier, level - 1));
+  }
+  
+  const prevLevelXp = totalXpNeeded - Math.floor(baseXp * Math.pow(multiplier, level - 1));
+  const xpForCurrentLevel = xp - prevLevelXp;
+  const xpNeededForLevel = totalXpNeeded - prevLevelXp;
+  
+  return {
+    level,
+    progress: Math.min((xpForCurrentLevel / xpNeededForLevel) * 100, 100),
+    xpForNext: xpNeededForLevel - xpForCurrentLevel
+  };
+}
+
 export default function DashboardPage() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -34,13 +56,7 @@ export default function DashboardPage() {
     setError(null);
     
     try {
-      let uid: string | null = localStorage.getItem('demo_user_id');
-      
-      if (!uid) {
-        const client = supabaseClient();
-        const { data: session } = await client.auth.getSession();
-        uid = session?.session?.user?.id || null;
-      }
+      const uid = localStorage.getItem('demo_user_id');
 
       if (!uid) {
         setLoading(false);
@@ -68,7 +84,6 @@ export default function DashboardPage() {
       );
 
       const activityArray = activityData.activity || [];
-      const streakDays = calculateStreakFromActivity(activityArray);
 
       setData({
         profile: profileData.profile,
@@ -80,7 +95,7 @@ export default function DashboardPage() {
             challengesData.challenges?.find((c: any) => c.id === id && c.status === 'completed')
           ).length || 0
         },
-        streakDays
+        streakDays: profileData.profile?.currentStreak || 0
       });
     } catch (err: any) {
       setError(err.message || 'Failed to load dashboard');
@@ -89,54 +104,27 @@ export default function DashboardPage() {
     }
   }
 
-  function calculateStreakFromActivity(activity: any[]): number {
-    if (!activity.length) return 0;
-    
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    
-    const activityDates = activity.map(a => {
-      const d = new Date(a.date);
-      d.setHours(0, 0, 0, 0);
-      return d.getTime();
-    }).filter(d => !isNaN(d));
-    
-    const uniqueDates = [...new Set(activityDates)].sort((a, b) => b - a);
-    
-    let streak = 0;
-    let checkDate = today.getTime();
-    
-    for (const date of uniqueDates) {
-      if (date === checkDate || date === checkDate - 86400000) {
-        streak++;
-        checkDate = date;
-      } else {
-        break;
-      }
-    }
-    
-    return streak;
-  }
-
   if (loading) {
     return <Loading message="Loading your dashboard..." />;
   }
 
   if (!userId) {
     return (
-      <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-xl shadow-sm p-8 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Welcome to Akorfa</h1>
-          <p className="text-gray-600 mb-6">Sign in to access your personal dashboard and track your growth journey.</p>
-          <div className="flex gap-4 justify-center">
-            <Link href="/login" className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
-              Sign In
-            </Link>
-            <Link href="/signup" className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
-              Create Account
-            </Link>
-          </div>
+      <div className="max-w-2xl mx-auto text-center py-16">
+        <div className="w-20 h-20 bg-indigo-100 dark:bg-indigo-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
+          <Sparkles className="w-10 h-10 text-indigo-600 dark:text-indigo-400" />
         </div>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Welcome to Akorfa</h1>
+        <p className="text-gray-600 dark:text-gray-300 mb-8 max-w-md mx-auto">
+          Start your journey of self-discovery. Complete the onboarding to unlock your personalized dashboard.
+        </p>
+        <Link 
+          href="/onboarding" 
+          className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700 transition-all"
+        >
+          Get Started
+          <ChevronRight className="w-4 h-4" />
+        </Link>
       </div>
     );
   }
@@ -147,25 +135,64 @@ export default function DashboardPage() {
 
   const akorfaScore = Number(data?.profile?.akorfaScore || 0);
   const layerScores = data?.profile?.layerScores || {};
+  const totalXp = data?.profile?.totalXp || 0;
+  const streak = data?.profile?.currentStreak || 0;
+  const levelInfo = calculateLevel(totalXp);
 
   return (
     <div className="max-w-6xl mx-auto space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
             Welcome back, {data?.profile?.fullName || data?.profile?.username || 'Explorer'}
           </h1>
-          <p className="text-gray-500 mt-1">Here's your growth journey overview</p>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">Here&apos;s your growth journey overview</p>
         </div>
-        <Link 
-          href="/coach"
-          className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-colors flex items-center gap-2"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-          </svg>
-          Talk to Coach
-        </Link>
+        <div className="flex items-center gap-3">
+          {streak > 0 && (
+            <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full animate-pulse-success">
+              <Flame className="w-5 h-5" />
+              <span className="font-bold">{streak} day streak!</span>
+            </div>
+          )}
+          <Link 
+            href="/coach"
+            className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-colors flex items-center gap-2"
+          >
+            <Sparkles className="w-5 h-5" />
+            Talk to Coach
+          </Link>
+        </div>
+      </div>
+
+      <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 p-6">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-4">
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-2xl font-bold">
+              {levelInfo.level}
+            </div>
+            <div>
+              <div className="text-sm text-gray-500 dark:text-gray-400">Level {levelInfo.level}</div>
+              <div className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                <Zap className="w-5 h-5 text-indigo-500" />
+                {totalXp} XP
+              </div>
+            </div>
+          </div>
+          <Link href="/leaderboard" className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 hover:underline">
+            <Trophy className="w-4 h-4" />
+            View Leaderboard
+          </Link>
+        </div>
+        <div className="relative h-3 bg-gray-200 dark:bg-slate-700 rounded-full overflow-hidden">
+          <div 
+            className="absolute inset-y-0 left-0 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full transition-all duration-500"
+            style={{ width: `${levelInfo.progress}%` }}
+          />
+        </div>
+        <div className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+          {levelInfo.xpForNext} XP to Level {levelInfo.level + 1}
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -173,49 +200,33 @@ export default function DashboardPage() {
           title="Akorfa Score"
           value={akorfaScore.toFixed(0)}
           subtitle="Your growth index"
-          icon={
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-          }
+          icon={<TrendingUp className="w-6 h-6" />}
         />
         <StatCard
           title="Assessments"
           value={data?.recentAssessments?.length || 0}
           subtitle="Completed"
-          icon={
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-            </svg>
-          }
+          icon={<Target className="w-6 h-6" />}
         />
         <StatCard
           title="Challenges"
           value={`${data?.challengeStats?.completed || 0}/${data?.challengeStats?.total || 0}`}
           subtitle="Completed"
-          icon={
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-            </svg>
-          }
+          icon={<Trophy className="w-6 h-6" />}
         />
         <StatCard
           title="Activity Streak"
-          value={`${data?.streakDays || 0} days`}
+          value={`${streak} days`}
           subtitle="Keep it going!"
-          icon={
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
-            </svg>
-          }
+          icon={<Flame className="w-6 h-6" />}
         />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">Layer Progress</h2>
-            <Link href="/assessments" className="text-sm text-indigo-600 hover:text-indigo-700">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Layer Progress</h2>
+            <Link href="/assessments" className="text-sm text-indigo-600 dark:text-indigo-400 hover:underline">
               Take Assessment
             </Link>
           </div>
@@ -237,45 +248,46 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">Recent Activity</h2>
-            <Link href="/feed" className="text-sm text-indigo-600 hover:text-indigo-700">
-              View Feed
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Quick Actions</h2>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <Link 
+              href="/insights"
+              className="p-4 bg-indigo-50 dark:bg-indigo-900/30 rounded-xl hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-colors"
+            >
+              <Sparkles className="w-6 h-6 text-indigo-600 dark:text-indigo-400 mb-2" />
+              <div className="font-medium text-gray-900 dark:text-white">Daily Insights</div>
+              <div className="text-sm text-gray-500 dark:text-gray-400">AI-powered guidance</div>
+            </Link>
+            <Link 
+              href="/groups"
+              className="p-4 bg-pink-50 dark:bg-pink-900/30 rounded-xl hover:bg-pink-100 dark:hover:bg-pink-900/50 transition-colors"
+            >
+              <svg className="w-6 h-6 text-pink-600 dark:text-pink-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              <div className="font-medium text-gray-900 dark:text-white">Communities</div>
+              <div className="text-sm text-gray-500 dark:text-gray-400">Join growth groups</div>
+            </Link>
+            <Link 
+              href="/challenges"
+              className="p-4 bg-green-50 dark:bg-green-900/30 rounded-xl hover:bg-green-100 dark:hover:bg-green-900/50 transition-colors"
+            >
+              <Trophy className="w-6 h-6 text-green-600 dark:text-green-400 mb-2" />
+              <div className="font-medium text-gray-900 dark:text-white">Challenges</div>
+              <div className="text-sm text-gray-500 dark:text-gray-400">Earn XP & grow</div>
+            </Link>
+            <Link 
+              href="/leaderboard"
+              className="p-4 bg-amber-50 dark:bg-amber-900/30 rounded-xl hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-colors"
+            >
+              <TrendingUp className="w-6 h-6 text-amber-600 dark:text-amber-400 mb-2" />
+              <div className="font-medium text-gray-900 dark:text-white">Leaderboard</div>
+              <div className="text-sm text-gray-500 dark:text-gray-400">See top performers</div>
             </Link>
           </div>
-          {data?.recentAssessments && data.recentAssessments.length > 0 ? (
-            <div className="space-y-3">
-              {data.recentAssessments.map((assessment: any, index: number) => (
-                <div key={assessment.id || index} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                  <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                    </svg>
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-gray-800">Assessment Completed</p>
-                    <p className="text-sm text-gray-500">
-                      Score: {Number(assessment.overallScore || 0).toFixed(1)}
-                    </p>
-                  </div>
-                  <p className="text-xs text-gray-400">
-                    {new Date(assessment.createdAt).toLocaleDateString()}
-                  </p>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-8">
-              <p className="text-gray-500 mb-4">No assessments yet</p>
-              <Link 
-                href="/assessments"
-                className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
-              >
-                Take Your First Assessment
-              </Link>
-            </div>
-          )}
         </div>
       </div>
 
@@ -283,7 +295,7 @@ export default function DashboardPage() {
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-xl font-bold mb-2">Ready to grow?</h3>
-            <p className="text-indigo-100">Join a challenge and earn points while developing new skills.</p>
+            <p className="text-indigo-100">Join a challenge and earn XP while developing new skills.</p>
           </div>
           <Link 
             href="/challenges"
