@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  allowedDevOrigins: ['*.replit.dev', '*.worf.replit.dev', '*.repl.co'],
+  allowedDevOrigins: ['*.replit.dev', '*.worf.replit.dev', '*.repl.co', '*.kirk.replit.dev'],
   webpack: (config) => {
     config.watchOptions = {
       ...config.watchOptions,

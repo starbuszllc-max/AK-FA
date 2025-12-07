@@ -1,6 +1,5 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { supabaseClient } from '../../lib/supabaseClient';
 import Button from '../ui/Button';
 
 const layers = [
@@ -21,21 +20,43 @@ export default function PostComposer({ onPostCreated }: PostComposerProps) {
   const [content, setContent] = useState('');
   const [layer, setLayer] = useState('social');
   const [loading, setLoading] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
+  const [demoMode, setDemoMode] = useState(false);
 
   useEffect(() => {
-    async function checkAuth() {
-      const { data } = await supabaseClient().auth.getSession();
-      setIsAuthenticated(!!data?.session);
-      setUserId(data?.session?.user?.id ?? null);
+    const storedUserId = localStorage.getItem('demo_user_id');
+    if (storedUserId) {
+      setUserId(storedUserId);
+    } else {
+      setDemoMode(true);
     }
-    checkAuth();
   }, []);
+
+  async function enableDemoMode() {
+    const demoId = crypto.randomUUID();
+    
+    try {
+      const resp = await fetch('/api/profiles', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: demoId })
+      });
+      
+      if (resp.ok) {
+        localStorage.setItem('demo_user_id', demoId);
+        setUserId(demoId);
+        setDemoMode(false);
+      } else {
+        console.error('Failed to create demo profile');
+      }
+    } catch (err) {
+      console.error('Error creating demo profile:', err);
+    }
+  }
 
   async function submitPost(e?: React.FormEvent) {
     if (e) e.preventDefault();
-    if (!content.trim() || !userId) return;
+    if (!content.trim()) return;
 
     setLoading(true);
     try {
@@ -59,15 +80,18 @@ export default function PostComposer({ onPostCreated }: PostComposerProps) {
     }
   }
 
-  if (!isAuthenticated) {
+  if (demoMode && !userId) {
     return (
       <div className="p-6 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-xl border border-gray-200 text-center">
         <div className="text-2xl mb-2">✍️</div>
         <h3 className="font-medium text-gray-800 mb-1">Join the conversation</h3>
-        <p className="text-gray-500 text-sm mb-4">Sign in to share your thoughts and connect with others</p>
-        <a href="/login" className="inline-block px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
-          Sign In
-        </a>
+        <p className="text-gray-500 text-sm mb-4">Start sharing your thoughts and connect with others</p>
+        <button 
+          onClick={enableDemoMode}
+          className="inline-block px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+        >
+          Start Posting (Demo Mode)
+        </button>
       </div>
     );
   }

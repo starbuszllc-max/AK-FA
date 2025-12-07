@@ -1,6 +1,5 @@
 "use client";
 import React, {useState, useEffect} from 'react';
-import {supabaseClient} from '../lib/supabaseClient';
 import Card from './ui/Card';
 import Button from './ui/Button';
 
@@ -89,15 +88,12 @@ export default function StabilityCalculator() {
   const [saved, setSaved] = useState(false);
   const [savedId, setSavedId] = useState<string | null>(null);
   const [showFormula, setShowFormula] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    async function checkAuth() {
-      const {data} = await supabaseClient().auth.getSession();
-      setIsAuthenticated(!!data?.session?.user);
-    }
-    checkAuth();
+    const storedUserId = localStorage.getItem('demo_user_id');
+    setUserId(storedUserId);
   }, []);
 
   function setVal<K extends keyof Metrics>(k: K, v: number) {
@@ -136,13 +132,10 @@ export default function StabilityCalculator() {
     }
     
     try {
-      const {data: sessionData} = await supabaseClient().auth.getSession();
-      const user_id = sessionData?.session?.user?.id ?? null;
-
       const res = await fetch('/api/stability', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({...metrics, user_id})
+        body: JSON.stringify({...metrics, user_id: userId})
       });
       
       let data;
@@ -357,7 +350,7 @@ export default function StabilityCalculator() {
                   <div>
                     <p className="font-medium text-green-800">Result Saved!</p>
                     <p className="text-sm text-green-600">
-                      {isAuthenticated 
+                      {userId 
                         ? 'Your stability calculation has been saved to your profile.' 
                         : 'Saved anonymously. Sign in to track your history.'}
                     </p>
@@ -368,7 +361,7 @@ export default function StabilityCalculator() {
                 </div>
               )}
 
-              {!isAuthenticated && !saved && (
+              {!userId && !saved && (
                 <div className="flex items-center gap-3 p-4 bg-amber-50 border border-amber-200 rounded-lg">
                   <span className="text-xl">💡</span>
                   <p className="text-sm text-amber-700">

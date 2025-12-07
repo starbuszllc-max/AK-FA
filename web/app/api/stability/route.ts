@@ -1,5 +1,6 @@
 import {NextResponse} from 'next/server';
-import {supabaseAdmin} from '../../../lib/supabaseClient';
+import {db} from '../../../lib/db';
+import {assessments} from '@akorfa/shared/src/schema';
 import {calculateStability} from '@akorfa/shared/dist/scoring';
 
 export async function POST(req: Request) {
@@ -16,20 +17,16 @@ export async function POST(req: Request) {
 
     const stability = calculateStability(metrics as any);
 
-    // Persist to assessments as a special stability record for now, include user_id if provided
     const user_id = body.user_id ?? null;
-    const {data, error} = await supabaseAdmin().from('assessments').insert([
-      {
-        user_id: user_id,
-        layer_scores: metrics,
-        overall_score: stability,
-        insights: JSON.stringify({note: 'stability-calc'})
-      }
-    ]).select('*').single();
+    
+    const [newRecord] = await db.insert(assessments).values({
+      userId: user_id,
+      layerScores: metrics,
+      overallScore: stability.toString(),
+      insights: JSON.stringify({note: 'stability-calc'})
+    }).returning();
 
-    if (error) return NextResponse.json({error: error.message}, {status: 500});
-
-    return NextResponse.json({id: data.id, stability});
+    return NextResponse.json({id: newRecord.id, stability});
   } catch (err: any) {
     console.error(err);
     return NextResponse.json({error: err.message ?? String(err)}, {status: 500});

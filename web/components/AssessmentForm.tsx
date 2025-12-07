@@ -1,6 +1,5 @@
 "use client";
-import React, {useState} from 'react';
-import {supabaseClient} from '../lib/supabaseClient';
+import React, {useState, useEffect} from 'react';
 import Card from './ui/Card';
 import Button from './ui/Button';
 
@@ -116,6 +115,12 @@ export default function AssessmentForm() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{score: number; id: string} | null>(null);
   const [showResults, setShowResults] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedUserId = localStorage.getItem('demo_user_id');
+    setUserId(storedUserId);
+  }, []);
 
   const currentLayer = layers[currentStep];
   const isFirstStep = currentStep === 0;
@@ -145,13 +150,10 @@ export default function AssessmentForm() {
     setLoading(true);
     setResult(null);
     try {
-      const {data: sessionData} = await supabaseClient().auth.getSession();
-      const user_id = sessionData?.session?.user?.id ?? null;
-
       const resp = await fetch('/api/assessments', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({layer_scores: values, user_id})
+        body: JSON.stringify({layer_scores: values, user_id: userId})
       });
       const data = await resp.json();
       if (resp.ok) {
@@ -215,7 +217,6 @@ export default function AssessmentForm() {
 
   return (
     <div className="max-w-2xl mx-auto">
-      {/* Progress indicator */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm font-medium text-gray-700">
@@ -226,7 +227,6 @@ export default function AssessmentForm() {
           </span>
         </div>
         
-        {/* Progress bar */}
         <div className="h-2 bg-gray-200 rounded-full overflow-hidden mb-4">
           <div 
             className="h-full bg-gradient-to-r from-primary-500 to-secondary-500 transition-all duration-300 ease-out"
@@ -234,7 +234,6 @@ export default function AssessmentForm() {
           />
         </div>
 
-        {/* Step indicators */}
         <div className="flex justify-between">
           {layers.map((layer, index) => (
             <button
@@ -258,7 +257,6 @@ export default function AssessmentForm() {
         </div>
       </div>
 
-      {/* Current layer card */}
       <Card className={`${currentLayer.bgColor} ${currentLayer.borderColor} border-2 p-6 mb-6`}>
         <div className="text-center mb-6">
           <div className={`inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br ${currentLayer.color} text-white text-3xl mb-3`}>
@@ -280,7 +278,6 @@ export default function AssessmentForm() {
           </ul>
         </div>
 
-        {/* Score slider */}
         <div className="bg-white rounded-lg p-6 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <label className="font-medium text-gray-900">Rate this layer</label>
@@ -326,7 +323,6 @@ export default function AssessmentForm() {
         </div>
       </Card>
 
-      {/* Navigation buttons */}
       <div className="flex justify-between">
         <Button
           type="button"
@@ -357,7 +353,6 @@ export default function AssessmentForm() {
         )}
       </div>
 
-      {/* Quick summary */}
       <div className="mt-6 p-4 bg-gray-50 rounded-lg">
         <div className="text-sm text-gray-600 mb-2">Current Progress</div>
         <div className="flex gap-1">

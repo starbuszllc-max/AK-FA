@@ -1,19 +1,18 @@
 'use client';
 import React, { useEffect, useState, useCallback } from 'react';
 import PostCard from './PostCard';
-import { supabaseClient } from '../../lib/supabaseClient';
 
 interface Post {
   id: string;
-  user_id: string | null;
+  userId: string | null;
   content: string;
   layer: string;
-  like_count: number;
-  comment_count: number;
-  created_at: string;
-  profiles: {
+  likeCount: number;
+  commentCount: number;
+  createdAt: string;
+  profiles?: {
     username: string | null;
-    avatar_url: string | null;
+    avatarUrl: string | null;
   } | null;
 }
 
@@ -29,45 +28,21 @@ export default function FeedList({ refreshTrigger }: FeedListProps) {
   const fetchPosts = useCallback(async () => {
     setLoading(true);
     try {
-      const { data: sessionData } = await supabaseClient().auth.getSession();
-      setCurrentUserId(sessionData?.session?.user?.id ?? null);
+      const storedUserId = typeof window !== 'undefined' ? localStorage.getItem('demo_user_id') : null;
+      setCurrentUserId(storedUserId);
 
-      const { data, error } = await supabaseClient()
-        .from('posts')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(50);
+      const resp = await fetch('/api/posts');
+      const data = await resp.json();
 
-      if (error) {
-        console.error('Error fetching posts:', error);
-        setPosts([]);
+      if (resp.ok && data.posts) {
+        setPosts(data.posts);
       } else {
-        const postsWithProfiles = (data ?? []).map((post: any) => ({
-          ...post,
-          profiles: null
-        }));
-        
-        const userIds = [...new Set(postsWithProfiles.map((p: any) => p.user_id).filter(Boolean))];
-        
-        if (userIds.length > 0) {
-          const { data: profiles } = await supabaseClient()
-            .from('profiles')
-            .select('id, username, avatar_url')
-            .in('id', userIds);
-          
-          const profileMap = new Map((profiles ?? []).map((p: any) => [p.id, p]));
-          
-          postsWithProfiles.forEach((post: any) => {
-            if (post.user_id && profileMap.has(post.user_id)) {
-              post.profiles = profileMap.get(post.user_id);
-            }
-          });
-        }
-        
-        setPosts(postsWithProfiles as Post[]);
+        console.error('Error fetching posts:', data.error);
+        setPosts([]);
       }
     } catch (err) {
       console.error(err);
+      setPosts([]);
     } finally {
       setLoading(false);
     }
@@ -80,7 +55,15 @@ export default function FeedList({ refreshTrigger }: FeedListProps) {
   const handleLikeUpdate = (postId: string) => {
     setPosts(prev => prev.map(p => 
       p.id === postId 
-        ? { ...p, like_count: (p.like_count ?? 0) + 1 }
+        ? { ...p, likeCount: (p.likeCount ?? 0) + 1 }
+        : p
+    ));
+  };
+
+  const handleCommentAdded = (postId: string) => {
+    setPosts(prev => prev.map(p => 
+      p.id === postId 
+        ? { ...p, commentCount: (p.commentCount ?? 0) + 1 }
         : p
     ));
   };
@@ -111,9 +94,22 @@ export default function FeedList({ refreshTrigger }: FeedListProps) {
       {posts.map(post => (
         <PostCard 
           key={post.id} 
-          post={post} 
+          post={{
+            id: post.id,
+            user_id: post.userId,
+            content: post.content,
+            layer: post.layer,
+            like_count: post.likeCount ?? 0,
+            comment_count: post.commentCount ?? 0,
+            created_at: post.createdAt,
+            profiles: post.profiles ? {
+              username: post.profiles.username,
+              avatar_url: post.profiles.avatarUrl
+            } : null
+          }} 
           currentUserId={currentUserId}
           onLike={handleLikeUpdate}
+          onCommentAdded={handleCommentAdded}
         />
       ))}
     </div>
