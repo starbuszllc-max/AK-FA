@@ -27,7 +27,7 @@ export default function StabilityCalculator() {
     setResult(null);
     try {
       // Include authenticated user id when available
-      const {data: sessionData} = await supabaseClient.auth.getSession();
+      const {data: sessionData} = await supabaseClient().auth.getSession();
       const user_id = sessionData?.session?.user?.id ?? null;
 
       const res = await fetch('/api/stability', {

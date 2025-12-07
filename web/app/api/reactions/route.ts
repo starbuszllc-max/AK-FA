@@ -20,13 +20,15 @@ export async function POST(req: Request){
     }
 
     // increment like_count on post (simplest approach)
-    await supabaseAdmin.rpc('increment_post_like_count', {p_post_id: post_id}).catch(()=>{});
+    try{
+      await supabaseAdmin.rpc('increment_post_like_count', {p_post_id: post_id});
+    }catch(e){}
 
     // insert user_event for reaction
     await supabaseAdmin.from('user_events').insert([{user_id, event_type: 'reaction_given', points_earned: 1, metadata: {post_id}}]);
 
     // compute delta and atomically increment user score via RPC
-    const delta = calculateAkorfaScore({reactionGiven:1});
+    const delta = calculateAkorfaScore({usersHelped:1});
     await supabaseAdmin.rpc('increment_user_score', {p_user_id: user_id, p_delta: delta});
 
     return NextResponse.json({ok: true});

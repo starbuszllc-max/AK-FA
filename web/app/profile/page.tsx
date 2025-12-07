@@ -8,11 +8,11 @@ export default function ProfilePage() {
 
   useEffect(() => {
     (async () => {
-      const {data: sessionData} = await supabaseClient.auth.getSession();
+      const {data: sessionData} = await supabaseClient().auth.getSession();
       const userId = sessionData?.session?.user?.id;
       if (!userId) return;
 
-      const {data, error} = await supabaseClient.from('profiles').select('*').eq('id', userId).single();
+      const {data, error} = await supabaseClient().from('profiles').select('*').eq('id', userId).single();
       if (error) {
         console.error(error);
         return;

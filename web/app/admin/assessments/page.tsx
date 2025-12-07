@@ -1,7 +1,7 @@
 'use client';
 
 import React, {useEffect, useState} from 'react';
-import {supabaseClient} from '../../lib/supabaseClient';
+import {supabaseClient} from '../../../lib/supabaseClient';
 
 export default function AdminAssessments() {
   const [assessments, setAssessments] = useState<any[]>([]);
@@ -10,7 +10,7 @@ export default function AdminAssessments() {
   useEffect(() => {
     (async () => {
       setLoading(true);
-      const {data, error} = await supabaseClient.from('assessments').select('*').order('created_at', {ascending: false}).limit(200);
+      const {data, error} = await supabaseClient().from('assessments').select('*').order('created_at', {ascending: false}).limit(200);
       if (error) {
         console.error(error);
         setAssessments([]);

@@ -5,7 +5,7 @@ import {supabaseClient} from '../../../lib/supabaseClient';
 export default function LogoutPage() {
   useEffect(() => {
     (async () => {
-      await supabaseClient.auth.signOut();
+      await supabaseClient().auth.signOut();
       // redirect to home
       window.location.href = '/';
     })();

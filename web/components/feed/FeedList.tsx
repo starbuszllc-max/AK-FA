@@ -11,7 +11,7 @@ export default function FeedList(){
     (async ()=>{
       setLoading(true);
       try{
-        const {data} = await supabaseClient.from('posts').select('*').order('created_at',{ascending:false}).limit(50);
+        const {data} = await supabaseClient().from('posts').select('*').order('created_at',{ascending:false}).limit(50);
         setPosts(data ?? []);
       }catch(err){console.error(err);}finally{setLoading(false);}    
     })();

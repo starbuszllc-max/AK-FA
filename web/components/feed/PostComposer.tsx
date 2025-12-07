@@ -15,7 +15,7 @@ export default function PostComposer(){
     if(!content.trim()) return;
     setLoading(true);
     try{
-      const {data: sessionData} = await supabaseClient.auth.getSession();
+      const {data: sessionData} = await supabaseClient().auth.getSession();
       const user_id = sessionData?.session?.user?.id ?? null;
       const resp = await fetch('/api/posts',{
         method: 'POST',

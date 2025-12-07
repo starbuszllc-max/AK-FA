@@ -13,7 +13,7 @@ export default function SignupPage() {
     setLoading(true);
     setMessage(null);
     try {
-      const {data, error: signUpError} = await supabaseClient.auth.signUp({
+      const {data, error: signUpError} = await supabaseClient().auth.signUp({
         email,
         password
       });

@@ -1,5 +1,5 @@
 import {NextResponse} from 'next/server';
-import {supabaseAdmin} from '../../lib/supabaseClient';
+import {supabaseAdmin} from '../../../lib/supabaseClient';
 import {calculateAkorfaScore} from '@akorfa/shared/dist/scoring';
 
 export async function POST(req: Request) {
@@ -24,18 +24,14 @@ export async function POST(req: Request) {
 
     // Persist to Supabase (assessments table), include user_id if provided
     const user_id = body.user_id ?? null;
-    const {data, error} = await supabaseAdmin
-      .from('assessments')
-      .insert([
-        {
-          user_id: user_id,
-          layer_scores: layer_scores,
-          overall_score: overall_score,
-          insights: null
-        }
-      ])
-      .select('*')
-      .single();
+    const {data, error} = await supabaseAdmin().from('assessments').insert([
+      {
+        user_id: user_id,
+        layer_scores: layer_scores,
+        overall_score: overall_score,
+        insights: null
+      }
+    ]).select('*').single();
 
     if (error) {
       console.error('Supabase insert error', error);
