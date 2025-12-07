@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  allowedDevOrigins: ['*'],
   webpack: (config) => {
     config.watchOptions = {
       ...config.watchOptions,
