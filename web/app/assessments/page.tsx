@@ -7,12 +7,18 @@ const AssessmentForm = dynamic(() => import('../../components/AssessmentForm'), 
 
 export default function AssessmentsPage() {
   return (
-    <main>
-      <h1 className="text-2xl font-bold mb-4">7-Layer Assessment</h1>
-      <p className="text-gray-600 mb-4">Rate each layer from 0 (low) to 10 (high).</p>
-      <div className="bg-white p-4 rounded-md shadow-sm">
-        <AssessmentForm />
+    <div className="py-4">
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-3">
+          7-Layer Self Assessment
+        </h1>
+        <p className="text-gray-600 max-w-2xl mx-auto">
+          Explore the seven dimensions of human development. Rate each layer honestly 
+          to discover insights about your current state and identify areas for growth.
+        </p>
       </div>
-    </main>
+      
+      <AssessmentForm />
+    </div>
   );
 }
