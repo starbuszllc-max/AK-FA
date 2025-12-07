@@ -1,45 +1,129 @@
 'use client';
-import React, {useState} from 'react';
-import {supabaseClient} from '../../lib/supabaseClient';
+import React, { useState, useEffect } from 'react';
+import { supabaseClient } from '../../lib/supabaseClient';
 import Button from '../ui/Button';
 
-const layers = ['environment','bio','internal','cultural','social','conscious','existential'] as const;
+const layers = [
+  { value: 'environment', label: 'Environment', emoji: '🌍' },
+  { value: 'bio', label: 'Biological', emoji: '🧬' },
+  { value: 'internal', label: 'Internal', emoji: '🧠' },
+  { value: 'cultural', label: 'Cultural', emoji: '🎭' },
+  { value: 'social', label: 'Social', emoji: '👥' },
+  { value: 'conscious', label: 'Conscious', emoji: '💭' },
+  { value: 'existential', label: 'Existential', emoji: '✨' },
+] as const;
 
-export default function PostComposer(){
+interface PostComposerProps {
+  onPostCreated?: () => void;
+}
+
+export default function PostComposer({ onPostCreated }: PostComposerProps) {
   const [content, setContent] = useState('');
   const [layer, setLayer] = useState('social');
   const [loading, setLoading] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
 
-  async function submitPost(e?: React.FormEvent){
-    if(e) e.preventDefault();
-    if(!content.trim()) return;
+  useEffect(() => {
+    async function checkAuth() {
+      const { data } = await supabaseClient().auth.getSession();
+      setIsAuthenticated(!!data?.session);
+      setUserId(data?.session?.user?.id ?? null);
+    }
+    checkAuth();
+  }, []);
+
+  async function submitPost(e?: React.FormEvent) {
+    if (e) e.preventDefault();
+    if (!content.trim() || !userId) return;
+
     setLoading(true);
-    try{
-      const {data: sessionData} = await supabaseClient().auth.getSession();
-      const user_id = sessionData?.session?.user?.id ?? null;
-      const resp = await fetch('/api/posts',{
+    try {
+      const resp = await fetch('/api/posts', {
         method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({content, layer, user_id})
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content, layer, user_id: userId })
       });
-      if(resp.ok){
+
+      if (resp.ok) {
         setContent('');
-        // Optionally trigger a feed refresh via event or simple reload
-        window.location.reload();
+        onPostCreated?.();
       } else {
-        console.error(await resp.json());
+        const error = await resp.json();
+        console.error('Error creating post:', error);
       }
-    } catch(err){ console.error(err);} finally { setLoading(false);}  
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   }
 
+  if (!isAuthenticated) {
+    return (
+      <div className="p-6 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-xl border border-gray-200 text-center">
+        <div className="text-2xl mb-2">✍️</div>
+        <h3 className="font-medium text-gray-800 mb-1">Join the conversation</h3>
+        <p className="text-gray-500 text-sm mb-4">Sign in to share your thoughts and connect with others</p>
+        <a href="/login" className="inline-block px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
+          Sign In
+        </a>
+      </div>
+    );
+  }
+
+  const selectedLayer = layers.find(l => l.value === layer);
+
   return (
-    <form onSubmit={submitPost} className="p-4 bg-white rounded shadow-sm">
-      <textarea aria-label="Create post" className="w-full border p-2 rounded" rows={4} value={content} onChange={(e)=>setContent(e.target.value)} placeholder="Share something..." />
-      <div className="flex items-center justify-between mt-2">
-        <select value={layer} onChange={(e)=>setLayer(e.target.value)} className="border rounded px-2 py-1">
-          {layers.map(l => <option key={l} value={l}>{l}</option>)}
-        </select>
-        <Button type="submit" disabled={loading}>{loading ? 'Posting…' : 'Post'}</Button>
+    <form onSubmit={submitPost} className="p-5 bg-white rounded-xl shadow-sm border border-gray-100">
+      <div className="flex items-start gap-3">
+        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-medium shrink-0">
+          👤
+        </div>
+        <div className="flex-1">
+          <textarea
+            aria-label="Create post"
+            className="w-full border-0 p-0 resize-none focus:ring-0 focus:outline-none text-gray-800 placeholder:text-gray-400"
+            rows={3}
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            placeholder="What's on your mind? Share your journey..."
+          />
+        </div>
+      </div>
+
+      <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between gap-4">
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-gray-500">Layer:</span>
+          <select
+            value={layer}
+            onChange={(e) => setLayer(e.target.value)}
+            className="border border-gray-200 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary"
+          >
+            {layers.map(l => (
+              <option key={l.value} value={l.value}>
+                {l.emoji} {l.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <span className="text-xs text-gray-400">{content.length}/500</span>
+          <Button 
+            type="submit" 
+            disabled={loading || !content.trim() || content.length > 500}
+          >
+            {loading ? (
+              <span className="flex items-center gap-2">
+                <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                Posting...
+              </span>
+            ) : (
+              'Post'
+            )}
+          </Button>
+        </div>
       </div>
     </form>
   );

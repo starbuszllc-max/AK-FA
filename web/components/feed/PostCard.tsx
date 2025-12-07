@@ -1,25 +1,155 @@
-import React from 'react';
-import Button from '../ui/Button';
+'use client';
+import React, { useState } from 'react';
 
-export default function PostCard({post}:{post:any}){
+interface PostProps {
+  post: {
+    id: string;
+    user_id: string | null;
+    content: string;
+    layer: string;
+    like_count: number;
+    comment_count: number;
+    created_at: string;
+    profiles: {
+      username: string | null;
+      avatar_url: string | null;
+    } | null;
+  };
+  currentUserId: string | null;
+  onLike?: (postId: string) => void;
+}
+
+const layerColors: Record<string, { bg: string; text: string }> = {
+  environment: { bg: 'bg-emerald-100', text: 'text-emerald-700' },
+  bio: { bg: 'bg-rose-100', text: 'text-rose-700' },
+  internal: { bg: 'bg-purple-100', text: 'text-purple-700' },
+  cultural: { bg: 'bg-amber-100', text: 'text-amber-700' },
+  social: { bg: 'bg-blue-100', text: 'text-blue-700' },
+  conscious: { bg: 'bg-indigo-100', text: 'text-indigo-700' },
+  existential: { bg: 'bg-violet-100', text: 'text-violet-700' },
+};
+
+function formatTimeAgo(dateString: string): string {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffMins = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMs / 3600000);
+  const diffDays = Math.floor(diffMs / 86400000);
+
+  if (diffMins < 1) return 'just now';
+  if (diffMins < 60) return `${diffMins}m ago`;
+  if (diffHours < 24) return `${diffHours}h ago`;
+  if (diffDays < 7) return `${diffDays}d ago`;
+  return date.toLocaleDateString();
+}
+
+export default function PostCard({ post, currentUserId, onLike }: PostProps) {
+  const [isLiking, setIsLiking] = useState(false);
+  const [hasLiked, setHasLiked] = useState(false);
+
+  const username = post.profiles?.username || 'Anonymous';
+  const avatarUrl = post.profiles?.avatar_url;
+  const layerStyle = layerColors[post.layer] || { bg: 'bg-gray-100', text: 'text-gray-700' };
+
+  async function handleLike() {
+    if (!currentUserId || isLiking || hasLiked) return;
+    
+    setIsLiking(true);
+    try {
+      const resp = await fetch('/api/reactions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          post_id: post.id,
+          user_id: currentUserId,
+          reaction_type: 'like'
+        })
+      });
+
+      if (resp.ok) {
+        setHasLiked(true);
+        onLike?.(post.id);
+      } else {
+        const error = await resp.json();
+        if (error.error?.includes('duplicate') || error.error?.includes('unique')) {
+          setHasLiked(true);
+        } else {
+          console.error('Failed to like post:', error);
+        }
+      }
+    } catch (err) {
+      console.error('Error liking post:', err);
+    } finally {
+      setIsLiking(false);
+    }
+  }
+
   return (
-    <article className="p-4 bg-white rounded shadow-sm">
-      <div className="flex items-center justify-between">
-        <div>
-          <div className="font-medium">{post.user_id ?? 'Anonymous'}</div>
-          <div className="text-xs text-text-secondary">{new Date(post.created_at).toLocaleString()}</div>
+    <article className="p-5 bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex items-center gap-3">
+          {avatarUrl ? (
+            <img 
+              src={avatarUrl} 
+              alt={username} 
+              className="w-10 h-10 rounded-full object-cover"
+            />
+          ) : (
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-medium">
+              {username.charAt(0).toUpperCase()}
+            </div>
+          )}
+          <div>
+            <div className="font-medium text-gray-900">{username}</div>
+            <div className="text-xs text-gray-500">{formatTimeAgo(post.created_at)}</div>
+          </div>
         </div>
-        <div className="text-sm text-text-secondary">{post.layer}</div>
+        <span className={`px-2 py-1 text-xs font-medium rounded-full ${layerStyle.bg} ${layerStyle.text}`}>
+          {post.layer}
+        </span>
       </div>
 
-      <div className="mt-3 text-gray-800">{post.content}</div>
+      <p className="mt-4 text-gray-800 whitespace-pre-wrap leading-relaxed">{post.content}</p>
 
-      <div className="mt-3 flex items-center gap-3">
-        <button className="text-sm text-text-secondary">Like ({post.like_count ?? 0})</button>
-        <button className="text-sm text-text-secondary">Comments ({post.comment_count ?? 0})</button>
-        <form action="/api/reactions" method="post" className="ml-auto">
-          {/* lightweight reaction placeholder; client actions preferred */}
-        </form>
+      <div className="mt-4 pt-3 border-t border-gray-100 flex items-center gap-4">
+        <button 
+          onClick={handleLike}
+          disabled={!currentUserId || isLiking || hasLiked}
+          className={`flex items-center gap-1.5 text-sm transition-colors ${
+            hasLiked 
+              ? 'text-rose-500 cursor-default' 
+              : currentUserId 
+                ? 'text-gray-500 hover:text-rose-500' 
+                : 'text-gray-400 cursor-not-allowed'
+          }`}
+        >
+          <svg 
+            className={`w-5 h-5 ${hasLiked ? 'fill-current' : ''}`} 
+            fill={hasLiked ? 'currentColor' : 'none'} 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+              strokeWidth={hasLiked ? 0 : 1.5} 
+              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" 
+            />
+          </svg>
+          <span>{post.like_count ?? 0}</span>
+        </button>
+
+        <button className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-blue-500 transition-colors">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+          </svg>
+          <span>{post.comment_count ?? 0}</span>
+        </button>
+
+        {!currentUserId && (
+          <span className="ml-auto text-xs text-gray-400">Sign in to interact</span>
+        )}
       </div>
     </article>
   );
