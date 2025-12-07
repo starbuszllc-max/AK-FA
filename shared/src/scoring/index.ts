@@ -70,7 +70,36 @@ export function calculateAkorfaScore(input: AkorfaActivityInput): number {
   return Number(finalScore.toFixed(2));
 }
 
+export interface LevelInfo {
+  level: number;
+  name: string;
+  minScore: number;
+  maxScore: number;
+  progress: number;
+}
+
+export function getLevel(score: number): LevelInfo {
+  const levels = [
+    { level: 1, name: 'Novice', minScore: 0, maxScore: 50 },
+    { level: 2, name: 'Explorer', minScore: 51, maxScore: 200 },
+    { level: 3, name: 'Practitioner', minScore: 201, maxScore: 500 },
+    { level: 4, name: 'Adept', minScore: 501, maxScore: 1000 },
+    { level: 5, name: 'Master', minScore: 1001, maxScore: Infinity }
+  ];
+
+  for (const levelInfo of levels) {
+    if (score >= levelInfo.minScore && score <= levelInfo.maxScore) {
+      const range = levelInfo.maxScore === Infinity ? 1000 : levelInfo.maxScore - levelInfo.minScore;
+      const progress = Math.min(((score - levelInfo.minScore) / range) * 100, 100);
+      return { ...levelInfo, progress: Math.round(progress) };
+    }
+  }
+
+  return { level: 1, name: 'Novice', minScore: 0, maxScore: 50, progress: 0 };
+}
+
 export default {
   calculateStability,
-  calculateAkorfaScore
+  calculateAkorfaScore,
+  getLevel
 };

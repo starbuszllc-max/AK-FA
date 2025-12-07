@@ -2,6 +2,7 @@
 
 import React, {useEffect, useState} from 'react';
 import {supabaseClient} from '../../lib/supabaseClient';
+import { BadgesList, LevelDisplay } from '../../components/badges';
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<any>(null);
@@ -12,27 +13,42 @@ export default function ProfilePage() {
 
   useEffect(() => {
     (async () => {
-      const client = supabaseClient();
-      const {data: sessionData} = await client.auth.getSession();
-      const uid = sessionData?.session?.user?.id;
-      setUserId(uid || null);
+      let uid: string | null = null;
+      
+      const demoUserId = localStorage.getItem('demo_user_id');
+      if (demoUserId) {
+        uid = demoUserId;
+      } else {
+        const client = supabaseClient();
+        const {data: sessionData} = await client.auth.getSession();
+        uid = sessionData?.session?.user?.id || null;
+      }
+      
+      setUserId(uid);
       
       if (!uid) {
         setLoading(false);
         return;
       }
 
-      const {data, error: fetchError} = await client
-        .from('profiles')
-        .select('*')
-        .eq('id', uid)
-        .maybeSingle();
-      
-      if (fetchError) {
-        console.error('Profile fetch error:', fetchError);
-        setError(fetchError.message);
-      } else {
-        setProfile(data);
+      try {
+        const res = await fetch(`/api/profiles?user_id=${uid}`);
+        const data = await res.json();
+        if (data.profile && !data.error) {
+          const p = data.profile;
+          setProfile({
+            id: p.id,
+            username: p.username,
+            full_name: p.fullName,
+            avatar_url: p.avatarUrl,
+            bio: p.bio,
+            akorfa_score: p.akorfaScore,
+            layer_scores: p.layerScores,
+            metadata: p.metadata
+          });
+        }
+      } catch (err) {
+        console.error('Profile fetch error:', err);
       }
       setLoading(false);
     })();
@@ -103,10 +119,26 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="bg-white p-6 rounded-md shadow max-w-md">
-      <h1 className="text-xl font-bold">{profile.full_name || profile.username}</h1>
-      <p className="text-sm text-gray-600">Akorfa Score: {profile.akorfa_score}</p>
-      <p className="mt-3 text-gray-700">{profile.bio}</p>
+    <div className="space-y-6 max-w-2xl mx-auto">
+      <div className="bg-white p-6 rounded-lg shadow">
+        <div className="flex items-center gap-4 mb-4">
+          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white text-2xl font-bold">
+            {(profile.full_name || profile.username || 'U').charAt(0).toUpperCase()}
+          </div>
+          <div>
+            <h1 className="text-xl font-bold text-gray-800">{profile.full_name || profile.username}</h1>
+            <p className="text-gray-500">@{profile.username}</p>
+          </div>
+        </div>
+        {profile.bio && <p className="text-gray-700 mb-4">{profile.bio}</p>}
+        
+        <LevelDisplay score={Number(profile.akorfa_score || 0)} />
+      </div>
+
+      <div className="bg-white p-6 rounded-lg shadow">
+        <h2 className="text-lg font-semibold text-gray-800 mb-4">Achievements</h2>
+        <BadgesList userId={userId!} />
+      </div>
     </div>
   );
 }

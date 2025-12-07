@@ -1,4 +1,4 @@
-import { pgTable, uuid, text, decimal, jsonb, timestamp, integer, boolean } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, text, decimal, jsonb, timestamp, integer, boolean, unique } from 'drizzle-orm/pg-core';
 
 // Profiles table (extends auth.users)
 export const profiles = pgTable('profiles', {
@@ -94,3 +94,25 @@ export const challengeParticipants = pgTable('challenge_participants', {
   joinedAt: timestamp('joined_at', { withTimezone: true }).defaultNow(),
   completedAt: timestamp('completed_at', { withTimezone: true })
 });
+
+// Badges table
+export const badges = pgTable('badges', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  name: text('name').notNull(),
+  description: text('description').notNull(),
+  icon: text('icon').default('star'),
+  layer: text('layer'),
+  requirementType: text('requirement_type').notNull(),
+  requirementValue: integer('requirement_value').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
+});
+
+// User badges table
+export const userBadges = pgTable('user_badges', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').notNull().references(() => profiles.id, { onDelete: 'cascade' }),
+  badgeId: uuid('badge_id').notNull().references(() => badges.id, { onDelete: 'cascade' }),
+  earnedAt: timestamp('earned_at', { withTimezone: true }).defaultNow()
+}, (table) => ({
+  uniqueUserBadge: unique().on(table.userId, table.badgeId)
+}));

@@ -13,5 +13,8 @@
     "build:shared": "cd shared && npm run build",
     "test:shared": "cd shared && npm test",
     "ci": "npm run build:shared && npm run test:shared"
+  },
+  "dependencies": {
+    "lucide-react": "^0.556.0"
   }
 }
