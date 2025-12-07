@@ -11,7 +11,7 @@ export default function Header() {
           <Link href="/stability" className="text-sm text-text-secondary hover:text-primary-600">Stability</Link>
           <Link href="/profile" className="text-sm text-text-secondary hover:text-primary-600">Profile</Link>
           <Link href="/admin/assessments" className="text-sm text-text-secondary hover:text-primary-600">Admin</Link>
-          <Link href="/auth/login" className="text-sm text-text-secondary hover:text-primary-600">Login</Link>
+          <Link href="/login" className="text-sm text-text-secondary hover:text-primary-600">Login</Link>
         </nav>
       </div>
     </header>

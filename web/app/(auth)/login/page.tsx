@@ -68,7 +68,7 @@ export default function LoginPage() {
         </div>
       </form>
       <div className="mt-4 text-sm">
-        <a className="text-indigo-600" href="/auth/signup">
+        <a className="text-indigo-600" href="/signup">
           Create account
         </a>
       </div>

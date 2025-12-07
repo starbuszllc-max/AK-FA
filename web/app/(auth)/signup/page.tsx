@@ -65,7 +65,7 @@ export default function SignupPage() {
         </div>
       </form>
       <div className="mt-4 text-sm">
-        <a className="text-indigo-600" href="/auth/login">
+        <a className="text-indigo-600" href="/login">
           Have an account? Log in
         </a>
       </div>
