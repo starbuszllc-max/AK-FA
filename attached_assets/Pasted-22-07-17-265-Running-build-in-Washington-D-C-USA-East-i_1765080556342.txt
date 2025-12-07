@@ -1,0 +1,51 @@
+22:07:17.265 Running build in Washington, D.C., USA (East) – iad1
+22:07:17.266 Build machine configuration: 2 cores, 8 GB
+22:07:17.396 Cloning github.com/starbuszllc-max/AK-FA (Branch: main, Commit: 3fced4a)
+22:07:17.396 Previous build caches not available.
+22:07:17.618 Cloning completed: 222.000ms
+22:07:18.014 Running "vercel build"
+22:07:18.505 Vercel CLI 49.0.0
+22:07:18.911 Running "install" command: `npm install`...
+22:07:23.557 npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+22:07:23.586 npm warn deprecated sudo-prompt@9.1.1: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+22:07:23.848 npm warn deprecated osenv@0.1.5: This package is no longer supported.
+22:07:23.894 npm warn deprecated uuid@3.4.0: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
+22:07:23.951 npm warn deprecated metro-react-native-babel-preset@0.73.9: Use @react-native/babel-preset instead
+22:07:24.118 npm warn deprecated uglify-es@3.3.9: support for ECMAScript is superseded by `uglify-js` as of v3.13.0
+22:07:25.150 npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+22:07:25.311 npm warn deprecated glob@7.1.6: Glob versions prior to v9 are no longer supported
+22:07:26.286 npm warn deprecated @npmcli/move-file@1.1.2: This functionality has been moved to @npmcli/fs
+22:07:26.514 npm warn deprecated @xmldom/xmldom@0.7.13: this version is no longer supported, please update to at least 0.8.*
+22:07:26.561 npm warn deprecated @humanwhocodes/config-array@0.13.0: Use @eslint/config-array instead
+22:07:26.624 npm warn deprecated @humanwhocodes/object-schema@2.0.3: Use @eslint/object-schema instead
+22:07:27.151 npm warn deprecated @babel/plugin-proposal-optional-chaining@7.21.0: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-chaining instead.
+22:07:27.307 npm warn deprecated @babel/plugin-proposal-class-properties@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-class-properties instead.
+22:07:27.331 npm warn deprecated @babel/plugin-proposal-nullish-coalescing-operator@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-nullish-coalescing-operator instead.
+22:07:27.392 npm warn deprecated @babel/plugin-proposal-object-rest-spread@7.20.7: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-object-rest-spread instead.
+22:07:27.465 npm warn deprecated @babel/plugin-proposal-async-generator-functions@7.20.7: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-async-generator-functions instead.
+22:07:27.592 npm warn deprecated @babel/plugin-proposal-optional-catch-binding@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-catch-binding instead.
+22:07:28.116 npm warn deprecated rimraf@2.2.8: Rimraf versions prior to v4 are no longer supported
+22:07:28.284 npm warn deprecated glob@6.0.4: Glob versions prior to v9 are no longer supported
+22:07:28.311 npm warn deprecated rimraf@2.4.5: Rimraf versions prior to v4 are no longer supported
+22:07:28.638 npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported
+22:07:28.653 npm warn deprecated metro-react-native-babel-preset@0.73.5: Use @react-native/babel-preset instead
+22:07:28.767 npm warn deprecated metro-react-native-babel-preset@0.73.10: Use @react-native/babel-preset instead
+22:07:29.110 npm warn deprecated metro-react-native-babel-preset@0.73.10: Use @react-native/babel-preset instead
+22:07:33.955 npm warn deprecated eslint@8.57.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+22:07:41.952 
+22:07:41.953 added 1293 packages, and audited 1297 packages in 22s
+22:07:41.953 
+22:07:41.953 170 packages are looking for funding
+22:07:41.953   run `npm fund` for details
+22:07:41.998 
+22:07:41.998 13 vulnerabilities (1 low, 2 moderate, 10 high)
+22:07:41.999 
+22:07:41.999 To address issues that do not require attention, run:
+22:07:42.000   npm audit fix
+22:07:42.000 
+22:07:42.000 To address all issues (including breaking changes), run:
+22:07:42.000   npm audit fix --force
+22:07:42.000 
+22:07:42.001 Run `npm audit` for details.
+22:07:42.089 Warning: Could not identify Next.js version, ensure it is defined as a project dependency.
+22:07:42.096 Error: No Next.js version detected. Make sure your package.json has "next" in either "dependencies" or "devDependencies". Also check your Root Directory setting matches the directory of your package.json file.

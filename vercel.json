@@ -1,6 +1,5 @@
 {
   "buildCommand": "npm run build:shared && cd web && npm run build",
   "installCommand": "npm install",
-  "outputDirectory": "web/.next",
-  "framework": "nextjs"
+  "outputDirectory": "web/.next"
 }
