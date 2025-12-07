@@ -24,6 +24,9 @@ jobs:
       - name: Build shared package
         run: npm run build:shared
 
+      - name: Build shared package dist for web
+        run: cd shared && npm run build
+
       - name: Run shared tests
         run: npm run test:shared
 
