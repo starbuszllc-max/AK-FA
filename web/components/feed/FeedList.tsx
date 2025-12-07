@@ -1,7 +1,7 @@
 'use client';
 import React, {useEffect, useState} from 'react';
 import PostCard from './PostCard';
-import {supabaseClient} from '../../lib/supabaseClient';
+import {supabaseClient} from '../../lib/supabaseClient.js';
 
 export default function FeedList(){
   const [posts, setPosts] = useState<any[]>([]);

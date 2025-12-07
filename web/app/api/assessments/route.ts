@@ -1,5 +1,5 @@
 import {NextResponse} from 'next/server';
-import {supabaseAdmin} from '../../lib/supabaseClient';
+import {supabaseAdmin} from '../../lib/supabaseClient.js';
 import {calculateAkorfaScore} from '@akorfa/shared/dist/scoring';
 
 export async function POST(req: Request) {

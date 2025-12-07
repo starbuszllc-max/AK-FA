@@ -1,7 +1,7 @@
 'use client';
 
 import React, {useEffect, useState} from 'react';
-import {supabaseClient} from '../../lib/supabaseClient';
+import {supabaseClient} from '../../lib/supabaseClient.js';
 
 export default function AdminAssessments() {
   const [assessments, setAssessments] = useState<any[]>([]);
