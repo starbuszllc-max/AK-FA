@@ -1,6 +1,6 @@
 'use client';
 import React, {useState} from 'react';
-import {supabaseClient} from '../../lib/supabaseClient.js';
+import {supabaseClient} from '../../lib/supabaseClient';
 import Button from '../ui/Button';
 
 const layers = ['environment','bio','internal','cultural','social','conscious','existential'] as const;
