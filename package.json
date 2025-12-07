@@ -5,7 +5,6 @@
   "workspaces": [
     "shared",
     "web",
-    "mobile",
     "supabase"
   ],
   "scripts": {
