@@ -1,8 +1,10 @@
 'use client';
 import React, {useState} from 'react';
+import {useRouter} from 'next/navigation';
 import {supabaseClient} from '../../../lib/supabaseClient';
 
 export default function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -19,8 +21,7 @@ export default function LoginPage() {
       });
       if (signInError) setError(signInError.message);
       else {
-        // successful sign in — redirect to feed
-        window.location.href = '/feed';
+        router.push('/feed');
       }
     } catch (err: any) {
       setError(err.message || String(err));
