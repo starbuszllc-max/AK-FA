@@ -363,3 +363,189 @@ export const messages = pgTable('messages', {
   isRead: boolean('is_read').default(false),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
 });
+
+// ============== AKORFA INSIGHT SCHOOL TABLES ==============
+
+// User Roles/Identities
+export const userRoles = pgTable('user_roles', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').notNull().references(() => profiles.id, { onDelete: 'cascade' }),
+  role: text('role').notNull(),
+  isPrimary: boolean('is_primary').default(false),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
+}, (table) => ({
+  uniqueUserRole: unique().on(table.userId, table.role)
+}));
+
+// Friend/Creator/Learning Streaks
+export const streaks = pgTable('streaks', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').notNull().references(() => profiles.id, { onDelete: 'cascade' }),
+  partnerId: uuid('partner_id').references(() => profiles.id, { onDelete: 'cascade' }),
+  streakType: text('streak_type').notNull(),
+  currentCount: integer('current_count').default(0),
+  longestCount: integer('longest_count').default(0),
+  lastActivityAt: timestamp('last_activity_at', { withTimezone: true }).defaultNow(),
+  startedAt: timestamp('started_at', { withTimezone: true }).defaultNow(),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
+});
+
+// Daily Challenges (enhanced for Insight School)
+export const dailyChallenges = pgTable('daily_challenges', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  title: text('title').notNull(),
+  description: text('description').notNull(),
+  category: text('category').notNull(),
+  difficulty: text('difficulty').default('easy'),
+  pointsReward: integer('points_reward').default(10),
+  coinReward: integer('coin_reward').default(0),
+  mediaPrompt: text('media_prompt'),
+  layer: text('layer'),
+  isActive: boolean('is_active').default(true),
+  expiresAt: timestamp('expires_at', { withTimezone: true }),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
+});
+
+// Daily Challenge Completions
+export const dailyChallengeCompletions = pgTable('daily_challenge_completions', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').notNull().references(() => profiles.id, { onDelete: 'cascade' }),
+  challengeId: uuid('challenge_id').notNull().references(() => dailyChallenges.id, { onDelete: 'cascade' }),
+  postId: uuid('post_id').references(() => posts.id, { onDelete: 'set null' }),
+  completedAt: timestamp('completed_at', { withTimezone: true }).defaultNow()
+}, (table) => ({
+  uniqueCompletion: unique().on(table.userId, table.challengeId)
+}));
+
+// Invite Rewards / Referrals
+export const referrals = pgTable('referrals', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  referrerId: uuid('referrer_id').notNull().references(() => profiles.id, { onDelete: 'cascade' }),
+  referredId: uuid('referred_id').references(() => profiles.id, { onDelete: 'set null' }),
+  referralCode: text('referral_code').notNull().unique(),
+  status: text('status').default('pending'),
+  rewardClaimed: boolean('reward_claimed').default(false),
+  rewardCoins: integer('reward_coins').default(50),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+  claimedAt: timestamp('claimed_at', { withTimezone: true })
+});
+
+// Learning Tracks (Insight School)
+export const learningTracks = pgTable('learning_tracks', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  name: text('name').notNull(),
+  slug: text('slug').notNull().unique(),
+  description: text('description'),
+  icon: text('icon').default('brain'),
+  color: text('color').default('#6366f1'),
+  category: text('category').notNull(),
+  totalLessons: integer('total_lessons').default(0),
+  estimatedMinutes: integer('estimated_minutes').default(0),
+  isActive: boolean('is_active').default(true),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
+});
+
+// Lessons within Learning Tracks
+export const lessons = pgTable('lessons', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  trackId: uuid('track_id').notNull().references(() => learningTracks.id, { onDelete: 'cascade' }),
+  title: text('title').notNull(),
+  content: text('content').notNull(),
+  videoUrl: text('video_url'),
+  orderIndex: integer('order_index').default(0),
+  estimatedMinutes: integer('estimated_minutes').default(5),
+  keyTakeaways: jsonb('key_takeaways').default([]),
+  quiz: jsonb('quiz').default([]),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
+});
+
+// User Learning Progress
+export const userLearningProgress = pgTable('user_learning_progress', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').notNull().references(() => profiles.id, { onDelete: 'cascade' }),
+  trackId: uuid('track_id').notNull().references(() => learningTracks.id, { onDelete: 'cascade' }),
+  lessonId: uuid('lesson_id').references(() => lessons.id, { onDelete: 'cascade' }),
+  status: text('status').default('in_progress'),
+  progress: integer('progress').default(0),
+  completedLessons: integer('completed_lessons').default(0),
+  quizScore: integer('quiz_score'),
+  startedAt: timestamp('started_at', { withTimezone: true }).defaultNow(),
+  completedAt: timestamp('completed_at', { withTimezone: true })
+}, (table) => ({
+  uniqueUserTrack: unique().on(table.userId, table.trackId)
+}));
+
+// AI Mentor Conversations
+export const aiMentorSessions = pgTable('ai_mentor_sessions', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').notNull().references(() => profiles.id, { onDelete: 'cascade' }),
+  topic: text('topic'),
+  layer: text('layer'),
+  messages: jsonb('messages').default([]),
+  summary: text('summary'),
+  insightsGained: jsonb('insights_gained').default([]),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow()
+});
+
+// Location-based Discovery
+export const userLocations = pgTable('user_locations', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').notNull().references(() => profiles.id, { onDelete: 'cascade' }).unique(),
+  city: text('city'),
+  region: text('region'),
+  country: text('country'),
+  latitude: decimal('latitude', { precision: 10, scale: 7 }),
+  longitude: decimal('longitude', { precision: 10, scale: 7 }),
+  isVisible: boolean('is_visible').default(true),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow()
+});
+
+// Community Boards (Local Discovery)
+export const communityBoards = pgTable('community_boards', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  name: text('name').notNull(),
+  description: text('description'),
+  city: text('city'),
+  region: text('region'),
+  country: text('country'),
+  memberCount: integer('member_count').default(0),
+  postCount: integer('post_count').default(0),
+  avatarUrl: text('avatar_url'),
+  isOfficial: boolean('is_official').default(false),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
+});
+
+// Community Board Members
+export const communityBoardMembers = pgTable('community_board_members', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  boardId: uuid('board_id').notNull().references(() => communityBoards.id, { onDelete: 'cascade' }),
+  userId: uuid('user_id').notNull().references(() => profiles.id, { onDelete: 'cascade' }),
+  role: text('role').default('member'),
+  joinedAt: timestamp('joined_at', { withTimezone: true }).defaultNow()
+}, (table) => ({
+  uniqueBoardMember: unique().on(table.boardId, table.userId)
+}));
+
+// Camera Filters/Effects
+export const cameraFilters = pgTable('camera_filters', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  name: text('name').notNull(),
+  type: text('type').notNull(),
+  config: jsonb('config').default({}),
+  previewUrl: text('preview_url'),
+  isPremium: boolean('is_premium').default(false),
+  coinPrice: integer('coin_price').default(0),
+  isActive: boolean('is_active').default(true),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
+});
+
+// User Unlocked Filters
+export const userFilters = pgTable('user_filters', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').notNull().references(() => profiles.id, { onDelete: 'cascade' }),
+  filterId: uuid('filter_id').notNull().references(() => cameraFilters.id, { onDelete: 'cascade' }),
+  unlockedAt: timestamp('unlocked_at', { withTimezone: true }).defaultNow()
+}, (table) => ({
+  uniqueUserFilter: unique().on(table.userId, table.filterId)
+}));
