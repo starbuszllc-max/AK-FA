@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import { wallets, pointsLog, profiles } from '@akorfa/shared/src/schema';
+import { wallets, pointsLog, profiles, coinTransactions } from '@akorfa/shared/src/schema';
 import { eq, desc, sql } from 'drizzle-orm';
 
 const POINTS_TO_USD_RATE = 0.001;
@@ -62,6 +62,12 @@ export async function GET(req: NextRequest) {
       .orderBy(desc(pointsLog.createdAt))
       .limit(50);
 
+    const coinHistory = await db.select()
+      .from(coinTransactions)
+      .where(eq(coinTransactions.userId, userId))
+      .orderBy(desc(coinTransactions.createdAt))
+      .limit(20);
+
     const cashValue = (wallet.pointsBalance || 0) * POINTS_TO_USD_RATE;
 
     return NextResponse.json({
@@ -71,6 +77,7 @@ export async function GET(req: NextRequest) {
         canWithdraw: (wallet.pointsBalance || 0) >= 1000 && wallet.canMonetize
       },
       history,
+      coinHistory,
       pointsConfig: POINTS_CONFIG,
       conversionRate: `${Math.round(1/POINTS_TO_USD_RATE)} AP = $1`
     });

@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import TipButton from '@/components/tipping/TipButton';
 
 interface Comment {
   id: string;
@@ -224,6 +225,14 @@ export default function PostCard({ post, currentUserId, onLike, onCommentAdded }
           </svg>
           <span>{localCommentCount ?? 0}</span>
         </button>
+
+        {post.user_id && currentUserId && post.user_id !== currentUserId && (
+          <TipButton 
+            receiverId={post.user_id}
+            receiverName={username}
+            postId={post.id}
+          />
+        )}
 
         {!currentUserId && (
           <span className="ml-auto text-xs text-gray-400">Sign in to interact</span>
