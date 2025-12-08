@@ -39,6 +39,11 @@ export const posts = pgTable('posts', {
   postType: text('post_type').default('post'),
   mediaUrls: jsonb('media_urls').default([]),
   mediaTypes: jsonb('media_types').default([]),
+  videoDuration: integer('video_duration'),
+  videoThumbnail: text('video_thumbnail'),
+  isVerified: boolean('is_verified').default(false),
+  sourceUrl: text('source_url'),
+  sourceName: text('source_name'),
   likeCount: integer('like_count').default(0),
   commentCount: integer('comment_count').default(0),
   viewCount: integer('view_count').default(0),
@@ -549,3 +554,36 @@ export const userFilters = pgTable('user_filters', {
 }, (table) => ({
   uniqueUserFilter: unique().on(table.userId, table.filterId)
 }));
+
+// Verified News Sources
+export const newsSources = pgTable('news_sources', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  name: text('name').notNull(),
+  domain: text('domain').notNull().unique(),
+  logoUrl: text('logo_url'),
+  description: text('description'),
+  category: text('category').default('general'),
+  trustScore: integer('trust_score').default(100),
+  isActive: boolean('is_active').default(true),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
+});
+
+// News Articles/Posts from verified sources
+export const newsArticles = pgTable('news_articles', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  sourceId: uuid('source_id').references(() => newsSources.id, { onDelete: 'cascade' }),
+  title: text('title').notNull(),
+  content: text('content').notNull(),
+  summary: text('summary'),
+  imageUrl: text('image_url'),
+  videoUrl: text('video_url'),
+  sourceUrl: text('source_url').notNull(),
+  author: text('author'),
+  category: text('category').default('general'),
+  tags: jsonb('tags').default([]),
+  viewCount: integer('view_count').default(0),
+  likeCount: integer('like_count').default(0),
+  shareCount: integer('share_count').default(0),
+  publishedAt: timestamp('published_at', { withTimezone: true }),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
+});
