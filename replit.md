@@ -41,6 +41,16 @@ The platform uses a shared scoring engine (`@akorfa/shared`) consumed by both we
 - **Progress Tracking**: Lesson completion tracked in localStorage, shown on main Insight School page
 - **Anonymous User Support**: Auto-generates user ID for visitors without accounts
 
+### Phase 4: Video Feed & News (December 2025)
+- **TikTok-Style Video Feed**: Full-screen vertical video feed with swipe gestures at `/live`
+- **Personalized Algorithm**: Videos ranked by user's assessment layer scores (50%), recency (30%), engagement (20%)
+- **Category Navigation**: 6 category tabs - Live, STEM, For You, Following, Akorfa Live, Explore
+- **Video Metadata**: Added videoDuration, videoThumbnail, isVerified to posts table
+- **Verified News Feed**: Dedicated `/news` page with verified news sources at `/news`
+- **News Sources**: newsSources and newsArticles tables for curated content
+- **Trust Scoring**: News sources have trust scores for credibility tracking
+- **Mobile UX Improvements**: Bottom sheet share modal, wallet insight tooltips, white post card backgrounds
+
 ### Key Files Changed
 - `web/app/insight-school/[slug]/page.tsx` - Track detail page with lessons and AI features
 - `web/app/insight-school/page.tsx` - Main Insight School page with progress tracking
@@ -58,6 +68,13 @@ The platform uses a shared scoring engine (`@akorfa/shared`) consumed by both we
 - `web/components/ui/Footer.tsx` - Compact footer
 - `web/app/layout.tsx` - Responsive layout container
 - `web/components/feed/PostCard.tsx` - Compact post cards with fixed comment button
+- `web/app/live/page.tsx` - TikTok-style video feed with category navigation (Phase 4)
+- `web/app/news/page.tsx` - Verified news feed with category filtering (Phase 4)
+- `web/components/feed/VerticalVideoFeed.tsx` - Vertical video feed component (Phase 4)
+- `web/components/feed/CategoryTabs.tsx` - Category navigation tabs component (Phase 4)
+- `web/app/api/posts/video-feed/route.ts` - Personalized video feed API (Phase 4)
+- `web/app/api/news/route.ts` - News articles API (Phase 4)
+- `shared/src/schema.ts` - Enhanced schema with video metadata and news tables (Phase 4)
 
 ## User Preferences
 
@@ -105,6 +122,8 @@ Preferred communication style: Simple, everyday language.
 - `GET /api/groups` — Community groups list
 - `POST /api/groups/join` — Join a community group
 - `POST /api/onboarding` — Complete user onboarding
+- `GET /api/posts/video-feed` — Personalized video feed with ranking algorithm (Phase 4)
+- `GET /api/news` — Verified news articles with category filtering (Phase 4)
 
 **Scoring integration**: Each API route imports the shared scoring engine (`@akorfa/shared/src/scoring`) to compute deltas.
 
@@ -135,6 +154,11 @@ Preferred communication style: Simple, everyday language.
 - `user_levels` — Level definitions with XP requirements
 - `daily_insights` — AI-generated daily insights per user
 - `groups` — Community groups/communities
+
+**Video & News Tables** (Phase 4):
+- `posts` (enhanced) — Added videoDuration, videoThumbnail, isVerified, sourceUrl, sourceName
+- `news_sources` — Verified news publishers with trust scores
+- `news_articles` — Curated news content with engagement metrics
 
 **Rationale**: JSONB for `layer_scores` enables flexible schema evolution. Drizzle ORM provides type-safe queries.
 
