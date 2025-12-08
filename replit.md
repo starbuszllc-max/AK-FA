@@ -26,6 +26,14 @@ The platform uses a shared scoring engine (`@akorfa/shared`) consumed by both we
 - **Groups/Communities**: Community groups feature for social engagement
 - **Daily Insights**: AI-generated personalized daily insights
 
+### Phase 2: Responsive Design (December 2025)
+- **Compact Hero Section**: Reduced padding (py-10 md:py-14), responsive text sizes
+- **Compact Navigation**: Smaller logo, tighter padding, icon-only on medium screens
+- **Compact Cards**: Reduced padding (p-4 md:p-5), smaller gaps (gap-4 md:gap-5)
+- **Responsive Layout**: Tighter container (max-w-5xl), responsive padding (px-3 sm:px-4 lg:px-6)
+- **Fixed Comment Button**: Changed color from bg-primary to bg-indigo-600 for visibility
+- **Database Schema Migration**: Migrated from Supabase migrations to Drizzle ORM schema
+
 ### Key Files Changed
 - `web/lib/db.ts` - Lazy database initialization with Proxy pattern
 - `web/lib/openai.ts` - Lazy OpenAI client initialization
@@ -35,6 +43,11 @@ The platform uses a shared scoring engine (`@akorfa/shared`) consumed by both we
 - `web/app/leaderboard/page.tsx` - Leaderboard page
 - `web/app/groups/page.tsx` - Communities page
 - `web/components/VoiceCoach.tsx` - Voice AI coach component
+- `web/app/page.tsx` - Responsive homepage with compact design
+- `web/components/ui/Header.tsx` - Compact navigation header
+- `web/components/ui/Footer.tsx` - Compact footer
+- `web/app/layout.tsx` - Responsive layout container
+- `web/components/feed/PostCard.tsx` - Compact post cards with fixed comment button
 
 ## User Preferences
 
