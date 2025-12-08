@@ -182,3 +182,140 @@ export const stories = pgTable('stories', {
   expiresAt: timestamp('expires_at', { withTimezone: true }),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
 });
+
+// ============== MONETIZATION TABLES ==============
+
+// User wallets for points and coins
+export const wallets = pgTable('wallets', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').notNull().references(() => profiles.id, { onDelete: 'cascade' }).unique(),
+  pointsBalance: integer('points_balance').default(0),
+  coinsBalance: integer('coins_balance').default(0),
+  totalEarned: integer('total_earned').default(0),
+  totalWithdrawn: decimal('total_withdrawn', { precision: 10, scale: 2 }).default('0'),
+  creatorLevel: integer('creator_level').default(1),
+  followerCount: integer('follower_count').default(0),
+  canMonetize: boolean('can_monetize').default(false),
+  stripeAccountId: text('stripe_account_id'),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow()
+});
+
+// Points transaction log
+export const pointsLog = pgTable('points_log', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').notNull().references(() => profiles.id, { onDelete: 'cascade' }),
+  amount: integer('amount').notNull(),
+  action: text('action').notNull(),
+  description: text('description'),
+  referenceId: uuid('reference_id'),
+  referenceType: text('reference_type'),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
+});
+
+// Coin transactions (purchases, tips, etc)
+export const coinTransactions = pgTable('coin_transactions', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').notNull().references(() => profiles.id, { onDelete: 'cascade' }),
+  amount: integer('amount').notNull(),
+  transactionType: text('transaction_type').notNull(),
+  description: text('description'),
+  referenceId: uuid('reference_id'),
+  stripePaymentId: text('stripe_payment_id'),
+  status: text('status').default('completed'),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
+});
+
+// Gifts/Tips between users
+export const gifts = pgTable('gifts', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  senderId: uuid('sender_id').notNull().references(() => profiles.id, { onDelete: 'cascade' }),
+  receiverId: uuid('receiver_id').notNull().references(() => profiles.id, { onDelete: 'cascade' }),
+  postId: uuid('post_id').references(() => posts.id, { onDelete: 'set null' }),
+  giftType: text('gift_type').notNull(),
+  coinAmount: integer('coin_amount').notNull(),
+  message: text('message'),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
+});
+
+// Marketplace items (frames, boosts, stickers, etc)
+export const marketplaceItems = pgTable('marketplace_items', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  name: text('name').notNull(),
+  description: text('description'),
+  itemType: text('item_type').notNull(),
+  coinPrice: integer('coin_price').notNull(),
+  imageUrl: text('image_url'),
+  metadata: jsonb('metadata').default({}),
+  isActive: boolean('is_active').default(true),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
+});
+
+// User purchased items
+export const userItems = pgTable('user_items', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').notNull().references(() => profiles.id, { onDelete: 'cascade' }),
+  itemId: uuid('item_id').notNull().references(() => marketplaceItems.id, { onDelete: 'cascade' }),
+  isEquipped: boolean('is_equipped').default(false),
+  purchasedAt: timestamp('purchased_at', { withTimezone: true }).defaultNow()
+});
+
+// Payout requests
+export const payouts = pgTable('payouts', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').notNull().references(() => profiles.id, { onDelete: 'cascade' }),
+  amount: decimal('amount', { precision: 10, scale: 2 }).notNull(),
+  pointsConverted: integer('points_converted').notNull(),
+  status: text('status').default('pending'),
+  stripeTransferId: text('stripe_transfer_id'),
+  paymentMethod: text('payment_method'),
+  processedAt: timestamp('processed_at', { withTimezone: true }),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
+});
+
+// Subscriptions (Akorfa+)
+export const subscriptions = pgTable('subscriptions', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').notNull().references(() => profiles.id, { onDelete: 'cascade' }),
+  planType: text('plan_type').notNull(),
+  status: text('status').default('active'),
+  stripeSubscriptionId: text('stripe_subscription_id'),
+  currentPeriodStart: timestamp('current_period_start', { withTimezone: true }),
+  currentPeriodEnd: timestamp('current_period_end', { withTimezone: true }),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
+});
+
+// AI Post quality scores
+export const postScores = pgTable('post_scores', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  postId: uuid('post_id').notNull().references(() => posts.id, { onDelete: 'cascade' }).unique(),
+  qualityScore: integer('quality_score').default(0),
+  layerImpact: jsonb('layer_impact').default({}),
+  isHelpful: boolean('is_helpful').default(false),
+  aiAnalysis: text('ai_analysis'),
+  bonusPoints: integer('bonus_points').default(0),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
+});
+
+// Follows (for creator follower counts)
+export const follows = pgTable('follows', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  followerId: uuid('follower_id').notNull().references(() => profiles.id, { onDelete: 'cascade' }),
+  followingId: uuid('following_id').notNull().references(() => profiles.id, { onDelete: 'cascade' }),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
+}, (table) => ({
+  uniqueFollow: unique().on(table.followerId, table.followingId)
+}));
+
+// Sponsored challenges
+export const sponsoredChallenges = pgTable('sponsored_challenges', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  challengeId: uuid('challenge_id').notNull().references(() => challenges.id, { onDelete: 'cascade' }),
+  sponsorName: text('sponsor_name').notNull(),
+  sponsorLogo: text('sponsor_logo'),
+  totalBudget: decimal('total_budget', { precision: 10, scale: 2 }).notNull(),
+  prizePool: decimal('prize_pool', { precision: 10, scale: 2 }),
+  commissionRate: decimal('commission_rate', { precision: 5, scale: 2 }).default('0.10'),
+  status: text('status').default('active'),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
+});

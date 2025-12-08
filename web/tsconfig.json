@@ -19,7 +19,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "paths": {
-      "@akorfa/shared/*": ["../shared/*"]
+      "@akorfa/shared/*": ["../shared/*"],
+      "@/*": ["./*"]
     },
     "plugins": [
       {

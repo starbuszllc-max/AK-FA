@@ -1,5 +1,7 @@
 import React from 'react';
 
-export default function Card({children, className = ''}: {children: React.ReactNode; className?: string}) {
-  return <div className={`card ${className}`}>{children}</div>;
+export function Card({children, className = ''}: {children: React.ReactNode; className?: string}) {
+  return <div className={`rounded-xl border ${className}`}>{children}</div>;
 }
+
+export default Card;
