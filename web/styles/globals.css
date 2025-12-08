@@ -33,6 +33,23 @@
   --primary-hover: #6366f1;
 }
 
+.amoled {
+  --bg: #000000;
+  --bg-secondary: #0a0a0a;
+  --surface: #0a0a0a;
+  --surface-secondary: #141414;
+  --text: #ffffff;
+  --text-secondary: #a0a0a0;
+  --text-muted: #666666;
+  --border: #1a1a1a;
+  --primary: #818cf8;
+  --primary-hover: #6366f1;
+}
+
+.amoled body {
+  background-color: #000000;
+}
+
 html, body, #__next {
   height: 100%;
 }

@@ -15,7 +15,11 @@
     "ci": "npm run build:shared && npm run test:shared"
   },
   "dependencies": {
+    "@emoji-mart/data": "^1.2.1",
+    "@emoji-mart/react": "^1.1.1",
     "@types/uuid": "^10.0.0",
+    "emoji-mart": "^5.6.0",
+    "framer-motion": "^12.23.25",
     "lucide-react": "^0.556.0",
     "openai": "^6.10.0",
     "uuid": "^13.0.0"

@@ -1,7 +1,7 @@
 import '../styles/globals.css';
 import React from 'react';
 import { ThemeProvider } from '../lib/ThemeContext';
-import Header from '../components/ui/Header';
+import EnhancedHeader from '../components/ui/EnhancedHeader';
 import Footer from '../components/ui/Footer';
 
 export const metadata = {
@@ -12,13 +12,11 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="min-h-screen bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-gray-100 flex flex-col transition-colors duration-200">
+      <body className="min-h-screen bg-gray-50 dark:bg-slate-900 amoled:bg-black text-gray-900 dark:text-gray-100 flex flex-col transition-colors duration-200">
         <ThemeProvider>
-          <Header />
+          <EnhancedHeader />
           <main className="flex-1">
-            <div className="max-w-5xl mx-auto px-3 sm:px-4 lg:px-6 py-4 md:py-6">
-              {children}
-            </div>
+            {children}
           </main>
           <Footer />
         </ThemeProvider>
