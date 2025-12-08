@@ -244,7 +244,7 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -2 }}
       transition={{ duration: 0.2 }}
-      className="p-4 md:p-5 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl shadow-sm border border-gray-100 dark:border-slate-700 hover:shadow-lg transition-all duration-200"
+      className="p-4 md:p-5 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700 hover:shadow-lg transition-all duration-200"
     >
       {showShareToast && (
         <motion.div
