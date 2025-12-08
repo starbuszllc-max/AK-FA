@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import ThemeToggle from './ThemeToggle';
+import NotificationBell from '@/components/notifications/NotificationBell';
 
 export function Header() {
   const [user, setUser] = useState<any>(null);
@@ -147,6 +148,7 @@ export function Header() {
           
           <div className="w-px h-5 bg-gray-200 dark:bg-slate-600 mx-1"></div>
           
+          {user && <NotificationBell />}
           <ThemeToggle />
           
           {loading ? (

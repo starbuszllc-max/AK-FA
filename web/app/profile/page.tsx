@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { User, Flame, Zap, Trophy, Settings, ChevronRight } from 'lucide-react';
 import { BadgesList, LevelDisplay } from '../../components/badges';
 import { ActivityHeatmap } from '../../components/heatmap';
+import ProfilePictureUpload from '@/components/media/ProfilePictureUpload';
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<any>(null);
@@ -88,9 +89,22 @@ export default function ProfilePage() {
         <div className="h-24 bg-gradient-to-r from-indigo-500 to-purple-600"></div>
         <div className="px-6 pb-6">
           <div className="flex items-end gap-4 -mt-12 mb-4">
-            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white text-3xl font-bold border-4 border-white dark:border-slate-800">
-              {(profile.fullName || profile.username || 'U').charAt(0).toUpperCase()}
-            </div>
+            <ProfilePictureUpload
+              currentUrl={profile.avatarUrl}
+              onUpload={async (url) => {
+                try {
+                  await fetch('/api/profiles', {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: userId, avatar_url: url })
+                  });
+                  setProfile({ ...profile, avatarUrl: url });
+                } catch (err) {
+                  console.error('Failed to update avatar:', err);
+                }
+              }}
+              size="lg"
+            />
             <div className="pb-2">
               <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
                 {profile.fullName || profile.username}

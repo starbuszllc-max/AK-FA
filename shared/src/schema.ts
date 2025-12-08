@@ -36,6 +36,8 @@ export const posts = pgTable('posts', {
   content: text('content').notNull(),
   layer: text('layer').default('social'),
   postType: text('post_type').default('post'),
+  mediaUrls: jsonb('media_urls').default([]),
+  mediaTypes: jsonb('media_types').default([]),
   likeCount: integer('like_count').default(0),
   commentCount: integer('comment_count').default(0),
   viewCount: integer('view_count').default(0),
@@ -48,6 +50,9 @@ export const comments = pgTable('comments', {
   postId: uuid('post_id').references(() => posts.id, { onDelete: 'cascade' }),
   userId: uuid('user_id').references(() => profiles.id, { onDelete: 'cascade' }),
   content: text('content').notNull(),
+  mediaUrl: text('media_url'),
+  mediaType: text('media_type'),
+  gifUrl: text('gif_url'),
   isHelpful: boolean('is_helpful').default(false),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
 });
@@ -317,5 +322,19 @@ export const sponsoredChallenges = pgTable('sponsored_challenges', {
   prizePool: decimal('prize_pool', { precision: 10, scale: 2 }),
   commissionRate: decimal('commission_rate', { precision: 5, scale: 2 }).default('0.10'),
   status: text('status').default('active'),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
+});
+
+// Notifications
+export const notifications = pgTable('notifications', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').notNull().references(() => profiles.id, { onDelete: 'cascade' }),
+  type: text('type').notNull(),
+  title: text('title').notNull(),
+  message: text('message'),
+  referenceId: uuid('reference_id'),
+  referenceType: text('reference_type'),
+  actorId: uuid('actor_id').references(() => profiles.id, { onDelete: 'set null' }),
+  isRead: boolean('is_read').default(false),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
 });

@@ -52,3 +52,30 @@ export async function GET(req: Request) {
     return NextResponse.json({error: err.message ?? String(err)}, {status: 500});
   }
 }
+
+export async function PATCH(req: Request) {
+  try {
+    const body = await req.json();
+    const { user_id, avatar_url, full_name, bio, username } = body;
+
+    if (!user_id) {
+      return NextResponse.json({ error: 'user_id is required' }, { status: 400 });
+    }
+
+    const updateData: any = { updatedAt: new Date() };
+    if (avatar_url !== undefined) updateData.avatarUrl = avatar_url;
+    if (full_name !== undefined) updateData.fullName = full_name;
+    if (bio !== undefined) updateData.bio = bio;
+    if (username !== undefined) updateData.username = username;
+
+    const [updated] = await db.update(profiles)
+      .set(updateData)
+      .where(eq(profiles.id, user_id))
+      .returning();
+
+    return NextResponse.json({ profile: updated });
+  } catch (err: any) {
+    console.error(err);
+    return NextResponse.json({ error: err.message ?? String(err) }, { status: 500 });
+  }
+}
