@@ -90,6 +90,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'followerId and followingId required' }, { status: 400 });
     }
 
+    if (!UUID_REGEX.test(followerId) || !UUID_REGEX.test(followingId)) {
+      return NextResponse.json({ error: 'Valid UUIDs required for follow operations' }, { status: 400 });
+    }
+
     if (followerId === followingId) {
       return NextResponse.json({ error: 'Cannot follow yourself' }, { status: 400 });
     }

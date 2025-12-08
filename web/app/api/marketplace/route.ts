@@ -57,6 +57,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'userId and itemId required' }, { status: 400 });
     }
 
+    if (!UUID_REGEX.test(userId)) {
+      return NextResponse.json({ error: 'Valid UUID userId required for purchases' }, { status: 400 });
+    }
+
     if (action === 'equip') {
       const [owned] = await db.select()
         .from(userItems)

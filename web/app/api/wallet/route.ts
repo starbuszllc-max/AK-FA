@@ -89,6 +89,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'userId and action required' }, { status: 400 });
     }
 
+    if (!UUID_REGEX.test(userId)) {
+      return NextResponse.json({ error: 'Valid UUID userId required for write operations' }, { status: 400 });
+    }
+
     const pointsAmount = amount || POINTS_CONFIG[action as keyof typeof POINTS_CONFIG] || 0;
 
     await db.insert(pointsLog).values({

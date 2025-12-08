@@ -5,6 +5,7 @@ import { eq, desc, sql } from 'drizzle-orm';
 
 const POINTS_TO_USD = 0.001;
 const MIN_PAYOUT_POINTS = 1000;
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export async function GET(req: NextRequest) {
   try {
@@ -13,6 +14,22 @@ export async function GET(req: NextRequest) {
 
     if (!userId) {
       return NextResponse.json({ error: 'userId required' }, { status: 400 });
+    }
+
+    if (!UUID_REGEX.test(userId)) {
+      return NextResponse.json({
+        payouts: [],
+        stats: {
+          availablePoints: 0,
+          cashValue: '0.00',
+          canWithdraw: false,
+          minPayout: MIN_PAYOUT_POINTS,
+          minPayoutValue: (MIN_PAYOUT_POINTS * POINTS_TO_USD).toFixed(2),
+          totalWithdrawn: '0.00',
+          canMonetize: false,
+          creatorLevel: 1
+        }
+      });
     }
 
     const userPayouts = await db.select()
@@ -52,6 +69,10 @@ export async function POST(req: NextRequest) {
 
     if (!userId || !pointsToConvert) {
       return NextResponse.json({ error: 'userId and pointsToConvert required' }, { status: 400 });
+    }
+
+    if (!UUID_REGEX.test(userId)) {
+      return NextResponse.json({ error: 'Valid UUID userId required for payout requests' }, { status: 400 });
     }
 
     const [wallet] = await db.select().from(wallets).where(eq(wallets.userId, userId));

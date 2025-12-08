@@ -74,6 +74,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'senderId, receiverId, giftType required' }, { status: 400 });
     }
 
+    if (!UUID_REGEX.test(senderId) || !UUID_REGEX.test(receiverId)) {
+      return NextResponse.json({ error: 'Valid UUID required for senderId and receiverId' }, { status: 400 });
+    }
+
     const giftInfo = GIFT_TYPES[giftType as keyof typeof GIFT_TYPES];
     if (!giftInfo) {
       return NextResponse.json({ error: 'Invalid gift type' }, { status: 400 });
