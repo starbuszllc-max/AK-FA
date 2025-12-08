@@ -105,12 +105,19 @@ export default function ProfilePage() {
               }}
               size="lg"
             />
-            <div className="pb-2">
+            <div className="pb-2 flex-1">
               <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
                 {profile.fullName || profile.username}
               </h1>
               <p className="text-gray-500 dark:text-gray-400">@{profile.username}</p>
             </div>
+            <Link
+              href="/profile/settings"
+              className="pb-2 flex items-center gap-2 px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+            >
+              <Settings className="w-5 h-5" />
+              <span className="hidden sm:inline">Settings</span>
+            </Link>
           </div>
 
           {profile.bio && (

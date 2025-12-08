@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Comment {
@@ -8,6 +9,7 @@ interface Comment {
   userId: string | null;
   content: string;
   createdAt: string;
+  parentId?: string | null;
   profiles: {
     username: string | null;
     avatarUrl: string | null;
@@ -78,6 +80,7 @@ function formatExactTime(dateString: string): string {
 }
 
 export default function EnhancedPostCard({ post, currentUserId, onLike, onCommentAdded }: PostProps) {
+  const router = useRouter();
   const [isLiking, setIsLiking] = useState(false);
   const [hasLiked, setHasLiked] = useState(false);
   const [showComments, setShowComments] = useState(false);
@@ -89,6 +92,8 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
   const [localLikeCount, setLocalLikeCount] = useState(post.like_count);
   const [showTimeTooltip, setShowTimeTooltip] = useState(false);
   const [showHeartAnimation, setShowHeartAnimation] = useState(false);
+  const [replyingTo, setReplyingTo] = useState<{ id: string; username: string } | null>(null);
+  const [showShareToast, setShowShareToast] = useState(false);
 
   const username = post.profiles?.username || 'Anonymous';
   const avatarUrl = post.profiles?.avatar_url;
@@ -128,12 +133,14 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
         body: JSON.stringify({
           post_id: post.id,
           user_id: currentUserId,
-          content: newComment.trim()
+          content: newComment.trim(),
+          parent_id: replyingTo?.id || null
         })
       });
 
       if (resp.ok) {
         setNewComment('');
+        setReplyingTo(null);
         setLocalCommentCount(prev => prev + 1);
         await fetchComments();
         onCommentAdded?.(post.id);
@@ -142,6 +149,17 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
       console.error('Error submitting comment:', err);
     } finally {
       setSubmittingComment(false);
+    }
+  }
+
+  function handleReply(comment: Comment) {
+    setReplyingTo({ id: comment.id, username: comment.profiles?.username || 'Anonymous' });
+    setNewComment(`@${comment.profiles?.username || 'Anonymous'} `);
+  }
+
+  function navigateToProfile(userId: string | null) {
+    if (userId) {
+      router.push(`/profile/${userId}`);
     }
   }
 
@@ -182,9 +200,29 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
 
   async function handleShare() {
     try {
-      await navigator.clipboard.writeText(window.location.href + `#post-${post.id}`);
+      const shareUrl = `${window.location.origin}/feed#post-${post.id}`;
+      
+      if (navigator.share) {
+        await navigator.share({
+          title: 'Check out this post on Akorfa',
+          text: post.content.slice(0, 100) + (post.content.length > 100 ? '...' : ''),
+          url: shareUrl
+        });
+      } else {
+        await navigator.clipboard.writeText(shareUrl);
+        setShowShareToast(true);
+        setTimeout(() => setShowShareToast(false), 2000);
+      }
     } catch (err) {
-      console.error('Failed to copy link:', err);
+      if ((err as Error).name !== 'AbortError') {
+        try {
+          await navigator.clipboard.writeText(`${window.location.origin}/feed#post-${post.id}`);
+          setShowShareToast(true);
+          setTimeout(() => setShowShareToast(false), 2000);
+        } catch (clipErr) {
+          console.error('Failed to copy link:', clipErr);
+        }
+      }
     }
   }
 
@@ -197,9 +235,23 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
       transition={{ duration: 0.2 }}
       className="p-4 md:p-5 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl shadow-sm border border-gray-100 dark:border-slate-700 hover:shadow-lg transition-all duration-200"
     >
+      {showShareToast && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          className="fixed top-4 left-1/2 -translate-x-1/2 z-50 px-4 py-2 bg-green-500 text-white rounded-lg shadow-lg text-sm font-medium"
+        >
+          Link copied to clipboard!
+        </motion.div>
+      )}
+
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className={`relative p-0.5 rounded-full bg-gradient-to-br ${layerStyle.gradient}`}>
+          <div 
+            className={`relative p-0.5 rounded-full bg-gradient-to-br ${layerStyle.gradient} cursor-pointer`}
+            onClick={() => navigateToProfile(post.user_id)}
+          >
             {avatarUrl ? (
               <img 
                 src={avatarUrl} 
@@ -213,7 +265,12 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
             )}
           </div>
           <div>
-            <div className="font-semibold text-gray-900 dark:text-white text-sm">{username}</div>
+            <div 
+              className="font-semibold text-gray-900 dark:text-white text-sm cursor-pointer hover:underline"
+              onClick={() => navigateToProfile(post.user_id)}
+            >
+              {username}
+            </div>
             <div 
               className="relative"
               onMouseEnter={() => setShowTimeTooltip(true)}
@@ -349,12 +406,26 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
           >
             {currentUserId && (
               <form onSubmit={submitComment} className="mb-4">
+                {replyingTo && (
+                  <div className="flex items-center gap-2 mb-2 text-sm text-gray-500 dark:text-gray-400">
+                    <span>Replying to @{replyingTo.username}</span>
+                    <button
+                      type="button"
+                      onClick={() => { setReplyingTo(null); setNewComment(''); }}
+                      className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                )}
                 <div className="flex gap-2">
                   <input
                     type="text"
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
-                    placeholder="Write a comment..."
+                    placeholder={replyingTo ? `Reply to @${replyingTo.username}...` : "Write a comment..."}
                     className="flex-1 px-3 py-2 bg-gray-50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 dark:text-white transition-all"
                     maxLength={300}
                   />
@@ -368,7 +439,7 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
                     {submittingComment ? (
                       <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin inline-block" />
                     ) : (
-                      'Send'
+                      replyingTo ? 'Reply' : 'Send'
                     )}
                   </motion.button>
                 </div>
@@ -391,12 +462,22 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
                     transition={{ delay: idx * 0.05 }}
                     className="flex gap-2"
                   >
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gray-300 to-gray-400 dark:from-slate-600 dark:to-slate-700 flex items-center justify-center text-white text-xs font-medium shrink-0">
-                      {(comment.profiles?.username || 'A').charAt(0).toUpperCase()}
+                    <div 
+                      className="w-8 h-8 rounded-full bg-gradient-to-br from-gray-300 to-gray-400 dark:from-slate-600 dark:to-slate-700 flex items-center justify-center text-white text-xs font-medium shrink-0 cursor-pointer overflow-hidden"
+                      onClick={() => navigateToProfile(comment.userId)}
+                    >
+                      {comment.profiles?.avatarUrl ? (
+                        <img src={comment.profiles.avatarUrl} alt="" className="w-full h-full object-cover" />
+                      ) : (
+                        (comment.profiles?.username || 'A').charAt(0).toUpperCase()
+                      )}
                     </div>
                     <div className="flex-1 bg-gray-50 dark:bg-slate-700/50 rounded-xl px-3 py-2">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
+                        <span 
+                          className="text-sm font-medium text-gray-800 dark:text-gray-200 cursor-pointer hover:underline"
+                          onClick={() => navigateToProfile(comment.userId)}
+                        >
                           {comment.profiles?.username || 'Anonymous'}
                         </span>
                         <span className="text-xs text-gray-400 dark:text-gray-500">
@@ -404,6 +485,14 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
                         </span>
                       </div>
                       <p className="text-sm text-gray-700 dark:text-gray-300">{comment.content}</p>
+                      {currentUserId && (
+                        <button
+                          onClick={() => handleReply(comment)}
+                          className="mt-1 text-xs text-gray-400 dark:text-gray-500 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors"
+                        >
+                          Reply
+                        </button>
+                      )}
                     </div>
                   </motion.div>
                 ))}

@@ -41,17 +41,23 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const {post_id, user_id, content} = body;
+    const {post_id, user_id, content, parent_id} = body;
 
     if (!post_id || !content) {
       return NextResponse.json({error: 'post_id and content are required'}, {status: 400});
     }
 
-    const [newComment] = await db.insert(comments).values({
+    const insertData: any = {
       postId: post_id,
       userId: user_id || null,
       content: content
-    }).returning();
+    };
+    
+    if (parent_id) {
+      insertData.parentId = parent_id;
+    }
+
+    const [newComment] = await db.insert(comments).values(insertData).returning();
 
     await db.update(posts)
       .set({

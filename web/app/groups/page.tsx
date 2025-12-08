@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Users, Plus, Search, Globe, Lock, UserPlus, ChevronRight } from 'lucide-react';
 
 interface Group {
@@ -35,6 +36,7 @@ const layerIcons: Record<string, string> = {
 };
 
 export default function GroupsPage() {
+  const router = useRouter();
   const [groups, setGroups] = useState<Group[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -147,7 +149,8 @@ export default function GroupsPage() {
           {filteredGroups.map((group) => (
             <div
               key={group.id}
-              className="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 overflow-hidden hover:shadow-lg transition-all"
+              className="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 overflow-hidden hover:shadow-lg transition-all cursor-pointer"
+              onClick={() => router.push(`/groups/${group.id}`)}
             >
               <div className={`h-20 bg-gradient-to-r ${layerColors[group.layer] || 'from-gray-500 to-gray-600'} flex items-center justify-center`}>
                 <span className="text-4xl">{layerIcons[group.layer] || '👥'}</span>
@@ -173,12 +176,15 @@ export default function GroupsPage() {
                   {group.description}
                 </p>
                 {group.isMember ? (
-                  <button className="w-full py-2 bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300 rounded-lg text-sm font-medium">
-                    Joined
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); router.push(`/groups/${group.id}`); }}
+                    className="w-full py-2 bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors"
+                  >
+                    View Group
                   </button>
                 ) : (
                   <button
-                    onClick={() => joinGroup(group.id)}
+                    onClick={(e) => { e.stopPropagation(); joinGroup(group.id); }}
                     className="w-full py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2"
                   >
                     <UserPlus className="w-4 h-4" />

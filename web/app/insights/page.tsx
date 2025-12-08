@@ -1,12 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Sparkles, TrendingUp, Target, Calendar, ChevronRight, RefreshCw, Lightbulb, Flame } from 'lucide-react';
+import { Sparkles, TrendingUp, Target, Calendar, ChevronRight, RefreshCw, Lightbulb, Flame, ChevronDown, ChevronUp, BookOpen } from 'lucide-react';
 
 interface DailyInsight {
   id: string;
   title: string;
   content: string;
+  deepExplanation?: string;
+  whyItMatters?: string;
   focusLayer: string;
   actionItems: string[];
   isRead: boolean;
@@ -47,6 +49,8 @@ export default function InsightsPage() {
   const [userId, setUserId] = useState<string | null>(null);
   const [streak, setStreak] = useState(0);
   const [todayInsight, setTodayInsight] = useState<DailyInsight | null>(null);
+  const [showDeepDive, setShowDeepDive] = useState(false);
+  const [expandedInsight, setExpandedInsight] = useState<string | null>(null);
 
   useEffect(() => {
     const uid = localStorage.getItem('demo_user_id');
@@ -167,7 +171,31 @@ export default function InsightsPage() {
               <div className="font-semibold">{todayInsight.title}</div>
             </div>
           </div>
-          <p className="text-lg mb-6 opacity-90">{todayInsight.content}</p>
+          <p className="text-lg mb-4 opacity-90">{todayInsight.content}</p>
+          
+          {todayInsight.whyItMatters && (
+            <p className="text-sm mb-4 opacity-80 italic">{todayInsight.whyItMatters}</p>
+          )}
+
+          <button
+            onClick={() => setShowDeepDive(!showDeepDive)}
+            className="flex items-center gap-2 mb-4 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors"
+          >
+            <BookOpen className="w-4 h-4" />
+            {showDeepDive ? 'Hide' : 'Show'} Deep Explanation
+            {showDeepDive ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          </button>
+
+          {showDeepDive && todayInsight.deepExplanation && (
+            <div className="bg-white/10 rounded-xl p-4 mb-4 animate-fade-in">
+              <div className="text-sm font-medium mb-2 flex items-center gap-2">
+                <BookOpen className="w-4 h-4" />
+                Understanding This Better
+              </div>
+              <p className="text-sm opacity-90 leading-relaxed">{todayInsight.deepExplanation}</p>
+            </div>
+          )}
+
           {todayInsight.actionItems?.length > 0 && (
             <div className="bg-white/10 rounded-xl p-4">
               <div className="text-sm font-medium mb-3 flex items-center gap-2">
@@ -287,6 +315,48 @@ export default function InsightsPage() {
                     <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-2">
                       {insight.content}
                     </p>
+                    
+                    <button
+                      onClick={() => setExpandedInsight(expandedInsight === insight.id ? null : insight.id)}
+                      className="mt-2 flex items-center gap-1 text-indigo-600 dark:text-indigo-400 text-xs hover:underline"
+                    >
+                      <BookOpen className="w-3 h-3" />
+                      {expandedInsight === insight.id ? 'Hide details' : 'Read more'}
+                      {expandedInsight === insight.id ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                    </button>
+
+                    {expandedInsight === insight.id && (
+                      <div className="mt-3 p-3 bg-gray-50 dark:bg-slate-700/50 rounded-lg animate-fade-in">
+                        {insight.deepExplanation && (
+                          <div className="mb-3">
+                            <div className="text-xs font-medium text-gray-700 dark:text-gray-300 mb-1 flex items-center gap-1">
+                              <BookOpen className="w-3 h-3" />
+                              Deep Explanation
+                            </div>
+                            <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                              {insight.deepExplanation}
+                            </p>
+                          </div>
+                        )}
+                        {insight.actionItems && insight.actionItems.length > 0 && (
+                          <div>
+                            <div className="text-xs font-medium text-gray-700 dark:text-gray-300 mb-1 flex items-center gap-1">
+                              <Target className="w-3 h-3" />
+                              Action Items
+                            </div>
+                            <ul className="space-y-1">
+                              {insight.actionItems.map((item, i) => (
+                                <li key={i} className="flex items-start gap-1 text-sm text-gray-600 dark:text-gray-300">
+                                  <ChevronRight className="w-3 h-3 mt-0.5 flex-shrink-0" />
+                                  <span>{item}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
                     <div className="text-gray-500 dark:text-gray-400 text-xs mt-2">
                       {new Date(insight.createdAt).toLocaleDateString()}
                     </div>
