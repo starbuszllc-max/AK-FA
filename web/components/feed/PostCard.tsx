@@ -246,9 +246,9 @@ export default function PostCard({ post, currentUserId, onLike, onCommentAdded }
                 <button
                   type="submit"
                   disabled={!newComment.trim() || submittingComment}
-                  className="px-4 py-2 bg-primary text-white text-sm rounded-lg hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shrink-0"
                 >
-                  {submittingComment ? '...' : 'Post'}
+                  {submittingComment ? '...' : 'Send'}
                 </button>
               </div>
             </form>
