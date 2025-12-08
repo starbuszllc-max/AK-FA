@@ -268,64 +268,77 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
               className="fixed inset-0 bg-black/50 z-40"
             />
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[90%] max-w-sm bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-4"
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              className="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-slate-800 rounded-t-3xl shadow-xl p-6 pb-8 max-h-[85vh] overflow-y-auto"
             >
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 text-center">Share to...</h3>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="w-12 h-1.5 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto mb-6" />
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Share post</h3>
+              <div className="grid grid-cols-4 gap-4 mb-6">
                 <button
                   onClick={() => handleShareOption('feed')}
-                  className="flex flex-col items-center gap-2 p-4 bg-gray-50 dark:bg-slate-700 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors relative"
+                  className="flex flex-col items-center gap-2 p-3 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-2xl transition-colors relative"
                 >
-                  <svg className="w-8 h-8 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                  </svg>
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Feed</span>
-                  <span className="absolute top-1 right-1 text-[10px] px-1.5 py-0.5 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-300 rounded-full">Soon</span>
+                  <div className="w-14 h-14 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center">
+                    <svg className="w-7 h-7 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                    </svg>
+                  </div>
+                  <span className="text-xs font-medium text-gray-700 dark:text-gray-200">Feed</span>
+                  <span className="absolute top-1 right-1 text-[9px] px-1.5 py-0.5 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-300 rounded-full font-medium">Soon</span>
                 </button>
                 <button
                   onClick={() => handleShareOption('story')}
-                  className="flex flex-col items-center gap-2 p-4 bg-gray-50 dark:bg-slate-700 rounded-xl hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-colors relative"
+                  className="flex flex-col items-center gap-2 p-3 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-2xl transition-colors relative"
                 >
-                  <svg className="w-8 h-8 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
-                  </svg>
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Story</span>
-                  <span className="absolute top-1 right-1 text-[10px] px-1.5 py-0.5 bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-300 rounded-full">Soon</span>
+                  <div className="w-14 h-14 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
+                    <svg className="w-7 h-7 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+                    </svg>
+                  </div>
+                  <span className="text-xs font-medium text-gray-700 dark:text-gray-200">Story</span>
+                  <span className="absolute top-1 right-1 text-[9px] px-1.5 py-0.5 bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-300 rounded-full font-medium">Soon</span>
                 </button>
                 <button
                   onClick={() => handleShareOption('community')}
-                  className="flex flex-col items-center gap-2 p-4 bg-gray-50 dark:bg-slate-700 rounded-xl hover:bg-green-50 dark:hover:bg-green-900/30 transition-colors relative"
+                  className="flex flex-col items-center gap-2 p-3 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-2xl transition-colors relative"
                 >
-                  <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Community</span>
-                  <span className="absolute top-1 right-1 text-[10px] px-1.5 py-0.5 bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-300 rounded-full">Soon</span>
+                  <div className="w-14 h-14 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+                    <svg className="w-7 h-7 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                  </div>
+                  <span className="text-xs font-medium text-gray-700 dark:text-gray-200">Community</span>
+                  <span className="absolute top-1 right-1 text-[9px] px-1.5 py-0.5 bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-300 rounded-full font-medium">Soon</span>
                 </button>
                 <button
                   onClick={() => handleShareOption('copy')}
-                  className="flex flex-col items-center gap-2 p-4 bg-gray-50 dark:bg-slate-700 rounded-xl hover:bg-amber-50 dark:hover:bg-amber-900/30 transition-colors"
+                  className="flex flex-col items-center gap-2 p-3 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-2xl transition-colors"
                 >
-                  <svg className="w-8 h-8 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
-                  </svg>
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Copy Link</span>
+                  <div className="w-14 h-14 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center">
+                    <svg className="w-7 h-7 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                    </svg>
+                  </div>
+                  <span className="text-xs font-medium text-gray-700 dark:text-gray-200">Copy</span>
                 </button>
               </div>
               {typeof navigator !== 'undefined' && 'share' in navigator && (
                 <button
                   onClick={() => handleShareOption('external')}
-                  className="w-full mt-3 py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl font-medium hover:from-indigo-600 hover:to-purple-600 transition-colors"
+                  className="w-full py-4 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-2xl font-semibold hover:from-indigo-600 hover:to-purple-600 transition-colors shadow-lg flex items-center justify-center gap-2"
                 >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                  </svg>
                   Share to Other Apps
                 </button>
               )}
               <button
                 onClick={() => setShowShareModal(false)}
-                className="w-full mt-2 py-2 text-gray-500 dark:text-gray-400 text-sm hover:text-gray-700 dark:hover:text-gray-200"
+                className="w-full mt-4 py-3 text-gray-500 dark:text-gray-400 font-medium hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
               >
                 Cancel
               </button>
