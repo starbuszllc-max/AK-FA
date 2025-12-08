@@ -159,33 +159,33 @@ export default function PostCard({ post, currentUserId, onLike, onCommentAdded }
   }
 
   return (
-    <article className="p-5 bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex items-center gap-3">
+    <article className="p-3 md:p-4 bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+      <div className="flex items-start justify-between gap-2">
+        <div className="flex items-center gap-2">
           {avatarUrl ? (
             <img 
               src={avatarUrl} 
               alt={username} 
-              className="w-10 h-10 rounded-full object-cover"
+              className="w-8 h-8 md:w-9 md:h-9 rounded-full object-cover"
             />
           ) : (
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-medium">
+            <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white text-sm font-medium">
               {username.charAt(0).toUpperCase()}
             </div>
           )}
           <div>
-            <div className="font-medium text-gray-900">{username}</div>
+            <div className="font-medium text-gray-900 text-sm">{username}</div>
             <div className="text-xs text-gray-500">{formatTimeAgo(post.created_at)}</div>
           </div>
         </div>
-        <span className={`px-2 py-1 text-xs font-medium rounded-full ${layerStyle.bg} ${layerStyle.text}`}>
+        <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${layerStyle.bg} ${layerStyle.text}`}>
           {post.layer}
         </span>
       </div>
 
-      <p className="mt-4 text-gray-800 whitespace-pre-wrap leading-relaxed">{post.content}</p>
+      <p className="mt-3 text-gray-800 text-sm md:text-base whitespace-pre-wrap leading-relaxed">{post.content}</p>
 
-      <div className="mt-4 pt-3 border-t border-gray-100 flex items-center gap-4">
+      <div className="mt-3 pt-2 border-t border-gray-100 flex items-center gap-3">
         <button 
           onClick={handleLike}
           disabled={!currentUserId || isLiking || hasLiked}

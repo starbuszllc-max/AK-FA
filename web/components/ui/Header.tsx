@@ -92,19 +92,19 @@ export default function Header() {
 
   return (
     <header className="w-full bg-white dark:bg-slate-800 shadow-sm sticky top-0 z-50 transition-colors duration-200">
-      <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-        <Link href="/" className="font-bold text-xl text-indigo-600 dark:text-indigo-400 flex items-center gap-2">
-          <span className="bg-indigo-600 dark:bg-indigo-500 text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm">A</span>
-          Akorfa
+      <div className="max-w-5xl mx-auto px-3 md:px-4 py-2 flex items-center justify-between">
+        <Link href="/" className="font-bold text-base md:text-lg text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5">
+          <span className="bg-indigo-600 dark:bg-indigo-500 text-white w-7 h-7 rounded-lg flex items-center justify-center text-xs">A</span>
+          <span className="hidden sm:inline">Akorfa</span>
         </Link>
         
-        <div className="flex items-center gap-2 md:hidden">
+        <div className="flex items-center gap-1 md:hidden">
           <ThemeToggle />
           <button 
-            className="p-2 text-gray-600 dark:text-gray-300"
+            className="p-1.5 text-gray-600 dark:text-gray-300"
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {menuOpen ? (
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               ) : (
@@ -114,40 +114,40 @@ export default function Header() {
           </button>
         </div>
 
-        <nav className="hidden md:flex items-center gap-1">
+        <nav className="hidden md:flex items-center gap-0.5">
           {navLinks.map((link) => (
             <Link 
               key={link.href}
               href={link.href} 
-              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+              className={`px-2 py-1.5 rounded-md text-xs font-medium transition-colors flex items-center gap-1.5 ${
                 isActive(link.href) 
                   ? 'bg-indigo-50 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400' 
                   : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
               {link.icon}
-              {link.label}
+              <span className="hidden lg:inline">{link.label}</span>
             </Link>
           ))}
           
-          <div className="w-px h-6 bg-gray-200 dark:bg-slate-600 mx-2"></div>
+          <div className="w-px h-5 bg-gray-200 dark:bg-slate-600 mx-1"></div>
           
           <ThemeToggle />
           
           {loading ? (
-            <span className="text-sm text-gray-400 px-4">...</span>
+            <span className="text-xs text-gray-400 px-2">...</span>
           ) : user ? (
             <button 
               onClick={handleLogout}
-              className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-white rounded-lg transition-colors"
+              className="px-2 py-1.5 text-xs font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-white rounded-md transition-colors"
             >
               Logout
             </button>
           ) : (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
               <Link 
                 href="/onboarding" 
-                className="px-4 py-2 text-sm font-medium bg-indigo-600 dark:bg-indigo-500 text-white rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors"
+                className="px-3 py-1.5 text-xs font-medium bg-indigo-600 dark:bg-indigo-500 text-white rounded-md hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors"
               >
                 Get Started
               </Link>
@@ -158,13 +158,13 @@ export default function Header() {
 
       {menuOpen && (
         <div className="md:hidden border-t border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800">
-          <nav className="flex flex-col p-4 gap-2">
+          <nav className="flex flex-col p-3 gap-1">
             {navLinks.map((link) => (
               <Link 
                 key={link.href}
                 href={link.href} 
                 onClick={() => setMenuOpen(false)}
-                className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors flex items-center gap-3 ${
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-2 ${
                   isActive(link.href) 
                     ? 'bg-indigo-50 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400' 
                     : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700'
@@ -175,12 +175,12 @@ export default function Header() {
               </Link>
             ))}
             
-            <div className="h-px bg-gray-200 dark:bg-slate-700 my-2"></div>
+            <div className="h-px bg-gray-200 dark:bg-slate-700 my-1"></div>
             
             {loading ? null : user ? (
               <button 
                 onClick={() => { handleLogout(); setMenuOpen(false); }}
-                className="px-4 py-3 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 rounded-lg text-left"
+                className="px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 rounded-md text-left"
               >
                 Logout
               </button>
@@ -188,7 +188,7 @@ export default function Header() {
               <Link 
                 href="/onboarding" 
                 onClick={() => setMenuOpen(false)}
-                className="px-4 py-3 text-sm font-medium bg-indigo-600 dark:bg-indigo-500 text-white rounded-lg text-center"
+                className="px-3 py-2 text-sm font-medium bg-indigo-600 dark:bg-indigo-500 text-white rounded-md text-center"
               >
                 Get Started
               </Link>
