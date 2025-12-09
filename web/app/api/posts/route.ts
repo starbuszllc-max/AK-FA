@@ -2,7 +2,7 @@ import {NextResponse} from 'next/server';
 import {db} from '../../../lib/db';
 import {posts, userEvents, profiles} from '@akorfa/shared/src/schema';
 import {calculateAkorfaScore} from '@akorfa/shared/src/scoring';
-import {eq, desc, sql} from 'drizzle-orm';
+import {eq, desc, sql, and} from 'drizzle-orm';
 
 export async function GET(req: Request) {
   try {
@@ -10,10 +10,21 @@ export async function GET(req: Request) {
     const pageParam = parseInt(searchParams.get('page') || '1');
     const limitParam = parseInt(searchParams.get('limit') || '20');
     const layer = searchParams.get('layer');
+    const userId = searchParams.get('user_id');
     
     const page = isNaN(pageParam) || pageParam < 1 ? 1 : pageParam;
     const limit = isNaN(limitParam) || limitParam < 1 ? 20 : Math.min(limitParam, 50);
     const offset = (page - 1) * limit;
+
+    const conditions = [];
+    if (layer) conditions.push(eq(posts.layer, layer));
+    if (userId && userId.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i)) {
+      conditions.push(eq(posts.userId, userId));
+    }
+
+    const whereClause = conditions.length > 0 
+      ? conditions.length === 1 ? conditions[0] : and(...conditions)
+      : undefined;
 
     const baseQuery = db
       .select({
@@ -38,12 +49,12 @@ export async function GET(req: Request) {
       .limit(limit)
       .offset(offset);
 
-    const allPosts = layer 
-      ? await baseQuery.where(eq(posts.layer, layer))
+    const allPosts = whereClause 
+      ? await baseQuery.where(whereClause) 
       : await baseQuery;
 
-    const countQuery = layer
-      ? db.select({ count: sql<number>`count(*)::int` }).from(posts).where(eq(posts.layer, layer))
+    const countQuery = whereClause
+      ? db.select({ count: sql<number>`count(*)::int` }).from(posts).where(whereClause)
       : db.select({ count: sql<number>`count(*)::int` }).from(posts);
     
     const totalCount = await countQuery;
