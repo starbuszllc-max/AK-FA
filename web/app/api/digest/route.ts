@@ -6,7 +6,9 @@ import OpenAI from 'openai';
 
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-const openai = new OpenAI();
+function getOpenAI() {
+  return new OpenAI();
+}
 
 export async function GET(req: NextRequest) {
   try {
@@ -114,7 +116,7 @@ export async function POST(req: NextRequest) {
     let recommendations: string[] = [];
 
     try {
-      const aiResponse = await openai.chat.completions.create({
+      const aiResponse = await getOpenAI().chat.completions.create({
         model: 'gpt-4o-mini',
         messages: [
           {
