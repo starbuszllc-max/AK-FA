@@ -100,50 +100,49 @@ export default function ProgressHUD({ userId, isVisible = true }: ProgressHUDPro
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-          className="fixed top-16 right-4 z-40"
+          className="fixed top-14 left-2 z-40"
         >
           <motion.div
             layout
-            className={`bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-gray-200 dark:border-slate-700 overflow-hidden ${
-              expanded ? 'w-72' : 'w-auto'
+            className={`bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200 dark:border-slate-700 overflow-hidden ${
+              expanded ? 'w-64' : 'w-auto'
             }`}
           >
         <button
           onClick={() => setExpanded(!expanded)}
-          className="w-full flex items-center gap-3 p-3 hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-colors"
+          className="w-full flex items-center gap-2 px-2 py-1.5 hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-colors"
         >
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             <div className="relative">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/25">
-                <Star className="w-5 h-5 text-white" />
+              <div className="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-sm">
+                <Star className="w-3.5 h-3.5 text-white" />
               </div>
               {streak > 0 && (
-                <div className="absolute -top-1 -right-1 w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center">
-                  <Flame className="w-3 h-3 text-white" />
+                <div className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-orange-500 rounded-full flex items-center justify-center">
+                  <Flame className="w-2 h-2 text-white" />
                 </div>
               )}
             </div>
             
             <div className="text-left">
-              <div className="text-xs text-gray-500 dark:text-gray-400">Akorfa Score</div>
-              <div className="font-bold text-indigo-600 dark:text-indigo-400">
+              <div className="font-semibold text-xs text-indigo-600 dark:text-indigo-400">
                 {loading ? '...' : Math.round(aKorfaScore)}
               </div>
             </div>
           </div>
 
           {!expanded && streak > 0 && (
-            <div className="flex items-center gap-1 px-2 py-1 bg-orange-100 dark:bg-orange-900/30 rounded-full">
-              <Flame className="w-3.5 h-3.5 text-orange-500" />
-              <span className="text-xs font-semibold text-orange-600 dark:text-orange-400">{streak}</span>
+            <div className="flex items-center gap-0.5 px-1.5 py-0.5 bg-orange-100 dark:bg-orange-900/30 rounded-full">
+              <Flame className="w-2.5 h-2.5 text-orange-500" />
+              <span className="text-[10px] font-semibold text-orange-600 dark:text-orange-400">{streak}</span>
             </div>
           )}
 
           <div className="ml-auto">
             {expanded ? (
-              <ChevronDown className="w-4 h-4 text-gray-400" />
+              <ChevronDown className="w-3 h-3 text-gray-400" />
             ) : (
-              <ChevronUp className="w-4 h-4 text-gray-400" />
+              <ChevronUp className="w-3 h-3 text-gray-400" />
             )}
           </div>
         </button>

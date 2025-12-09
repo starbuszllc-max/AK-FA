@@ -115,7 +115,7 @@ export function Header() {
 
   return (
     <header className="w-full bg-white dark:bg-slate-800 shadow-sm sticky top-0 z-50 transition-colors duration-200">
-      <div className="max-w-5xl mx-auto px-3 md:px-4 py-2 flex items-center justify-between">
+      <div className="max-w-4xl mx-auto px-3 md:px-4 py-2 flex items-center justify-between">
         <Link href="/" className="font-bold text-base md:text-lg text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5">
           <span className="bg-indigo-600 dark:bg-indigo-500 text-white w-7 h-7 rounded-lg flex items-center justify-center text-xs">A</span>
           <span className="hidden sm:inline">Akorfa</span>

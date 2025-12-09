@@ -16,7 +16,6 @@ import {
   TrendingUp,
   Wallet,
   ShoppingBag,
-  LogOut,
   Sparkles,
   Newspaper,
   Compass,
@@ -74,10 +73,6 @@ export default function ExploreMenu({ isOpen, onClose }: ExploreMenuProps) {
     };
   }, [isOpen, handleKeyDown]);
 
-  function handleLogout() {
-    localStorage.removeItem('demo_user_id');
-    window.location.href = '/';
-  }
 
   return (
     <AnimatePresence>
@@ -150,19 +145,8 @@ export default function ExploreMenu({ isOpen, onClose }: ExploreMenuProps) {
               })}
             </nav>
 
-            <div className="p-2 border-t border-gray-200 dark:border-slate-700">
-              {user ? (
-                <button
-                  onClick={() => {
-                    handleLogout();
-                    onClose();
-                  }}
-                  className="w-full flex items-center justify-center gap-2 px-3 py-2 text-xs font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                >
-                  <LogOut className="w-3.5 h-3.5" />
-                  Logout
-                </button>
-              ) : (
+            {!user && (
+              <div className="p-2 border-t border-gray-200 dark:border-slate-700">
                 <Link
                   href="/onboarding"
                   onClick={onClose}
@@ -171,8 +155,8 @@ export default function ExploreMenu({ isOpen, onClose }: ExploreMenuProps) {
                   <Sparkles className="w-3.5 h-3.5" />
                   Get Started
                 </Link>
-              )}
-            </div>
+              </div>
+            )}
           </motion.div>
         </>
       )}

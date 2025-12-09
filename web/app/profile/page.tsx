@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { User, Flame, Zap, Trophy, Settings, ChevronRight, Camera, Grid3X3, Star, Lightbulb, MessageCircle, Heart } from 'lucide-react';
+import { User, Flame, Zap, Trophy, Settings, ChevronRight, Camera, Grid3X3, Star, Lightbulb, MessageCircle, Heart, Users } from 'lucide-react';
 import { BadgesList, LevelDisplay } from '../../components/badges';
 import { ActivityHeatmap } from '../../components/heatmap';
 import ProfilePictureUpload from '@/components/media/ProfilePictureUpload';
@@ -27,6 +27,8 @@ export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState<ContentTab>('posts');
   const [posts, setPosts] = useState<Post[]>([]);
   const [loadingPosts, setLoadingPosts] = useState(false);
+  const [followerCount, setFollowerCount] = useState(0);
+  const [followingCount, setFollowingCount] = useState(0);
   const coverInputRef = useRef<HTMLInputElement>(null);
 
   const contentTabs = [
@@ -76,7 +78,27 @@ export default function ProfilePage() {
     }
 
     fetchProfile(uid);
+    fetchFollowCounts(uid);
   }, []);
+
+  async function fetchFollowCounts(uid: string) {
+    try {
+      const [followersRes, followingRes] = await Promise.all([
+        fetch(`/api/follows?userId=${uid}&type=followers`),
+        fetch(`/api/follows?userId=${uid}&type=following`)
+      ]);
+      if (followersRes.ok) {
+        const data = await followersRes.json();
+        setFollowerCount(data.count || 0);
+      }
+      if (followingRes.ok) {
+        const data = await followingRes.json();
+        setFollowingCount(data.count || 0);
+      }
+    } catch (err) {
+      console.error('Follow counts fetch error:', err);
+    }
+  }
 
   useEffect(() => {
     if (userId && activeTab === 'posts') {
