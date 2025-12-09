@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Trophy, Flame, TrendingUp, Zap, Medal, Crown } from 'lucide-react';
 
 interface LeaderboardEntry {
@@ -22,6 +23,7 @@ const tabs = [
 ];
 
 export default function LeaderboardPage() {
+  const router = useRouter();
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [activeTab, setActiveTab] = useState('xp');
   const [loading, setLoading] = useState(true);
@@ -102,7 +104,8 @@ export default function LeaderboardPage() {
           {leaderboard.map((entry) => (
             <div
               key={entry.id}
-              className={`p-4 rounded-xl border transition-all ${getRankBg(entry.rank)} ${
+              onClick={() => router.push(`/profile/${entry.id}`)}
+              className={`p-4 rounded-xl border transition-all cursor-pointer hover:shadow-md ${getRankBg(entry.rank)} ${
                 entry.id === userId ? 'ring-2 ring-indigo-500' : ''
               }`}
             >

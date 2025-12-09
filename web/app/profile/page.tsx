@@ -262,7 +262,7 @@ export default function ProfilePage() {
             </div>
           )}
 
-          <div className="grid grid-cols-4 gap-3 mb-4">
+          <div className="grid grid-cols-3 gap-3 mb-3">
             <div className="text-center p-3 bg-gray-50 dark:bg-slate-700/50 rounded-xl">
               <div className="flex items-center justify-center gap-1 text-2xl font-bold text-gray-900 dark:text-white">
                 <Zap className="w-5 h-5 text-indigo-500" />
@@ -283,6 +283,23 @@ export default function ProfilePage() {
                 {streak}
               </div>
               <div className="text-sm text-gray-500 dark:text-gray-400">Streak</div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 gap-3 mb-4">
+            <div className="text-center p-3 bg-gray-50 dark:bg-slate-700/50 rounded-xl">
+              <div className="flex items-center justify-center gap-1 text-2xl font-bold text-gray-900 dark:text-white">
+                <Users className="w-5 h-5 text-blue-500" />
+                {followerCount}
+              </div>
+              <div className="text-sm text-gray-500 dark:text-gray-400">Followers</div>
+            </div>
+            <div className="text-center p-3 bg-gray-50 dark:bg-slate-700/50 rounded-xl">
+              <div className="flex items-center justify-center gap-1 text-2xl font-bold text-gray-900 dark:text-white">
+                <Users className="w-5 h-5 text-purple-500" />
+                {followingCount}
+              </div>
+              <div className="text-sm text-gray-500 dark:text-gray-400">Following</div>
             </div>
             <div className="text-center p-3 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/30 dark:to-teal-900/30 rounded-xl border border-emerald-200 dark:border-emerald-800">
               <div className="flex items-center justify-center gap-1 text-2xl font-bold text-emerald-600 dark:text-emerald-400">

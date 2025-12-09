@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { User, Flame, Zap, Trophy, ArrowLeft, UserPlus, UserMinus, MessageCircle } from 'lucide-react';
+import { User, Flame, Zap, Trophy, ArrowLeft, UserPlus, UserMinus, MessageCircle, Users, Grid3X3, Heart } from 'lucide-react';
 import { BadgesList, LevelDisplay } from '../../../components/badges';
 import { ActivityHeatmap } from '../../../components/heatmap';
 
@@ -20,6 +20,15 @@ interface ProfileData {
   goals: string[];
 }
 
+interface Post {
+  id: string;
+  content: string;
+  layer: string;
+  likeCount: number;
+  commentCount: number;
+  createdAt: string;
+}
+
 export default function UserProfilePage() {
   const params = useParams();
   const router = useRouter();
@@ -28,17 +37,66 @@ export default function UserProfilePage() {
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
   const [isFollowing, setIsFollowing] = useState(false);
+  const [followerCount, setFollowerCount] = useState(0);
+  const [followingCount, setFollowingCount] = useState(0);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loadingPosts, setLoadingPosts] = useState(false);
   const [currentUserId] = useState(() => typeof window !== 'undefined' ? localStorage.getItem('demo_user_id') : null);
   const isOwnProfile = currentUserId === profileId;
+
+  const layerColors: Record<string, string> = {
+    environment: 'bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300',
+    bio: 'bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-300',
+    internal: 'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300',
+    cultural: 'bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-300',
+    social: 'bg-pink-100 text-pink-700 dark:bg-pink-900/50 dark:text-pink-300',
+    conscious: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300',
+    existential: 'bg-slate-100 text-slate-700 dark:bg-slate-700/50 dark:text-slate-300',
+  };
 
   useEffect(() => {
     if (profileId) {
       fetchProfile();
+      fetchFollowCounts();
+      fetchUserPosts();
       if (currentUserId && currentUserId !== profileId) {
         checkFollowStatus();
       }
     }
   }, [profileId, currentUserId]);
+
+  async function fetchFollowCounts() {
+    try {
+      const [followersRes, followingRes] = await Promise.all([
+        fetch(`/api/follows?userId=${profileId}&type=followers`),
+        fetch(`/api/follows?userId=${profileId}&type=following`)
+      ]);
+      if (followersRes.ok) {
+        const data = await followersRes.json();
+        setFollowerCount(data.count || 0);
+      }
+      if (followingRes.ok) {
+        const data = await followingRes.json();
+        setFollowingCount(data.count || 0);
+      }
+    } catch (err) {
+      console.error('Follow counts fetch error:', err);
+    }
+  }
+
+  async function fetchUserPosts() {
+    setLoadingPosts(true);
+    try {
+      const res = await fetch(`/api/posts?user_id=${profileId}`);
+      const data = await res.json();
+      if (data.posts) {
+        setPosts(data.posts);
+      }
+    } catch (err) {
+      console.error('Posts fetch error:', err);
+    }
+    setLoadingPosts(false);
+  }
 
   async function fetchProfile() {
     try {
@@ -205,7 +263,7 @@ export default function UserProfilePage() {
             <p className="text-gray-700 dark:text-gray-300 mb-4">{profile.bio}</p>
           )}
 
-          <div className="grid grid-cols-3 gap-4 mb-4">
+          <div className="grid grid-cols-3 gap-3 mb-3">
             <div className="text-center p-3 bg-gray-50 dark:bg-slate-700/50 rounded-xl">
               <div className="flex items-center justify-center gap-1 text-2xl font-bold text-gray-900 dark:text-white">
                 <Zap className="w-5 h-5 text-indigo-500" />
@@ -229,6 +287,23 @@ export default function UserProfilePage() {
             </div>
           </div>
 
+          <div className="grid grid-cols-2 gap-3 mb-4">
+            <div className="text-center p-3 bg-gray-50 dark:bg-slate-700/50 rounded-xl">
+              <div className="flex items-center justify-center gap-1 text-2xl font-bold text-gray-900 dark:text-white">
+                <Users className="w-5 h-5 text-blue-500" />
+                {followerCount}
+              </div>
+              <div className="text-sm text-gray-500 dark:text-gray-400">Followers</div>
+            </div>
+            <div className="text-center p-3 bg-gray-50 dark:bg-slate-700/50 rounded-xl">
+              <div className="flex items-center justify-center gap-1 text-2xl font-bold text-gray-900 dark:text-white">
+                <Users className="w-5 h-5 text-purple-500" />
+                {followingCount}
+              </div>
+              <div className="text-sm text-gray-500 dark:text-gray-400">Following</div>
+            </div>
+          </div>
+
           <LevelDisplay score={Number(profile.akorfaScore || 0)} />
         </div>
       </div>
@@ -236,6 +311,51 @@ export default function UserProfilePage() {
       <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 p-6">
         <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Activity</h2>
         <ActivityHeatmap userId={profileId} />
+      </div>
+
+      <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 p-6">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+          <Grid3X3 className="w-5 h-5" />
+          Posts
+        </h2>
+        {loadingPosts ? (
+          <div className="flex justify-center py-8">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+          </div>
+        ) : posts.length > 0 ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            {posts.map((post) => (
+              <div
+                key={post.id}
+                className="aspect-square bg-gray-100 dark:bg-slate-700 rounded-xl p-3 transition-all overflow-hidden group relative"
+              >
+                <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-4">
+                  {post.content}
+                </p>
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-gray-100 dark:from-slate-700 to-transparent pt-8 pb-2 px-3">
+                  <div className="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400">
+                    <span className="flex items-center gap-1">
+                      <Heart className="w-3 h-3" /> {post.likeCount ?? 0}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <MessageCircle className="w-3 h-3" /> {post.commentCount ?? 0}
+                    </span>
+                  </div>
+                </div>
+                {post.layer && (
+                  <span className={`absolute top-2 right-2 px-2 py-0.5 rounded-full text-xs ${layerColors[post.layer] || 'bg-gray-100 text-gray-600'}`}>
+                    {post.layer}
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-8">
+            <Grid3X3 className="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
+            <p className="text-gray-500 dark:text-gray-400">No posts yet</p>
+          </div>
+        )}
       </div>
 
       <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 p-6">

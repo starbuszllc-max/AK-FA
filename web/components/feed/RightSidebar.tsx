@@ -122,7 +122,7 @@ export default function RightSidebar() {
         </div>
         <div className="space-y-2">
           {topContributors.map((user, idx) => (
-            <div key={user.id} className="flex items-center gap-2">
+            <Link key={user.id} href={`/profile/${user.id}`} className="flex items-center gap-2 hover:bg-gray-50 dark:hover:bg-slate-700/50 rounded-lg p-1 -m-1 transition-colors cursor-pointer">
               <span className={`w-5 text-center text-xs font-bold ${idx === 0 ? 'text-amber-500' : idx === 1 ? 'text-gray-400' : idx === 2 ? 'text-amber-700' : 'text-gray-400'}`}>
                 {idx + 1}
               </span>
@@ -135,7 +135,7 @@ export default function RightSidebar() {
               )}
               <span className="flex-1 text-sm text-gray-700 dark:text-gray-300 truncate">{user.username}</span>
               <span className="text-xs text-indigo-600 dark:text-indigo-400 font-medium">{Math.round(user.score)}</span>
-            </div>
+            </Link>
           ))}
         </div>
       </motion.div>
