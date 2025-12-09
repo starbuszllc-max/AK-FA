@@ -7,6 +7,7 @@ import StatCard from '../../components/ui/StatCard';
 import ProgressBar from '../../components/ui/ProgressBar';
 import Loading from '../../components/ui/Loading';
 import ErrorMessage from '../../components/ui/ErrorMessage';
+import DailyFlow from '../../components/flow/DailyFlow';
 
 interface DashboardData {
   profile: any;
@@ -222,7 +223,12 @@ export default function DashboardPage() {
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-1">
+          <DailyFlow userId={userId} />
+        </div>
+        
+        <div className="lg:col-span-2 space-y-6">
         <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Layer Progress</h2>
@@ -288,6 +294,7 @@ export default function DashboardPage() {
               <div className="text-sm text-gray-500 dark:text-gray-400">See top performers</div>
             </Link>
           </div>
+        </div>
         </div>
       </div>
 

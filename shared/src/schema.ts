@@ -587,3 +587,62 @@ export const newsArticles = pgTable('news_articles', {
   publishedAt: timestamp('published_at', { withTimezone: true }),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
 });
+
+// Saved Routines for hybrid daily challenges
+export const savedRoutines = pgTable('saved_routines', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').notNull().references(() => profiles.id, { onDelete: 'cascade' }),
+  name: text('name').notNull(),
+  description: text('description'),
+  targetLayers: jsonb('target_layers').default([]),
+  frequency: text('frequency').default('daily'),
+  isActive: boolean('is_active').default(true),
+  lastCompletedAt: timestamp('last_completed_at', { withTimezone: true }),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
+});
+
+// Routine challenges - links routines to challenges
+export const routineChallenges = pgTable('routine_challenges', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  routineId: uuid('routine_id').notNull().references(() => savedRoutines.id, { onDelete: 'cascade' }),
+  challengeId: uuid('challenge_id').notNull(),
+  order: integer('order').default(0),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
+});
+
+// Accountability Pods - small groups for mutual support
+export const accountabilityPods = pgTable('accountability_pods', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  name: text('name').notNull(),
+  description: text('description'),
+  createdBy: uuid('created_by').references(() => profiles.id, { onDelete: 'set null' }),
+  maxMembers: integer('max_members').default(5),
+  focusLayer: text('focus_layer'),
+  isPublic: boolean('is_public').default(true),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
+});
+
+// Pod members
+export const podMembers = pgTable('pod_members', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  podId: uuid('pod_id').notNull().references(() => accountabilityPods.id, { onDelete: 'cascade' }),
+  userId: uuid('user_id').notNull().references(() => profiles.id, { onDelete: 'cascade' }),
+  role: text('role').default('member'),
+  joinedAt: timestamp('joined_at', { withTimezone: true }).defaultNow()
+}, (table) => ({
+  uniquePodMember: unique().on(table.podId, table.userId)
+}));
+
+// Daily Digests - AI-generated recaps
+export const dailyDigests = pgTable('daily_digests', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').notNull().references(() => profiles.id, { onDelete: 'cascade' }),
+  digestDate: date('digest_date').notNull(),
+  title: text('title').notNull(),
+  summary: text('summary').notNull(),
+  highlights: jsonb('highlights').default([]),
+  stats: jsonb('stats').default({}),
+  recommendations: jsonb('recommendations').default([]),
+  isRead: boolean('is_read').default(false),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
+});
