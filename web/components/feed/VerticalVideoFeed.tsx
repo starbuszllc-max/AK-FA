@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, MessageCircle, Share2, Bookmark, Play, Pause, Volume2, VolumeX } from 'lucide-react';
+import { Heart, MessageCircle, Share2, Bookmark, Play, Pause, Volume2, VolumeX, Repeat2, Copy } from 'lucide-react';
 
 interface VideoPost {
   id: string;
@@ -223,7 +223,7 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
             <p className="text-sm line-clamp-3 mb-2">{currentVideo.content}</p>
           </div>
 
-          <div className="absolute bottom-24 right-4 flex flex-col gap-6">
+          <div className="absolute bottom-24 right-4 flex flex-col gap-5">
             <button
               onClick={handleLike}
               className="flex flex-col items-center gap-1"
@@ -235,7 +235,7 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
                 }`}
               >
                 <Heart
-                  className="w-7 h-7 text-white"
+                  className="w-6 h-6 text-white"
                   fill={liked ? 'white' : 'none'}
                 />
               </motion.div>
@@ -246,24 +246,39 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
 
             <button className="flex flex-col items-center gap-1">
               <div className="p-3 rounded-full bg-black/40 backdrop-blur-sm">
-                <MessageCircle className="w-7 h-7 text-white" />
+                <MessageCircle className="w-6 h-6 text-white" />
               </div>
               <span className="text-white text-xs font-semibold">
                 {currentVideo.commentCount.toLocaleString()}
               </span>
             </button>
 
+            <button className="flex flex-col items-center gap-1">
+              <div className="p-3 rounded-full bg-black/40 backdrop-blur-sm">
+                <Copy className="w-6 h-6 text-white" />
+              </div>
+              <span className="text-white text-xs font-semibold">Duet</span>
+            </button>
+
+            <button className="flex flex-col items-center gap-1">
+              <div className="p-3 rounded-full bg-black/40 backdrop-blur-sm">
+                <Repeat2 className="w-6 h-6 text-white" />
+              </div>
+              <span className="text-white text-xs font-semibold">Repost</span>
+            </button>
+
             <button onClick={handleShare} className="flex flex-col items-center gap-1">
               <div className="p-3 rounded-full bg-black/40 backdrop-blur-sm">
-                <Share2 className="w-7 h-7 text-white" />
+                <Share2 className="w-6 h-6 text-white" />
               </div>
               <span className="text-white text-xs font-semibold">Share</span>
             </button>
 
             <button className="flex flex-col items-center gap-1">
               <div className="p-3 rounded-full bg-black/40 backdrop-blur-sm">
-                <Bookmark className="w-7 h-7 text-white" />
+                <Bookmark className="w-6 h-6 text-white" />
               </div>
+              <span className="text-white text-xs font-semibold">Save</span>
             </button>
           </div>
 

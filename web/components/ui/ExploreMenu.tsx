@@ -18,10 +18,14 @@ import {
   ShoppingBag,
   LogOut,
   Sparkles,
+  Newspaper,
+  Compass,
 } from 'lucide-react';
 
 const menuLinks = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, color: 'text-blue-500' },
+  { href: '/news', label: 'News', icon: Newspaper, color: 'text-red-500' },
+  { href: '/discover', label: 'Discover', icon: Compass, color: 'text-teal-500' },
   { href: '/insight-school', label: 'Learn', icon: BookOpen, color: 'text-purple-500' },
   { href: '/challenges', label: 'Challenges', icon: Trophy, color: 'text-yellow-500' },
   { href: '/assessments', label: 'Assess', icon: ClipboardCheck, color: 'text-pink-500' },

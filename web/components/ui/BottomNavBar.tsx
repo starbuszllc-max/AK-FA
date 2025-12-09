@@ -59,7 +59,7 @@ export default function BottomNavBar() {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="fixed bottom-0 left-0 right-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-lg border-t border-gray-200 dark:border-slate-700"
+            className="fixed bottom-0 left-0 right-0 z-40 bg-transparent backdrop-blur-md"
             style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
           >
             <div className="flex items-center justify-around h-16 max-w-lg mx-auto px-4">
