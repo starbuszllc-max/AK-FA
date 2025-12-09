@@ -8,6 +8,15 @@ import ProgressBar from '../../components/ui/ProgressBar';
 import Loading from '../../components/ui/Loading';
 import ErrorMessage from '../../components/ui/ErrorMessage';
 import DailyFlow from '../../components/flow/DailyFlow';
+import SavedRoutines from '../../components/routines/SavedRoutines';
+import AccountabilityPods from '../../components/pods/AccountabilityPods';
+
+interface Challenge {
+  id: string;
+  title: string;
+  layer: string;
+  pointsReward: number;
+}
 
 interface DashboardData {
   profile: any;
@@ -15,6 +24,7 @@ interface DashboardData {
   activityCount: number;
   challengeStats: { total: number; completed: number };
   streakDays: number;
+  challenges: Challenge[];
 }
 
 const layerNames = ['Environment', 'Biological', 'Internal', 'Cultural', 'Social', 'Conscious', 'Existential'];
@@ -86,6 +96,13 @@ export default function DashboardPage() {
 
       const activityArray = activityData.activity || [];
 
+      const challengesList = (challengesData.challenges || []).map((c: any) => ({
+        id: c.id,
+        title: c.title,
+        layer: c.layer || 'social',
+        pointsReward: c.pointsReward || c.points_reward || 50
+      }));
+
       setData({
         profile: profileData.profile,
         recentAssessments: userAssessments.slice(0, 5),
@@ -96,7 +113,8 @@ export default function DashboardPage() {
             challengesData.challenges?.find((c: any) => c.id === id && c.status === 'completed')
           ).length || 0
         },
-        streakDays: profileData.profile?.currentStreak || 0
+        streakDays: profileData.profile?.currentStreak || 0,
+        challenges: challengesList
       });
     } catch (err: any) {
       setError(err.message || 'Failed to load dashboard');
@@ -224,8 +242,10 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-1">
+        <div className="lg:col-span-1 space-y-6">
           <DailyFlow userId={userId} />
+          <SavedRoutines userId={userId} availableChallenges={data?.challenges || []} />
+          <AccountabilityPods userId={userId} />
         </div>
         
         <div className="lg:col-span-2 space-y-6">
