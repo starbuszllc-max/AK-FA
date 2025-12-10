@@ -44,12 +44,19 @@ The platform uses a shared scoring engine (`@akorfa/shared`) consumed by both we
 ### Phase 4: Video Feed & News (December 2025)
 - **TikTok-Style Video Feed**: Full-screen vertical video feed with swipe gestures at `/live`
 - **Personalized Algorithm**: Videos ranked by user's assessment layer scores (50%), recency (30%), engagement (20%)
-- **Category Navigation**: 6 category tabs - Live, STEM, For You, Following, Akorfa Live, Explore
 - **Video Metadata**: Added videoDuration, videoThumbnail, isVerified to posts table
 - **Verified News Feed**: Dedicated `/news` page with verified news sources at `/news`
 - **News Sources**: newsSources and newsArticles tables for curated content
 - **Trust Scoring**: News sources have trust scores for credibility tracking
 - **Mobile UX Improvements**: Bottom sheet share modal, wallet insight tooltips, white post card backgrounds
+
+### Phase 5: Header & Navigation Redesign (December 2025)
+- **Simplified Categories**: Reduced from 6 to 4 categories - Live, Akorfa, For You, Following (removed STEM, Explore, Akorfa Live)
+- **Fixed Search Icon**: Static search icon on left side of homepage category tabs (doesn't scroll with categories)
+- **Global Notification Icon**: Notification bell appears on all pages except settings, fixed in top-right corner
+- **Collapsible Akorfa Score**: Score icon below notification - tap to expand full score panel with layer balance visualization
+- **Contextual Search**: Search icon only appears on pages without built-in search feature
+- **Persistent Header Elements**: Notification and score icons don't auto-hide, always accessible
 
 ### Key Files Changed
 - `web/app/insight-school/[slug]/page.tsx` - Track detail page with lessons and AI features
@@ -71,7 +78,8 @@ The platform uses a shared scoring engine (`@akorfa/shared`) consumed by both we
 - `web/app/live/page.tsx` - TikTok-style video feed with category navigation (Phase 4)
 - `web/app/news/page.tsx` - Verified news feed with category filtering (Phase 4)
 - `web/components/feed/VerticalVideoFeed.tsx` - Vertical video feed component (Phase 4)
-- `web/components/feed/CategoryTabs.tsx` - Category navigation tabs component (Phase 4)
+- `web/components/feed/CategoryTabs.tsx` - Category navigation tabs with fixed search icon (Phase 5)
+- `web/components/ui/EnhancedHeader.tsx` - Global notification and Akorfa score header (Phase 5)
 - `web/app/api/posts/video-feed/route.ts` - Personalized video feed API (Phase 4)
 - `web/app/api/news/route.ts` - News articles API (Phase 4)
 - `shared/src/schema.ts` - Enhanced schema with video metadata and news tables (Phase 4)
