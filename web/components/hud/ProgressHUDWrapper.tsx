@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import ProgressHUD from './ProgressHUD';
 
-const HIDDEN_PATHS = ['/onboarding', '/login', '/signup', '/logout', '/notifications'];
+const HIDDEN_PATHS = ['/', '/onboarding', '/login', '/signup', '/logout', '/notifications'];
 
 export default function ProgressHUDWrapper() {
   const [userId, setUserId] = useState<string | null>(null);

@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Bell, Star, Flame, Search, TrendingUp, ChevronDown, Target, Brain, Heart, Users, Leaf, Sparkles, Zap } from 'lucide-react';
 import Link from 'next/link';
 
-const EXCLUDED_PATHS = ['/profile/settings', '/login', '/signup', '/logout', '/onboarding'];
+const EXCLUDED_PATHS = ['/', '/profile/settings', '/login', '/signup', '/logout', '/onboarding'];
 const AUTO_COLLAPSE_DELAY = 3000;
 
 const LAYER_CONFIG: Record<string, { color: string; icon: React.ReactNode }> = {
