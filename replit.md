@@ -1,277 +1,36 @@
 # Akorfa Platform
 
 ## Overview
-
-Akorfa is a monorepo-based web and mobile platform for human development assessment and social engagement. The system enables users to:
-
-- Complete 7-layer self-assessments (environment, biological, internal, cultural, social, conscious, existential)
-- Calculate system stability metrics using a proprietary formula
-- Participate in a social feed with posts, reactions, and comments
-- Track personal growth through an Akorfa scoring system
-- View and manage assessment data through an admin interface
-
-The platform uses a shared scoring engine (`@akorfa/shared`) consumed by both web (Next.js) and mobile (Expo/React Native) applications, with a PostgreSQL database for data persistence.
-
-## Recent Changes (December 2025)
-
-### Phase 1: Modernization
-- **Dark Mode**: Full dark mode support with system preference detection and manual toggle
-- **Lazy Database Initialization**: DATABASE_URL is only required at runtime (using Proxy pattern)
-- **Lazy OpenAI Initialization**: OpenAI client uses lazy loading to avoid build-time errors
-- **Updated Auth Flow**: Replaced Supabase client auth with localStorage-based demo auth
-- **New Onboarding Flow**: 4-step personalized onboarding (name, goals, focus layers, completion)
-- **Gamification Schema**: Added user_streaks, user_levels, groups, daily_insights tables
-- **AI Coach**: Voice-enabled AI coach with fallback when OpenAI not configured
-- **Leaderboard**: Real-time leaderboard showing top users by Akorfa score
-- **Groups/Communities**: Community groups feature for social engagement
-- **Daily Insights**: AI-generated personalized daily insights
-
-### Phase 2: Responsive Design (December 2025)
-- **Compact Hero Section**: Reduced padding (py-10 md:py-14), responsive text sizes
-- **Compact Navigation**: Smaller logo, tighter padding, icon-only on medium screens
-- **Compact Cards**: Reduced padding (p-4 md:p-5), smaller gaps (gap-4 md:gap-5)
-- **Responsive Layout**: Tighter container (max-w-5xl), responsive padding (px-3 sm:px-4 lg:px-6)
-- **Fixed Comment Button**: Changed color from bg-primary to bg-indigo-600 for visibility
-- **Database Schema Migration**: Migrated from Supabase migrations to Drizzle ORM schema
-
-### Phase 3: Insight School (December 2025)
-- **Learning Tracks**: 4 tracks with full lesson content (Human Behavior OS, Social Systems OS, Leadership OS, Stability Equation)
-- **AI-Powered Learning**: "Deepen this idea" feature explains concepts in simpler terms using AI mentor
-- **Interactive Q&A**: Users can ask questions about lesson content with session continuity
-- **Progress Tracking**: Lesson completion tracked in localStorage, shown on main Insight School page
-- **Anonymous User Support**: Auto-generates user ID for visitors without accounts
-
-### Phase 4: Video Feed & News (December 2025)
-- **TikTok-Style Video Feed**: Full-screen vertical video feed with swipe gestures at `/live`
-- **Personalized Algorithm**: Videos ranked by user's assessment layer scores (50%), recency (30%), engagement (20%)
-- **Video Metadata**: Added videoDuration, videoThumbnail, isVerified to posts table
-- **Verified News Feed**: Dedicated `/news` page with verified news sources at `/news`
-- **News Sources**: newsSources and newsArticles tables for curated content
-- **Trust Scoring**: News sources have trust scores for credibility tracking
-- **Mobile UX Improvements**: Bottom sheet share modal, wallet insight tooltips, white post card backgrounds
-
-### Phase 5: Header & Navigation Redesign (December 2025)
-- **Simplified Categories**: Reduced from 6 to 4 categories - Live, Akorfa, For You, Following (removed STEM, Explore, Akorfa Live)
-- **Fixed Search Icon**: Static search icon on left side of homepage category tabs (doesn't scroll with categories)
-- **Global Notification Icon**: Notification bell appears on all pages except settings, fixed in top-right corner
-- **Collapsible Akorfa Score**: Score icon below notification - tap to expand full score panel with layer balance visualization
-- **Contextual Search**: Search icon only appears on pages without built-in search feature
-- **Persistent Header Elements**: Notification and score icons don't auto-hide, always accessible
-
-### Phase 6: Compact UI Overhaul (December 2025)
-- **Reduced Icon Sizes**: Icons from 40px to 32px across the app (w-8 h-8 to w-6 h-6, w-6 h-6 to w-4 h-4)
-- **Compact Cards**: Reduced padding (p-4 to p-3, p-6 to p-4), smaller rounded corners (rounded-2xl to rounded-lg)
-- **Smaller Text**: Text sizes reduced (text-3xl to text-xl, text-2xl to text-lg, text-sm to text-xs)
-- **Tighter Spacing**: Reduced margins and gaps (mb-8 to mb-4, gap-4 to gap-2)
-- **Compact Grids**: Denser layouts for marketplace items, groups, leaderboard entries
-- **Touch-Friendly**: Maintained minimum 44px touch targets for accessibility
-- **Pages Updated**: Coach, Leaderboard, Groups, Marketplace, Profile, Dashboard, Discover, Challenges, News, Insight School
-- **Stat Cards**: Compacted with smaller padding, icons, and typography
-
-### Key Files Changed
-- `web/app/coach/page.tsx` - Compact AI coach page with smaller header and buttons (Phase 6)
-- `web/app/leaderboard/page.tsx` - Compact leaderboard with smaller entries and tabs (Phase 6)
-- `web/app/groups/page.tsx` - Compact communities page with smaller cards (Phase 6)
-- `web/app/marketplace/page.tsx` - Compact marketplace with denser product grid (Phase 6)
-- `web/app/profile/page.tsx` - Compact profile with smaller stat cards and tabs (Phase 6)
-- `web/app/insight-school/[slug]/page.tsx` - Track detail page with lessons and AI features
-- `web/app/insight-school/page.tsx` - Main Insight School page with progress tracking
-- `web/app/api/ai-mentor/route.ts` - AI mentor API for learning assistance
-- `web/lib/db.ts` - Lazy database initialization with Proxy pattern
-- `web/lib/openai.ts` - Lazy OpenAI client initialization
-- `web/lib/ThemeContext.tsx` - Dark mode context provider
-- `web/app/onboarding/page.tsx` - New onboarding flow
-- `web/app/insights/page.tsx` - Daily insights page
-- `web/app/leaderboard/page.tsx` - Leaderboard page
-- `web/app/groups/page.tsx` - Communities page
-- `web/components/VoiceCoach.tsx` - Voice AI coach component
-- `web/app/page.tsx` - Responsive homepage with compact design
-- `web/components/ui/Header.tsx` - Compact navigation header
-- `web/components/ui/Footer.tsx` - Compact footer
-- `web/app/layout.tsx` - Responsive layout container
-- `web/components/feed/PostCard.tsx` - Compact post cards with fixed comment button
-- `web/app/live/page.tsx` - TikTok-style video feed with category navigation (Phase 4)
-- `web/app/news/page.tsx` - Verified news feed with category filtering (Phase 4)
-- `web/components/feed/VerticalVideoFeed.tsx` - Vertical video feed component (Phase 4)
-- `web/components/feed/CategoryTabs.tsx` - Category navigation tabs with fixed search icon (Phase 5)
-- `web/components/ui/EnhancedHeader.tsx` - Global notification and Akorfa score header (Phase 5)
-- `web/app/api/posts/video-feed/route.ts` - Personalized video feed API (Phase 4)
-- `web/app/api/news/route.ts` - News articles API (Phase 4)
-- `shared/src/schema.ts` - Enhanced schema with video metadata and news tables (Phase 4)
+Akorfa is a monorepo-based web and mobile platform for human development assessment and social engagement. It enables users to complete 7-layer self-assessments, calculate system stability, participate in a social feed, track personal growth via an Akorfa scoring system, and manage data through an admin interface. The platform features an AI Coach, personalized daily insights, a TikTok-style video feed, verified news, and an Insight School with AI-powered learning tracks. Its business vision is to provide a comprehensive tool for personal growth and community interaction, leveraging AI and a robust social platform.
 
 ## User Preferences
-
 Preferred communication style: Simple, everyday language.
 
 ## System Architecture
 
 ### Monorepo Structure
-
-**Decision**: Use npm workspaces to share code between web, mobile, and shared packages.
-
-**Rationale**: A single repository simplifies dependency management and enables the shared scoring logic to be imported by both web and mobile clients without publishing to npm. The `@akorfa/shared` package contains TypeScript types and deterministic scoring functions that must remain consistent across platforms.
-
-**Implementation**: The root `package.json` defines workspaces for `shared/`, `web/`, `mobile/`, and `supabase/`. The shared package is built via `npm run build:shared` before the web app starts.
+The project uses an npm workspaces monorepo structure, enabling code sharing between the web (Next.js), mobile (Expo/React Native placeholder), and a shared package (`@akorfa/shared`). The `shared` package contains TypeScript types and deterministic scoring functions, ensuring consistency across platforms.
 
 ### Frontend Architecture (Web)
-
-**Decision**: Next.js 15 App Router with React Server Components and client components.
-
-**Rationale**: App Router enables server-side rendering, streaming, and simplified data fetching. Client components (`"use client"`) handle interactive forms (assessments, stability calculator, post composer) while server components handle static layouts and initial data loading.
-
-**Key patterns**:
-- Dynamic imports for client-heavy components to reduce initial bundle size
-- Tailwind CSS for utility-first styling with custom theme (primary indigo, secondary green)
-- Dark mode support via ThemeContext and Tailwind dark: variants
-- Reusable UI components (`Button`, `Card`, `Header`) following atomic design principles
-- Route groups (`(auth)`) for authentication pages without affecting URL structure
-- Lazy initialization patterns for database and OpenAI to avoid build-time errors
+The web application is built with Next.js 15's App Router, leveraging React Server Components for static layouts and initial data loading, and client components for interactive elements like assessments and post composers. Key patterns include dynamic imports, Tailwind CSS for styling with dark mode support, and reusable UI components. Lazy initialization is used for database and OpenAI clients.
 
 ### Backend Architecture (API Routes)
-
-**Decision**: Next.js API routes (Route Handlers) for server-side logic with PostgreSQL database.
-
-**Rationale**: Collocating API routes with the frontend simplifies deployment and enables type-safe server actions.
-
-**Key endpoints**:
-- `POST /api/assessments` — Persists 7-layer scores and computes overall Akorfa score
-- `POST /api/stability` — Calculates and stores stability metrics
-- `POST /api/posts` — Creates posts, user events, and updates user scores
-- `POST /api/reactions` — Creates reactions and increments post like counts
-- `POST /api/ai-coach` — AI-powered coaching with OpenAI (with fallback)
-- `GET /api/insights` — AI-generated daily insights
-- `POST /api/insights/generate` — Generate and store new daily insight
-- `GET /api/leaderboard` — Top users by Akorfa score
-- `GET /api/groups` — Community groups list
-- `POST /api/groups/join` — Join a community group
-- `POST /api/onboarding` — Complete user onboarding
-- `GET /api/posts/video-feed` — Personalized video feed with ranking algorithm (Phase 4)
-- `GET /api/news` — Verified news articles with category filtering (Phase 4)
-
-**Scoring integration**: Each API route imports the shared scoring engine (`@akorfa/shared/src/scoring`) to compute deltas.
+Next.js API routes (Route Handlers) manage server-side logic and interact with a PostgreSQL database. This co-location simplifies deployment and enables type-safe server actions. API routes handle assessments, stability calculations, post creation, reactions, AI coaching, daily insights, leaderboards, group management, onboarding, personalized video feeds, and news articles.
 
 ### Authentication & Authorization
-
-**Current State**: Demo auth using localStorage for simplified development flow.
-
-**Implementation**:
-- `demo_user_id` stored in localStorage
-- Onboarding flow creates user profile
-- Dashboard and other pages check for demo_user_id
-
-**Future**: Can be upgraded to full Supabase Auth or other providers.
+Currently, the platform uses a demo authentication system based on `localStorage` for simplified development. This allows for an onboarding flow and user profile creation. The system is designed to be upgradable to full authentication providers like Supabase Auth.
 
 ### Data Model
-
-**Decision**: Postgres with Drizzle ORM and normalized relational schema.
-
-**Core Tables**:
-- `profiles` — User profile with `akorfa_score`, `username`, `bio`, gamification fields
-- `assessments` — 7-layer assessment records with `layer_scores` (JSONB) and `overall_score`
-- `posts` — Feed posts with `content`, `layer`, `like_count`, `comment_count`
-- `reactions` — Post reactions (many-to-many between users and posts)
-- `comments` — Post comments
-- `user_events` — Activity log for scoring
-
-**Gamification Tables** (New):
-- `user_levels` — Level definitions with XP requirements
-- `daily_insights` — AI-generated daily insights per user
-- `groups` — Community groups/communities
-
-**Video & News Tables** (Phase 4):
-- `posts` (enhanced) — Added videoDuration, videoThumbnail, isVerified, sourceUrl, sourceName
-- `news_sources` — Verified news publishers with trust scores
-- `news_articles` — Curated news content with engagement metrics
-
-**Rationale**: JSONB for `layer_scores` enables flexible schema evolution. Drizzle ORM provides type-safe queries.
+The data model utilizes PostgreSQL with Drizzle ORM, employing a normalized relational schema. Core tables include `profiles`, `assessments`, `posts`, `reactions`, and `comments`. Gamification features are supported by `user_levels`, `daily_insights`, and `groups`. Video and news content are integrated via enhanced `posts` and new `news_sources`, `news_articles` tables.
 
 ### Shared Scoring Logic
-
-**Decision**: Pure TypeScript functions in `@akorfa/shared` with deterministic output.
-
-**Core functions**:
-- `calculateAkorfaScore(input: AkorfaActivityInput): number` — Computes user score from activity metrics
-- `calculateStability(metrics: StabilityMetrics): number` — Implements stability equation
-
-**Import Path**: Use `@akorfa/shared/src/scoring` for development compatibility.
-
-**Scoring rules** (hardcoded weights):
-- Post created: 5 points
-- Comment added: 2 points
-- Reaction received: 1 point
-- Assessment completed: 10 points
-- Challenge completed: 15 points
-- Streak bonus: 2 points per day (capped at 20)
+The `@akorfa/shared` package contains pure TypeScript functions for deterministic scoring calculations, such as `calculateAkorfaScore` and `calculateStability`. These functions are imported and used by API routes to compute user scores based on various activities.
 
 ## External Dependencies
 
-### PostgreSQL Database
-
-**Purpose**: Primary data storage for all platform data.
-
-**Configuration**:
-- Connection via `DATABASE_URL` environment variable
-- Lazy initialization to avoid build-time errors
-- Drizzle ORM for type-safe queries
-
-### OpenAI (Optional)
-
-**Purpose**: AI-powered insights, coaching, and content generation.
-
-**Configuration**:
-- API key via `OPENAI_API_KEY` environment variable
-- Lazy initialization with fallback content when not configured
-- Uses `gpt-4o-mini` model for cost efficiency
-
-### Next.js 15
-
-**Purpose**: React framework with App Router, server components, and API routes.
-
-**Key features used**:
-- App Router for file-based routing
-- Server and client components for optimal rendering
-- Route Handlers for API endpoints
-- Dynamic imports for code splitting
-
-### Tailwind CSS
-
-**Purpose**: Utility-first CSS framework with dark mode support.
-
-**Customization**: Extended theme with Akorfa brand colors and dark mode variants.
-- Dark mode: `dark:` prefix classes
-- Theme toggle via ThemeContext
-
-### TypeScript
-
-**Purpose**: Type safety across web, mobile, and shared packages.
-
-**Configuration**: Strict mode enabled. Shared package provides type declarations.
-
-### Lucide React
-
-**Purpose**: Icon library for modern, consistent iconography throughout the app.
-
-## Running the Application
-
-1. **Development**: `cd web && npm run dev` (runs on port 5000)
-2. **Build**: `npm run build:shared && cd web && npm run build`
-3. **Required Environment Variables**:
-   - `DATABASE_URL` - PostgreSQL connection string
-   - `OPENAI_API_KEY` - OpenAI API key (optional, for AI features)
-
-## Project Structure
-
-```
-/
-├── shared/           # Shared TypeScript package (@akorfa/shared)
-│   └── src/
-│       ├── schema.ts # Drizzle database schema
-│       └── scoring/  # Scoring logic
-├── web/              # Next.js 15 web application
-│   ├── app/          # App Router pages and API routes
-│   ├── components/   # Reusable UI components
-│   ├── lib/          # Utility functions and context
-│   └── styles/       # Global CSS and Tailwind config
-├── mobile/           # Expo React Native app (placeholder)
-└── supabase/         # Database migrations
-```
+*   **PostgreSQL Database**: Primary data storage, configured via `DATABASE_URL`, using Drizzle ORM.
+*   **OpenAI**: Provides AI-powered insights, coaching, and content generation, configured via `OPENAI_API_KEY` (optional, with fallback). Uses `gpt-4o-mini`.
+*   **Next.js 15**: React framework, utilizing App Router, Server Components, Client Components, and API routes.
+*   **Tailwind CSS**: Utility-first CSS framework with custom theme and dark mode support.
+*   **TypeScript**: Ensures type safety across the entire monorepo.
+*   **Lucide React**: Icon library for consistent iconography.
