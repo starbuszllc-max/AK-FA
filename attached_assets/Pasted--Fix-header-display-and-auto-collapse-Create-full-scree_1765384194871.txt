@@ -1,0 +1,97 @@
+	◦	Fix header display and auto-collapse
+	◦	
+	◦	Create full-screen camera with tools
+	◦	
+	◦	Add smooth camera switching effect
+	◦	
+	◦	Add swipeable filters with live preview
+	◦	
+	◦	Add adjustable video speed controls
+	◦	
+	◦	Add countdown timer with animation
+	◦	
+	◦	Add flash control for camera
+	◦	
+	◦	Build text overlay editor
+	◦	
+	◦	Add sticker and GIF picker
+	◦	
+	◦	Create music library with uploads
+	◦	
+	◦	Add AI picture creation feature
+	◦	
+	◦	Suggest AI captions for posts
+	◦	
+	◦	Build video editor for posts
+	◦	
+	◦	Add adjustable beauty filters
+	◦	
+	◦	Record video in segments visually
+	◦	
+	◦	Add undo and redo editing
+	◦	
+	◦	Update page with new camera
+	◦	
+	◦	Improve speed with code changes
+	◦	
+	◦	Update tracker, test all features
+	◦	
+	◦	My project is live on bevel and super base and I'm not changing that I'm here to improve
+	◦	
+	◦	46 minutes ago
+	◦	When you look at the home page the video category section is blocking the notification icon on the home page .. end that section just before the notification icon so it doesn't cover it anymore
+	◦	
+	◦	45 minutes ago
+	◦	The search icon moves from the the top left to the top of the notification icon in other pages I don't want that ... I want the search icon to be constantly at the top right corner and the akorfa score icon should also collapse after every 3 seconds of opening or switching to any new page
+	◦	
+	◦	42 minutes ago
+	◦	The post features are not smooth they are unable to switch on and off device cam properly and it looks outdated... I want the past side to look like that of Titok with more advanced editing features that will make the user experience better and easy to create more content
+	◦	
+	◦	22 minutes ago
+	◦	Can I integrate cupcat, canva and grok imagine for more effective and ai assistance in the post features
+	◦	
+	◦	19 minutes ago
+	◦	Yes you have to build the most advanced versions available in the world I want extra speed and performance
+	◦	
+	◦	14 minutes ago
+	◦	How do we integrate music platforms so user can add music to post not only from local storage
+	◦	
+	◦	12 minutes ago
+	◦	If we build our own music upload platform would that be better or would require more data
+	◦	
+	◦	9 minutes ago
+	◦	Building your own music platform is definitely possible, but here's the trade-off:
+	◦	Your Own Music Platform
+Pros:
+	•	Full control over content
+	•	No licensing fees to third parties
+	•	Users can upload their own original music
+	•	Artists could share their music on your platform
+	•	Creates a unique feature/community
+Cons:
+	•	Storage costs - Audio files are large (3-5MB per song). 10,000 songs = 30-50GB
+	•	Legal liability - You'd be responsible if users upload copyrighted music
+	•	Moderation needed - Content review for copyright violations
+	•	Slower to populate - Starts empty, needs creators to upload
+Storage Estimate
+Scale	Songs	Storage Needed	Monthly Cost*
+Small	1,000	~5 GB	~$0.50
+Medium	10,000	~50 GB	~$5
+Large	100,000	~500 GB	~$50
+*Using cloud storage like Replit Object Storage or AWS S3
+My Take
+A hybrid approach works best:
+	1.	Start with curated royalty-free tracks - Include 50-100 trending sounds/beats that are pre-licensed
+	2.	Add user upload feature - Let users add their own original music
+	3.	Community sounds - Users can share sounds they create, building your library organically
+This gives you content from day one while the community grows. Would you like me to add this music feature to the build plan?
+
+Worked for 13 seconds
+
+Continue with your approach and build all the discussed points
+8 minutes ago
+The user wants me to build all the discussed features. Let me start by updating the task list and begin working on the first tasks. I'll work in parallel where possible.
+Let me start with:
+	1.	Fix the header issues (search icon, auto-collapse, CategoryTabs overlap)
+	2.	Create the TikTok-style camera component
+	3.	I'll read the files I need to modify first.
