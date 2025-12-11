@@ -26,7 +26,8 @@ export default function ProfilePage() {
   const [uploadingCover, setUploadingCover] = useState(false);
   const [activeTab, setActiveTab] = useState<ContentTab>('posts');
   const [posts, setPosts] = useState<Post[]>([]);
-  const [loadingPosts, setLoadingPosts] = useState(false);
+  const [loadingPosts, setLoadingPosts] = useState(true);
+  const [postsLoaded, setPostsLoaded] = useState(false);
   const [followerCount, setFollowerCount] = useState(0);
   const [followingCount, setFollowingCount] = useState(0);
   const coverInputRef = useRef<HTMLInputElement>(null);
@@ -132,6 +133,7 @@ export default function ProfilePage() {
       console.error('Posts fetch error:', err);
     }
     setLoadingPosts(false);
+    setPostsLoaded(true);
   }
 
   if (loading) {
@@ -171,6 +173,41 @@ export default function ProfilePage() {
         <p className="text-gray-600 dark:text-gray-300 mb-4">Profile not found.</p>
         <Link href="/signup" className="text-indigo-600 dark:text-indigo-400 hover:underline">
           Sign Up
+        </Link>
+      </div>
+    );
+  }
+
+  if (postsLoaded && posts.length === 0) {
+    return (
+      <div className="max-w-md mx-auto text-center py-16 px-4">
+        <div className="relative mb-8">
+          <div className="w-24 h-24 bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900/50 dark:to-purple-900/50 rounded-full flex items-center justify-center mx-auto">
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-20 h-20 border-4 border-dashed border-indigo-300 dark:border-indigo-600 rounded-full animate-spin-slow" style={{ animationDuration: '8s' }}></div>
+            </div>
+            <User className="w-10 h-10 text-indigo-400 dark:text-indigo-500" />
+          </div>
+          <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1">
+            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+            </svg>
+            Locked
+          </div>
+        </div>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+          Your Profile is Locked
+        </h2>
+        <p className="text-gray-600 dark:text-gray-300 mb-6">
+          Make your first post to unlock your profile and start your journey!
+        </p>
+        <Link
+          href="/feed"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-medium hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg shadow-indigo-500/25"
+        >
+          <Zap className="w-5 h-5" />
+          Make Your First Post
+          <ChevronRight className="w-4 h-4" />
         </Link>
       </div>
     );

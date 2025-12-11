@@ -24,7 +24,7 @@ const aiSuggestions = [
 ];
 
 interface EnhancedPostComposerProps {
-  onPostCreated?: () => void;
+  onPostCreated?: (isFirstPost?: boolean) => void;
   onToast?: (message: string, type: 'success' | 'error' | 'info') => void;
 }
 
@@ -81,12 +81,15 @@ export default function EnhancedPostComposer({ onPostCreated, onToast }: Enhance
       });
 
       if (resp.ok) {
+        const data = await resp.json();
         setContent('');
         setMediaUrls([]);
         setMediaTypes([]);
         setShowMediaUpload(false);
-        onPostCreated?.();
-        onToast?.('Post shared successfully!', 'success');
+        onPostCreated?.(data.isFirstPost);
+        if (!data.isFirstPost) {
+          onToast?.('Post shared successfully!', 'success');
+        }
       } else {
         const error = await resp.json();
         console.error('Error creating post:', error);

@@ -115,6 +115,11 @@ export async function POST(req: Request) {
     const mediaUrls = body.mediaUrls ?? [];
     const mediaTypes = body.mediaTypes ?? [];
 
+    const existingPostsCount = await db.select({ count: sql<number>`count(*)::int` })
+      .from(posts)
+      .where(eq(posts.userId, user.id));
+    const isFirstPost = (existingPostsCount[0]?.count || 0) === 0;
+
     const [newPost] = await db.insert(posts).values({
       userId: user.id,
       content: content,
@@ -138,7 +143,7 @@ export async function POST(req: Request) {
       })
       .where(eq(profiles.id, user.id));
 
-    return NextResponse.json({post: newPost});
+    return NextResponse.json({post: newPost, isFirstPost});
   } catch (err: any) {
     console.error(err);
     return NextResponse.json({error: err.message ?? String(err)}, {status: 500});

@@ -62,23 +62,24 @@ export default function SignupPage() {
 
   if (success) {
     return (
-      <div className="max-w-md mx-auto text-center py-16">
-        <div className="w-16 h-16 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
-          <Sparkles className="w-8 h-8 text-green-600 dark:text-green-400" />
+      <div className="max-w-md mx-auto text-center py-16 px-4">
+        <div className="w-20 h-20 bg-indigo-100 dark:bg-indigo-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
+          <Mail className="w-10 h-10 text-indigo-600 dark:text-indigo-400" />
         </div>
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-          Welcome to Akorfa!
+          Check Your Email
         </h1>
-        <p className="text-gray-600 dark:text-gray-300">
-          Your account has been created. Check your email to confirm your account, then you can sign in!
+        <p className="text-gray-600 dark:text-gray-300 mb-6">
+          We've sent a verification link to <span className="font-semibold text-indigo-600 dark:text-indigo-400">{email}</span>
         </p>
-        <Link
-          href="/login"
-          className="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700 transition-all"
-        >
-          Go to Sign In
-          <ArrowRight className="w-4 h-4" />
-        </Link>
+        <div className="bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-800 rounded-xl p-4 mb-6">
+          <p className="text-amber-800 dark:text-amber-200 text-sm">
+            Click the link in your email to verify your account and continue to onboarding.
+          </p>
+        </div>
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          Didn't receive the email? Check your spam folder or try signing up again.
+        </p>
       </div>
     );
   }

@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
+import { Sparkles, Trophy, ChevronRight } from 'lucide-react';
 import EnhancedPostComposer from '../../components/feed/EnhancedPostComposer';
 import EnhancedPostCard from '../../components/feed/EnhancedPostCard';
 import AnimatedBackground from '../../components/feed/AnimatedBackground';
@@ -35,6 +37,7 @@ export default function FeedPage() {
   const [toast, setToast] = useState({ visible: false, message: '', type: 'success' as 'success' | 'error' | 'info' });
   const [showMobileComposer, setShowMobileComposer] = useState(false);
   const [showCamera, setShowCamera] = useState(false);
+  const [showProfileUnlockedModal, setShowProfileUnlockedModal] = useState(false);
   const observerRef = useRef<HTMLDivElement>(null);
   const pageRef = useRef(1);
 
@@ -106,9 +109,12 @@ export default function FeedPage() {
     return () => clearInterval(interval);
   }, [loading, loadingMore, fetchPosts]);
 
-  const handlePostCreated = () => {
+  const handlePostCreated = (isFirstPost?: boolean) => {
     setRefreshTrigger(prev => prev + 1);
     setShowMobileComposer(false);
+    if (isFirstPost) {
+      setShowProfileUnlockedModal(true);
+    }
   };
 
   const handleLikeUpdate = (postId: string) => {
@@ -151,8 +157,13 @@ export default function FeedPage() {
           })
         });
         if (res.ok) {
-          showToast('Posted to feed!', 'success');
+          const responseData = await res.json();
           setRefreshTrigger(prev => prev + 1);
+          if (responseData.isFirstPost) {
+            setShowProfileUnlockedModal(true);
+          } else {
+            showToast('Posted to feed!', 'success');
+          }
         }
       } catch (error) {
         showToast('Failed to post', 'error');
@@ -309,6 +320,81 @@ export default function FeedPage() {
             onCapture={handleCameraCapture}
             userId={currentUserId}
           />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showProfileUnlockedModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            onClick={() => setShowProfileUnlockedModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.8, opacity: 0, y: 20 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              className="bg-white dark:bg-slate-800 rounded-2xl p-8 max-w-md w-full text-center shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="relative mb-6">
+                <div className="w-24 h-24 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center mx-auto shadow-lg shadow-amber-500/30">
+                  <Trophy className="w-12 h-12 text-white" />
+                </div>
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.3, type: 'spring' }}
+                  className="absolute -top-2 -right-2 w-8 h-8"
+                >
+                  <Sparkles className="w-8 h-8 text-amber-400" />
+                </motion.div>
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.4, type: 'spring' }}
+                  className="absolute -bottom-1 -left-1 w-6 h-6"
+                >
+                  <Sparkles className="w-6 h-6 text-purple-400" />
+                </motion.div>
+              </div>
+              
+              <motion.h2
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="text-2xl font-bold text-gray-900 dark:text-white mb-3"
+              >
+                Congratulations!
+              </motion.h2>
+              <motion.p
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="text-gray-600 dark:text-gray-300 mb-6"
+              >
+                You've made your first post and unlocked your profile! Your journey of self-discovery begins now.
+              </motion.p>
+              
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+              >
+                <Link
+                  href="/profile"
+                  onClick={() => setShowProfileUnlockedModal(false)}
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-medium hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg shadow-indigo-500/25"
+                >
+                  View Your Profile
+                  <ChevronRight className="w-5 h-5" />
+                </Link>
+              </motion.div>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
     </>
