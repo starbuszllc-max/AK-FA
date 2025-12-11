@@ -37,7 +37,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="relative h-screen overflow-hidden -mt-4 md:-mt-6 -mx-3 sm:-mx-4 lg:-mx-6">
+    <div className="fixed inset-0 overflow-hidden bg-black">
       <CategoryTabs
         activeCategory={category}
         onCategoryChange={setCategory}

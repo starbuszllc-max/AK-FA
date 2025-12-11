@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { Heart, MessageCircle, Share2, Bookmark, Play, Volume2, VolumeX, Repeat2, Copy, Check } from 'lucide-react';
+import { Heart, MessageCircle, Share2, Bookmark, Play, Volume2, VolumeX, Repeat2, Copy, Check, Plus } from 'lucide-react';
+import Link from 'next/link';
 import VideoCommentModal from './VideoCommentModal';
 
 interface VideoPost {
@@ -372,13 +373,21 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
       onScroll={handleScroll}
     >
       {isMuted && (
-        <button
-          onClick={handleUnmute}
-          className="fixed top-20 left-1/2 -translate-x-1/2 z-50 px-4 py-2 bg-white/20 backdrop-blur-md rounded-full text-white text-sm font-medium flex items-center gap-2 animate-pulse"
-        >
-          <VolumeX className="w-4 h-4" />
-          Tap to unmute
-        </button>
+        <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 flex flex-col items-center gap-3">
+          <button
+            onClick={handleUnmute}
+            className="px-6 py-3 bg-black/50 backdrop-blur-md rounded-full text-white text-base font-semibold flex items-center gap-2 border border-white/30"
+          >
+            <VolumeX className="w-5 h-5" strokeWidth={2.5} />
+            Tap to unmute
+          </button>
+          <button
+            onClick={handleToggleMute}
+            className="p-3 rounded-full bg-black/40 backdrop-blur-sm text-white"
+          >
+            <VolumeX className="w-6 h-6" strokeWidth={2.5} />
+          </button>
+        </div>
       )}
 
       {videos.map((video) => {
@@ -425,14 +434,16 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
               </button>
             )}
 
-            <div className="absolute top-4 right-4 flex gap-2">
-              <button
-                onClick={handleToggleMute}
-                className="p-2 rounded-full bg-black/40 backdrop-blur-sm text-white"
-              >
-                {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
-              </button>
-            </div>
+            {!isMuted && (
+              <div className="absolute top-4 right-4 z-40">
+                <button
+                  onClick={handleToggleMute}
+                  className="p-2 rounded-full bg-black/40 backdrop-blur-sm text-white"
+                >
+                  <Volume2 className="w-5 h-5" strokeWidth={2.5} />
+                </button>
+              </div>
+            )}
 
             <div className="absolute bottom-0 left-0 right-20 p-6 text-white pointer-events-none">
               <div className="flex items-center gap-3 mb-3">
@@ -451,7 +462,7 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
               <p className="text-sm line-clamp-3 mb-2">{video.content}</p>
             </div>
 
-            <div className="absolute bottom-24 right-4 flex flex-col gap-4 items-center">
+            <div className="absolute bottom-32 right-4 flex flex-col gap-2 items-center">
               <button
                 onClick={() => handleLike(video)}
                 className="flex flex-col items-center gap-1"
@@ -525,6 +536,17 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
                   {savedVideos.has(video.id) ? 'Saved' : 'Save'}
                 </span>
               </button>
+
+              <Link href="/create" className="flex flex-col items-center gap-1 mt-2">
+                <motion.div 
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white flex items-center justify-center"
+                >
+                  <Plus className="w-7 h-7 text-white drop-shadow-lg" strokeWidth={3} />
+                </motion.div>
+                <span className="text-white text-xs font-bold drop-shadow-lg">Create</span>
+              </Link>
             </div>
           </div>
         );

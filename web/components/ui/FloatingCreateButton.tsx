@@ -3,12 +3,19 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 interface FloatingCreateButtonProps {
   isVisible: boolean;
 }
 
 export default function FloatingCreateButton({ isVisible }: FloatingCreateButtonProps) {
+  const pathname = usePathname();
+  
+  if (pathname === '/') {
+    return null;
+  }
+
   return (
     <AnimatePresence>
       {isVisible && (

@@ -142,18 +142,18 @@ export default function EnhancedHeader() {
       {!isDiscoverPage && (
         <Link
           href="/discover"
-          className="w-8 h-8 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-full shadow-md border border-gray-200 dark:border-slate-700 flex items-center justify-center hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
+          className="w-8 h-8 bg-black/30 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-black/50 transition-colors"
         >
-          <Search className="w-4 h-4 text-gray-600 dark:text-gray-300" />
+          <Search className="w-5 h-5 text-white drop-shadow-lg" strokeWidth={2.5} />
         </Link>
       )}
 
       {!isNotificationPage && (
         <Link
           href="/notifications"
-          className="relative w-8 h-8 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-full shadow-md border border-gray-200 dark:border-slate-700 flex items-center justify-center hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
+          className="relative w-8 h-8 bg-black/30 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-black/50 transition-colors"
         >
-          <Bell className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+          <Bell className="w-5 h-5 text-white drop-shadow-lg" strokeWidth={2.5} />
           {unreadCount > 0 && (
             <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-red-500 text-white text-[9px] rounded-full flex items-center justify-center font-semibold">
               {unreadCount > 9 ? '9+' : unreadCount}
@@ -166,9 +166,9 @@ export default function EnhancedHeader() {
         <div className="relative">
           <button
             onClick={() => setIsScoreExpanded(!isScoreExpanded)}
-            className="relative w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full shadow-md flex items-center justify-center hover:scale-105 transition-transform"
+            className="relative w-8 h-8 bg-black/30 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-black/50 transition-transform"
           >
-            <Star className="w-4 h-4 text-white" />
+            <Star className="w-5 h-5 text-white drop-shadow-lg" strokeWidth={2.5} />
             {streak > 0 && (
               <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-orange-500 rounded-full flex items-center justify-center shadow-sm">
                 <Flame className="w-2.5 h-2.5 text-white" />

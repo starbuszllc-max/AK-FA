@@ -22,6 +22,8 @@ export default function BottomNavBar() {
   const [isExploreOpen, setIsExploreOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const exploreButtonRef = useRef<HTMLButtonElement>(null);
+  
+  const isVideoPage = pathname === '/';
 
   const handleCloseExplore = useCallback(() => {
     setIsExploreOpen(false);
@@ -59,7 +61,7 @@ export default function BottomNavBar() {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="fixed bottom-0 left-0 right-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-t border-gray-200/50 dark:border-slate-700/50"
+            className={`fixed bottom-0 left-0 right-0 z-40 ${isVideoPage ? 'bg-transparent' : 'bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-t border-gray-200/50 dark:border-slate-700/50'}`}
             style={{ paddingBottom: 'max(env(safe-area-inset-bottom, 0px), 8px)' }}
           >
             <div className="flex items-center justify-around h-14 max-w-4xl mx-auto px-3">
@@ -79,17 +81,17 @@ export default function BottomNavBar() {
                     >
                       <motion.div
                         className={`w-10 h-10 rounded-full flex items-center justify-center -mt-3 shadow-md ${
-                          active
-                            ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white'
+                          isVideoPage
+                            ? 'bg-white/20 backdrop-blur-sm border border-white/50'
                             : 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white'
                         }`}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         animate={{ rotate: isExploreOpen ? 45 : 0 }}
                       >
-                        <Icon className="w-5 h-5" />
+                        <Icon className={`w-5 h-5 ${isVideoPage ? 'text-white drop-shadow-lg' : 'text-white'}`} strokeWidth={2.5} />
                       </motion.div>
-                      <span className="text-[9px] font-medium text-gray-500 dark:text-gray-400 mt-0.5">
+                      <span className={`text-[9px] font-medium mt-0.5 ${isVideoPage ? 'text-white drop-shadow-lg font-semibold' : 'text-gray-500 dark:text-gray-400'}`}>
                         {item.label}
                       </span>
                     </button>
@@ -105,26 +107,28 @@ export default function BottomNavBar() {
                   >
                     <div
                       className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-200 ${
-                        active
-                          ? 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400'
-                          : 'text-gray-500 dark:text-gray-400 group-hover:bg-gray-100 dark:group-hover:bg-slate-800'
+                        isVideoPage
+                          ? active ? 'bg-white/30 backdrop-blur-sm' : ''
+                          : active
+                            ? 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400'
+                            : 'text-gray-500 dark:text-gray-400 group-hover:bg-gray-100 dark:group-hover:bg-slate-800'
                       }`}
                     >
-                      <Icon className="w-4 h-4" />
+                      <Icon className={`w-${isVideoPage ? '5' : '4'} h-${isVideoPage ? '5' : '4'} ${isVideoPage ? 'text-white drop-shadow-lg' : ''}`} strokeWidth={isVideoPage ? 2.5 : 2} />
                     </div>
-                    <span
-                      className={`text-[9px] font-medium ${
-                        active
+                    <span className={`text-[9px] font-medium ${
+                      isVideoPage
+                        ? 'text-white drop-shadow-lg font-semibold'
+                        : active
                           ? 'text-indigo-600 dark:text-indigo-400'
                           : 'text-gray-500 dark:text-gray-400'
-                      }`}
-                    >
+                    }`}>
                       {item.label}
                     </span>
                     {active && !item.isExplore && (
                       <motion.div
                         layoutId="bottomNavIndicator"
-                        className="absolute -bottom-0 w-6 h-0.5 bg-indigo-500 rounded-full"
+                        className={`absolute -bottom-0 w-6 h-0.5 rounded-full ${isVideoPage ? 'bg-white' : 'bg-indigo-500'}`}
                         transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                       />
                     )}

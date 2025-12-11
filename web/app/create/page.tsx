@@ -239,79 +239,94 @@ export default function CreatePage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-6">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl font-bold text-gray-900 dark:text-white">Create</h1>
+    <div className="fixed inset-0 bg-black flex flex-col">
+      <div
+        className="flex items-center justify-between px-4 pt-4"
+        style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 16px)' }}
+      >
         <button
           onClick={() => router.back()}
-          className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+          className="w-10 h-10 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white"
         >
-          <X className="w-6 h-6" />
+          <X className="w-6 h-6" strokeWidth={2.5} />
         </button>
+        <h1 className="text-white font-semibold text-lg">Create</h1>
+        <div className="w-10" />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <button
-          onClick={() => setStep('camera')}
-          className="aspect-square bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex flex-col items-center justify-center gap-3 hover:scale-105 transition-transform text-white shadow-lg"
-        >
-          <Camera className="w-12 h-12" />
-          <span className="font-medium">Camera</span>
-        </button>
+      <div className="flex-1 flex flex-col items-center justify-center px-6">
+        <div className="w-full max-w-sm space-y-4">
+          <button
+            onClick={() => setStep('camera')}
+            className="w-full py-5 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 rounded-2xl flex items-center justify-center gap-4 active:scale-[0.98] transition-transform"
+          >
+            <div className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center">
+              <Camera className="w-7 h-7 text-white" strokeWidth={2.5} />
+            </div>
+            <div className="text-left">
+              <span className="text-white font-semibold text-lg block">Camera</span>
+              <span className="text-white/70 text-sm">Record video or take photo</span>
+            </div>
+          </button>
 
-        <button
-          onClick={() => {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = 'image/*,video/*';
-            input.onchange = (e) => {
-              const file = (e.target as HTMLInputElement).files?.[0];
-              if (file) {
-                const url = URL.createObjectURL(file);
-                const type = file.type.startsWith('video') ? 'video' : 'image';
-                setCapturedMedia({ url, type: type as 'image' | 'video' });
-                setStep('editor');
-              }
-            };
-            input.click();
-          }}
-          className="aspect-square bg-gradient-to-br from-pink-500 to-rose-600 rounded-2xl flex flex-col items-center justify-center gap-3 hover:scale-105 transition-transform text-white shadow-lg"
-        >
-          <Image className="w-12 h-12" />
-          <span className="font-medium">Gallery</span>
-        </button>
+          <button
+            onClick={() => {
+              const input = document.createElement('input');
+              input.type = 'file';
+              input.accept = 'image/*,video/*';
+              input.onchange = (e) => {
+                const file = (e.target as HTMLInputElement).files?.[0];
+                if (file) {
+                  const url = URL.createObjectURL(file);
+                  const type = file.type.startsWith('video') ? 'video' : 'image';
+                  setCapturedMedia({ url, type: type as 'image' | 'video' });
+                  setStep('editor');
+                }
+              };
+              input.click();
+            }}
+            className="w-full py-5 bg-gradient-to-r from-purple-500 via-violet-500 to-indigo-500 rounded-2xl flex items-center justify-center gap-4 active:scale-[0.98] transition-transform"
+          >
+            <div className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center">
+              <Image className="w-7 h-7 text-white" strokeWidth={2.5} />
+            </div>
+            <div className="text-left">
+              <span className="text-white font-semibold text-lg block">Gallery</span>
+              <span className="text-white/70 text-sm">Upload from your device</span>
+            </div>
+          </button>
 
-        <button
-          onClick={() => {
-            setStep('caption');
-            setEditedMedia(null);
-          }}
-          className="aspect-square bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex flex-col items-center justify-center gap-3 hover:scale-105 transition-transform text-white shadow-lg"
-        >
-          <Type className="w-12 h-12" />
-          <span className="font-medium">Text Post</span>
-        </button>
-
-        <button
-          onClick={() => setStep('camera')}
-          className="aspect-square bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl flex flex-col items-center justify-center gap-3 hover:scale-105 transition-transform text-white shadow-lg"
-        >
-          <Video className="w-12 h-12" />
-          <span className="font-medium">Story</span>
-        </button>
-      </div>
-
-      <div className="mt-8 p-4 bg-gray-100 dark:bg-slate-800 rounded-xl">
-        <div className="flex items-center gap-2 mb-2">
-          <Sparkles className="w-5 h-5 text-indigo-500" />
-          <span className="font-medium text-gray-900 dark:text-white">Pro Tips</span>
+          <button
+            onClick={() => {
+              setStep('caption');
+              setEditedMedia(null);
+            }}
+            className="w-full py-5 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 rounded-2xl flex items-center justify-center gap-4 active:scale-[0.98] transition-transform"
+          >
+            <div className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center">
+              <Type className="w-7 h-7 text-white" strokeWidth={2.5} />
+            </div>
+            <div className="text-left">
+              <span className="text-white font-semibold text-lg block">Text Post</span>
+              <span className="text-white/70 text-sm">Share your thoughts</span>
+            </div>
+          </button>
         </div>
-        <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
-          <li>• Use filters to enhance your content</li>
-          <li>• Add text overlays to tell your story</li>
-          <li>• Include music to boost engagement</li>
-          <li>• Tag the right layer for better discovery</li>
-        </ul>
+      </div>
+
+      <div
+        className="px-6 pb-6"
+        style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 24px)' }}
+      >
+        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <Sparkles className="w-5 h-5 text-yellow-400" />
+            <span className="font-medium text-white">Tips for great content</span>
+          </div>
+          <p className="text-white/60 text-sm">
+            Use good lighting, add captions, and tag the right layer to reach more people.
+          </p>
+        </div>
       </div>
     </div>
   );

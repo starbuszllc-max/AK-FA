@@ -214,11 +214,6 @@ export default function TikTokCamera({ onClose, onComplete, userId }: TikTokCame
 
     const ctx = canvas.getContext('2d');
     if (ctx) {
-      if (facingMode === 'user') {
-        ctx.translate(canvas.width, 0);
-        ctx.scale(-1, 1);
-      }
-
       const filter = FILTERS[selectedFilter];
       if (filter.style !== 'none') {
         ctx.filter = filter.style;
@@ -482,7 +477,7 @@ export default function TikTokCamera({ onClose, onComplete, userId }: TikTokCame
             autoPlay
             playsInline
             muted
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain bg-black"
             animate={{ 
               rotateY: isFlipping ? 90 : 0,
               scale: isFlipping ? 0.9 : 1
@@ -490,7 +485,6 @@ export default function TikTokCamera({ onClose, onComplete, userId }: TikTokCame
             transition={{ duration: 0.15 }}
             style={{
               filter: currentFilter.style !== 'none' ? currentFilter.style : undefined,
-              transform: facingMode === 'user' ? 'scaleX(-1)' : 'none',
               ...getBeautyStyle()
             }}
           />
