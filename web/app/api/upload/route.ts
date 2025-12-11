@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { writeFile, mkdir } from 'fs/promises';
-import path from 'path';
+import { createClient } from '@/lib/supabase/server';
 import { v4 as uuidv4 } from 'uuid';
 
 const ALLOWED_TYPES = ['avatar', 'media', 'post', 'comment', 'image', 'video'];
@@ -8,6 +7,13 @@ const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 
 export async function POST(req: NextRequest) {
   try {
+    const supabase = await createClient();
+    
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError || !user) {
+      return NextResponse.json({ error: 'You must be signed in to upload' }, { status: 401 });
+    }
+
     const formData = await req.formData();
     const file = formData.get('file') as File;
     let type = formData.get('type') as string;
@@ -28,18 +34,27 @@ export async function POST(req: NextRequest) {
     const buffer = Buffer.from(bytes);
 
     const ext = (file.name.split('.').pop() || 'jpg').replace(/[^a-zA-Z0-9]/g, '');
-    const filename = `${uuidv4()}.${ext}`;
+    const filename = `${user.id}/${type}/${uuidv4()}.${ext}`;
 
-    const uploadDir = path.join(process.cwd(), 'public', 'uploads', type);
-    
-    await mkdir(uploadDir, { recursive: true });
+    const contentType = file.type || 'application/octet-stream';
 
-    const filepath = path.join(uploadDir, filename);
-    await writeFile(filepath, buffer);
+    const { data, error: uploadError } = await supabase.storage
+      .from('uploads')
+      .upload(filename, buffer, {
+        contentType,
+        upsert: false
+      });
 
-    const url = `/uploads/${type}/${filename}`;
+    if (uploadError) {
+      console.error('Supabase storage error:', uploadError);
+      return NextResponse.json({ error: 'Upload failed: ' + uploadError.message }, { status: 500 });
+    }
 
-    return NextResponse.json({ url, filename });
+    const { data: { publicUrl } } = supabase.storage
+      .from('uploads')
+      .getPublicUrl(filename);
+
+    return NextResponse.json({ url: publicUrl, filename: data.path });
   } catch (error) {
     console.error('Upload error:', error);
     return NextResponse.json({ error: 'Upload failed' }, { status: 500 });

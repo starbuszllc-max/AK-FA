@@ -107,10 +107,15 @@ export async function POST(req: Request) {
       });
     }
 
+    const mediaUrls = body.mediaUrls ?? [];
+    const mediaTypes = body.mediaTypes ?? [];
+
     const [newPost] = await db.insert(posts).values({
       userId: user.id,
       content: content,
-      layer: layer
+      layer: layer,
+      mediaUrls: mediaUrls,
+      mediaTypes: mediaTypes
     }).returning();
 
     await db.insert(userEvents).values({

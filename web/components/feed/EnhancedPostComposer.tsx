@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import { useAuth } from '@/hooks/useAuth';
+import MediaUpload from '@/components/media/MediaUpload';
 
 const layers = [
   { value: 'environment', label: 'Environment', emoji: '🌍', color: 'bg-emerald-500' },
@@ -35,6 +36,9 @@ export default function EnhancedPostComposer({ onPostCreated, onToast }: Enhance
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [showLayerDropdown, setShowLayerDropdown] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(true);
+  const [showMediaUpload, setShowMediaUpload] = useState(false);
+  const [mediaUrls, setMediaUrls] = useState<string[]>([]);
+  const [mediaTypes, setMediaTypes] = useState<string[]>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const emojiPickerRef = useRef<HTMLDivElement>(null);
 
@@ -73,11 +77,14 @@ export default function EnhancedPostComposer({ onPostCreated, onToast }: Enhance
       const resp = await fetch('/api/posts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content, layer })
+        body: JSON.stringify({ content, layer, mediaUrls, mediaTypes })
       });
 
       if (resp.ok) {
         setContent('');
+        setMediaUrls([]);
+        setMediaTypes([]);
+        setShowMediaUpload(false);
         onPostCreated?.();
         onToast?.('Post shared successfully!', 'success');
       } else {
@@ -103,6 +110,11 @@ export default function EnhancedPostComposer({ onPostCreated, onToast }: Enhance
     setContent(suggestion);
     setShowSuggestions(false);
     textareaRef.current?.focus();
+  }
+
+  function handleMediaUpload(urls: string[], types: string[]) {
+    setMediaUrls(urls);
+    setMediaTypes(types);
   }
 
   if (authLoading) {
@@ -205,6 +217,24 @@ export default function EnhancedPostComposer({ onPostCreated, onToast }: Enhance
         )}
       </AnimatePresence>
 
+      <AnimatePresence>
+        {showMediaUpload && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="mt-3 overflow-hidden"
+          >
+            <MediaUpload
+              onUpload={handleMediaUpload}
+              onError={(error) => onToast?.(error, 'error')}
+              maxFiles={4}
+              acceptVideo={true}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="mt-4 pt-4 border-t border-gray-100 dark:border-slate-700 flex items-center justify-between gap-4">
         <div className="flex items-center gap-2">
           <div className="relative">
@@ -280,21 +310,16 @@ export default function EnhancedPostComposer({ onPostCreated, onToast }: Enhance
 
             <button
               type="button"
-              className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
-              title="Add media (coming soon)"
+              onClick={() => setShowMediaUpload(!showMediaUpload)}
+              className={`p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg transition-colors ${
+                showMediaUpload || mediaUrls.length > 0 
+                  ? 'text-purple-500 bg-purple-50 dark:bg-purple-900/30' 
+                  : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+              }`}
+              title="Add photos or videos"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-            </button>
-
-            <button
-              type="button"
-              className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
-              title="Attach file (coming soon)"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
               </svg>
             </button>
           </div>

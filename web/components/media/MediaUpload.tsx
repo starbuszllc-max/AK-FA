@@ -12,19 +12,22 @@ interface MediaItem {
 
 interface MediaUploadProps {
   onUpload: (urls: string[], types: string[]) => void;
+  onError?: (error: string) => void;
   maxFiles?: number;
   acceptVideo?: boolean;
   className?: string;
 }
 
 export default function MediaUpload({ 
-  onUpload, 
+  onUpload,
+  onError,
   maxFiles = 4, 
   acceptVideo = true,
   className = '' 
 }: MediaUploadProps) {
   const [mediaItems, setMediaItems] = useState<MediaItem[]>([]);
   const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const acceptTypes = acceptVideo 
@@ -36,6 +39,7 @@ export default function MediaUpload({
     if (files.length === 0) return;
 
     setUploading(true);
+    setError(null);
     try {
       const newItems: MediaItem[] = [];
 
@@ -57,17 +61,32 @@ export default function MediaUpload({
             type: file.type.startsWith('video/') ? 'video' : 'image',
             file
           });
+        } else if (res.status === 401) {
+          const errorMsg = 'Please sign in to upload files';
+          setError(errorMsg);
+          onError?.(errorMsg);
+          break;
+        } else {
+          const data = await res.json();
+          const errorMsg = data.error || 'Upload failed';
+          setError(errorMsg);
+          onError?.(errorMsg);
         }
       }
 
-      const updatedItems = [...mediaItems, ...newItems].slice(0, maxFiles);
-      setMediaItems(updatedItems);
-      onUpload(
-        updatedItems.map(item => item.serverUrl),
-        updatedItems.map(item => item.type)
-      );
-    } catch (error) {
-      console.error('Upload failed:', error);
+      if (newItems.length > 0) {
+        const updatedItems = [...mediaItems, ...newItems].slice(0, maxFiles);
+        setMediaItems(updatedItems);
+        onUpload(
+          updatedItems.map(item => item.serverUrl),
+          updatedItems.map(item => item.type)
+        );
+      }
+    } catch (err) {
+      console.error('Upload failed:', err);
+      const errorMsg = 'Upload failed. Please try again.';
+      setError(errorMsg);
+      onError?.(errorMsg);
     } finally {
       setUploading(false);
     }
@@ -124,8 +143,15 @@ export default function MediaUpload({
         </div>
       )}
 
+      {error && (
+        <div className="mb-3 p-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-sm rounded-lg">
+          {error}
+        </div>
+      )}
+
       {mediaItems.length < maxFiles && (
         <button
+          type="button"
           onClick={() => fileInputRef.current?.click()}
           disabled={uploading}
           className="flex items-center gap-2 px-3 py-2 border border-dashed border-gray-300 dark:border-slate-600 rounded-lg text-gray-500 dark:text-gray-400 hover:border-purple-500 hover:text-purple-500 transition-colors"

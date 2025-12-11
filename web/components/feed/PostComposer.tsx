@@ -1,6 +1,8 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Button from '../ui/Button';
+import { useAuth } from '@/hooks/useAuth';
+import Link from 'next/link';
 
 const layers = [
   { value: 'environment', label: 'Environment', emoji: '🌍' },
@@ -17,53 +19,21 @@ interface PostComposerProps {
 }
 
 export default function PostComposer({ onPostCreated }: PostComposerProps) {
+  const { user, loading: authLoading } = useAuth();
   const [content, setContent] = useState('');
   const [layer, setLayer] = useState('social');
   const [loading, setLoading] = useState(false);
-  const [userId, setUserId] = useState<string | null>(null);
-  const [demoMode, setDemoMode] = useState(false);
-
-  useEffect(() => {
-    const storedUserId = localStorage.getItem('demo_user_id');
-    if (storedUserId) {
-      setUserId(storedUserId);
-    } else {
-      setDemoMode(true);
-    }
-  }, []);
-
-  async function enableDemoMode() {
-    const demoId = crypto.randomUUID();
-    
-    try {
-      const resp = await fetch('/api/profiles', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user_id: demoId })
-      });
-      
-      if (resp.ok) {
-        localStorage.setItem('demo_user_id', demoId);
-        setUserId(demoId);
-        setDemoMode(false);
-      } else {
-        console.error('Failed to create demo profile');
-      }
-    } catch (err) {
-      console.error('Error creating demo profile:', err);
-    }
-  }
 
   async function submitPost(e?: React.FormEvent) {
     if (e) e.preventDefault();
-    if (!content.trim()) return;
+    if (!content.trim() || !user) return;
 
     setLoading(true);
     try {
       const resp = await fetch('/api/posts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content, layer, user_id: userId })
+        body: JSON.stringify({ content, layer })
       });
 
       if (resp.ok) {
@@ -80,29 +50,40 @@ export default function PostComposer({ onPostCreated }: PostComposerProps) {
     }
   }
 
-  if (demoMode && !userId) {
+  if (authLoading) {
+    return (
+      <div className="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
+        <div className="flex items-center justify-center py-4">
+          <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
     return (
       <div className="p-6 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-xl border border-gray-200 text-center">
         <div className="text-2xl mb-2">✍️</div>
         <h3 className="font-medium text-gray-800 mb-1">Join the conversation</h3>
-        <p className="text-gray-500 text-sm mb-4">Start sharing your thoughts and connect with others</p>
-        <button 
-          onClick={enableDemoMode}
+        <p className="text-gray-500 text-sm mb-4">Sign in to share your thoughts and connect with others</p>
+        <Link 
+          href="/login"
           className="inline-block px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
         >
-          Start Posting (Demo Mode)
-        </button>
+          Sign In to Post
+        </Link>
       </div>
     );
   }
 
   const selectedLayer = layers.find(l => l.value === layer);
+  const userName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'User';
 
   return (
     <form onSubmit={submitPost} className="p-5 bg-white rounded-xl shadow-sm border border-gray-100">
       <div className="flex items-start gap-3">
         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-medium shrink-0">
-          👤
+          {userName.charAt(0).toUpperCase()}
         </div>
         <div className="flex-1">
           <textarea
