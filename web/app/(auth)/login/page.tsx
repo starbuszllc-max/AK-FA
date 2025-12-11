@@ -20,6 +20,10 @@ export default function LoginPage() {
 
     try {
       const supabase = createClient();
+      if (!supabase) {
+        setError('Authentication service is not configured');
+        return;
+      }
       
       const { data, error: signInError } = await supabase.auth.signInWithPassword({
         email,

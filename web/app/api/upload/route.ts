@@ -2,12 +2,17 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { v4 as uuidv4 } from 'uuid';
 
+export const dynamic = 'force-dynamic';
+
 const ALLOWED_TYPES = ['avatar', 'media', 'post', 'comment', 'image', 'video'];
 const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 
 export async function POST(req: NextRequest) {
   try {
     const supabase = await createClient();
+    if (!supabase) {
+      return NextResponse.json({ error: 'Service configuration error' }, { status: 503 });
+    }
     
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {

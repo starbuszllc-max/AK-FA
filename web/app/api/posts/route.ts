@@ -5,6 +5,8 @@ import {calculateAkorfaScore} from '@akorfa/shared/src/scoring';
 import {eq, desc, sql, and} from 'drizzle-orm';
 import {createClient} from '@/lib/supabase/server';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
@@ -81,6 +83,9 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   try {
     const supabase = await createClient();
+    if (!supabase) {
+      return NextResponse.json({error: 'Service configuration error'}, {status: 503});
+    }
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
     if (authError || !user) {

@@ -12,13 +12,18 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
-  const supabase = createClient();
-
   async function handleEmailAuth(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     setError(null);
     setMessage(null);
+
+    const supabase = createClient();
+    if (!supabase) {
+      setError('Authentication service is not configured');
+      setLoading(false);
+      return;
+    }
 
     try {
       if (isSignUp) {
@@ -49,6 +54,13 @@ export default function LoginPage() {
   async function handleOAuthLogin(provider: 'google' | 'github' | 'twitter' | 'apple') {
     setLoading(true);
     setError(null);
+
+    const supabase = createClient();
+    if (!supabase) {
+      setError('Authentication service is not configured');
+      setLoading(false);
+      return;
+    }
 
     try {
       const { error } = await supabase.auth.signInWithOAuth({
