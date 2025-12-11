@@ -230,10 +230,10 @@ export default function MessagesPage() {
         </div>
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Messages</h1>
         <p className="text-gray-600 dark:text-gray-300 mb-8">
-          Complete onboarding to start messaging other users.
+          Sign up to start messaging other users.
         </p>
         <Link
-          href="/onboarding"
+          href="/signup"
           className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700 transition-all"
         >
           Get Started

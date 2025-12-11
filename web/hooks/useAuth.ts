@@ -19,12 +19,20 @@ export function useAuth() {
     supabase.auth.getSession().then(({ data: { session } }: { data: { session: Session | null } }) => {
       setSession(session);
       setUser(session?.user ?? null);
+      if (session?.user) {
+        localStorage.setItem('demo_user_id', session.user.id);
+      }
       setLoading(false);
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event: string, session: Session | null) => {
       setSession(session);
       setUser(session?.user ?? null);
+      if (session?.user) {
+        localStorage.setItem('demo_user_id', session.user.id);
+      } else {
+        localStorage.removeItem('demo_user_id');
+      }
       setLoading(false);
     });
 
@@ -35,6 +43,7 @@ export function useAuth() {
     const supabase = createClient();
     if (!supabase) return;
     await supabase.auth.signOut();
+    localStorage.removeItem('demo_user_id');
   }, []);
 
   return { user, session, loading, signOut };

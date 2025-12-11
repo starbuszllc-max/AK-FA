@@ -89,10 +89,10 @@ export default function GroupsPage() {
           Communities
         </h1>
         <p className="text-gray-600 dark:text-gray-300 mb-8">
-          Join groups of like-minded people focused on specific growth areas. Complete onboarding to join communities.
+          Join groups of like-minded people focused on specific growth areas. Sign up to join communities.
         </p>
         <a
-          href="/onboarding"
+          href="/signup"
           className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700 transition-all"
         >
           Get Started

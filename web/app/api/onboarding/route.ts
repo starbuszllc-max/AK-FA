@@ -1,26 +1,46 @@
 import { NextResponse } from 'next/server';
 import { db } from '../../../lib/db';
 import { profiles } from '@akorfa/shared/src/schema';
-import { v4 as uuidv4 } from 'uuid';
+import { eq } from 'drizzle-orm';
 
 export async function POST(req: Request) {
   try {
-    const { name, goals, focusLayers } = await req.json();
+    const { userId, name, goals, focusLayers } = await req.json();
 
-    const userId = uuidv4();
+    if (!userId) {
+      return NextResponse.json({ 
+        error: 'User ID is required. Please sign up first.',
+        code: 'MISSING_USER_ID'
+      }, { status: 400 });
+    }
+
     const username = `user_${userId.slice(0, 8)}`;
 
-    await db.insert(profiles).values({
-      id: userId,
-      username,
-      fullName: name,
-      goals: goals,
-      metadata: { focusLayers, onboardingDate: new Date().toISOString() },
-      onboardingCompleted: true,
-      currentStreak: 1,
-      totalXp: 50,
-      level: 1,
-    });
+    const existingProfile = await db.select().from(profiles).where(eq(profiles.id, userId)).limit(1);
+    
+    if (existingProfile.length > 0) {
+      await db.update(profiles)
+        .set({
+          fullName: name,
+          goals: goals,
+          metadata: { focusLayers, onboardingDate: new Date().toISOString() },
+          onboardingCompleted: true,
+          updatedAt: new Date(),
+        })
+        .where(eq(profiles.id, userId));
+    } else {
+      await db.insert(profiles).values({
+        id: userId,
+        username,
+        fullName: name,
+        goals: goals,
+        metadata: { focusLayers, onboardingDate: new Date().toISOString() },
+        onboardingCompleted: true,
+        currentStreak: 1,
+        totalXp: 50,
+        level: 1,
+      });
+    }
 
     return NextResponse.json({ userId, success: true });
   } catch (err: any) {

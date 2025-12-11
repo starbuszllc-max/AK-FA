@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowRight, ArrowLeft, Check, Sparkles, Target, Users, Brain, Heart, Zap } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
 
 const layers = [
   { id: 'environment', name: 'Environment', icon: '🌍', color: 'bg-green-500', description: 'Your physical surroundings and spaces' },
@@ -25,6 +26,7 @@ const goals = [
 
 export default function OnboardingPage() {
   const router = useRouter();
+  const { user, loading: authLoading } = useAuth();
   const [step, setStep] = useState(0);
   const [name, setName] = useState('');
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
@@ -32,6 +34,18 @@ export default function OnboardingPage() {
   const [loading, setLoading] = useState(false);
 
   const totalSteps = 4;
+
+  useEffect(() => {
+    if (!authLoading && !user) {
+      router.push('/signup');
+    }
+  }, [authLoading, user, router]);
+
+  useEffect(() => {
+    if (user?.user_metadata?.full_name) {
+      setName(user.user_metadata.full_name);
+    }
+  }, [user]);
 
   const toggleGoal = (goalId: string) => {
     setSelectedGoals(prev => 
@@ -46,12 +60,18 @@ export default function OnboardingPage() {
   };
 
   const handleComplete = async () => {
+    if (!user) {
+      router.push('/signup');
+      return;
+    }
+    
     setLoading(true);
     try {
       const res = await fetch('/api/onboarding', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          userId: user.id,
           name,
           goals: selectedGoals,
           focusLayers,
@@ -59,11 +79,11 @@ export default function OnboardingPage() {
       });
       
       const data = await res.json();
-      if (data.userId) {
-        localStorage.setItem('demo_user_id', data.userId);
+      if (data.success) {
+        localStorage.setItem('demo_user_id', user.id);
         router.push('/dashboard');
       } else if (data.error) {
-        alert(`Signup Error: ${data.error}\n\nCode: ${data.code || 'N/A'}\n\nHint: ${data.hint || 'N/A'}`);
+        alert(`Setup Error: ${data.error}\n\nCode: ${data.code || 'N/A'}\n\nHint: ${data.hint || 'N/A'}`);
         console.error('Onboarding error details:', data);
       }
     } catch (err) {
@@ -72,6 +92,18 @@ export default function OnboardingPage() {
     }
     setLoading(false);
   };
+
+  if (authLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[80vh]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <div className="min-h-[80vh] flex flex-col items-center justify-center">

@@ -37,11 +37,14 @@ export default function LoginPage() {
         if (error) throw error;
         setMessage('Check your email to confirm your account!');
       } else {
-        const { error } = await supabase.auth.signInWithPassword({
+        const { data, error } = await supabase.auth.signInWithPassword({
           email,
           password
         });
         if (error) throw error;
+        if (data.user) {
+          localStorage.setItem('demo_user_id', data.user.id);
+        }
         window.location.href = '/feed';
       }
     } catch (err: any) {

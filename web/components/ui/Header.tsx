@@ -170,7 +170,7 @@ export function Header() {
           ) : (
             <div className="flex items-center gap-1">
               <Link 
-                href="/onboarding" 
+                href="/signup" 
                 className="px-3 py-1.5 text-xs font-medium bg-indigo-600 dark:bg-indigo-500 text-white rounded-md hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors"
               >
                 Get Started
@@ -210,7 +210,7 @@ export function Header() {
               </button>
             ) : (
               <Link 
-                href="/onboarding" 
+                href="/signup" 
                 onClick={() => setMenuOpen(false)}
                 className="px-3 py-2 text-sm font-medium bg-indigo-600 dark:bg-indigo-500 text-white rounded-md text-center"
               >

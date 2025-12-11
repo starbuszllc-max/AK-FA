@@ -147,7 +147,7 @@ export default function FloatingExploreButton() {
                   </button>
                 ) : (
                   <Link
-                    href="/onboarding"
+                    href="/signup"
                     onClick={closeMenu}
                     className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl hover:from-indigo-600 hover:to-purple-600 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   >

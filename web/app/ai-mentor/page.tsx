@@ -113,10 +113,10 @@ export default function AIMentorPage() {
           AI Mentor
         </h2>
         <p className="text-gray-600 dark:text-gray-300 mb-6">
-          Complete onboarding to access your personal AI mentor.
+          Sign up to access your personal AI mentor.
         </p>
         <a
-          href="/onboarding"
+          href="/signup"
           className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700 transition-all"
         >
           Get Started

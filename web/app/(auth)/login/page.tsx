@@ -36,6 +36,7 @@ export default function LoginPage() {
       }
 
       if (data.user) {
+        localStorage.setItem('demo_user_id', data.user.id);
         router.push('/feed');
         router.refresh();
       }

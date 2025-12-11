@@ -42,10 +42,11 @@ export default function SignupPage() {
         return;
       }
 
-      if (data.session) {
+      if (data.session && data.user) {
+        localStorage.setItem('demo_user_id', data.user.id);
         setSuccess(true);
         setTimeout(() => {
-          router.push('/feed');
+          router.push('/onboarding');
           router.refresh();
         }, 1500);
       } else if (data.user) {

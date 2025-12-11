@@ -158,7 +158,7 @@ export default function ExploreMenu({ isOpen, onClose }: ExploreMenuProps) {
             {!user && (
               <div className="p-4 border-t border-gray-200/50 dark:border-slate-700/50 bg-gray-50/50 dark:bg-slate-900/30">
                 <Link
-                  href="/onboarding"
+                  href="/signup"
                   onClick={onClose}
                   className="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-2xl hover:from-indigo-600 hover:to-purple-600 transition-all shadow-lg shadow-indigo-500/25 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 >

@@ -244,10 +244,10 @@ export default function DailyChallengesPage() {
       {!userId && (
         <div className="bg-gray-50 dark:bg-slate-700/50 rounded-xl p-6 text-center">
           <p className="text-gray-600 dark:text-gray-300 mb-4">
-            Complete onboarding to participate in daily challenges and earn rewards!
+            Sign up to participate in daily challenges and earn rewards!
           </p>
           <a
-            href="/onboarding"
+            href="/signup"
             className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700 transition-colors"
           >
             Get Started

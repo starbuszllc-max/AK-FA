@@ -198,9 +198,9 @@ export default function ProfileSettingsPage() {
           <User className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
         </div>
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Settings</h2>
-        <p className="text-gray-600 dark:text-gray-300 mb-6">Please complete onboarding to access settings.</p>
+        <p className="text-gray-600 dark:text-gray-300 mb-6">Please sign up to access settings.</p>
         <Link
-          href="/onboarding"
+          href="/signup"
           className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700 transition-all"
         >
           Get Started

@@ -152,10 +152,10 @@ export default function ProfilePage() {
           Your Profile
         </h2>
         <p className="text-gray-600 dark:text-gray-300 mb-6">
-          Complete onboarding to create your profile and start tracking your growth.
+          Sign up to create your profile and start tracking your growth.
         </p>
         <Link
-          href="/onboarding"
+          href="/signup"
           className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700 transition-all"
         >
           Get Started
@@ -169,8 +169,8 @@ export default function ProfilePage() {
     return (
       <div className="max-w-md mx-auto text-center py-16">
         <p className="text-gray-600 dark:text-gray-300 mb-4">Profile not found.</p>
-        <Link href="/onboarding" className="text-indigo-600 dark:text-indigo-400 hover:underline">
-          Complete Onboarding
+        <Link href="/signup" className="text-indigo-600 dark:text-indigo-400 hover:underline">
+          Sign Up
         </Link>
       </div>
     );
