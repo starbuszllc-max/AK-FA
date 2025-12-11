@@ -1,0 +1,169 @@
+Run cd web && npm run build
+> akorfa-web@0.1.0 build
+> next build
+⚠ No build cache found. Please configure build caching for faster rebuilds. Read more: https://nextjs.org/docs/messages/no-cache
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+   ▲ Next.js 15.5.7
+   Creating an optimized production build ...
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (129kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+ ⚠ Compiled with warnings in 17.2s
+../node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
+A Node.js API is used (process.versions at line: 39) which is not supported in the Edge Runtime.
+Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+Import trace for requested module:
+../node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
+../node_modules/@supabase/realtime-js/dist/module/index.js
+../node_modules/@supabase/supabase-js/dist/main/index.js
+../node_modules/@supabase/supabase-js/dist/esm/wrapper.mjs
+../node_modules/@supabase/ssr/dist/module/createBrowserClient.js
+../node_modules/@supabase/ssr/dist/module/index.js
+./lib/supabase/middleware.ts
+../node_modules/@supabase/supabase-js/dist/main/index.js
+A Node.js API is used (process.version at line: 60) which is not supported in the Edge Runtime.
+Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+Import trace for requested module:
+../node_modules/@supabase/supabase-js/dist/main/index.js
+../node_modules/@supabase/supabase-js/dist/esm/wrapper.mjs
+../node_modules/@supabase/ssr/dist/module/createBrowserClient.js
+../node_modules/@supabase/ssr/dist/module/index.js
+./lib/supabase/middleware.ts
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/78) ...
+   Generating static pages (19/78) 
+   Generating static pages (38/78) 
+   Generating static pages (58/78) 
+ ✓ Generating static pages (78/78)
+   Finalizing page optimization ...
+   Collecting build traces ...
+Route (app)                                 Size  First Load JS
+┌ ○ /                                    1.05 kB         149 kB
+├ ○ /_not-found                            996 B         102 kB
+├ ○ /admin/assessments                   1.91 kB         103 kB
+├ ○ /ai-mentor                           4.05 kB         105 kB
+├ ƒ /api/activity                          246 B         102 kB
+├ ƒ /api/ai-coach                          246 B         102 kB
+├ ƒ /api/ai-mentor                         246 B         102 kB
+├ ƒ /api/ai-score                          246 B         102 kB
+├ ƒ /api/assessments                       246 B         102 kB
+├ ƒ /api/badges                            246 B         102 kB
+├ ƒ /api/challenges                        246 B         102 kB
+├ ƒ /api/challenges/join                   246 B         102 kB
+├ ƒ /api/comments                          246 B         102 kB
+├ ƒ /api/community-boards                  246 B         102 kB
+├ ƒ /api/credit                            246 B         102 kB
+├ ƒ /api/daily-challenges                  246 B         102 kB
+├ ƒ /api/digest                            246 B         102 kB
+├ ƒ /api/follow                            246 B         102 kB
+├ ƒ /api/follows                           246 B         102 kB
+├ ƒ /api/gifts                             246 B         102 kB
+├ ƒ /api/giphy                             246 B         102 kB
+├ ƒ /api/groups                            246 B         102 kB
+├ ƒ /api/groups/join                       246 B         102 kB
+├ ƒ /api/insights                          246 B         102 kB
+├ ƒ /api/insights/generate                 246 B         102 kB
+├ ƒ /api/insights/trends                   246 B         102 kB
+├ ƒ /api/layer-stats                       246 B         102 kB
+├ ƒ /api/leaderboard                       246 B         102 kB
+├ ƒ /api/learning-tracks                   246 B         102 kB
+├ ƒ /api/marketplace                       246 B         102 kB
+├ ƒ /api/messages                          246 B         102 kB
+├ ƒ /api/news                              246 B         102 kB
+├ ƒ /api/notifications                     246 B         102 kB
+├ ƒ /api/onboarding                        246 B         102 kB
+├ ƒ /api/payouts                           246 B         102 kB
+├ ƒ /api/pods                              246 B         102 kB
+├ ƒ /api/posts                             246 B         102 kB
+├ ƒ /api/posts/video-feed                  246 B         102 kB
+├ ƒ /api/profiles                          246 B         102 kB
+├ ƒ /api/reactions                         246 B         102 kB
+├ ƒ /api/referrals                         246 B         102 kB
+├ ƒ /api/routines                          246 B         102 kB
+├ ƒ /api/stability                         246 B         102 kB
+├ ƒ /api/stories                           246 B         102 kB
+├ ƒ /api/streaks                           246 B         102 kB
+├ ƒ /api/tips                              246 B         102 kB
+├ ƒ /api/upload                            246 B         102 kB
+├ ƒ /api/user-roles                        246 B         102 kB
+├ ƒ /api/wallet                            246 B         102 kB
+├ ○ /assessments                         1.77 kB         106 kB
+├ ○ /assessments/history                 3.28 kB         108 kB
+├ ƒ /auth/callback                         246 B         102 kB
+├ ○ /auth/login                          2.64 kB         199 kB
+├ ○ /challenges                          4.74 kB         106 kB
+├ ○ /coach                               5.62 kB         107 kB
+├ ○ /create                              11.7 kB         153 kB
+├ ○ /creator-dashboard                   8.73 kB         113 kB
+├ ○ /daily-challenges                    4.08 kB         105 kB
+├ ○ /dashboard                           10.1 kB         155 kB
+├ ○ /discover                            3.31 kB         108 kB
+├ ○ /feed                                 123 kB         326 kB
+├ ○ /groups                              3.92 kB         105 kB
+├ ƒ /groups/[id]                          3.1 kB         104 kB
+├ ○ /insight-school                      3.83 kB         108 kB
+├ ƒ /insight-school/[slug]               13.3 kB         118 kB
+├ ○ /insights                            4.35 kB         106 kB
+├ ○ /leaderboard                         3.05 kB         104 kB
+├ ○ /live                                  579 B         148 kB
+├ ○ /login                               2.59 kB         166 kB
+├ ○ /logout                                385 B         102 kB
+├ ○ /marketplace                         4.34 kB         106 kB
+├ ○ /messages                            4.14 kB         109 kB
+├ ○ /news                                2.88 kB         141 kB
+├ ○ /notifications                        4.3 kB         149 kB
+├ ○ /onboarding                          4.39 kB         106 kB
+├ ○ /profile                             6.47 kB         153 kB
+├ ƒ /profile/[id]                        5.63 kB         113 kB
+├ ○ /profile/settings                    6.53 kB         150 kB
+├ ○ /referrals                           3.58 kB         105 kB
+├ ○ /signup                              2.92 kB         166 kB
+├ ○ /stability                           1.52 kB         103 kB
+└ ○ /wallet                              7.47 kB         145 kB
++ First Load JS shared by all             101 kB
+  ├ chunks/3131-aca73719df271ce1.js        45 kB
+  ├ chunks/c7879cf7-ce6cc72fe8fad416.js  54.2 kB
+  └ other shared chunks (total)             2 kB
+ƒ Middleware                             85.7 kB
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+1s
+Run cd web
+> akorfa-web@0.1.0 lint
+> eslint . --ext .ts,.tsx
+Oops! Something went wrong! :(
+ESLint: 8.57.1
+ESLint couldn't find a configuration file. To set up a configuration file for this project, please run:
+    npm init @eslint/config
+ESLint looked for configuration files in /home/runner/work/AK-FA/AK-FA/web/app/(auth)/login and its ancestors. If it found none, it then looked in your home directory.
+If you think you already have a configuration file or if you need more help, please stop by the ESLint Discord server: https://eslint.org/chat
+npm error Lifecycle script `lint` failed with error:
+npm error code 2
+npm error path /home/runner/work/AK-FA/AK-FA/web
+npm error workspace akorfa-web@0.1.0
+npm error location /home/runner/work/AK-FA/AK-FA/web
+npm error command failed
+npm error command sh -c eslint . --ext .ts,.tsx
+2s
+Post job cleanup.
+/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/AK-FA/AK-FA --files-from manifest.txt --use-compress-program zstdmt
+Sent 48891923 of 183109651 (26.7%), 46.6 MBs/sec
+Sent 183109651 of 183109651 (100.0%), 146.5 MBs/sec
+Cache saved with the key: node-cache-Linux-x64-npm-872dcf409baf050d25bbc7771f1a5c4372fbb6d0225479fe2106f3186d6f1c48
+0s
+Post job cleanup.
+/usr/bin/git version
+git version 2.52.0
+Temporarily overriding HOME='/home/runner/work/_temp/70a8a8d4-7859-47ab-832c-158ad55dfbbf' before making global git config changes
+Adding repository directory to the temporary git global config as a safe directory
+/usr/bin/git config --global --add safe.directory /home/runner/work/AK-FA/AK-FA
+/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+http.https://github.com/.extraheader
+/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
