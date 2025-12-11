@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { Heart, MessageCircle, Share2, Bookmark, Play, Volume2, VolumeX, Repeat2, Copy } from 'lucide-react';
+import { Heart, MessageCircle, Share2, Bookmark, Play, Volume2, VolumeX, Repeat2, Copy, Check } from 'lucide-react';
+import VideoCommentModal from './VideoCommentModal';
 
 interface VideoPost {
   id: string;
@@ -32,9 +33,14 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
   const [loading, setLoading] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
   const [likedVideos, setLikedVideos] = useState<Set<string>>(new Set());
+  const [savedVideos, setSavedVideos] = useState<Set<string>>(new Set());
+  const [repostedVideos, setRepostedVideos] = useState<Set<string>>(new Set());
   const [activeVideoId, setActiveVideoId] = useState<string | null>(null);
   const [pausedVideos, setPausedVideos] = useState<Set<string>>(new Set());
   const [observerReady, setObserverReady] = useState(false);
+  const [commentModalOpen, setCommentModalOpen] = useState(false);
+  const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null);
+  const [commentCounts, setCommentCounts] = useState<Record<string, number>>({});
   const videoRefs = useRef<Map<string, HTMLVideoElement>>(new Map());
   const containerRef = useRef<HTMLDivElement>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
@@ -217,14 +223,106 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
     }
   };
 
-  const handleShare = (video: VideoPost) => {
+  const handleShare = async (video: VideoPost) => {
+    const shareUrl = `${window.location.origin}/video/${video.id}`;
+    
     if (navigator.share) {
-      navigator.share({
-        title: 'Check out this video on Akorfa',
-        text: video.content.slice(0, 100),
-        url: `${window.location.origin}/video/${video.id}`
-      });
+      try {
+        await navigator.share({
+          title: 'Check out this video on Akorfa',
+          text: video.content.slice(0, 100),
+          url: shareUrl
+        });
+      } catch (err) {
+        // User cancelled or error
+      }
+    } else {
+      // Fallback: copy to clipboard
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        alert('Link copied to clipboard!');
+      } catch (err) {
+        console.error('Failed to copy:', err);
+      }
     }
+  };
+
+  const handleOpenComments = (videoId: string) => {
+    setSelectedVideoId(videoId);
+    setCommentModalOpen(true);
+  };
+
+  const handleCloseComments = () => {
+    setCommentModalOpen(false);
+    setSelectedVideoId(null);
+  };
+
+  const handleCommentAdded = () => {
+    if (selectedVideoId) {
+      setCommentCounts(prev => ({
+        ...prev,
+        [selectedVideoId]: (prev[selectedVideoId] || 0) + 1
+      }));
+    }
+  };
+
+  const handleSave = async (video: VideoPost) => {
+    const isSaved = savedVideos.has(video.id);
+    
+    setSavedVideos(prev => {
+      const next = new Set(prev);
+      if (isSaved) {
+        next.delete(video.id);
+      } else {
+        next.add(video.id);
+      }
+      return next;
+    });
+
+    try {
+      await fetch('/api/reactions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          postId: video.id,
+          reactionType: 'bookmark',
+          userId: localStorage.getItem('demo_user_id')
+        })
+      });
+    } catch (error) {
+      console.error('Failed to save video:', error);
+    }
+  };
+
+  const handleRepost = async (video: VideoPost) => {
+    const isReposted = repostedVideos.has(video.id);
+    
+    if (isReposted) return; // Can't un-repost
+    
+    setRepostedVideos(prev => {
+      const next = new Set(prev);
+      next.add(video.id);
+      return next;
+    });
+
+    try {
+      await fetch('/api/reactions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          postId: video.id,
+          reactionType: 'repost',
+          userId: localStorage.getItem('demo_user_id')
+        })
+      });
+    } catch (error) {
+      console.error('Failed to repost video:', error);
+    }
+  };
+
+  const handleDuet = (video: VideoPost) => {
+    // Navigate to create page with duet reference
+    window.location.href = `/create?duet=${video.id}`;
   };
 
   const handleVideoClick = (videoId: string) => {
@@ -374,27 +472,47 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
                 </span>
               </button>
 
-              <button className="flex flex-col items-center gap-1">
+              <button 
+                onClick={() => handleOpenComments(video.id)}
+                className="flex flex-col items-center gap-1"
+              >
                 <div className="p-3 rounded-full bg-black/40 backdrop-blur-sm">
                   <MessageCircle className="w-6 h-6 text-white" />
                 </div>
                 <span className="text-white text-xs font-semibold">
-                  {video.commentCount.toLocaleString()}
+                  {(video.commentCount + (commentCounts[video.id] || 0)).toLocaleString()}
                 </span>
               </button>
 
-              <button className="flex flex-col items-center gap-1">
+              <button 
+                onClick={() => handleDuet(video)}
+                className="flex flex-col items-center gap-1"
+              >
                 <div className="p-3 rounded-full bg-black/40 backdrop-blur-sm">
                   <Copy className="w-6 h-6 text-white" />
                 </div>
                 <span className="text-white text-xs font-semibold">Duet</span>
               </button>
 
-              <button className="flex flex-col items-center gap-1">
-                <div className="p-3 rounded-full bg-black/40 backdrop-blur-sm">
-                  <Repeat2 className="w-6 h-6 text-white" />
-                </div>
-                <span className="text-white text-xs font-semibold">Repost</span>
+              <button 
+                onClick={() => handleRepost(video)}
+                className="flex flex-col items-center gap-1"
+              >
+                <motion.div
+                  whileTap={{ scale: 1.2 }}
+                  className={`p-3 rounded-full backdrop-blur-sm ${
+                    repostedVideos.has(video.id) ? 'bg-green-500' : 'bg-black/40'
+                  }`}
+                >
+                  {repostedVideos.has(video.id) ? (
+                    <Check className="w-6 h-6 text-white" />
+                  ) : (
+                    <Repeat2 className="w-6 h-6 text-white" />
+                  )}
+                </motion.div>
+                <span className="text-white text-xs font-semibold">
+                  {repostedVideos.has(video.id) ? 'Reposted' : 'Repost'}
+                </span>
               </button>
 
               <button onClick={() => handleShare(video)} className="flex flex-col items-center gap-1">
@@ -404,16 +522,36 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
                 <span className="text-white text-xs font-semibold">Share</span>
               </button>
 
-              <button className="flex flex-col items-center gap-1">
-                <div className="p-3 rounded-full bg-black/40 backdrop-blur-sm">
-                  <Bookmark className="w-6 h-6 text-white" />
-                </div>
-                <span className="text-white text-xs font-semibold">Save</span>
+              <button 
+                onClick={() => handleSave(video)}
+                className="flex flex-col items-center gap-1"
+              >
+                <motion.div
+                  whileTap={{ scale: 1.2 }}
+                  className={`p-3 rounded-full backdrop-blur-sm ${
+                    savedVideos.has(video.id) ? 'bg-yellow-500' : 'bg-black/40'
+                  }`}
+                >
+                  <Bookmark 
+                    className="w-6 h-6 text-white" 
+                    fill={savedVideos.has(video.id) ? 'white' : 'none'}
+                  />
+                </motion.div>
+                <span className="text-white text-xs font-semibold">
+                  {savedVideos.has(video.id) ? 'Saved' : 'Save'}
+                </span>
               </button>
             </div>
           </div>
         );
       })}
+
+      <VideoCommentModal
+        isOpen={commentModalOpen}
+        onClose={handleCloseComments}
+        postId={selectedVideoId || ''}
+        onCommentAdded={handleCommentAdded}
+      />
     </div>
   );
 }

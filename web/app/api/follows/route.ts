@@ -17,6 +17,18 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const userId = searchParams.get('userId');
     const type = searchParams.get('type');
+    const followerId = searchParams.get('follower_id');
+    const followingId = searchParams.get('following_id');
+
+    if (followerId && followingId) {
+      if (!UUID_REGEX.test(followerId) || !UUID_REGEX.test(followingId)) {
+        return NextResponse.json({ isFollowing: false });
+      }
+      const [existing] = await db.select()
+        .from(follows)
+        .where(and(eq(follows.followerId, followerId), eq(follows.followingId, followingId)));
+      return NextResponse.json({ isFollowing: !!existing });
+    }
 
     if (!userId) {
       return NextResponse.json({ error: 'userId required' }, { status: 400 });

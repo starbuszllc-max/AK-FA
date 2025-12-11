@@ -34,7 +34,7 @@ export async function POST(req: Request) {
 export async function GET(req: Request) {
   try {
     const url = new URL(req.url);
-    const userId = url.searchParams.get('user_id');
+    const userId = url.searchParams.get('user_id') || url.searchParams.get('userId');
 
     if (!userId) {
       return NextResponse.json({error: 'user_id query param required'}, {status: 400});
