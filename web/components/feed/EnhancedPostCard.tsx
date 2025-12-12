@@ -245,7 +245,7 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -2 }}
       transition={{ duration: 0.2 }}
-      className="p-4 md:p-5 transition-all duration-200"
+      className="p-4 md:p-5 transition-all duration-200 border-b border-gray-200 dark:border-slate-700/50"
     >
       {showShareToast && (
         <motion.div
@@ -418,14 +418,14 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
         </div>
       )}
 
-      <div className="mt-4 relative">
+      <div className="mt-3 relative">
         <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-transparent via-gray-200 dark:via-gray-700 to-transparent opacity-50" />
         <p className="pl-3 text-gray-800 dark:text-gray-200 text-sm md:text-base whitespace-pre-wrap leading-relaxed">
           {post.content}
         </p>
       </div>
 
-      <div className="mt-4 pt-3 flex items-center gap-4">
+      <div className="mt-2 flex items-center gap-4">
         <motion.button 
           onClick={handleLike}
           disabled={!currentUserId || isLiking || hasLiked}
