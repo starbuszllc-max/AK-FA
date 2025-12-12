@@ -519,16 +519,16 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
               <span className="text-white text-xs font-bold drop-shadow-lg">Create</span>
             </Link>
 
-            <div className="absolute bottom-32 left-1 right-16 p-3 text-white pointer-events-none">
-              <div className="flex items-center gap-3 mb-3">
+            <div className="absolute bottom-32 left-1 right-16 p-2 text-white pointer-events-none">
+              <div className="flex items-center gap-2 mb-2">
                 <img
                   src={video.profiles.avatarUrl || '/default-avatar.png'}
                   alt={video.profiles.username}
-                  className="w-10 h-10 rounded-full border-2 border-white"
+                  className="w-8 h-8 rounded-full border border-white"
                 />
                 <div>
-                  <div className="font-semibold">{video.profiles.username}</div>
-                  <div className="text-xs text-gray-300">
+                  <div className="font-semibold text-xs">{video.profiles.username}</div>
+                  <div className="text-[10px] text-gray-300">
                     {video.layer.charAt(0).toUpperCase() + video.layer.slice(1)} Layer
                   </div>
                 </div>
