@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { motion } from 'framer-motion';
-import { MessageCircle, Share2, Play, Volume2, VolumeX, Repeat2, Copy, Check, Plus } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { MessageCircle, Send, Play, Volume2, VolumeX, Repeat2, Copy, Check, Plus, X } from 'lucide-react';
 import Link from 'next/link';
 import LayeredHeartIcon from '@/components/ui/icons/LayeredHeartIcon';
 import LayeredBookmarkIcon from '@/components/ui/icons/LayeredBookmarkIcon';
@@ -45,6 +45,8 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
   const [commentModalOpen, setCommentModalOpen] = useState(false);
   const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null);
   const [commentCounts, setCommentCounts] = useState<Record<string, number>>({});
+  const [shareMenuOpen, setShareMenuOpen] = useState(false);
+  const [selectedVideoForShare, setSelectedVideoForShare] = useState<VideoPost | null>(null);
   const videoRefs = useRef<Map<string, HTMLVideoElement>>(new Map());
   const containerRef = useRef<HTMLDivElement>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
@@ -254,27 +256,41 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
     }
   };
 
-  const handleShare = async (video: VideoPost) => {
-    const shareUrl = `${window.location.origin}/video/${video.id}`;
-    
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: 'Check out this video on Akorfa',
-          text: video.content.slice(0, 100),
-          url: shareUrl
-        });
-      } catch (err) {
-        // User cancelled or error
+  const handleShareMenuOpen = (video: VideoPost) => {
+    setSelectedVideoForShare(video);
+    setShareMenuOpen(true);
+  };
+
+  const handleShareOption = async (option: 'link' | 'duet' | 'repost') => {
+    if (!selectedVideoForShare) return;
+
+    if (option === 'link') {
+      const shareUrl = `${window.location.origin}/video/${selectedVideoForShare.id}`;
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: 'Check out this video on Akorfa',
+            text: selectedVideoForShare.content.slice(0, 100),
+            url: shareUrl
+          });
+        } catch (err) {
+          // User cancelled
+        }
+      } else {
+        try {
+          await navigator.clipboard.writeText(shareUrl);
+          alert('Link copied to clipboard!');
+        } catch (err) {
+          console.error('Failed to copy:', err);
+        }
       }
-    } else {
-      // Fallback: copy to clipboard
-      try {
-        await navigator.clipboard.writeText(shareUrl);
-        alert('Link copied to clipboard!');
-      } catch (err) {
-        console.error('Failed to copy:', err);
-      }
+      setShareMenuOpen(false);
+    } else if (option === 'duet') {
+      window.location.href = `/create?duet=${selectedVideoForShare.id}`;
+      setShareMenuOpen(false);
+    } else if (option === 'repost') {
+      handleRepost(selectedVideoForShare);
+      setShareMenuOpen(false);
     }
   };
 
@@ -495,34 +511,10 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
               </button>
 
               <button 
-                onClick={() => handleDuet(video)}
+                onClick={() => handleShareMenuOpen(video)} 
                 className="flex flex-col items-center gap-1"
               >
-                <Copy className="w-6 h-6 text-white" strokeWidth={1.5} style={{filter: 'drop-shadow(0 0 8px rgba(0, 0, 0, 0.6)) drop-shadow(inset 0 2px 4px rgba(0, 0, 0, 0.4))'}} />
-                <span className="text-white text-xs font-bold drop-shadow-lg">Duet</span>
-              </button>
-
-              <button 
-                onClick={() => handleRepost(video)}
-                className="flex flex-col items-center gap-1"
-              >
-                <motion.div whileTap={{ scale: 1.2 }}>
-                  {repostedVideos.has(video.id) ? (
-                    <Check className="w-6 h-6 text-green-400" strokeWidth={1.5} style={{filter: 'drop-shadow(0 0 8px rgba(0, 0, 0, 0.6)) drop-shadow(inset 0 2px 4px rgba(0, 0, 0, 0.4))'}} />
-                  ) : (
-                    <Repeat2 className="w-6 h-6 text-white" strokeWidth={1.5} style={{filter: 'drop-shadow(0 0 8px rgba(0, 0, 0, 0.6)) drop-shadow(inset 0 2px 4px rgba(0, 0, 0, 0.4))'}} />
-                  )}
-                </motion.div>
-                <span className="text-white text-[10px] font-bold drop-shadow-lg">
-                  {repostedVideos.has(video.id) ? 'Reposted' : 'Repost'}
-                </span>
-              </button>
-
-              <button 
-                onClick={() => handleShare(video)} 
-                className="flex flex-col items-center gap-1"
-              >
-                <Share2 className="w-6 h-6 text-white" strokeWidth={1.5} style={{filter: 'drop-shadow(0 0 8px rgba(0, 0, 0, 0.6)) drop-shadow(inset 0 2px 4px rgba(0, 0, 0, 0.4))'}} />
+                <Send className="w-6 h-6 text-white" strokeWidth={1.5} style={{filter: 'drop-shadow(0 0 8px rgba(0, 0, 0, 0.6)) drop-shadow(inset 0 2px 4px rgba(0, 0, 0, 0.4))'}} />
                 <span className="text-white text-xs font-bold drop-shadow-lg">Share</span>
               </button>
 
@@ -579,6 +571,69 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
         postId={selectedVideoId || ''}
         onCommentAdded={handleCommentAdded}
       />
+
+      <AnimatePresence>
+        {shareMenuOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShareMenuOpen(false)}
+              className="fixed inset-0 bg-black/50 z-40"
+            />
+            <motion.div
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              className="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-slate-800 rounded-t-3xl shadow-xl p-6 pb-8 max-h-[85vh] overflow-y-auto"
+            >
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Share</h3>
+                <button
+                  onClick={() => setShareMenuOpen(false)}
+                  className="p-1 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
+                >
+                  <X className="w-6 h-6 text-gray-500 dark:text-gray-400" />
+                </button>
+              </div>
+
+              <div className="grid grid-cols-3 gap-4">
+                <button
+                  onClick={() => handleShareOption('link')}
+                  className="flex flex-col items-center gap-2 p-3 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-2xl transition-colors"
+                >
+                  <div className="w-14 h-14 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                    <Send className="w-7 h-7 text-blue-500" />
+                  </div>
+                  <span className="text-xs font-medium text-gray-700 dark:text-gray-200 text-center">Share Link</span>
+                </button>
+
+                <button
+                  onClick={() => handleShareOption('duet')}
+                  className="flex flex-col items-center gap-2 p-3 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-2xl transition-colors"
+                >
+                  <div className="w-14 h-14 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
+                    <Copy className="w-7 h-7 text-purple-500" />
+                  </div>
+                  <span className="text-xs font-medium text-gray-700 dark:text-gray-200 text-center">Duet</span>
+                </button>
+
+                <button
+                  onClick={() => handleShareOption('repost')}
+                  className="flex flex-col items-center gap-2 p-3 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-2xl transition-colors"
+                >
+                  <div className="w-14 h-14 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+                    <Repeat2 className="w-7 h-7 text-green-500" />
+                  </div>
+                  <span className="text-xs font-medium text-gray-700 dark:text-gray-200 text-center">Repost</span>
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
