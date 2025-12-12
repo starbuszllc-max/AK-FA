@@ -435,21 +435,21 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
               </button>
             )}
 
-            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex flex-col gap-5 items-center z-40">
-              <button
-                onClick={handleToggleMute}
-                className="flex flex-col items-center gap-1"
-              >
-                {isMuted ? (
-                  <VolumeX className="w-6 h-6 text-white drop-shadow-lg" strokeWidth={2.5} />
-                ) : (
-                  <Volume2 className="w-6 h-6 text-white drop-shadow-lg" strokeWidth={2.5} />
-                )}
-                <span className="text-white text-xs font-bold drop-shadow-lg">
-                  {isMuted ? 'Unmute' : 'Mute'}
-                </span>
-              </button>
+            <button
+              onClick={handleToggleMute}
+              className="absolute top-14 right-4 flex flex-col items-center gap-1 z-40"
+            >
+              {isMuted ? (
+                <VolumeX className="w-6 h-6 text-white drop-shadow-lg" strokeWidth={2.5} />
+              ) : (
+                <Volume2 className="w-6 h-6 text-white drop-shadow-lg" strokeWidth={2.5} />
+              )}
+              <span className="text-white text-xs font-bold drop-shadow-lg">
+                {isMuted ? 'Unmute' : 'Mute'}
+              </span>
+            </button>
 
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 flex flex-col gap-5 items-center z-40">
               <button
                 onClick={() => handleLike(video)}
                 className="flex flex-col items-center gap-1"
@@ -523,20 +523,20 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
                   {savedVideos.has(video.id) ? 'Saved' : 'Save'}
                 </span>
               </button>
-
-              <Link href="/create" className="flex flex-col items-center gap-1">
-                <motion.div 
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white flex items-center justify-center"
-                >
-                  <Plus className="w-7 h-7 text-white drop-shadow-lg" strokeWidth={3} />
-                </motion.div>
-                <span className="text-white text-xs font-bold drop-shadow-lg">Create</span>
-              </Link>
             </div>
 
-            <div className="absolute bottom-16 left-0 right-20 p-6 text-white pointer-events-none">
+            <Link href="/create" className="absolute bottom-24 right-3 flex flex-col items-center gap-1 z-40">
+              <motion.div 
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white flex items-center justify-center"
+              >
+                <Plus className="w-7 h-7 text-white drop-shadow-lg" strokeWidth={3} />
+              </motion.div>
+              <span className="text-white text-xs font-bold drop-shadow-lg">Create</span>
+            </Link>
+
+            <div className="absolute bottom-16 left-2 right-16 p-4 text-white pointer-events-none">
               <div className="flex items-center gap-3 mb-3">
                 <img
                   src={video.profiles.avatarUrl || '/default-avatar.png'}

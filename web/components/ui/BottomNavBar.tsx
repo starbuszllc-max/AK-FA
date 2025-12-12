@@ -64,7 +64,7 @@ export default function BottomNavBar() {
             className={`fixed bottom-0 left-0 right-0 z-40 ${isVideoPage ? 'bg-transparent' : 'bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-t border-gray-200/50 dark:border-slate-700/50'}`}
             style={{ paddingBottom: 'max(env(safe-area-inset-bottom, 0px), 8px)' }}
           >
-            <div className="flex items-center justify-around h-14 max-w-4xl mx-auto px-3">
+            <div className="flex items-center justify-around h-16 max-w-4xl mx-auto px-1">
               {navItems.map((item) => {
                 const Icon = item.icon;
                 const active = item.isExplore ? isExploreOpen : isActive(item.href);
@@ -75,7 +75,7 @@ export default function BottomNavBar() {
                       ref={exploreButtonRef}
                       key={item.label}
                       onClick={() => setIsExploreOpen(!isExploreOpen)}
-                      className="relative flex flex-col items-center justify-center w-14 h-full focus:outline-none"
+                      className="relative flex flex-col items-center justify-center flex-1 h-full focus:outline-none"
                       aria-label={isExploreOpen ? 'Close explore menu' : 'Open explore menu'}
                       aria-expanded={isExploreOpen}
                     >
@@ -103,10 +103,10 @@ export default function BottomNavBar() {
                     key={item.href}
                     href={item.href}
                     onClick={() => setIsExploreOpen(false)}
-                    className="relative flex flex-col items-center justify-center w-14 h-full focus:outline-none group"
+                    className="relative flex flex-col items-center justify-center flex-1 h-full focus:outline-none group"
                   >
                     <div
-                      className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-200 ${
+                      className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-200 ${
                         isVideoPage
                           ? active ? 'bg-white/30 backdrop-blur-sm' : ''
                           : active
@@ -114,9 +114,9 @@ export default function BottomNavBar() {
                             : 'text-gray-500 dark:text-gray-400 group-hover:bg-gray-100 dark:group-hover:bg-slate-800'
                       }`}
                     >
-                      <Icon className={`w-${isVideoPage ? '5' : '4'} h-${isVideoPage ? '5' : '4'} ${isVideoPage ? 'text-white drop-shadow-lg' : ''}`} strokeWidth={isVideoPage ? 2.5 : 2} />
+                      <Icon className={`w-${isVideoPage ? '6' : '5'} h-${isVideoPage ? '6' : '5'} ${isVideoPage ? 'text-white drop-shadow-lg' : ''}`} strokeWidth={isVideoPage ? 2.5 : 2} />
                     </div>
-                    <span className={`text-[9px] font-medium ${
+                    <span className={`text-[10px] font-medium mt-1 ${
                       isVideoPage
                         ? 'text-white drop-shadow-lg font-semibold'
                         : active
