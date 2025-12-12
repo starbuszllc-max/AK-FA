@@ -349,7 +349,7 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
 
   if (loading) {
     return (
-      <div className="h-screen w-full bg-black flex items-center justify-center">
+      <div className="w-full bg-black flex items-center justify-center" style={{ height: '100dvh', minHeight: '100vh' }}>
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white" />
       </div>
     );
@@ -357,7 +357,7 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
 
   if (videos.length === 0) {
     return (
-      <div className="h-screen w-full bg-black flex flex-col items-center justify-center text-white p-6">
+      <div className="w-full bg-black flex flex-col items-center justify-center text-white p-6" style={{ height: '100dvh', minHeight: '100vh' }}>
         <Play className="w-16 h-16 mb-4 opacity-50" />
         <h3 className="text-xl font-semibold mb-2">No videos yet</h3>
         <p className="text-gray-400 text-center">Be the first to share a video in this category!</p>
@@ -368,8 +368,8 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
   return (
     <div
       ref={containerRef}
-      className="h-screen w-full bg-black overflow-y-scroll snap-y snap-mandatory scrollbar-hide"
-      style={{ scrollBehavior: 'smooth' }}
+      className="w-full bg-black overflow-y-scroll snap-y snap-mandatory scrollbar-hide"
+      style={{ scrollBehavior: 'smooth', height: '100dvh', minHeight: '100vh' }}
       onScroll={handleScroll}
     >
       {isMuted && (
@@ -400,7 +400,8 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
             key={video.id}
             ref={(el) => registerVideoContainer(video.id, el)}
             data-video-id={video.id}
-            className="h-screen w-full snap-start snap-always relative flex-shrink-0"
+            className="w-full snap-start snap-always relative flex-shrink-0"
+            style={{ height: '100dvh', minHeight: '100vh' }}
           >
             <video
               ref={(el) => {
