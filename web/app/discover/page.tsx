@@ -153,7 +153,7 @@ export default function DiscoverPage() {
             {filteredBoards.slice(0, 6).map((board) => (
               <div
                 key={board.id}
-                className="bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700 p-3 hover:shadow-md transition-all"
+                className="p-3 rounded-lg transition-all"
               >
                 <div className="flex items-start gap-2.5">
                   <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
@@ -204,7 +204,7 @@ export default function DiscoverPage() {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700 p-4">
+        <div className="p-4 rounded-lg">
           <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">
             Create a Community
           </h3>
