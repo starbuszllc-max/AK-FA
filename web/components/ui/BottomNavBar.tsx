@@ -80,7 +80,7 @@ export default function BottomNavBar() {
                       aria-expanded={isExploreOpen}
                     >
                       <motion.div
-                        className={`w-10 h-10 rounded-full flex items-center justify-center -mt-3 shadow-md ${
+                        className={`w-10 h-10 rounded-full flex items-center justify-center shadow-md ${
                           isVideoPage
                             ? 'bg-white/20 backdrop-blur-sm border border-white/50'
                             : 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white'
