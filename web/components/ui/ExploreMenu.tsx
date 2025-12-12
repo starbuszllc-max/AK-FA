@@ -95,10 +95,10 @@ export default function ExploreMenu({ isOpen, onClose }: ExploreMenuProps) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 100, scale: 0.95 }}
             transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-            className="fixed bottom-20 left-3 right-3 sm:left-auto sm:right-4 sm:w-96 z-50 bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 dark:border-slate-700/50 overflow-hidden"
+            className="fixed bottom-20 left-3 right-3 sm:left-auto sm:right-4 sm:w-96 z-50 rounded-3xl shadow-2xl overflow-hidden"
             style={{ marginBottom: 'env(safe-area-inset-bottom, 0px)' }}
           >
-            <div className="p-4 bg-gradient-to-r from-indigo-500/90 to-purple-600/90 backdrop-blur-sm text-white">
+            <div className="p-4 text-white">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="font-bold text-lg flex items-center gap-2">
                   <Sparkles className="w-5 h-5" />
