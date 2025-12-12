@@ -32,7 +32,7 @@ interface VerticalVideoFeedProps {
 export default function VerticalVideoFeed({ category = 'for-you', userLayerScores, onVideoChange }: VerticalVideoFeedProps) {
   const [videos, setVideos] = useState<VideoPost[]>([]);
   const [loading, setLoading] = useState(true);
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
   const [likedVideos, setLikedVideos] = useState<Set<string>>(new Set());
   const [savedVideos, setSavedVideos] = useState<Set<string>>(new Set());
   const [repostedVideos, setRepostedVideos] = useState<Set<string>>(new Set());
@@ -372,23 +372,6 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
       style={{ scrollBehavior: 'smooth', height: '100dvh', minHeight: '100vh' }}
       onScroll={handleScroll}
     >
-      {isMuted && (
-        <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 flex flex-col items-center gap-3">
-          <button
-            onClick={handleUnmute}
-            className="px-6 py-3 bg-black/50 backdrop-blur-md rounded-full text-white text-base font-semibold flex items-center gap-2 border border-white/30"
-          >
-            <VolumeX className="w-5 h-5" strokeWidth={2.5} />
-            Tap to unmute
-          </button>
-          <button
-            onClick={handleToggleMute}
-            className="p-3 rounded-full bg-black/40 backdrop-blur-sm text-white"
-          >
-            <VolumeX className="w-6 h-6" strokeWidth={2.5} />
-          </button>
-        </div>
-      )}
 
       {videos.map((video) => {
         const isLiked = likedVideos.has(video.id);
