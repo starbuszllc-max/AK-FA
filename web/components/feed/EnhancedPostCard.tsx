@@ -245,7 +245,7 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -2 }}
       transition={{ duration: 0.2 }}
-      className="p-4 md:p-5 transition-all duration-200"
+      className="px-3 py-4 md:p-5 transition-all duration-200"
     >
       {showShareToast && (
         <motion.div

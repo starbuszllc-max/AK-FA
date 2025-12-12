@@ -179,7 +179,7 @@ export default function FeedPage() {
     <>
       <AnimatedBackground />
       
-      <main className="max-w-6xl mx-auto px-4 py-6">
+      <main className="w-full lg:max-w-6xl lg:mx-auto px-0 lg:px-4 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-6">
             <motion.div
