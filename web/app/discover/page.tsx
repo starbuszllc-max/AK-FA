@@ -138,8 +138,8 @@ export default function DiscoverPage() {
           </div>
         </div>
 
-        <div className="space-y-3">
-          <div className="flex items-center justify-between">
+        <div className="">
+          <div className="flex items-center justify-between py-2">
             <h2 className="text-sm font-semibold text-gray-900 dark:text-white flex items-center gap-1.5">
               <TrendingUp className="w-4 h-4 text-orange-500" />
               Trending
@@ -149,13 +149,13 @@ export default function DiscoverPage() {
             </Link>
           </div>
 
-          <div className="grid gap-2 md:grid-cols-2">
+          <div className="grid gap-0 md:grid-cols-2">
             {filteredBoards.slice(0, 6).map((board) => (
               <div
                 key={board.id}
-                className="p-3 rounded-lg transition-all"
+                className=""
               >
-                <div className="flex items-start gap-2.5">
+                <div className="flex items-start gap-2.5 py-2">
                   <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
                     {board.name.charAt(0)}
                   </div>
@@ -204,7 +204,7 @@ export default function DiscoverPage() {
           </div>
         </div>
 
-        <div className="p-4 rounded-lg">
+        <div className="py-2">
           <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">
             Create a Community
           </h3>
