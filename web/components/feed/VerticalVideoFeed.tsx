@@ -479,7 +479,7 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
                     className={`w-6 h-6 ${isLiked ? 'text-red-500' : 'text-white'}`}
                     strokeWidth={1.5}
                     fill={isLiked ? 'currentColor' : 'none'}
-                    style={{filter: 'drop-shadow(0 0 8px rgba(0, 0, 0, 0.6)) drop-shadow(inset 0 2px 4px rgba(0, 0, 0, 0.4))'}}
+                    style={{filter: 'drop-shadow(0 2px 12px rgba(0, 0, 0, 0.8)) drop-shadow(-2px -2px 8px rgba(0, 0, 0, 0.7)) drop-shadow(inset 0 1px 3px rgba(0, 0, 0, 0.8)'}}
                   />
                 </motion.div>
                 <span className="text-white text-xs font-bold drop-shadow-lg">
@@ -538,7 +538,7 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
                     className={`w-6 h-6 ${savedVideos.has(video.id) ? 'text-yellow-400' : 'text-white'}`}
                     strokeWidth={1.5}
                     fill={savedVideos.has(video.id) ? 'currentColor' : 'none'}
-                    style={{filter: 'drop-shadow(0 0 8px rgba(0, 0, 0, 0.6)) drop-shadow(inset 0 2px 4px rgba(0, 0, 0, 0.4))'}}
+                    style={{filter: 'drop-shadow(0 2px 12px rgba(0, 0, 0, 0.8)) drop-shadow(-2px -2px 8px rgba(0, 0, 0, 0.7)) drop-shadow(inset 0 1px 3px rgba(0, 0, 0, 0.8)'}}
                   />
                 </motion.div>
                 <span className="text-white text-xs font-bold drop-shadow-lg">
