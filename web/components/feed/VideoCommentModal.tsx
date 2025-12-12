@@ -122,7 +122,7 @@ export default function VideoCommentModal({ isOpen, onClose, postId, onCommentAd
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 rounded-t-3xl z-50 max-h-[70vh] flex flex-col"
+            className="fixed bottom-20 left-0 right-0 bg-white/85 dark:bg-slate-900/85 backdrop-blur-md rounded-t-3xl z-50 max-h-[70vh] flex flex-col"
           >
             <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-slate-700">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -172,7 +172,7 @@ export default function VideoCommentModal({ isOpen, onClose, postId, onCommentAd
               )}
             </div>
 
-            <div className="p-4 border-t border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900">
+            <div className="p-4 border-t border-gray-200 dark:border-slate-700 bg-white/85 dark:bg-slate-900/85">
               <div className="flex items-center gap-2">
                 <input
                   ref={inputRef}

@@ -68,12 +68,12 @@ export default function CategoryTabs({ activeCategory, onCategoryChange, variant
             <div className="flex items-center gap-2">
               <Link
                 href="/discover"
-                className="flex-shrink-0 p-2.5 bg-black/40 backdrop-blur-md rounded-full"
+                className="flex-shrink-0 p-2.5 rounded-full"
               >
-                <Search className="w-5 h-5 text-white" />
+                <Search className="w-5 h-5 text-white drop-shadow-lg" />
               </Link>
 
-              <div className="flex-1 flex gap-1 overflow-x-auto hide-scrollbar bg-black/40 backdrop-blur-md rounded-full px-2 py-1.5">
+              <div className="flex-1 flex gap-1 overflow-x-auto hide-scrollbar rounded-full px-2 py-1.5">
                 {categories.map((category) => (
                   <button
                     key={category.id}
@@ -102,9 +102,9 @@ export default function CategoryTabs({ activeCategory, onCategoryChange, variant
               <div className="flex-shrink-0 relative">
                 <Link
                   href="/notifications"
-                  className="block p-2.5 bg-black/40 backdrop-blur-md rounded-full"
+                  className="block p-2.5 rounded-full"
                 >
-                  <Bell className="w-5 h-5 text-white" />
+                  <Bell className="w-5 h-5 text-white drop-shadow-lg" />
                 </Link>
                 
                 <AnimatePresence>

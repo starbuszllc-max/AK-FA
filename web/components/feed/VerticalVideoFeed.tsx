@@ -434,8 +434,23 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
               </button>
             )}
 
+            <div className="absolute top-16 right-4 z-40">
+              <button
+                onClick={handleToggleMute}
+                className="flex flex-col items-center gap-1"
+              >
+                {isMuted ? (
+                  <VolumeX className="w-6 h-6 text-white drop-shadow-lg" strokeWidth={2.5} />
+                ) : (
+                  <Volume2 className="w-6 h-6 text-white drop-shadow-lg" strokeWidth={2.5} />
+                )}
+                <span className="text-white text-xs font-bold drop-shadow-lg">
+                  {isMuted ? 'Unmute' : 'Mute'}
+                </span>
+              </button>
+            </div>
 
-            <div className="absolute bottom-24 left-0 right-20 p-6 text-white pointer-events-none">
+            <div className="absolute bottom-40 left-0 right-20 p-6 text-white pointer-events-none">
               <div className="flex items-center gap-3 mb-3">
                 <img
                   src={video.profiles.avatarUrl || '/default-avatar.png'}
@@ -452,21 +467,7 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
               <p className="text-sm line-clamp-3 mb-2">{video.content}</p>
             </div>
 
-            <div className="absolute bottom-28 right-6 flex flex-col gap-4 items-center">
-              <button
-                onClick={handleToggleMute}
-                className="flex flex-col items-center gap-1"
-              >
-                {isMuted ? (
-                  <VolumeX className="w-8 h-8 text-white drop-shadow-lg" strokeWidth={2.5} />
-                ) : (
-                  <Volume2 className="w-8 h-8 text-white drop-shadow-lg" strokeWidth={2.5} />
-                )}
-                <span className="text-white text-xs font-bold drop-shadow-lg">
-                  {isMuted ? 'Unmute' : 'Mute'}
-                </span>
-              </button>
-
+            <div className="absolute bottom-36 right-8 flex flex-col gap-5 items-center">
               <button
                 onClick={() => handleLike(video)}
                 className="flex flex-col items-center gap-1"
