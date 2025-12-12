@@ -142,7 +142,7 @@ export default function ExploreMenu({ isOpen, onClose }: ExploreMenuProps) {
                       className="flex flex-col items-center p-3 rounded-2xl transition-all group focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     >
                       <Icon className="w-6 h-6 text-white mb-2 group-hover:scale-110 transition-transform" />
-                      <span className="text-xs font-medium text-gray-700 dark:text-gray-300 text-center leading-tight">
+                      <span className="text-xs font-bold text-white text-center leading-relaxed tracking-wide">
                         {link.label}
                       </span>
                     </Link>
