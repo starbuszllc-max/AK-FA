@@ -73,12 +73,12 @@ export default function CategoryTabs({ activeCategory, onCategoryChange, variant
                 <Search className="w-5 h-5 text-white drop-shadow-lg" />
               </Link>
 
-              <div className="flex-1 flex gap-1 overflow-x-auto hide-scrollbar rounded-full px-2 py-1.5">
+              <div className="flex-1 flex gap-0 overflow-x-auto hide-scrollbar rounded-full px-2 py-1.5">
                 {categories.map((category) => (
                   <button
                     key={category.id}
                     onClick={() => onCategoryChange(category.id)}
-                    className="relative px-3 py-2 rounded-full whitespace-nowrap transition-all flex-shrink-0"
+                    className="relative px-2.5 py-2 rounded-full whitespace-nowrap transition-all flex-shrink-0"
                   >
                     {activeCategory === category.id && (
                       <motion.div
