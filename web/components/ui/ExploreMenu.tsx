@@ -139,13 +139,9 @@ export default function ExploreMenu({ isOpen, onClose }: ExploreMenuProps) {
                     <Link
                       href={link.href}
                       onClick={onClose}
-                      className="flex flex-col items-center p-3 rounded-2xl hover:bg-gray-100/80 dark:hover:bg-slate-700/50 transition-all group focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="flex flex-col items-center p-3 rounded-2xl transition-all group focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     >
-                      <div
-                        className={`w-12 h-12 rounded-2xl bg-gray-100/80 dark:bg-slate-700/80 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform shadow-sm ${link.color}`}
-                      >
-                        <Icon className="w-6 h-6" />
-                      </div>
+                      <Icon className="w-6 h-6 text-white mb-2 group-hover:scale-110 transition-transform" />
                       <span className="text-xs font-medium text-gray-700 dark:text-gray-300 text-center leading-tight">
                         {link.label}
                       </span>
