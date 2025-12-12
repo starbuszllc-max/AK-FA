@@ -2,10 +2,9 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, Send, Play, Volume2, VolumeX, Repeat2, Copy, Check, Plus, X } from 'lucide-react';
+import { MessageCircle, Send, Play, Volume2, VolumeX, Repeat2, Copy, Check, Plus, X, Star } from 'lucide-react';
 import Link from 'next/link';
 import LayeredHeartIcon from '@/components/ui/icons/LayeredHeartIcon';
-import LayeredBookmarkIcon from '@/components/ui/icons/LayeredBookmarkIcon';
 import VideoCommentModal from './VideoCommentModal';
 
 interface VideoPost {
@@ -487,13 +486,13 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
               </motion.button>
             )}
 
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 flex flex-col gap-5 items-center z-40">
+            <div className="absolute right-3 bottom-24 flex flex-col gap-5 items-center z-40">
               <button
                 onClick={() => handleLike(video)}
                 className="flex flex-col items-center gap-1"
               >
-                <motion.div whileTap={{ scale: 1.5 }} className="w-6 h-6">
-                  <LayeredHeartIcon isActive={isLiked} className="w-6 h-6" />
+                <motion.div whileTap={{ scale: 1.5 }} className="w-8 h-8">
+                  <LayeredHeartIcon isActive={isLiked} className="w-8 h-8" />
                 </motion.div>
                 <span className={`text-xs font-bold drop-shadow-lg ${isLiked ? 'text-red-500' : 'text-white'}`}>
                   {(video.likeCount + (isLiked ? 1 : 0)).toLocaleString()}
@@ -504,7 +503,7 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
                 onClick={() => handleOpenComments(video.id)}
                 className="flex flex-col items-center gap-1"
               >
-                <MessageCircle className="w-6 h-6 text-white" strokeWidth={1.5} style={{filter: 'drop-shadow(0 0 8px rgba(0, 0, 0, 0.6)) drop-shadow(inset 0 2px 4px rgba(0, 0, 0, 0.4))'}} />
+                <MessageCircle className="w-8 h-8 text-white" strokeWidth={1.5} style={{filter: 'drop-shadow(0 0 8px rgba(0, 0, 0, 0.6)) drop-shadow(inset 0 2px 4px rgba(0, 0, 0, 0.4))'}} />
                 <span className="text-white text-xs font-bold drop-shadow-lg">
                   {(video.commentCount + (commentCounts[video.id] || 0)).toLocaleString()}
                 </span>
@@ -514,7 +513,7 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
                 onClick={() => handleShareMenuOpen(video)} 
                 className="flex flex-col items-center gap-1"
               >
-                <Send className="w-6 h-6 text-white" strokeWidth={1.5} style={{filter: 'drop-shadow(0 0 8px rgba(0, 0, 0, 0.6)) drop-shadow(inset 0 2px 4px rgba(0, 0, 0, 0.4))'}} />
+                <Send className="w-8 h-8 text-white" strokeWidth={1.5} style={{filter: 'drop-shadow(0 0 8px rgba(0, 0, 0, 0.6)) drop-shadow(inset 0 2px 4px rgba(0, 0, 0, 0.4))'}} />
                 <span className="text-white text-xs font-bold drop-shadow-lg">Share</span>
               </button>
 
@@ -522,11 +521,15 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
                 onClick={() => handleSave(video)}
                 className="flex flex-col items-center gap-1"
               >
-                <motion.div whileTap={{ scale: 1.2 }} className="w-6 h-6">
-                  <LayeredBookmarkIcon isActive={savedVideos.has(video.id)} className="w-6 h-6" />
+                <motion.div whileTap={{ scale: 1.5 }} className="w-8 h-8">
+                  <Star 
+                    className={`w-8 h-8 ${savedVideos.has(video.id) ? 'text-yellow-400 fill-yellow-400' : 'text-white'}`}
+                    strokeWidth={1.5}
+                    style={{filter: 'drop-shadow(0 0 8px rgba(0, 0, 0, 0.6)) drop-shadow(inset 0 2px 4px rgba(0, 0, 0, 0.4))', transition: 'all 0.2s ease'}}
+                  />
                 </motion.div>
                 <span className={`text-xs font-bold drop-shadow-lg ${savedVideos.has(video.id) ? 'text-yellow-400' : 'text-white'}`}>
-                  {savedVideos.has(video.id) ? 'Saved' : 'Save'}
+                  {savedVideos.has(video.id) ? 'Favorited' : 'Favorite'}
                 </span>
               </button>
             </div>
