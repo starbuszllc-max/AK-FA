@@ -138,7 +138,7 @@ export default function BottomNavBar() {
 
       <ExploreMenu isOpen={isExploreOpen} onClose={handleCloseExplore} />
 
-      <div className="h-20" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }} />
+      <div className="h-16" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }} />
     </>
   );
 }
