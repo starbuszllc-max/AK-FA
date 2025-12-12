@@ -14,10 +14,7 @@ export default function LayeredHeartIcon({ isActive = false, className = '' }: L
       xmlns="http://www.w3.org/2000/svg"
       style={{
         filter: isActive ? 'drop-shadow(0 2px 6px rgba(0,0,0,0.3))' : 'drop-shadow(0 1px 2px rgba(0,0,0,0.2))',
-        transition: 'all 0.2s cubic-bezier(0.05, 0, 0, 1)',
-        ...(isActive && {
-          boxShadow: '0 0 0 4px rgba(255, 0, 0, 0.15)'
-        })
+        transition: 'all 0.2s cubic-bezier(0.05, 0, 0, 1)'
       }}
     >
       {/* Bottom layer: Black stroke outline (2px) */}
