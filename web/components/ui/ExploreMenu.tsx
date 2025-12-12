@@ -19,6 +19,7 @@ import {
   Sparkles,
   Newspaper,
   Compass,
+  Bell,
 } from 'lucide-react';
 
 const menuLinks = [
@@ -118,9 +119,7 @@ export default function ExploreMenu({ isOpen, onClose }: ExploreMenuProps) {
                   <span className="text-sm font-medium">Messages</span>
                 </Link>
                 <Link href="/notifications" onClick={onClose} className="flex items-center gap-2 px-3 py-1.5 bg-white/20 rounded-full hover:bg-white/30 transition-colors">
-                  <div className="relative">
-                    <Compass className="w-4 h-4" />
-                  </div>
+                  <Bell className="w-4 h-4" />
                   <span className="text-sm font-medium">Notifications</span>
                 </Link>
               </div>
