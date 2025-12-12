@@ -540,9 +540,12 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
               <motion.div 
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
-                className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white flex items-center justify-center"
+                className="w-10 h-10 rounded-full bg-white/25 backdrop-blur-sm border-2 border-white flex items-center justify-center transition-shadow"
+                style={{
+                  boxShadow: 'inset 0 1px 2px rgba(255, 255, 255, 0.4), inset 0 -1px 2px rgba(0, 0, 0, 0.3), 0 4px 8px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2)'
+                }}
               >
-                <Plus className="w-7 h-7 text-white drop-shadow-lg" strokeWidth={3} />
+                <Plus className="w-5 h-5 text-white drop-shadow-lg" strokeWidth={3} />
               </motion.div>
               <span className="text-white text-xs font-bold drop-shadow-lg">Create</span>
             </Link>
