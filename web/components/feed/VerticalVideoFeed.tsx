@@ -2,8 +2,10 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { Heart, MessageCircle, Share2, Bookmark, Play, Volume2, VolumeX, Repeat2, Copy, Check, Plus } from 'lucide-react';
+import { MessageCircle, Share2, Play, Volume2, VolumeX, Repeat2, Copy, Check, Plus } from 'lucide-react';
 import Link from 'next/link';
+import LayeredHeartIcon from '@/components/ui/icons/LayeredHeartIcon';
+import LayeredBookmarkIcon from '@/components/ui/icons/LayeredBookmarkIcon';
 import VideoCommentModal from './VideoCommentModal';
 
 interface VideoPost {
@@ -474,15 +476,10 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
                 onClick={() => handleLike(video)}
                 className="flex flex-col items-center gap-1"
               >
-                <motion.div whileTap={{ scale: 1.5 }}>
-                  <Heart
-                    className={`w-6 h-6 ${isLiked ? 'text-red-500' : 'text-white'}`}
-                    strokeWidth={1.5}
-                    fill={isLiked ? 'currentColor' : 'none'}
-                    style={{filter: 'drop-shadow(0 2px 12px rgba(0, 0, 0, 0.8)) drop-shadow(-2px -2px 8px rgba(0, 0, 0, 0.7)) drop-shadow(inset 0 1px 3px rgba(0, 0, 0, 0.8)'}}
-                  />
+                <motion.div whileTap={{ scale: 1.5 }} className="w-6 h-6">
+                  <LayeredHeartIcon isActive={isLiked} className="w-6 h-6" />
                 </motion.div>
-                <span className="text-white text-xs font-bold drop-shadow-lg">
+                <span className={`text-xs font-bold drop-shadow-lg ${isLiked ? 'text-red-500' : 'text-white'}`}>
                   {(video.likeCount + (isLiked ? 1 : 0)).toLocaleString()}
                 </span>
               </button>
@@ -533,15 +530,10 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
                 onClick={() => handleSave(video)}
                 className="flex flex-col items-center gap-1"
               >
-                <motion.div whileTap={{ scale: 1.2 }}>
-                  <Bookmark 
-                    className={`w-6 h-6 ${savedVideos.has(video.id) ? 'text-yellow-400' : 'text-white'}`}
-                    strokeWidth={1.5}
-                    fill={savedVideos.has(video.id) ? 'currentColor' : 'none'}
-                    style={{filter: 'drop-shadow(0 2px 12px rgba(0, 0, 0, 0.8)) drop-shadow(-2px -2px 8px rgba(0, 0, 0, 0.7)) drop-shadow(inset 0 1px 3px rgba(0, 0, 0, 0.8)'}}
-                  />
+                <motion.div whileTap={{ scale: 1.2 }} className="w-6 h-6">
+                  <LayeredBookmarkIcon isActive={savedVideos.has(video.id)} className="w-6 h-6" />
                 </motion.div>
-                <span className="text-white text-xs font-bold drop-shadow-lg">
+                <span className={`text-xs font-bold drop-shadow-lg ${savedVideos.has(video.id) ? 'text-yellow-400' : 'text-white'}`}>
                   {savedVideos.has(video.id) ? 'Saved' : 'Save'}
                 </span>
               </button>
