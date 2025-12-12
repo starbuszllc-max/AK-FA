@@ -474,7 +474,7 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
                 onClick={() => handleLike(video)}
                 className="flex flex-col items-center gap-1"
               >
-                <motion.div whileTap={{ scale: 1.2 }}>
+                <motion.div whileTap={{ scale: 1.5 }}>
                   <Heart
                     className={`w-6 h-6 icon-inset ${isLiked ? 'text-red-500' : 'text-white'}`}
                     strokeWidth={1.5}

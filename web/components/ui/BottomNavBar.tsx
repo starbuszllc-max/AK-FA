@@ -80,16 +80,12 @@ export default function BottomNavBar() {
                       aria-expanded={isExploreOpen}
                     >
                       <motion.div
-                        className={`w-10 h-10 rounded-full flex items-center justify-center shadow-md ${
-                          isVideoPage
-                            ? 'bg-white/20 backdrop-blur-sm border border-white/50'
-                            : 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white'
-                        }`}
+                        className="flex items-center justify-center"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         animate={{ rotate: isExploreOpen ? 45 : 0 }}
                       >
-                        <Icon className={`w-5 h-5 ${isVideoPage ? 'text-white drop-shadow-lg' : 'text-white'}`} strokeWidth={2.5} />
+                        <Icon className={`w-6 h-6 ${isVideoPage ? 'text-white drop-shadow-lg' : 'text-gray-500 dark:text-gray-400'}`} strokeWidth={4} />
                       </motion.div>
                       <span className={`text-[9px] font-medium mt-0.5 ${isVideoPage ? 'text-white drop-shadow-lg font-semibold' : 'text-gray-500 dark:text-gray-400'}`}>
                         {item.label}
