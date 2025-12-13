@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db } from '../../../lib/db';
+import { db } from '@/lib/db';
 import { communityBoards, communityBoardMembers, userLocations } from '@akorfa/shared';
 import { eq, and, sql, desc } from 'drizzle-orm';
 

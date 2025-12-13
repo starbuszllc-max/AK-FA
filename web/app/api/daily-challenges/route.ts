@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db } from '../../../lib/db';
+import { db } from '@/lib/db';
 import { dailyChallenges, dailyChallengeCompletions, wallets, profiles } from '@akorfa/shared';
 import { eq, and, gte, desc, sql, or, isNull } from 'drizzle-orm';
 

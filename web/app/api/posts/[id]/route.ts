@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
-import { db } from '../../../lib/db';
+import { db } from '@/lib/db';
 import { posts, profiles } from '@akorfa/shared';
 import { eq } from 'drizzle-orm';
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const postId = params.id;
+    const { id: postId } = await params;
 
     if (!postId) {
       return NextResponse.json({ error: 'Post ID required' }, { status: 400 });

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '../../../lib/db';
+import { db } from '@/lib/db';
 import { badges, userBadges, profiles, posts, comments, challengeParticipants, assessments } from '@akorfa/shared';
 import { eq, count, and } from 'drizzle-orm';
 

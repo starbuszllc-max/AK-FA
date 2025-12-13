@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getOpenAI, hasOpenAIKey } from '../../../lib/openai';
-import { db } from '../../../lib/db';
+import { db } from '@/lib/db';
 import { profiles, assessments, posts, userEvents, challengeParticipants } from '@akorfa/shared';
 import { eq, desc, and, gte } from 'drizzle-orm';
 

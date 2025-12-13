@@ -1,5 +1,5 @@
 import {NextResponse} from 'next/server';
-import {db} from '../../../lib/db';
+import {db} from '@/lib/db';
 import {assessments} from '@akorfa/shared';
 import {calculateAkorfaScore} from '@akorfa/shared/src/scoring';
 import {desc} from 'drizzle-orm';
