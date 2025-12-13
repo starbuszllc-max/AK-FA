@@ -92,7 +92,7 @@ export default function CategoryTabs({ activeCategory, onCategoryChange, variant
                       />
                     )}
                     <span 
-                      className={`relative text-sm font-bold tracking-tight ${
+                      className={`relative text-lg font-bold tracking-tighter ${
                         activeCategory === category.id ? 'text-white' : 'text-white/70'
                       }`}
                       style={{ 
@@ -148,7 +148,7 @@ export default function CategoryTabs({ activeCategory, onCategoryChange, variant
           <button
             key={category.id}
             onClick={() => onCategoryChange(category.id)}
-            className="relative px-4 py-3 whitespace-nowrap text-sm font-bold transition-colors"
+            className="relative px-4 py-3 whitespace-nowrap text-lg font-bold transition-colors"
           >
             {activeCategory === category.id && (
               <motion.div
