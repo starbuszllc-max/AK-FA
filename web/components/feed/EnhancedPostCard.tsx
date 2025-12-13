@@ -97,6 +97,7 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
   const [showShareToast, setShowShareToast] = useState(false);
   const [shareToastMessage, setShareToastMessage] = useState('Link copied to clipboard!');
   const [showShareModal, setShowShareModal] = useState(false);
+  const [commentError, setCommentError] = useState<string | null>(null);
 
   const username = post.profiles?.username || 'Anonymous';
   const avatarUrl = post.profiles?.avatar_url;
@@ -129,6 +130,7 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
     if (!newComment.trim() || submittingComment) return;
 
     setSubmittingComment(true);
+    setCommentError(null);
     try {
       const resp = await fetch('/api/comments', {
         method: 'POST',
@@ -147,9 +149,18 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
         setLocalCommentCount(prev => prev + 1);
         await fetchComments();
         onCommentAdded?.(post.id);
+      } else {
+        const errorData = await resp.json();
+        const errorMessage = errorData.error || `Failed to post comment (${resp.status})`;
+        setCommentError(errorMessage);
+        console.error('Comment submission failed:', errorMessage);
+        setTimeout(() => setCommentError(null), 4000);
       }
-    } catch (err) {
+    } catch (err: any) {
+      const errorMessage = err?.message || 'Failed to post comment';
+      setCommentError(errorMessage);
       console.error('Error submitting comment:', err);
+      setTimeout(() => setCommentError(null), 4000);
     } finally {
       setSubmittingComment(false);
     }
@@ -587,6 +598,11 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
                     )}
                   </motion.button>
                 </div>
+                {commentError && (
+                  <div className="mt-2 p-2 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-sm text-red-700 dark:text-red-300">
+                    {commentError}
+                  </div>
+                )}
               </form>
             )}
 
