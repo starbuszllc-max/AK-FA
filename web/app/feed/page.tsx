@@ -12,6 +12,7 @@ import SkeletonPost from '../../components/feed/SkeletonPost';
 import Toast from '../../components/feed/Toast';
 import FloatingComposeButton from '../../components/feed/FloatingComposeButton';
 import CameraCapture from '../../components/camera/CameraCapture';
+import PullToRefresh from '../../components/ui/PullToRefresh';
 
 interface Post {
   id: string;
@@ -128,6 +129,10 @@ export default function FeedPage() {
     setToast({ visible: true, message, type });
   };
 
+  const handlePullRefresh = useCallback(async () => {
+    await fetchPosts();
+  }, [fetchPosts]);
+
   const handleCameraCapture = async (data: {
     mediaUrl: string;
     mediaType: 'image' | 'video';
@@ -170,9 +175,10 @@ export default function FeedPage() {
     <>
       <AnimatedBackground />
       
-      <main className="w-full lg:max-w-6xl lg:mx-auto px-0 lg:px-4 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 space-y-6">
+      <PullToRefresh onRefresh={handlePullRefresh}>
+        <main className="w-full lg:max-w-6xl lg:mx-auto px-0 lg:px-4 py-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2 space-y-6">
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -267,127 +273,128 @@ export default function FeedPage() {
           </div>
         </div>
       </main>
+    </PullToRefresh>
 
-      <FloatingComposeButton 
-        onClick={() => setShowMobileComposer(true)} 
-        onCameraClick={() => setShowCamera(true)} 
-      />
+    <FloatingComposeButton 
+      onClick={() => setShowMobileComposer(true)} 
+      onCameraClick={() => setShowCamera(true)} 
+    />
 
-      <AnimatePresence>
-        {showMobileComposer && (
+    <AnimatePresence>
+      {showMobileComposer && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-end md:hidden"
+          onClick={() => setShowMobileComposer(false)}
+        >
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-end md:hidden"
-            onClick={() => setShowMobileComposer(false)}
+            initial={{ y: '100%' }}
+            animate={{ y: 0 }}
+            exit={{ y: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className="w-full bg-white dark:bg-slate-800 rounded-t-2xl p-4 max-h-[80vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
           >
-            <motion.div
-              initial={{ y: '100%' }}
-              animate={{ y: 0 }}
-              exit={{ y: '100%' }}
-              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="w-full bg-white dark:bg-slate-800 rounded-t-2xl p-4 max-h-[80vh] overflow-y-auto"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="w-12 h-1 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto mb-4" />
-              <EnhancedPostComposer onPostCreated={handlePostCreated} onToast={showToast} />
-            </motion.div>
+            <div className="w-12 h-1 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto mb-4" />
+            <EnhancedPostComposer onPostCreated={handlePostCreated} onToast={showToast} />
           </motion.div>
-        )}
-      </AnimatePresence>
+        </motion.div>
+      )}
+    </AnimatePresence>
 
-      <Toast 
-        visible={toast.visible}
-        message={toast.message}
-        type={toast.type}
-        onClose={() => setToast(prev => ({ ...prev, visible: false }))}
-      />
+    <Toast 
+      visible={toast.visible}
+      message={toast.message}
+      type={toast.type}
+      onClose={() => setToast(prev => ({ ...prev, visible: false }))}
+    />
 
-      <AnimatePresence>
-        {showCamera && (
-          <CameraCapture
-            onClose={() => setShowCamera(false)}
-            onCapture={handleCameraCapture}
-            userId={currentUserId}
-          />
-        )}
-      </AnimatePresence>
+    <AnimatePresence>
+      {showCamera && (
+        <CameraCapture
+          onClose={() => setShowCamera(false)}
+          onCapture={handleCameraCapture}
+          userId={currentUserId}
+        />
+      )}
+    </AnimatePresence>
 
-      <AnimatePresence>
-        {showProfileUnlockedModal && (
+    <AnimatePresence>
+      {showProfileUnlockedModal && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          onClick={() => setShowProfileUnlockedModal(false)}
+        >
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-            onClick={() => setShowProfileUnlockedModal(false)}
+            initial={{ scale: 0.8, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.8, opacity: 0, y: 20 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className="bg-white dark:bg-slate-800 rounded-2xl p-8 max-w-md w-full text-center shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
           >
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.8, opacity: 0, y: 20 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="bg-white dark:bg-slate-800 rounded-2xl p-8 max-w-md w-full text-center shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="relative mb-6">
-                <div className="w-24 h-24 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center mx-auto shadow-lg shadow-amber-500/30">
-                  <Trophy className="w-12 h-12 text-white" />
-                </div>
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.3, type: 'spring' }}
-                  className="absolute -top-2 -right-2 w-8 h-8"
-                >
-                  <Sparkles className="w-8 h-8 text-amber-400" />
-                </motion.div>
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.4, type: 'spring' }}
-                  className="absolute -bottom-1 -left-1 w-6 h-6"
-                >
-                  <Sparkles className="w-6 h-6 text-purple-400" />
-                </motion.div>
+            <div className="relative mb-6">
+              <div className="w-24 h-24 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center mx-auto shadow-lg shadow-amber-500/30">
+                <Trophy className="w-12 h-12 text-white" />
               </div>
-              
-              <motion.h2
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="text-2xl font-bold text-gray-900 dark:text-white mb-3"
-              >
-                Congratulations!
-              </motion.h2>
-              <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="text-gray-600 dark:text-gray-300 mb-6"
-              >
-                You've made your first post and unlocked your profile! Your journey of self-discovery begins now.
-              </motion.p>
-              
               <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.3, type: 'spring' }}
+                className="absolute -top-2 -right-2 w-8 h-8"
               >
-                <Link
-                  href="/profile"
-                  onClick={() => setShowProfileUnlockedModal(false)}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-medium hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg shadow-indigo-500/25"
-                >
-                  View Your Profile
-                  <ChevronRight className="w-5 h-5" />
-                </Link>
+                <Sparkles className="w-8 h-8 text-amber-400" />
               </motion.div>
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.4, type: 'spring' }}
+                className="absolute -bottom-1 -left-1 w-6 h-6"
+              >
+                <Sparkles className="w-6 h-6 text-purple-400" />
+              </motion.div>
+            </div>
+            
+            <motion.h2
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-2xl font-bold text-gray-900 dark:text-white mb-3"
+            >
+              Congratulations!
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="text-gray-600 dark:text-gray-300 mb-6"
+            >
+              You've made your first post and unlocked your profile! Your journey of self-discovery begins now.
+            </motion.p>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+              <Link
+                href="/profile"
+                onClick={() => setShowProfileUnlockedModal(false)}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-medium hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg shadow-indigo-500/25"
+              >
+                View Your Profile
+                <ChevronRight className="w-5 h-5" />
+              </Link>
             </motion.div>
           </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  </>
   );
 }
