@@ -1,13 +1,11 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Bell, Star, Flame, Search, TrendingUp, ChevronDown, Target, Brain, Heart, Users, Leaf, Sparkles, Zap } from 'lucide-react';
+import { Bell, Star, Flame, Search, TrendingUp, Target, Brain, Heart, Users, Leaf, Sparkles, Zap } from 'lucide-react';
 import Link from 'next/link';
 
 const EXCLUDED_PATHS = ['/', '/profile/settings', '/login', '/signup', '/logout', '/onboarding'];
-const AUTO_COLLAPSE_DELAY = 3000;
 
 const LAYER_CONFIG: Record<string, { color: string; icon: React.ReactNode }> = {
   environment: { color: 'bg-green-500', icon: <Leaf className="w-2.5 h-2.5" /> },
@@ -33,30 +31,11 @@ export default function EnhancedHeader() {
   const [akorfaScore, setAkorfaScore] = useState(0);
   const [streak, setStreak] = useState(0);
   const [layerScores, setLayerScores] = useState<LayerScore[]>([]);
-  const [isScoreExpanded, setIsScoreExpanded] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const isExcludedPage = EXCLUDED_PATHS.some(path => pathname?.startsWith(path));
   const isNotificationPage = pathname === '/notifications';
   const isDiscoverPage = pathname === '/discover';
-  const collapseTimerRef = useRef<NodeJS.Timeout | null>(null);
-
-  useEffect(() => {
-    if (isScoreExpanded) {
-      collapseTimerRef.current = setTimeout(() => {
-        setIsScoreExpanded(false);
-      }, AUTO_COLLAPSE_DELAY);
-    }
-    return () => {
-      if (collapseTimerRef.current) {
-        clearTimeout(collapseTimerRef.current);
-      }
-    };
-  }, [isScoreExpanded]);
-
-  useEffect(() => {
-    setIsScoreExpanded(false);
-  }, [pathname]);
 
   useEffect(() => {
     const storedUserId = localStorage.getItem('demo_user_id');
@@ -163,129 +142,63 @@ export default function EnhancedHeader() {
       )}
 
       {userId && (
-        <div className="relative">
-          <button
-            onClick={() => setIsScoreExpanded(!isScoreExpanded)}
+        <>
+          {/* Akorfa Score */}
+          <Link
+            href="/profile"
+            className="relative w-12 h-12 bg-black/30 backdrop-blur-sm rounded-full flex flex-col items-center justify-center hover:bg-black/50 transition-transform"
+          >
+            <Star className="w-5 h-5 text-white" strokeWidth={2.5} style={{filter: 'drop-shadow(0 2px 12px rgba(0, 0, 0, 0.8)) drop-shadow(-2px -2px 8px rgba(0, 0, 0, 0.7))'}} />
+            <span className="text-[9px] font-bold text-white" style={{filter: 'drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8))'}}>
+              {loading ? '...' : Math.round(akorfaScore)}
+            </span>
+          </Link>
+
+          {/* Streak */}
+          <Link
+            href="/daily-challenges"
+            className="relative w-12 h-12 bg-black/30 backdrop-blur-sm rounded-full flex flex-col items-center justify-center hover:bg-black/50 transition-transform"
+          >
+            <Flame className="w-5 h-5 text-orange-400" strokeWidth={2.5} style={{filter: 'drop-shadow(0 2px 12px rgba(0, 0, 0, 0.8)) drop-shadow(-2px -2px 8px rgba(0, 0, 0, 0.7))'}} />
+            <span className="text-[9px] font-bold text-white" style={{filter: 'drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8))'}}>
+              {streak}d
+            </span>
+          </Link>
+
+          {/* Balance */}
+          <Link
+            href="/assessments"
+            className="relative w-12 h-12 bg-black/30 backdrop-blur-sm rounded-full flex flex-col items-center justify-center hover:bg-black/50 transition-transform"
+          >
+            <TrendingUp className="w-5 h-5 text-green-400" strokeWidth={2.5} style={{filter: 'drop-shadow(0 2px 12px rgba(0, 0, 0, 0.8)) drop-shadow(-2px -2px 8px rgba(0, 0, 0, 0.7))'}} />
+            <span className="text-[9px] font-bold text-white" style={{filter: 'drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8))'}}>
+              {averageLayerScore}%
+            </span>
+          </Link>
+
+          {/* Focus Layer (lowest score) */}
+          {lowestLayer && lowestLayer.score < 70 && (
+            <Link
+              href="/assessments"
+              className="relative w-12 h-12 bg-black/30 backdrop-blur-sm rounded-full flex flex-col items-center justify-center hover:bg-black/50 transition-transform"
+            >
+              <div className={`w-6 h-6 ${lowestLayer.color} rounded-full flex items-center justify-center`}>
+                {lowestLayer.icon}
+              </div>
+              <span className="text-[8px] font-medium text-white capitalize" style={{filter: 'drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8))'}}>
+                {lowestLayer.name.slice(0, 4)}
+              </span>
+            </Link>
+          )}
+
+          {/* Heart reaction link */}
+          <Link
+            href="/feed"
             className="relative w-12 h-12 bg-black/30 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-black/50 transition-transform"
           >
-            <Star className="w-7 h-7 text-white" strokeWidth={2.5} style={{filter: 'drop-shadow(0 2px 12px rgba(0, 0, 0, 0.8)) drop-shadow(-2px -2px 8px rgba(0, 0, 0, 0.7)) drop-shadow(inset 0 1px 3px rgba(0, 0, 0, 0.8))'}} />
-            {streak > 0 && (
-              <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-orange-500 rounded-full flex items-center justify-center shadow-sm">
-                <Flame className="w-2.5 h-2.5 text-white" />
-              </div>
-            )}
-          </button>
-
-          <AnimatePresence>
-            {isScoreExpanded && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9, y: -10 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.9, y: -10 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-                className="absolute top-12 right-0 w-64 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm rounded-xl shadow-xl border border-gray-200 dark:border-slate-700 overflow-hidden"
-              >
-                <div className="p-3 border-b border-gray-100 dark:border-slate-700">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center">
-                        <Star className="w-4 h-4 text-white" />
-                      </div>
-                      <div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400">Akorfa Score</div>
-                        <div className="font-bold text-lg text-indigo-600 dark:text-indigo-400">
-                          {loading ? '...' : Math.round(akorfaScore)}
-                        </div>
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => setIsScoreExpanded(false)}
-                      className="p-1 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-full"
-                    >
-                      <ChevronDown className="w-4 h-4 text-gray-400" />
-                    </button>
-                  </div>
-                </div>
-
-                <div className="p-3 space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className="w-7 h-7 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center">
-                        <Flame className="w-3.5 h-3.5 text-orange-500" />
-                      </div>
-                      <div>
-                        <div className="text-[10px] text-gray-500 dark:text-gray-400">Streak</div>
-                        <div className="font-semibold text-sm text-orange-600 dark:text-orange-400">{streak} days</div>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center gap-2">
-                      <div className="w-7 h-7 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
-                        <TrendingUp className="w-3.5 h-3.5 text-green-500" />
-                      </div>
-                      <div>
-                        <div className="text-[10px] text-gray-500 dark:text-gray-400">Balance</div>
-                        <div className="font-semibold text-sm text-green-600 dark:text-green-400">{averageLayerScore}%</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {layerScores.length > 0 && (
-                    <div className="space-y-1.5">
-                      <div className="text-[10px] font-medium text-gray-600 dark:text-gray-400">Layer Balance</div>
-                      <div className="flex gap-0.5 items-end">
-                        {layerScores.map((layer) => (
-                          <div key={layer.name} className="flex-1 group relative flex flex-col items-center">
-                            <div className="w-full h-8 bg-gray-100 dark:bg-slate-700 rounded overflow-hidden flex flex-col justify-end">
-                              <div
-                                className={`w-full ${layer.color} transition-all duration-500 rounded-t`}
-                                style={{ height: `${Math.max(layer.score, 5)}%` }}
-                              />
-                            </div>
-                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
-                              <div className="bg-gray-900 text-white text-[10px] px-1.5 py-0.5 rounded whitespace-nowrap">
-                                {layer.name}: {layer.score}%
-                              </div>
-                            </div>
-                            <div className={`w-4 h-4 mt-0.5 rounded-full ${layer.color} flex items-center justify-center text-white`}>
-                              {layer.icon}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {lowestLayer && lowestLayer.score < 50 && (
-                    <div className="bg-amber-50 dark:bg-amber-900/20 rounded-lg p-2 flex items-start gap-1.5">
-                      <Target className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
-                      <div className="text-[10px] text-amber-700 dark:text-amber-300">
-                        Focus on <span className="font-semibold capitalize">{lowestLayer.name}</span> to improve balance
-                      </div>
-                    </div>
-                  )}
-
-                  <div className="grid grid-cols-2 gap-1.5">
-                    <Link
-                      href="/assessments"
-                      className="flex items-center justify-center gap-1 px-2 py-1.5 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-lg text-[10px] font-medium hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-colors"
-                    >
-                      <Target className="w-3 h-3" />
-                      Assessment
-                    </Link>
-                    <Link
-                      href="/daily-challenges"
-                      className="flex items-center justify-center gap-1 px-2 py-1.5 bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-lg text-[10px] font-medium hover:bg-orange-100 dark:hover:bg-orange-900/50 transition-colors"
-                    >
-                      <Flame className="w-3 h-3" />
-                      Challenges
-                    </Link>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+            <Heart className="w-5 h-5 text-red-400" strokeWidth={2.5} style={{filter: 'drop-shadow(0 2px 12px rgba(0, 0, 0, 0.8)) drop-shadow(-2px -2px 8px rgba(0, 0, 0, 0.7))'}} />
+          </Link>
+        </>
       )}
     </div>
   );
