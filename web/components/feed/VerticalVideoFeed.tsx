@@ -625,7 +625,7 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
               <span className="text-white text-xs font-bold drop-shadow-lg">Create</span>
             </Link>
 
-            <div className="absolute bottom-36 left-1 right-16 p-2 text-white pointer-events-none">
+            <div className="absolute bottom-20 left-1 right-16 p-2 text-white pointer-events-none">
               <div className="flex items-center gap-2 mb-2">
                 <img
                   src={video.profiles.avatarUrl || '/default-avatar.png'}
