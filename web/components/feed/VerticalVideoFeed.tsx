@@ -526,7 +526,7 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
               </motion.button>
             )}
 
-            <div className="absolute right-3 bottom-56 flex flex-col gap-4 items-center z-40">
+            <div className="absolute right-2 bottom-40 flex flex-col gap-4 items-center z-40">
               <button
                 onClick={() => handleLike(video)}
                 className="flex flex-col items-center gap-1"
