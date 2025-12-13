@@ -89,7 +89,7 @@ export default function StoriesPage() {
 
         {showCreator && (
           <div className="mb-8">
-            <StoryCreator onStoryCreated={handleStoryCreated} />
+            <StoryCreator userId={user?.id || ''} onClose={() => setShowCreator(false)} onCreated={handleStoryCreated} />
           </div>
         )}
 

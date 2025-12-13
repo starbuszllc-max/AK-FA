@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { db, getPool } from '../../../../lib/db';
 import { challenges, challengeParticipants, profiles, userEvents } from '@akorfa/shared';
-import { calculateAkorfaScore } from '@akorfa/shared/src/scoring';
+import { calculateAkorfaScore } from '@akorfa/shared';
 import { eq, sql, and } from 'drizzle-orm';
 
 export async function POST(req: Request) {

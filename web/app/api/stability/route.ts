@@ -1,7 +1,7 @@
 import {NextResponse} from 'next/server';
 import {db} from '@/lib/db';
 import {assessments} from '@akorfa/shared';
-import {calculateStability} from '@akorfa/shared/src/scoring';
+import {calculateStability} from '@akorfa/shared';
 
 export async function POST(req: Request) {
   try {
