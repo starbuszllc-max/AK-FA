@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Send, ArrowLeft, Mic, MicOff, Image as ImageIcon, Loader2, MessageCircle, User, MoreVertical } from 'lucide-react';
 import Link from 'next/link';
 import UserProfileCard from '@/components/messages/UserProfileCard';
@@ -38,6 +39,9 @@ interface Message {
 }
 
 export default function MessagesPage() {
+  const searchParams = useSearchParams();
+  const targetUserId = searchParams.get('user');
+  
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -48,6 +52,7 @@ export default function MessagesPage() {
   const [recordingTime, setRecordingTime] = useState(0);
   const [userId, setUserId] = useState<string | null>(null);
   const [showProfile, setShowProfile] = useState(false);
+  const [newChatUser, setNewChatUser] = useState<{ id: string; username: string; avatarUrl?: string } | null>(null);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -63,6 +68,47 @@ export default function MessagesPage() {
       setLoading(false);
     }
   }, []);
+
+  useEffect(() => {
+    if (targetUserId && userId && conversations.length >= 0 && !loading) {
+      const existingConv = conversations.find(c => c.otherUser.id === targetUserId);
+      if (existingConv) {
+        setSelectedConversation(existingConv);
+        fetchMessages(existingConv.id);
+      } else if (targetUserId !== userId) {
+        fetchNewChatUser(targetUserId);
+      }
+    }
+  }, [targetUserId, userId, conversations, loading]);
+
+  const fetchNewChatUser = async (uid: string) => {
+    try {
+      const res = await fetch(`/api/profiles?userId=${uid}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.profile) {
+          setNewChatUser({
+            id: data.profile.id,
+            username: data.profile.username,
+            avatarUrl: data.profile.avatarUrl
+          });
+          setSelectedConversation({
+            id: 'new',
+            otherUser: {
+              id: data.profile.id,
+              username: data.profile.username,
+              avatarUrl: data.profile.avatarUrl
+            },
+            lastMessage: null,
+            unreadCount: 0,
+            lastMessageAt: new Date().toISOString()
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching user:', error);
+    }
+  };
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -123,8 +169,21 @@ export default function MessagesPage() {
       });
 
       if (res.ok) {
+        const data = await res.json();
         setNewMessage('');
-        fetchMessages(selectedConversation.id);
+        
+        if (selectedConversation.id === 'new' && data.conversationId) {
+          await fetchConversations(userId);
+          const newConv = {
+            ...selectedConversation,
+            id: data.conversationId
+          };
+          setSelectedConversation(newConv);
+          setNewChatUser(null);
+          fetchMessages(data.conversationId);
+        } else {
+          fetchMessages(selectedConversation.id);
+        }
       }
     } catch (error) {
       console.error('Error sending message:', error);
