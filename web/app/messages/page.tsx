@@ -355,7 +355,7 @@ function MessagesContent() {
 
   return (
     <>
-      <div className="max-w-6xl mx-auto h-[calc(100vh-140px)]">
+      <div className="max-w-6xl mx-auto h-[calc(100vh-140px)] safe-area-top">
         <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-700 overflow-hidden h-full flex shadow-xl">
           
           <div className={`w-full md:w-[380px] border-r border-gray-200 dark:border-slate-700 flex flex-col bg-white dark:bg-slate-900 ${selectedConversation ? 'hidden md:flex' : ''}`}>
