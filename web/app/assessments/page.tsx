@@ -8,7 +8,7 @@ const AssessmentForm = dynamic(() => import('../../components/AssessmentForm'), 
 
 export default function AssessmentsPage() {
   return (
-    <div className="py-4 px-4">
+    <div className="pt-8 pb-4 px-4">
       <div className="text-center mb-6 sm:mb-8">
         <div className="flex items-center justify-center gap-4 mb-4">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
