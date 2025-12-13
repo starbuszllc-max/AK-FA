@@ -81,7 +81,7 @@ export default function TipButton({ receiverId, receiverName, postId, size = 'sm
         setSelectedGift(null);
         setMessage('');
       }, 2000);
-    } catch (err) {
+    } catch {
       setError('Failed to send tip');
     } finally {
       setLoading(false);

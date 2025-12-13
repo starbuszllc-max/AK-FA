@@ -12,14 +12,6 @@ interface CoinTransaction {
   createdAt: string;
 }
 
-interface PointsTransaction {
-  id: string;
-  amount: number;
-  action: string;
-  description: string;
-  createdAt: string;
-}
-
 interface WalletData {
   pointsBalance: number;
   coinsBalance: number;

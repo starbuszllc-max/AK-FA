@@ -110,10 +110,9 @@ export default function BottomNavBar() {
 
               {/* Middle Items - Feed, More, Challenges with flex growth */}
               <div className="flex-1 flex items-center justify-evenly h-full">
-                {navItems.slice(1, 4).map((item, index) => {
+                {navItems.slice(1, 4).map((item) => {
                   const Icon = item.icon;
                   const active = item.isExplore ? isExploreOpen : isActive(item.href);
-                  const isMores = item.isExplore;
 
                   if (item.isExplore) {
                     return (

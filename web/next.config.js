@@ -2,6 +2,10 @@
 const nextConfig = {
   allowedDevOrigins: ['*.replit.dev', '*.worf.replit.dev', '*.repl.co', '*.kirk.replit.dev', '*.picard.replit.dev', '*.spock.replit.dev', '*.janeway.replit.dev', '127.0.0.1', 'localhost'],
   transpilePackages: ['@akorfa/shared'],
+  typescript: {
+    tsc: true,
+  },
+  productionBrowserSourceMaps: false,
   webpack: (config) => {
     config.watchOptions = {
       ...config.watchOptions,

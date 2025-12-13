@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { X, Camera, Type, Loader2, Image as ImageIcon } from 'lucide-react';
 
 interface StoryCreatorProps {

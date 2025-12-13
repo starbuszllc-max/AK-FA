@@ -7,7 +7,6 @@ import {
   X,
   LayoutDashboard,
   BookOpen,
-  Trophy,
   ClipboardCheck,
   Zap,
   Lightbulb,

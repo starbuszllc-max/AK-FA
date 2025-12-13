@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { X, ChevronLeft, ChevronRight, User, Eye, Clock } from 'lucide-react';
+import { X, User, Eye, Clock } from 'lucide-react';
 
 interface Story {
   id: string;
@@ -33,7 +33,7 @@ interface StoryViewerProps {
 export default function StoryViewer({ group, onClose, onNext }: StoryViewerProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progress, setProgress] = useState(0);
-  const progressRef = useRef<NodeJS.Timeout | null>(null);
+  const progressRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const [viewCounts, setViewCounts] = useState<Record<string, number>>({});
   const currentStory = group.stories[currentIndex];

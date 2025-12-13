@@ -9,7 +9,6 @@ import {
   Trash2, 
   Clock, 
   Target,
-  ChevronRight,
   X,
   Check,
   Loader2
