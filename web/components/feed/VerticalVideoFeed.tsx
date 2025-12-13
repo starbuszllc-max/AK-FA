@@ -541,7 +541,7 @@ export default function VerticalVideoFeed({ category = 'for-you', userLayerScore
                   <LayeredHeartIcon isActive={isLiked} className="w-10 h-10" />
                 </motion.div>
                 <span 
-                  className={`text-xs font-bold ${isLiked ? 'text-red-500' : 'text-white'}`}
+                  className="text-xs font-bold text-white"
                   style={{ textShadow: '0 0 2px #000, 0 0 4px #000, 0 1px 3px rgba(0,0,0,0.9)' }}
                 >
                   {(video.likeCount + (isLiked ? 1 : 0)).toLocaleString()}
