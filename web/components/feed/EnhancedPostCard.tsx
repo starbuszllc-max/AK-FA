@@ -215,7 +215,7 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
       return;
     } else if (option === 'external') {
       try {
-        const shareUrl = `${window.location.origin}/feed#post-${post.id}`;
+        const shareUrl = `${window.location.origin}/posts/${post.id}`;
         if (navigator.share) {
           await navigator.share({
             title: 'Check out this post on Akorfa',
@@ -228,7 +228,7 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
       }
     } else if (option === 'copy') {
       try {
-        await navigator.clipboard.writeText(`${window.location.origin}/feed#post-${post.id}`);
+        await navigator.clipboard.writeText(`${window.location.origin}/posts/${post.id}`);
         setShareToastMessage('Link copied to clipboard!');
         setShowShareToast(true);
         setTimeout(() => setShowShareToast(false), 2000);
