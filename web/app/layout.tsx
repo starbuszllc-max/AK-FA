@@ -6,7 +6,6 @@ import EnhancedHeader from '../components/ui/EnhancedHeader';
 import Footer from '../components/ui/Footer';
 import InstallPrompt from '../components/pwa/InstallPrompt';
 import BottomNavBar from '../components/ui/BottomNavBar';
-import FloatingExploreButton from '../components/ui/FloatingExploreButton';
 
 export const metadata = {
   title: 'Akorfa',
@@ -45,7 +44,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </main>
           <Footer />
           <BottomNavBar />
-          <FloatingExploreButton />
           <InstallPrompt />
         </ThemeProvider>
       </body>

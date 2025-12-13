@@ -19,6 +19,9 @@ import {
   Newspaper,
   Compass,
   Bell,
+  Camera,
+  Trophy,
+  Video,
 } from 'lucide-react';
 
 const menuLinks = [
@@ -39,11 +42,13 @@ const menuLinks = [
 interface ExploreMenuProps {
   isOpen: boolean;
   onClose: () => void;
+  followerCount?: number;
 }
 
-export default function ExploreMenu({ isOpen, onClose }: ExploreMenuProps) {
+export default function ExploreMenu({ isOpen, onClose, followerCount = 0 }: ExploreMenuProps) {
   const menuRef = useRef<HTMLDivElement>(null);
   const [user, setUser] = useState<any>(null);
+  const showLiveButton = followerCount >= 500;
 
   useEffect(() => {
     const demoUserId = localStorage.getItem('demo_user_id');
@@ -111,6 +116,30 @@ export default function ExploreMenu({ isOpen, onClose }: ExploreMenuProps) {
                 >
                   <X className="w-5 h-5" />
                 </button>
+              </div>
+              <div className="grid grid-cols-2 gap-2 mb-3">
+                <Link href="/stories" onClick={onClose} className="flex items-center gap-2 px-3 py-2.5 bg-white/20 rounded-xl hover:bg-white/30 transition-all">
+                  <Camera className="w-4 h-4" />
+                  <span className="text-sm font-medium">View Stories</span>
+                </Link>
+                <Link href="/assessments" onClick={onClose} className="flex items-center gap-2 px-3 py-2.5 bg-white/20 rounded-xl hover:bg-white/30 transition-all">
+                  <ClipboardCheck className="w-4 h-4" />
+                  <span className="text-sm font-medium">Assessment</span>
+                </Link>
+                <Link href="/challenges" onClick={onClose} className="flex items-center gap-2 px-3 py-2.5 bg-white/20 rounded-xl hover:bg-white/30 transition-all">
+                  <Trophy className="w-4 h-4" />
+                  <span className="text-sm font-medium">Challenges</span>
+                </Link>
+                <Link href="/coach" onClick={onClose} className="flex items-center gap-2 px-3 py-2.5 bg-white/20 rounded-xl hover:bg-white/30 transition-all">
+                  <Lightbulb className="w-4 h-4" />
+                  <span className="text-sm font-medium">AI Coach</span>
+                </Link>
+                {showLiveButton && (
+                  <Link href="/live" onClick={onClose} className="flex items-center gap-2 px-3 py-2.5 bg-red-500/30 rounded-xl hover:bg-red-500/40 transition-all col-span-2">
+                    <Video className="w-4 h-4" />
+                    <span className="text-sm font-medium">Go Live</span>
+                  </Link>
+                )}
               </div>
               <div className="flex items-center gap-4">
                 <Link href="/messages" onClick={onClose} className="flex items-center gap-2 px-3 py-1.5 bg-white/20 rounded-full hover:bg-white/30 transition-colors">
