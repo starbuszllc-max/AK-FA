@@ -77,6 +77,11 @@ export default function PostCard({ post, currentUserId, onLike, onCommentAdded }
   const username = post.profiles?.username || 'Anonymous';
   const avatarUrl = post.profiles?.avatar_url;
   const layerStyle = layerColors[post.layer] || { bg: 'bg-gray-100', text: 'text-gray-700' };
+  
+  // Debug: Log media info
+  if (post.media_urls && post.media_urls.length > 0) {
+    console.log('PostCard media:', { media_urls: post.media_urls, media_types: post.media_types });
+  }
 
   async function fetchComments() {
     setLoadingComments(true);
@@ -197,16 +202,18 @@ export default function PostCard({ post, currentUserId, onLike, onCommentAdded }
 
       <p className="mt-3 text-gray-800 text-sm md:text-base whitespace-pre-wrap leading-relaxed">{post.content}</p>
 
-      {post.media_urls && post.media_urls.length > 0 && (
-        <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3">
+      {post.media_urls && Array.isArray(post.media_urls) && post.media_urls.length > 0 && (
+        <div className="mt-3 grid grid-cols-2 md:grid-cols-3 gap-2">
           {post.media_urls.map((url, idx) => {
+            if (!url) return null;
+            
             const mediaType = post.media_types?.[idx] || '';
-            const isVideo = mediaType.startsWith('video');
+            const isVideo = typeof mediaType === 'string' && mediaType.toLowerCase().includes('video');
             
             return (
               <div
                 key={idx}
-                className="relative rounded-lg overflow-hidden bg-gray-100 aspect-square group"
+                className="relative rounded-lg overflow-hidden bg-gray-100 aspect-square group cursor-pointer"
               >
                 {isVideo ? (
                   <video
@@ -218,7 +225,8 @@ export default function PostCard({ post, currentUserId, onLike, onCommentAdded }
                   <img
                     src={url}
                     alt="Post media"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover hover:scale-105 transition-transform"
+                    loading="lazy"
                   />
                 )}
                 {isVideo && (

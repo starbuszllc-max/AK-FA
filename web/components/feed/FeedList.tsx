@@ -37,6 +37,7 @@ export default function FeedList({ refreshTrigger }: FeedListProps) {
       const data = await resp.json();
 
       if (resp.ok && data.posts) {
+        console.log('Fetched posts from API:', data.posts);
         setPosts(data.posts);
       } else {
         console.error('Error fetching posts:', data.error);
