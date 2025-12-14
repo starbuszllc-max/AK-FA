@@ -1,0 +1,55 @@
+
+﻿
+32a47b6b-0407-46d2-b…-9b9335d7102f.mp4:1 
+ GET https://pbhrknchyuepwfqrepbi.supabase.co/storage/v1/object/public/uploads/7…1cc7-489a-b91c-50d87ee41eb0/video/32a47b6b-0407-46d2-bfdf-9b9335d7102f.mp4 net::ERR_QUIC_PROTOCOL_ERROR 206 (Partial Content)
+a829585d-fc8f-4cb9-b…-86267863c019.mp4:1 
+ GET https://pbhrknchyuepwfqrepbi.supabase.co/storage/v1/object/public/uploads/7…1cc7-489a-b91c-50d87ee41eb0/video/a829585d-fc8f-4cb9-b112-86267863c019.mp4 net::ERR_QUIC_PROTOCOL_ERROR 206 (Partial Content)
+66e9706d-fda0-4efd-a…-7e7a70160789.mp4:1 
+ GET https://pbhrknchyuepwfqrepbi.supabase.co/storage/v1/object/public/uploads/c…52e3-4a97-b041-69d210c20c01/video/66e9706d-fda0-4efd-afc0-7e7a70160789.mp4 net::ERR_QUIC_PROTOCOL_ERROR 206 (Partial Content)
+1834296f-c94d-4ee9-a…-f1fd5b711b9d.mp4:1 
+ GET https://pbhrknchyuepwfqrepbi.supabase.co/storage/v1/object/public/uploads/7…1cc7-489a-b91c-50d87ee41eb0/video/1834296f-c94d-4ee9-a584-f1fd5b711b9d.mp4 net::ERR_QUIC_PROTOCOL_ERROR 206 (Partial Content)
+56dd2628-0ba8-4cc9-b…-bdbe26330d37.mp4:1 
+ GET https://pbhrknchyuepwfqrepbi.supabase.co/storage/v1/object/public/uploads/7…1cc7-489a-b91c-50d87ee41eb0/video/56dd2628-0ba8-4cc9-b0e1-bdbe26330d37.mp4 net::ERR_QUIC_PROTOCOL_ERROR 206 (Partial Content)
+pbhrknchyuepwfqrepbi…-edebf384d68f.mp4:1 
+ GET https://pbhrknchyuepwfqrepbi.supabase.co/storage/v1/object/public/uploads/7…1cc7-489a-b91c-50d87ee41eb0/video/81337f1d-00f0-4aac-bc25-edebf384d68f.mp4 net::ERR_QUIC_PROTOCOL_ERROR 206 (Partial Content)
+b39d6325-44ce-474b-8…-436076b57515.mp4:1 
+ GET https://pbhrknchyuepwfqrepbi.supabase.co/storage/v1/object/public/uploads/7…1cc7-489a-b91c-50d87ee41eb0/video/b39d6325-44ce-474b-8897-436076b57515.mp4 net::ERR_QUIC_PROTOCOL_ERROR 206 (Partial Content)
+e5a2aa78-22e9-436f-8…-edb1be97f6bf.mp4:1 
+ GET https://pbhrknchyuepwfqrepbi.supabase.co/storage/v1/object/public/uploads/8…bf99-4fe3-a452-3d242f3f8a54/video/e5a2aa78-22e9-436f-8c48-edb1be97f6bf.mp4 net::ERR_QUIC_PROTOCOL_ERROR 206 (Partial Content)
+layout-b9b4795956fb1e66.js:1 
+ GET https://akorfa-web.vercel.app/api/notifications?userId=542fd22d-1379-4699-934a-a4c70bf9fc1f net::ERR_NAME_NOT_RESOLVED
+layout-b9b4795956fb1e66.js:1 Failed to fetch notification count: TypeError: Failed to fetch
+    at M (layout-b9b4795956fb1e66.js:1:3391)
+webpack-eee2b20ccecf329b.js:1 
+ GET https://akorfa-web.vercel.app/_next/static/chunks/app/notifications/page-5072808de0b36f22.js net::ERR_NAME_NOT_RESOLVED
+3131-aca73719df271ce1.js:1 
+ GET https://akorfa-web.vercel.app/create?_rsc=3lb4g net::ERR_TIMED_OUT
+3131-aca73719df271ce1.js:1 Failed to fetch RSC payload for https://akorfa-web.vercel.app/create. Falling back to browser navigation. TypeError: Failed to fetch
+    at y (3131-aca73719df271ce1.js:1:27027)
+    at _ (3131-aca73719df271ce1.js:1:25897)
+    at 3131-aca73719df271ce1.js:1:73524
+    at Object.o [as task] (3131-aca73719df271ce1.js:1:84258)
+    at c.s (3131-aca73719df271ce1.js:1:84963)
+    at c.enqueue (3131-aca73719df271ce1.js:1:84388)
+    at s (3131-aca73719df271ce1.js:1:73487)
+    at i (3131-aca73719df271ce1.js:1:73003)
+    at l (3131-aca73719df271ce1.js:1:148887)
+    at Object.prefetch (3131-aca73719df271ce1.js:1:68391)
+pbhrknchyuepwfqrepbi…-2e44a3cbdf11.mp4:1 
+ GET https://pbhrknchyuepwfqrepbi.supabase.co/storage/v1/object/public/uploads/7…1cc7-489a-b91c-50d87ee41eb0/video/f2e9246c-a6d4-481a-bf84-2e44a3cbdf11.mp4 net::ERR_TIMED_OUT
+
+pbhrknchyuepwfqrepbi…-12681f523232.mp4:1 
+ GET https://pbhrknchyuepwfqrepbi.supabase.co/storage/v1/object/public/uploads/7…1cc7-489a-b91c-50d87ee41eb0/video/e3f0f8b4-0ae5-4479-a5e6-12681f523232.mp4 net::ERR_TIMED_OUT
+pbhrknchyuepwfqrepbi…-a37a8f1e0786.mov:1 
+ GET https://pbhrknchyuepwfqrepbi.supabase.co/storage/v1/object/public/uploads/7…1cc7-489a-b91c-50d87ee41eb0/video/3c6c82ac-4b34-45c4-ac5f-a37a8f1e0786.mov net::ERR_TIMED_OUT
+pbhrknchyuepwfqrepbi…-52fe5fce50c1.mp4:1 
+ GET https://pbhrknchyuepwfqrepbi.supabase.co/storage/v1/object/public/uploads/7…1cc7-489a-b91c-50d87ee41eb0/video/c7cc35d3-e8bf-4fa8-a324-52fe5fce50c1.mp4 net::ERR_TIMED_OUT
+32a47b6b-0407-46d2-b…-9b9335d7102f.mp4:1 
+ GET https://pbhrknchyuepwfqrepbi.supabase.co/storage/v1/object/public/uploads/7…1cc7-489a-b91c-50d87ee41eb0/video/32a47b6b-0407-46d2-bfdf-9b9335d7102f.mp4 net::ERR_TIMED_OUT
+a829585d-fc8f-4cb9-b…-86267863c019.mp4:1 
+ GET https://pbhrknchyuepwfqrepbi.supabase.co/storage/v1/object/public/uploads/7…1cc7-489a-b91c-50d87ee41eb0/video/a829585d-fc8f-4cb9-b112-86267863c019.mp4 net::ERR_TIMED_OUT
+layout-b9b4795956fb1e66.js:1 
+ GET https://akorfa-web.vercel.app/api/notifications?userId=542fd22d-1379-4699-934a-a4c70bf9fc1f net::ERR_DNS_NO_MATCHING_SUPPORTED_ALPN
+layout-b9b4795956fb1e66.js:1 Failed to fetch notification count: TypeError: Failed to fetch
+    at M (layout-b9b4795956fb1e66.js:1:3391)
+﻿
