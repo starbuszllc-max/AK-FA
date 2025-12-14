@@ -84,13 +84,24 @@ function formatExactTime(dateString: string): string {
 
 function parseMediaArray(value: any): string[] {
   if (!value) return [];
-  if (Array.isArray(value)) return value.filter(v => typeof v === 'string' && v.trim());
+  if (Array.isArray(value)) {
+    return value.filter(v => typeof v === 'string' && v.trim().length > 0);
+  }
   if (typeof value === 'string') {
+    const trimmed = value.trim();
+    if (!trimmed) return [];
     try {
-      const parsed = JSON.parse(value);
-      return Array.isArray(parsed) ? parsed.filter((v: any) => typeof v === 'string' && v.trim()) : [];
+      const parsed = JSON.parse(trimmed);
+      if (Array.isArray(parsed)) {
+        return parsed.filter((v: any) => typeof v === 'string' && v.trim().length > 0);
+      }
+      if (typeof parsed === 'string' && parsed.trim()) {
+        return [parsed];
+      }
     } catch {
-      return [];
+      if (trimmed.startsWith('http')) {
+        return [trimmed];
+      }
     }
   }
   return [];

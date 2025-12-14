@@ -13,6 +13,8 @@ interface Post {
   likeCount: number;
   commentCount: number;
   createdAt: string;
+  mediaUrls?: string[];
+  mediaTypes?: string[];
   profiles?: {
     username: string | null;
     avatarUrl: string | null;
@@ -53,6 +55,8 @@ export default function PostDetailPage() {
             likeCount: data.post.likeCount ?? 0,
             commentCount: data.post.commentCount ?? 0,
             createdAt: data.post.createdAt,
+            mediaUrls: data.post.mediaUrls,
+            mediaTypes: data.post.mediaTypes,
             profiles: data.post.profiles
           });
         } else {
@@ -119,6 +123,8 @@ export default function PostDetailPage() {
             like_count: post.likeCount,
             comment_count: post.commentCount,
             created_at: post.createdAt,
+            mediaUrls: post.mediaUrls,
+            mediaTypes: post.mediaTypes,
             profiles: post.profiles ? {
               username: post.profiles.username,
               avatar_url: post.profiles.avatarUrl
