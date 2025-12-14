@@ -31,6 +31,8 @@ The platform uses Supabase Auth for real email/password authentication. Users ca
 ### Media Storage
 Media uploads (photos and videos) are stored in Supabase Storage for cloud-based persistence. The upload API handles file validation and returns public URLs that are saved with posts. Users can attach up to 4 media files per post. **Important**: An "uploads" bucket must be created in the Supabase dashboard with public access enabled for media URLs to work.
 
+**Media Display Fix (Dec 2024):** The EnhancedPostCard component includes a `parseMediaArray` helper that safely handles both array and JSON-stringified formats for mediaUrls/mediaTypes fields. This ensures media displays correctly regardless of how the data is stored/returned from the database. Failed media loads are tracked in React state and gracefully hidden.
+
 ### Data Model
 The data model utilizes PostgreSQL with Drizzle ORM, employing a normalized relational schema. Core tables include `profiles`, `assessments`, `posts`, `reactions`, and `comments`. Gamification features are supported by `user_levels`, `daily_insights`, and `groups`. Video and news content are integrated via enhanced `posts` and new `news_sources`, `news_articles` tables.
 
