@@ -10,6 +10,8 @@ interface Post {
   likeCount: number;
   commentCount: number;
   createdAt: string;
+  mediaUrls?: string[];
+  mediaTypes?: string[];
   profiles?: {
     username: string | null;
     avatarUrl: string | null;
@@ -102,6 +104,8 @@ export default function FeedList({ refreshTrigger }: FeedListProps) {
             like_count: post.likeCount ?? 0,
             comment_count: post.commentCount ?? 0,
             created_at: post.createdAt,
+            media_urls: post.mediaUrls || [],
+            media_types: post.mediaTypes || [],
             profiles: post.profiles ? {
               username: post.profiles.username,
               avatar_url: post.profiles.avatarUrl

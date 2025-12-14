@@ -23,6 +23,8 @@ interface PostProps {
     like_count: number;
     comment_count: number;
     created_at: string;
+    media_urls?: string[];
+    media_types?: string[];
     profiles: {
       username: string | null;
       avatar_url: string | null;
@@ -194,6 +196,43 @@ export default function PostCard({ post, currentUserId, onLike, onCommentAdded }
       </div>
 
       <p className="mt-3 text-gray-800 text-sm md:text-base whitespace-pre-wrap leading-relaxed">{post.content}</p>
+
+      {post.media_urls && post.media_urls.length > 0 && (
+        <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3">
+          {post.media_urls.map((url, idx) => {
+            const mediaType = post.media_types?.[idx] || '';
+            const isVideo = mediaType.startsWith('video');
+            
+            return (
+              <div
+                key={idx}
+                className="relative rounded-lg overflow-hidden bg-gray-100 aspect-square group"
+              >
+                {isVideo ? (
+                  <video
+                    src={url}
+                    className="w-full h-full object-cover"
+                    controls
+                  />
+                ) : (
+                  <img
+                    src={url}
+                    alt="Post media"
+                    className="w-full h-full object-cover"
+                  />
+                )}
+                {isVideo && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
+                    <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                    </svg>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
 
       <div className="mt-3 pt-2 border-t border-gray-100 flex items-center gap-3">
         <button 
