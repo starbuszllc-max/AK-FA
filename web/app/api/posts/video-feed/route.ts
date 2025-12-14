@@ -21,10 +21,16 @@ export async function GET(request: NextRequest) {
 
     const db = getDb();
     
+    // Only show posts where ALL media types are videos (not mixed with images)
     let conditions = [
       isNotNull(posts.mediaUrls),
       sql`jsonb_array_length(${posts.mediaUrls}) > 0`,
-      sql`${posts.mediaTypes}::jsonb ? 'video'`
+      // Check that mediaTypes is an array and all elements are 'video'
+      sql`${posts.mediaTypes}::jsonb @> jsonb_build_array('video')`,
+      sql`NOT EXISTS (
+        SELECT 1 FROM jsonb_array_elements(${posts.mediaTypes}::jsonb) AS elem 
+        WHERE elem::text != '"video"'
+      )`
     ];
 
     if (category === 'following') {
