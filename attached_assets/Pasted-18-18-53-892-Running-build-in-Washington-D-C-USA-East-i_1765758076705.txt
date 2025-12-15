@@ -1,0 +1,50 @@
+18:18:53.892 Running build in Washington, D.C., USA (East) – iad1
+18:18:53.893 Build machine configuration: 2 cores, 8 GB
+18:18:54.084 Cloning github.com/starbuszllc-max/akorfa (Branch: main, Commit: d0b6a4c)
+18:18:57.436 Cloning completed: 3.352s
+18:18:57.668 Restored build cache from previous deployment (D3TDiBi55w5FUfFEJojJeY73NcNK)
+18:18:58.357 Running "vercel build"
+18:18:58.772 Vercel CLI 50.0.1
+18:18:59.163 Running "install" command: `npm install --legacy-peer-deps && npm install --prefix=./web --legacy-peer-deps`...
+18:19:08.628 npm warn deprecated next@14.2.15: This version has a security vulnerability. Please upgrade to a patched version. See https://nextjs.org/blog/security-update-2025-12-11 for more details.
+18:19:09.221 
+18:19:09.222 added 13 packages, removed 16 packages, and audited 674 packages in 10s
+18:19:09.222 
+18:19:09.222 167 packages are looking for funding
+18:19:09.223   run `npm fund` for details
+18:19:09.301 
+18:19:09.302 5 vulnerabilities (4 moderate, 1 critical)
+18:19:09.303 
+18:19:09.303 To address issues that do not require attention, run:
+18:19:09.304   npm audit fix
+18:19:09.304 
+18:19:09.304 To address all issues (including breaking changes), run:
+18:19:09.305   npm audit fix --force
+18:19:09.305 
+18:19:09.306 Run `npm audit` for details.
+18:19:43.625 npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+18:19:43.853 npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+18:19:43.932 npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+18:19:44.818 npm warn deprecated @humanwhocodes/object-schema@2.0.3: Use @eslint/object-schema instead
+18:19:44.848 npm warn deprecated @humanwhocodes/config-array@0.13.0: Use @eslint/config-array instead
+18:19:44.872 npm warn deprecated @esbuild-kit/esm-loader@2.6.5: Merged into tsx: https://tsx.is
+18:19:44.920 npm warn deprecated @esbuild-kit/core-utils@3.3.2: Merged into tsx: https://tsx.is
+18:19:45.105 npm warn deprecated intersection-observer@0.12.2: The Intersection Observer polyfill is no longer needed and can safely be removed. Intersection Observer has been Baseline since 2019.
+18:19:47.600 npm warn deprecated eslint@8.57.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+18:19:49.614 
+18:19:49.614 added 481 packages, removed 1 package, and audited 492 packages in 40s
+18:19:49.615 
+18:19:49.615 149 packages are looking for funding
+18:19:49.615   run `npm fund` for details
+18:19:49.688 
+18:19:49.688 5 vulnerabilities (4 moderate, 1 critical)
+18:19:49.688 
+18:19:49.688 To address issues that do not require attention, run:
+18:19:49.688   npm audit fix
+18:19:49.689 
+18:19:49.689 To address all issues (including breaking changes), run:
+18:19:49.689   npm audit fix --force
+18:19:49.689 
+18:19:49.689 Run `npm audit` for details.
+18:19:49.714 Warning: Could not identify Next.js version, ensure it is defined as a project dependency.
+18:19:49.720 Error: No Next.js version detected. Make sure your package.json has "next" in either "dependencies" or "devDependencies". Also check your Root Directory setting matches the directory of your package.json file.
