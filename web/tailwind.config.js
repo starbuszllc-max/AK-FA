@@ -22,6 +22,12 @@ module.exports = {
         accent: {
           500: '#f59e0b'
         },
+        akorfa: {
+          black: '#1a1a1a',
+          gold: '#d4af37',
+          gold_light: '#e8c547',
+          dark: '#0f0f0f'
+        },
         success: '#10b981',
         warning: '#f59e0b',
         error: '#ef4444'

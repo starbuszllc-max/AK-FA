@@ -186,11 +186,11 @@ export default function FeedPage() {
               animate={{ opacity: 1, y: 0 }}
               className="mb-6"
             >
-              <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-gray-900 via-indigo-800 to-purple-800 dark:from-white dark:via-indigo-200 dark:to-purple-200 bg-clip-text text-transparent">
+              <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-slate-900 via-amber-600 to-yellow-600 dark:from-amber-300 dark:via-amber-500 dark:to-yellow-500 bg-clip-text text-transparent">
                 Community Feed
               </h1>
-              <p className="text-gray-500 dark:text-gray-400 mt-1">
-                Share your journey across the 7 layers
+              <p className="text-slate-600 dark:text-amber-200/70 mt-1 font-medium">
+                Discover insights from the Akorfa community
               </p>
             </motion.div>
 

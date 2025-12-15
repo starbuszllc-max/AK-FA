@@ -359,9 +359,9 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
       id={`post-${post.id}`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -2 }}
+      whileHover={{ y: -4 }}
       transition={{ duration: 0.2 }}
-      className="px-3 py-4 md:p-5 transition-all duration-200"
+      className="px-3 py-4 md:p-5 transition-all duration-200 bg-gradient-to-br from-white/95 to-white/90 dark:from-slate-800/80 dark:to-slate-900/80 rounded-2xl border border-amber-200/30 dark:border-amber-600/20 shadow-lg hover:shadow-2xl hover:shadow-amber-500/20 dark:hover:shadow-amber-600/30 backdrop-blur-sm"
     >
       {showShareToast && (
         <motion.div
@@ -545,7 +545,7 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
         const visibleMedia = mediaUrls.filter((_, idx) => !failedMediaIndices.has(idx));
         
         return visibleMedia.length > 0 ? (
-        <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
           {mediaUrls.map((url: string, idx: number) => {
             if (failedMediaIndices.has(idx)) return null;
             const mediaType = mediaTypes[idx] || 'image';
@@ -567,11 +567,11 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: idx * 0.05 }}
-                className="rounded-lg overflow-hidden bg-gray-100 dark:bg-slate-700 aspect-square"
+                className="group relative rounded-2xl overflow-hidden aspect-square cursor-pointer bg-gradient-to-br from-slate-900 to-slate-800 dark:from-black dark:to-slate-900 border border-amber-500/20 hover:border-amber-500/50 transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-amber-500/20"
                 onClick={handleVideoClick}
               >
                 {isVideo ? (
-                  <div className="w-full h-full relative group cursor-pointer">
+                  <div className="w-full h-full relative">
                     <video
                       src={url}
                       controls
@@ -584,23 +584,31 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
                       }}
                       onError={handleMediaError}
                     />
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center pointer-events-none">
-                      <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                        <svg className="w-12 h-12 text-white drop-shadow-lg" fill="currentColor" viewBox="0 0 20 20">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
+                      <div className="scale-75 group-hover:scale-100 transition-transform duration-300">
+                        <svg className="w-16 h-16 text-amber-400 drop-shadow-xl" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
                         </svg>
                       </div>
                     </div>
                   </div>
                 ) : (
-                  <img
-                    src={url}
-                    alt={`Post media ${idx + 1}`}
-                    loading="lazy"
-                    className="w-full h-full object-cover cursor-pointer hover:opacity-80 transition-opacity"
-                    onError={handleMediaError}
-                  />
+                  <>
+                    <img
+                      src={url}
+                      alt={`Post media ${idx + 1}`}
+                      loading="lazy"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      onError={handleMediaError}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300" />
+                  </>
                 )}
+                <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="px-2.5 py-1.5 bg-black/70 backdrop-blur-sm rounded-lg text-xs font-semibold text-amber-400 border border-amber-500/30">
+                    {isVideo ? '▶ Video' : '🖼 Image'}
+                  </div>
+                </div>
               </motion.div>
             );
           })}
@@ -608,7 +616,7 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
         ) : null;
       })()}
 
-      <div className="mt-1 pt-2 border-b border-gray-200 dark:border-slate-700/50 flex items-center gap-4 pb-3">
+      <div className="mt-4 pt-3 border-b border-amber-500/20 dark:border-amber-600/30 flex items-center gap-4 pb-3">
         <motion.button 
           onClick={handleLike}
           disabled={!currentUserId || isLiking || hasLiked}
