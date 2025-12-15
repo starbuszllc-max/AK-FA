@@ -23,8 +23,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const stored = localStorage.getItem('akorfa-theme') as Theme | null;
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const initialTheme = stored || (systemPrefersDark ? 'dark' : 'light');
+    const initialTheme = stored || 'light';
     setThemeState(initialTheme);
     applyTheme(initialTheme);
   }, []);
