@@ -63,77 +63,75 @@ export default function CategoryTabs({ activeCategory, onCategoryChange, variant
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="fixed top-10 left-0 right-0 z-40 px-3 flex justify-center"
+            className="fixed top-10 left-0 right-0 z-40 px-3 flex items-center justify-between"
           >
-            <div className="flex items-center gap-2">
-              <div className="flex gap-0 overflow-x-auto hide-scrollbar rounded-full px-2 py-1.5">
-                {categories.map((category) => (
-                  <button
-                    key={category.id}
-                    onClick={() => onCategoryChange(category.id)}
-                    className="relative px-3 py-2 rounded-full whitespace-nowrap transition-all flex-shrink-0"
-                  >
-                    {activeCategory === category.id && (
-                      <motion.div
-                        layoutId="activeTab"
-                        className="absolute inset-0 bg-white/20 rounded-full"
-                        transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
-                      />
-                    )}
-                    <span 
-                      className={`relative text-lg font-bold tracking-tighter ${
-                        activeCategory === category.id ? 'text-white' : 'text-white/70'
-                      }`}
-                      style={{ 
-                        fontStretch: 'condensed', 
-                        textShadow: '0 0 2px #000, 0 0 4px #000, 0 0 6px rgba(255,255,255,0.4), 0 1px 3px rgba(0,0,0,0.9)' 
-                      }}
-                    >
-                      {category.label}
-                    </span>
-                  </button>
-                ))}
-              </div>
+            <Link
+              href="/discover"
+              className="flex-shrink-0 p-2.5 rounded-full"
+            >
+              <Search 
+                className="w-7 h-7 text-white" 
+                strokeWidth={2.5}
+                style={{filter: 'drop-shadow(0 0 1px #000) drop-shadow(0 0 2px rgba(0,0,0,0.8)) drop-shadow(0 0 4px rgba(255,255,255,0.5))'}} 
+              />
+            </Link>
 
+            <div className="flex gap-0 overflow-x-auto hide-scrollbar rounded-full px-2 py-1.5">
+              {categories.map((category) => (
+                <button
+                  key={category.id}
+                  onClick={() => onCategoryChange(category.id)}
+                  className="relative px-3 py-2 rounded-full whitespace-nowrap transition-all flex-shrink-0"
+                >
+                  {activeCategory === category.id && (
+                    <motion.div
+                      layoutId="activeTab"
+                      className="absolute inset-0 bg-white/20 rounded-full"
+                      transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
+                    />
+                  )}
+                  <span 
+                    className={`relative text-lg font-bold tracking-tighter ${
+                      activeCategory === category.id ? 'text-white' : 'text-white/70'
+                    }`}
+                    style={{ 
+                      fontStretch: 'condensed', 
+                      textShadow: '0 0 2px #000, 0 0 4px #000, 0 0 6px rgba(255,255,255,0.4), 0 1px 3px rgba(0,0,0,0.9)' 
+                    }}
+                  >
+                    {category.label}
+                  </span>
+                </button>
+              ))}
+            </div>
+
+            <div className="flex-shrink-0 relative">
               <Link
-                href="/discover"
-                className="flex-shrink-0 p-2.5 rounded-full"
+                href="/notifications"
+                className="block p-2.5 rounded-full"
               >
-                <Search 
+                <Bell 
                   className="w-7 h-7 text-white" 
                   strokeWidth={2.5}
                   style={{filter: 'drop-shadow(0 0 1px #000) drop-shadow(0 0 2px rgba(0,0,0,0.8)) drop-shadow(0 0 4px rgba(255,255,255,0.5))'}} 
                 />
               </Link>
-
-              <div className="flex-shrink-0 relative">
-                <Link
-                  href="/notifications"
-                  className="block p-2.5 rounded-full"
-                >
-                  <Bell 
-                    className="w-7 h-7 text-white" 
-                    strokeWidth={2.5}
-                    style={{filter: 'drop-shadow(0 0 1px #000) drop-shadow(0 0 2px rgba(0,0,0,0.8)) drop-shadow(0 0 4px rgba(255,255,255,0.5))'}} 
-                  />
-                </Link>
-                
-                <AnimatePresence>
-                  {showScore && akorScore !== null && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -5, scale: 0.9 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: -5, scale: 0.9 }}
-                      transition={{ duration: 0.2 }}
-                      className="absolute top-full right-0 mt-1 px-2 py-1 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full"
-                    >
-                      <span className="text-xs font-bold text-white whitespace-nowrap">
-                        {Math.round(akorScore)}
-                      </span>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+              
+              <AnimatePresence>
+                {showScore && akorScore !== null && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -5, scale: 0.9 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -5, scale: 0.9 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute top-full right-0 mt-1 px-2 py-1 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full"
+                  >
+                    <span className="text-xs font-bold text-white whitespace-nowrap">
+                      {Math.round(akorScore)}
+                    </span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </motion.div>
         )}
