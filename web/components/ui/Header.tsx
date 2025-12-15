@@ -115,12 +115,12 @@ export function Header() {
 
   return (
     <header className="w-full bg-gradient-to-r from-white via-amber-50 to-white dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 shadow-md sticky top-0 z-50 transition-colors duration-200 border-b border-amber-200/30 dark:border-amber-900/20">
-      <div className="max-w-7xl mx-auto px-3 md:px-6 py-3 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-3 md:px-6 py-6 md:py-8 flex items-end justify-between gap-4">
         <Link href="/" className="flex items-center gap-2 group hover:opacity-80 transition-opacity duration-200">
           <img 
             src="/logo.png" 
             alt="Akorfa" 
-            className="h-10 md:h-12 w-auto drop-shadow-lg group-hover:drop-shadow-xl transition-all duration-200"
+            className="h-16 md:h-20 w-auto drop-shadow-lg group-hover:drop-shadow-xl transition-all duration-200"
           />
           <div className="hidden sm:block">
             <h1 className="font-bold text-lg md:text-xl bg-gradient-to-r from-amber-700 via-amber-600 to-amber-700 dark:from-amber-400 dark:via-amber-300 dark:to-amber-400 bg-clip-text text-transparent">
