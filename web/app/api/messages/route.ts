@@ -174,13 +174,16 @@ export async function POST(req: NextRequest) {
     });
   } catch (error: any) {
     console.error('Messages POST error:', error);
-    const errorMessage = error?.message || 'Unknown error';
-    const errorCode = error?.code || 'UNKNOWN';
+    const cause = error?.cause || error;
+    const errorMessage = cause?.message || error?.message || 'Unknown error';
+    const errorCode = cause?.code || error?.code || 'UNKNOWN';
     return NextResponse.json({ 
       error: 'Failed to send message',
       details: errorMessage,
       code: errorCode,
-      hint: error?.hint || null
+      hint: cause?.hint || error?.hint || null,
+      table: cause?.table || null,
+      constraint: cause?.constraint || null
     }, { status: 500 });
   }
 }
