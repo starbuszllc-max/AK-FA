@@ -219,9 +219,9 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="w-full space-y-5 pb-24 px-4 sm:px-6 pt-4">
-      <div>
-        <div className="relative h-28 sm:h-36">
+    <div className="w-full space-y-6 pb-24 pt-4">
+      <div className="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm">
+        <div className="relative h-40 sm:h-48">
           {profile.coverUrl ? (
             <img 
               src={profile.coverUrl} 
@@ -229,12 +229,12 @@ export default function ProfilePage() {
               className="w-full h-full object-cover"
             />
           ) : (
-            <div className="w-full h-full bg-gradient-to-r from-indigo-500 to-purple-600"></div>
+            <div className="w-full h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
           )}
           <button
             onClick={() => coverInputRef.current?.click()}
             disabled={uploadingCover}
-            className="absolute bottom-3 right-3 p-2 bg-black/50 hover:bg-black/70 text-white rounded-full transition-colors"
+            className="absolute bottom-3 right-3 p-2.5 bg-black/50 hover:bg-black/70 text-white rounded-full transition-colors"
           >
             {uploadingCover ? (
               <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -250,8 +250,8 @@ export default function ProfilePage() {
             className="hidden"
           />
         </div>
-        <div className="px-5 pb-5">
-          <div className="flex items-end gap-4 -mt-12 mb-4">
+        <div className="px-6 pb-6">
+          <div className="flex items-end gap-4 -mt-16 mb-5">
             <ProfilePictureUpload
               currentUrl={profile.avatarUrl}
               onUpload={async (url) => {
@@ -269,73 +269,69 @@ export default function ProfilePage() {
               size="lg"
             />
             <div className="pb-1 flex-1 min-w-0">
-              <h1 className="text-lg font-bold text-gray-900 dark:text-white truncate">
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white truncate">
                 {profile.fullName || profile.username}
               </h1>
-              <p className="text-xs text-gray-500 dark:text-gray-400">@{profile.username}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">@{profile.username}</p>
             </div>
             <Link
               href="/profile/settings"
-              className="pb-1 flex items-center justify-center w-10 h-10 bg-gray-100 dark:bg-slate-700 rounded-full text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-all"
+              className="pb-1 flex items-center justify-center w-11 h-11 bg-gradient-to-br from-gray-100 to-gray-50 dark:from-slate-700 dark:to-slate-600 rounded-full text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:from-indigo-50 hover:to-indigo-50 dark:hover:from-indigo-900/40 dark:hover:to-indigo-900/40 transition-all"
             >
               <Settings className="w-5 h-5" />
             </Link>
           </div>
 
           {profile.bio && (
-            <div className="rounded-lg p-3 mb-3">
-              <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">About</h3>
-              <p className="text-xs text-gray-700 dark:text-gray-300">{profile.bio}</p>
+            <div className="rounded-xl p-4 mb-4 bg-gray-50 dark:bg-slate-700/50 border border-gray-100 dark:border-slate-600">
+              <p className="text-sm text-gray-700 dark:text-gray-300">{profile.bio}</p>
             </div>
           )}
 
-          <div className="grid grid-cols-3 gap-3 mb-3">
-            <div className="text-center p-3 rounded-xl">
-              <div className="flex items-center justify-center gap-1 text-xl font-bold text-gray-900 dark:text-white">
-                <Zap className="w-5 h-5 text-indigo-500" />
+          <div className="grid grid-cols-3 lg:grid-cols-6 gap-3 mb-4">
+            <div className="rounded-xl p-3 bg-gradient-to-br from-indigo-50 to-indigo-50/50 dark:from-indigo-900/20 dark:to-indigo-900/10 border border-indigo-200/50 dark:border-indigo-800/30">
+              <div className="flex items-center justify-center gap-1 text-lg font-bold text-indigo-700 dark:text-indigo-300">
+                <Zap className="w-4 h-4" />
                 {totalXp}
               </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">XP</div>
+              <div className="text-xs text-indigo-600 dark:text-indigo-400 font-medium mt-1 text-center">XP</div>
             </div>
-            <div className="text-center p-3 rounded-xl">
-              <div className="flex items-center justify-center gap-1 text-xl font-bold text-gray-900 dark:text-white">
-                <Trophy className="w-5 h-5 text-amber-500" />
+            <div className="rounded-xl p-3 bg-gradient-to-br from-amber-50 to-amber-50/50 dark:from-amber-900/20 dark:to-amber-900/10 border border-amber-200/50 dark:border-amber-800/30">
+              <div className="flex items-center justify-center gap-1 text-lg font-bold text-amber-700 dark:text-amber-300">
+                <Trophy className="w-4 h-4" />
                 {level}
               </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">Level</div>
+              <div className="text-xs text-amber-600 dark:text-amber-400 font-medium mt-1 text-center">Level</div>
             </div>
-            <div className="text-center p-3 rounded-xl">
-              <div className="flex items-center justify-center gap-1 text-xl font-bold text-gray-900 dark:text-white">
-                <Flame className="w-5 h-5 text-orange-500" />
+            <div className="rounded-xl p-3 bg-gradient-to-br from-orange-50 to-orange-50/50 dark:from-orange-900/20 dark:to-orange-900/10 border border-orange-200/50 dark:border-orange-800/30">
+              <div className="flex items-center justify-center gap-1 text-lg font-bold text-orange-700 dark:text-orange-300">
+                <Flame className="w-4 h-4" />
                 {streak}
               </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">Streak</div>
+              <div className="text-xs text-orange-600 dark:text-orange-400 font-medium mt-1 text-center">Streak</div>
             </div>
-          </div>
-
-          <div className="grid grid-cols-3 gap-3 mb-4">
-            <div className="text-center p-3 rounded-xl">
-              <div className="flex items-center justify-center gap-1 text-xl font-bold text-gray-900 dark:text-white">
-                <Users className="w-5 h-5 text-blue-500" />
+            <div className="rounded-xl p-3 bg-gradient-to-br from-blue-50 to-blue-50/50 dark:from-blue-900/20 dark:to-blue-900/10 border border-blue-200/50 dark:border-blue-800/30">
+              <div className="flex items-center justify-center gap-1 text-lg font-bold text-blue-700 dark:text-blue-300">
+                <Users className="w-4 h-4" />
                 {followerCount}
               </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">Followers</div>
+              <div className="text-xs text-blue-600 dark:text-blue-400 font-medium mt-1 text-center">Followers</div>
             </div>
-            <div className="text-center p-3 rounded-xl">
-              <div className="flex items-center justify-center gap-1 text-xl font-bold text-gray-900 dark:text-white">
-                <Users className="w-5 h-5 text-purple-500" />
+            <div className="rounded-xl p-3 bg-gradient-to-br from-purple-50 to-purple-50/50 dark:from-purple-900/20 dark:to-purple-900/10 border border-purple-200/50 dark:border-purple-800/30">
+              <div className="flex items-center justify-center gap-1 text-lg font-bold text-purple-700 dark:text-purple-300">
+                <Users className="w-4 h-4" />
                 {followingCount}
               </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">Following</div>
+              <div className="text-xs text-purple-600 dark:text-purple-400 font-medium mt-1 text-center">Following</div>
             </div>
-            <div className="text-center p-3 rounded-xl">
-              <div className="flex items-center justify-center gap-1 text-xl font-bold text-emerald-600 dark:text-emerald-400">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <div className="rounded-xl p-3 bg-gradient-to-br from-emerald-50 to-emerald-50/50 dark:from-emerald-900/20 dark:to-emerald-900/10 border border-emerald-200/50 dark:border-emerald-800/30">
+              <div className="flex items-center justify-center gap-1 text-lg font-bold text-emerald-700 dark:text-emerald-300">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.31-8.86c-1.77-.45-2.34-.94-2.34-1.67 0-.84.79-1.43 2.1-1.43 1.38 0 1.9.66 1.94 1.64h1.71c-.05-1.34-.87-2.57-2.49-2.97V5H10.9v1.69c-1.51.32-2.72 1.3-2.72 2.81 0 1.79 1.49 2.69 3.66 3.21 1.95.46 2.34 1.15 2.34 1.87 0 .53-.39 1.39-2.1 1.39-1.6 0-2.23-.72-2.32-1.64H8.04c.1 1.7 1.36 2.66 2.86 2.97V19h2.34v-1.67c1.52-.29 2.72-1.16 2.73-2.77-.01-2.2-1.9-2.96-3.66-3.42z"/>
                 </svg>
                 {profile.credits || 0}
               </div>
-              <div className="text-sm text-emerald-600 dark:text-emerald-400 font-medium">Credits</div>
+              <div className="text-xs text-emerald-600 dark:text-emerald-400 font-medium mt-1 text-center">Credits</div>
             </div>
           </div>
 
@@ -343,8 +339,8 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      <div className="rounded-2xl shadow-sm overflow-hidden">
-        <div className="flex border-b border-gray-200 dark:border-slate-700">
+      <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm overflow-hidden">
+        <div className="flex border-b border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-700/50">
           {contentTabs.map((tab) => {
             const Icon = tab.icon;
             return (
@@ -353,8 +349,8 @@ export default function ProfilePage() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex-1 flex items-center justify-center gap-2 py-4 text-sm font-medium transition-all relative ${
                   activeTab === tab.id
-                    ? 'text-indigo-600 dark:text-indigo-400'
-                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+                    ? 'text-indigo-600 dark:text-indigo-400 bg-white dark:bg-slate-800'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300'
                 }`}
               >
                 <Icon className="w-5 h-5" />
@@ -362,7 +358,7 @@ export default function ProfilePage() {
                 {activeTab === tab.id && (
                   <motion.div
                     layoutId="profileTabIndicator"
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600 dark:bg-indigo-400"
+                    className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400"
                     transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                   />
                 )}
@@ -378,16 +374,16 @@ export default function ProfilePage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="p-5"
+            className="p-6"
           >
             {activeTab === 'posts' && (
               <div>
                 {loadingPosts ? (
-                  <div className="flex justify-center py-8">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+                  <div className="flex justify-center py-12">
+                    <div className="animate-spin rounded-full h-8 w-8 border-2 border-indigo-600 border-t-transparent"></div>
                   </div>
                 ) : posts.length > 0 ? (
-                  <div className="grid grid-cols-3 gap-1">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
                     {posts.map((post) => {
                       const hasMedia = post.mediaUrls && post.mediaUrls.length > 0;
                       const firstMedia = hasMedia ? post.mediaUrls![0] : null;
@@ -395,9 +391,11 @@ export default function ProfilePage() {
                       const isVideo = firstMediaType === 'video' || (firstMedia && (firstMedia.includes('.mp4') || firstMedia.includes('.webm') || firstMedia.includes('.mov')));
                       
                       return (
-                        <div
+                        <motion.div
                           key={post.id}
-                          className="aspect-square bg-gray-100 dark:bg-slate-700 overflow-hidden relative group cursor-pointer"
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          className="aspect-square bg-gray-100 dark:bg-slate-700 overflow-hidden relative group cursor-pointer rounded-lg"
                         >
                           {hasMedia && firstMedia ? (
                             isVideo ? (
@@ -415,45 +413,46 @@ export default function ProfilePage() {
                               />
                             )
                           ) : (
-                            <div className="w-full h-full flex items-center justify-center p-2">
-                              <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-4 text-center">
+                            <div className="w-full h-full flex items-center justify-center p-3 bg-gradient-to-br from-gray-200 dark:from-slate-600 to-gray-300 dark:to-slate-700">
+                              <p className="text-xs text-gray-600 dark:text-gray-300 line-clamp-4 text-center font-medium">
                                 {post.content}
                               </p>
                             </div>
                           )}
-                          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4 text-white text-sm">
-                            <span className="flex items-center gap-1">
-                              <Heart className="w-4 h-4 fill-white" /> {post.likeCount ?? 0}
+                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4 text-white text-xs">
+                            <span className="flex items-center gap-1 bg-black/40 px-2 py-1 rounded-lg">
+                              <Heart className="w-3 h-3 fill-white" /> {post.likeCount ?? 0}
                             </span>
-                            <span className="flex items-center gap-1">
-                              <MessageCircle className="w-4 h-4 fill-white" /> {post.commentCount ?? 0}
+                            <span className="flex items-center gap-1 bg-black/40 px-2 py-1 rounded-lg">
+                              <MessageCircle className="w-3 h-3 fill-white" /> {post.commentCount ?? 0}
                             </span>
                           </div>
                           {isVideo && (
-                            <div className="absolute top-2 right-2 text-white">
+                            <div className="absolute top-2 right-2 bg-black/50 p-1.5 rounded-lg text-white">
                               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M8 5v14l11-7z"/>
                               </svg>
                             </div>
                           )}
                           {post.mediaUrls && post.mediaUrls.length > 1 && (
-                            <div className="absolute top-2 right-2 text-white">
+                            <div className="absolute top-2 left-2 bg-black/50 p-1.5 rounded-lg text-white">
                               <Grid3X3 className="w-4 h-4" />
                             </div>
                           )}
-                        </div>
+                        </motion.div>
                       );
                     })}
                   </div>
                 ) : (
-                  <div className="text-center py-12">
-                    <Grid3X3 className="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
-                    <p className="text-gray-500 dark:text-gray-400 mb-4">No posts yet</p>
+                  <div className="text-center py-16">
+                    <Grid3X3 className="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+                    <p className="text-gray-500 dark:text-gray-400 mb-6 font-medium">No posts yet</p>
                     <Link
                       href="/create"
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-medium hover:bg-indigo-700 transition-all"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-medium hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg shadow-indigo-500/20"
                     >
                       Create Your First Post
+                      <ChevronRight className="w-4 h-4" />
                     </Link>
                   </div>
                 )}
@@ -461,17 +460,17 @@ export default function ProfilePage() {
             )}
 
             {activeTab === 'highlights' && (
-              <div>
-                <div className="rounded-xl p-4">
-                  <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Achievements</h3>
+              <div className="space-y-5">
+                <div className="rounded-xl p-5 bg-gradient-to-br from-gray-50 to-gray-50/50 dark:from-slate-700/50 dark:to-slate-700/30 border border-gray-200 dark:border-slate-600">
+                  <h3 className="font-semibold text-gray-900 dark:text-white mb-4 text-lg">Achievements</h3>
                   <BadgesList userId={userId} />
                 </div>
-                <div className="mt-4 rounded-xl p-4">
-                  <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Goals</h3>
+                <div className="rounded-xl p-5 bg-gradient-to-br from-gray-50 to-gray-50/50 dark:from-slate-700/50 dark:to-slate-700/30 border border-gray-200 dark:border-slate-600">
+                  <h3 className="font-semibold text-gray-900 dark:text-white mb-4 text-lg">Goals</h3>
                   {profile.goals && profile.goals.length > 0 ? (
                     <div className="flex flex-wrap gap-2">
                       {profile.goals.map((goal: string, i: number) => (
-                        <span key={i} className="px-3 py-1 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 rounded-full text-sm">
+                        <span key={i} className="px-3 py-2 bg-gradient-to-r from-indigo-100 to-purple-100 dark:from-indigo-900/40 dark:to-purple-900/40 text-indigo-700 dark:text-indigo-300 rounded-full text-sm font-medium border border-indigo-200 dark:border-indigo-800/50">
                           {goal.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
                         </span>
                       ))}
@@ -484,25 +483,25 @@ export default function ProfilePage() {
             )}
 
             {activeTab === 'insights' && (
-              <div>
-                <div className="mb-6">
-                  <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Activity Overview</h3>
+              <div className="space-y-5">
+                <div className="rounded-xl p-5 bg-gradient-to-br from-gray-50 to-gray-50/50 dark:from-slate-700/50 dark:to-slate-700/30 border border-gray-200 dark:border-slate-600">
+                  <h3 className="font-semibold text-gray-900 dark:text-white mb-4 text-lg">Activity Overview</h3>
                   <ActivityHeatmap userId={userId} />
                 </div>
-                <div className="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-xl p-4">
-                  <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-800 flex items-center justify-center">
-                      <Lightbulb className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+                <div className="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-indigo-900/20 dark:via-purple-900/20 dark:to-pink-900/20 rounded-xl p-5 border border-indigo-200/50 dark:border-indigo-800/30">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-800/50 dark:to-purple-800/50 flex items-center justify-center flex-shrink-0">
+                      <Lightbulb className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
                     </div>
-                    <div>
-                      <h4 className="font-medium text-gray-900 dark:text-white">Your Growth Journey</h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
-                        You've earned {totalXp} XP and maintained a {streak}-day streak. 
+                    <div className="flex-1">
+                      <h4 className="font-semibold text-gray-900 dark:text-white text-base">Your Growth Journey</h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
+                        You've earned <span className="font-semibold text-indigo-600 dark:text-indigo-400">{totalXp} XP</span> and maintained a <span className="font-semibold text-orange-600 dark:text-orange-400">{streak}-day streak</span>. 
                         Keep engaging to unlock new achievements!
                       </p>
                       <Link 
                         href="/assessments" 
-                        className="inline-flex items-center gap-1 text-sm text-indigo-600 dark:text-indigo-400 font-medium mt-2 hover:underline"
+                        className="inline-flex items-center gap-1 text-sm font-medium text-indigo-600 dark:text-indigo-400 mt-3 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors"
                       >
                         Take an assessment <ChevronRight className="w-4 h-4" />
                       </Link>

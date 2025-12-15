@@ -27,7 +27,7 @@ outputType = "webview"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd /home/runner/workspace/web && npm run dev"
+args = "cd web && npm install && npm run dev"
 waitForPort = 5000
 
 [[ports]]
