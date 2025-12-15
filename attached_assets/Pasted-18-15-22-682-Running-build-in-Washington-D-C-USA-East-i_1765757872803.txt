@@ -1,0 +1,34 @@
+18:15:22.682 Running build in Washington, D.C., USA (East) – iad1
+18:15:22.683 Build machine configuration: 2 cores, 8 GB
+18:15:22.829 Cloning github.com/starbuszllc-max/akorfa (Branch: main, Commit: 17db51a)
+18:15:26.189 Cloning completed: 3.360s
+18:15:26.296 Restored build cache from previous deployment (D3TDiBi55w5FUfFEJojJeY73NcNK)
+18:15:26.960 Running "vercel build"
+18:15:27.365 Vercel CLI 50.0.1
+18:15:27.701 Running "install" command: `npm install --legacy-peer-deps && npm install --prefix=./web --legacy-peer-deps`...
+18:15:36.460 npm warn deprecated next@14.2.15: This version has a security vulnerability. Please upgrade to a patched version. See https://nextjs.org/blog/security-update-2025-12-11 for more details.
+18:15:37.160 
+18:15:37.161 added 13 packages, removed 16 packages, and audited 674 packages in 9s
+18:15:37.162 
+18:15:37.162 167 packages are looking for funding
+18:15:37.163   run `npm fund` for details
+18:15:37.259 
+18:15:37.259 5 vulnerabilities (4 moderate, 1 critical)
+18:15:37.260 
+18:15:37.260 To address issues that do not require attention, run:
+18:15:37.260   npm audit fix
+18:15:37.260 
+18:15:37.260 To address all issues (including breaking changes), run:
+18:15:37.260   npm audit fix --force
+18:15:37.260 
+18:15:37.261 Run `npm audit` for details.
+18:15:37.643 npm notice Access token expired or revoked. Please try logging in again.
+18:16:12.567 npm error code E404
+18:16:12.569 npm error 404 Not Found - GET https://registry.npmjs.org/@akorfa%2fshared - Not found
+18:16:12.569 npm error 404
+18:16:12.569 npm error 404  The requested resource '@akorfa/shared@*' could not be found or you do not have permission to access it.
+18:16:12.569 npm error 404
+18:16:12.570 npm error 404 Note that you can also install from a
+18:16:12.570 npm error 404 tarball, folder, http url, or git url.
+18:16:12.571 npm error A complete log of this run can be found in: /vercel/.npm/_logs/2025-12-15T00_15_37_348Z-debug-0.log
+18:16:12.597 Error: Command "npm install --legacy-peer-deps && npm install --prefix=./web --legacy-peer-deps" exited with 1
