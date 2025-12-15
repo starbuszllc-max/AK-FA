@@ -1,6 +1,6 @@
 {
   "framework": "nextjs",
-  "installCommand": "npm install && npm install --prefix=./web",
+  "installCommand": "npm install --legacy-peer-deps && npm install --prefix=./web --legacy-peer-deps",
   "buildCommand": "npm run build -w @akorfa/shared && npm run build -w akorfa-web",
   "outputDirectory": "web/.next"
 }

@@ -1,0 +1,47 @@
+18:11:12.724 Running build in Washington, D.C., USA (East) – iad1
+18:11:12.725 Build machine configuration: 2 cores, 8 GB
+18:11:12.868 Cloning github.com/starbuszllc-max/akorfa (Branch: main, Commit: 23eaf94)
+18:11:16.226 Cloning completed: 3.357s
+18:11:16.342 Restored build cache from previous deployment (D3TDiBi55w5FUfFEJojJeY73NcNK)
+18:11:17.042 Running "vercel build"
+18:11:17.483 Vercel CLI 50.0.1
+18:11:17.844 Running "install" command: `npm install && npm install --prefix=./web`...
+18:11:27.060 npm warn deprecated next@14.2.15: This version has a security vulnerability. Please upgrade to a patched version. See https://nextjs.org/blog/security-update-2025-12-11 for more details.
+18:11:27.662 
+18:11:27.663 added 13 packages, removed 16 packages, and audited 674 packages in 10s
+18:11:27.663 
+18:11:27.663 167 packages are looking for funding
+18:11:27.663   run `npm fund` for details
+18:11:27.744 
+18:11:27.744 5 vulnerabilities (4 moderate, 1 critical)
+18:11:27.745 
+18:11:27.745 To address issues that do not require attention, run:
+18:11:27.745   npm audit fix
+18:11:27.745 
+18:11:27.745 To address all issues (including breaking changes), run:
+18:11:27.745   npm audit fix --force
+18:11:27.745 
+18:11:27.746 Run `npm audit` for details.
+18:11:28.401 npm notice Access token expired or revoked. Please try logging in again.
+18:11:41.193 npm error code ERESOLVE
+18:11:41.195 npm error ERESOLVE unable to resolve dependency tree
+18:11:41.195 npm error
+18:11:41.197 npm error While resolving: akorfa-web@0.1.0
+18:11:41.197 npm error Found: eslint@8.57.1
+18:11:41.197 npm error node_modules/eslint
+18:11:41.198 npm error   dev eslint@"^8.0.0" from the root project
+18:11:41.198 npm error
+18:11:41.198 npm error Could not resolve dependency:
+18:11:41.198 npm error peer eslint@">=9.0.0" from eslint-config-next@16.0.10
+18:11:41.198 npm error node_modules/eslint-config-next
+18:11:41.198 npm error   dev eslint-config-next@"^16.0.8" from the root project
+18:11:41.198 npm error
+18:11:41.198 npm error Fix the upstream dependency conflict, or retry
+18:11:41.198 npm error this command with --force or --legacy-peer-deps
+18:11:41.198 npm error to accept an incorrect (and potentially broken) dependency resolution.
+18:11:41.199 npm error
+18:11:41.199 npm error
+18:11:41.199 npm error For a full report see:
+18:11:41.200 npm error /vercel/.npm/_logs/2025-12-15T00_11_27_838Z-eresolve-report.txt
+18:11:41.203 npm error A complete log of this run can be found in: /vercel/.npm/_logs/2025-12-15T00_11_27_838Z-debug-0.log
+18:11:41.239 Error: Command "npm install && npm install --prefix=./web" exited with 1
