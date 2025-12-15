@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import Image from 'next/image';
 import ThemeToggle from './ThemeToggle';
 import NotificationBell from '@/components/notifications/NotificationBell';
 
@@ -118,15 +117,11 @@ export function Header() {
     <header className="w-full bg-gradient-to-r from-white via-amber-50 to-white dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 shadow-md sticky top-0 z-50 transition-colors duration-200 border-b border-amber-200/30 dark:border-amber-900/20">
       <div className="max-w-7xl mx-auto px-3 md:px-6 py-3 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 group hover:opacity-80 transition-opacity duration-200">
-          <div className="relative w-10 h-10 md:w-12 md:h-12 flex-shrink-0">
-            <Image 
-              src="/logo.png" 
-              alt="Akorfa" 
-              fill
-              className="object-contain drop-shadow-lg group-hover:drop-shadow-xl transition-all duration-200"
-              priority
-            />
-          </div>
+          <img 
+            src="/logo.png" 
+            alt="Akorfa" 
+            className="h-10 md:h-12 w-auto drop-shadow-lg group-hover:drop-shadow-xl transition-all duration-200"
+          />
           <div className="hidden sm:block">
             <h1 className="font-bold text-lg md:text-xl bg-gradient-to-r from-amber-700 via-amber-600 to-amber-700 dark:from-amber-400 dark:via-amber-300 dark:to-amber-400 bg-clip-text text-transparent">
               Akorfa
