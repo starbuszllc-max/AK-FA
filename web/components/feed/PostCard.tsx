@@ -34,6 +34,8 @@ interface PostProps {
   currentUserId: string | null;
   onLike?: (postId: string) => void;
   onCommentAdded?: (postId: string) => void;
+  onPostDeleted?: (postId: string) => void;
+  onPostUpdated?: (postId: string, newContent: string) => void;
 }
 
 const layerColors: Record<string, { bg: string; text: string }> = {
@@ -61,7 +63,7 @@ function formatTimeAgo(dateString: string): string {
   return date.toLocaleDateString();
 }
 
-export default function PostCard({ post, currentUserId, onLike, onCommentAdded }: PostProps) {
+export default function PostCard({ post, currentUserId, onLike, onCommentAdded, onPostDeleted, onPostUpdated }: PostProps) {
   const router = useRouter();
   const [isLiking, setIsLiking] = useState(false);
   const [hasLiked, setHasLiked] = useState(false);
@@ -75,10 +77,19 @@ export default function PostCard({ post, currentUserId, onLike, onCommentAdded }
   const [commentAnimating, setCommentAnimating] = useState(false);
   const likeButtonRef = useRef<HTMLButtonElement>(null);
   const commentButtonRef = useRef<HTMLButtonElement>(null);
+  
+  const [showMenu, setShowMenu] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editContent, setEditContent] = useState(post.content);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const username = post.profiles?.username || 'Anonymous';
   const avatarUrl = post.profiles?.avatar_url;
   const layerStyle = layerColors[post.layer] || { bg: 'bg-gray-100', text: 'text-gray-700' };
+  const isOwner = currentUserId && post.user_id === currentUserId;
   
   const handleMediaClick = (url: string, mediaType: string) => {
     const isVideo = typeof mediaType === 'string' && mediaType.toLowerCase().includes('video');
@@ -86,6 +97,63 @@ export default function PostCard({ post, currentUserId, onLike, onCommentAdded }
       router.push(`/live?video=${encodeURIComponent(url)}`);
     }
   };
+
+  async function handleDelete() {
+    if (!currentUserId || isDeleting) return;
+    setIsDeleting(true);
+    try {
+      const resp = await fetch(`/api/posts/${post.id}?user_id=${currentUserId}`, {
+        method: 'DELETE'
+      });
+      if (resp.ok) {
+        onPostDeleted?.(post.id);
+      } else {
+        const error = await resp.json();
+        console.error('Failed to delete post:', error);
+        alert('Failed to delete post');
+      }
+    } catch (err) {
+      console.error('Error deleting post:', err);
+      alert('Error deleting post');
+    } finally {
+      setIsDeleting(false);
+      setShowDeleteConfirm(false);
+      setShowMenu(false);
+    }
+  }
+
+  async function handleSaveEdit() {
+    if (!currentUserId || isSaving || !editContent.trim()) return;
+    setIsSaving(true);
+    try {
+      const resp = await fetch(`/api/posts/${post.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id: currentUserId,
+          content: editContent.trim()
+        })
+      });
+      if (resp.ok) {
+        onPostUpdated?.(post.id, editContent.trim());
+        setIsEditing(false);
+      } else {
+        const error = await resp.json();
+        console.error('Failed to update post:', error);
+        alert('Failed to update post');
+      }
+    } catch (err) {
+      console.error('Error updating post:', err);
+      alert('Error updating post');
+    } finally {
+      setIsSaving(false);
+    }
+  }
+
+  function handleCancelEdit() {
+    setEditContent(post.content);
+    setIsEditing(false);
+  }
 
   async function fetchComments() {
     setLoadingComments(true);
@@ -199,12 +267,100 @@ export default function PostCard({ post, currentUserId, onLike, onCommentAdded }
             <div className="text-xs text-gray-500">{formatTimeAgo(post.created_at)}</div>
           </div>
         </div>
-        <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${layerStyle.bg} ${layerStyle.text}`}>
-          {post.layer}
-        </span>
+        <div className="flex items-center gap-2">
+          <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${layerStyle.bg} ${layerStyle.text}`}>
+            {post.layer}
+          </span>
+          {isOwner && (
+            <div className="relative" ref={menuRef}>
+              <button
+                onClick={() => setShowMenu(!showMenu)}
+                className="p-1 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100 transition-colors"
+                aria-label="Post options"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                </svg>
+              </button>
+              {showMenu && (
+                <div className="absolute right-0 top-8 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-20 min-w-[120px]">
+                  <button
+                    onClick={() => { setIsEditing(true); setShowMenu(false); }}
+                    className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => { setShowDeleteConfirm(true); setShowMenu(false); }}
+                    className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    Delete
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
 
-      <p className="mt-3 text-gray-800 text-sm md:text-base whitespace-pre-wrap leading-relaxed">{post.content}</p>
+      {isEditing ? (
+        <div className="mt-3">
+          <textarea
+            value={editContent}
+            onChange={(e) => setEditContent(e.target.value)}
+            className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-green-500/20 focus:border-green-500 resize-none"
+            rows={4}
+            maxLength={1000}
+          />
+          <div className="flex justify-end gap-2 mt-2">
+            <button
+              onClick={handleCancelEdit}
+              className="px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100 rounded-md transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleSaveEdit}
+              disabled={isSaving || !editContent.trim()}
+              className="px-3 py-1.5 text-sm bg-green-600 text-white rounded-md hover:bg-green-700 disabled:opacity-50 transition-colors"
+            >
+              {isSaving ? 'Saving...' : 'Save'}
+            </button>
+          </div>
+        </div>
+      ) : (
+        <p className="mt-3 text-gray-800 text-sm md:text-base whitespace-pre-wrap leading-relaxed">{editContent}</p>
+      )}
+
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl p-6 max-w-sm w-full shadow-xl">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Delete Post?</h3>
+            <p className="text-sm text-gray-600 mb-4">This action cannot be undone. Are you sure you want to delete this post?</p>
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setShowDeleteConfirm(false)}
+                className="px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-md transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDelete}
+                disabled={isDeleting}
+                className="px-4 py-2 text-sm bg-red-600 text-white rounded-md hover:bg-red-700 disabled:opacity-50 transition-colors"
+              >
+                {isDeleting ? 'Deleting...' : 'Delete'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {post.media_urls && Array.isArray(post.media_urls) && post.media_urls.length > 0 && (
         <div className="mt-3 grid grid-cols-2 md:grid-cols-3 gap-2">
