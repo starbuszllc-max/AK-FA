@@ -141,7 +141,7 @@ export default function ProfilePage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
       </div>
     );
   }
@@ -149,8 +149,8 @@ export default function ProfilePage() {
   if (!userId) {
     return (
       <div className="max-w-md mx-auto text-center py-16">
-        <div className="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
-          <User className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
+        <div className="w-16 h-16 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
+          <User className="w-8 h-8 text-green-600 dark:text-green-400" />
         </div>
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
           Your Profile
@@ -160,7 +160,7 @@ export default function ProfilePage() {
         </p>
         <Link
           href="/signup"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700 transition-all"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl font-medium hover:bg-green-700 transition-all"
         >
           Get Started
           <ChevronRight className="w-4 h-4" />
@@ -173,13 +173,13 @@ export default function ProfilePage() {
     return (
       <div className="max-w-md mx-auto text-center py-16 px-4">
         <div className="relative mb-8">
-          <div className="w-24 h-24 bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900/50 dark:to-purple-900/50 rounded-full flex items-center justify-center mx-auto">
+          <div className="w-24 h-24 bg-gradient-to-br from-green-100 to-purple-100 dark:from-green-900/50 dark:to-purple-900/50 rounded-full flex items-center justify-center mx-auto">
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-20 h-20 border-4 border-dashed border-indigo-300 dark:border-indigo-600 rounded-full animate-spin-slow" style={{ animationDuration: '8s' }}></div>
+              <div className="w-20 h-20 border-4 border-dashed border-green-300 dark:border-green-600 rounded-full animate-spin-slow" style={{ animationDuration: '8s' }}></div>
             </div>
-            <User className="w-10 h-10 text-indigo-400 dark:text-indigo-500" />
+            <User className="w-10 h-10 text-green-400 dark:text-green-500" />
           </div>
-          <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1">
+          <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1">
             <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
             </svg>
@@ -194,7 +194,7 @@ export default function ProfilePage() {
         </p>
         <Link
           href="/feed"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-medium hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg shadow-indigo-500/25"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-600 to-purple-600 text-white rounded-xl font-medium hover:from-green-700 hover:to-purple-700 transition-all shadow-lg shadow-green-500/25"
         >
           <Zap className="w-5 h-5" />
           Make Your First Post
@@ -210,11 +210,11 @@ export default function ProfilePage() {
 
   const layerColors: Record<string, string> = {
     environment: 'bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300',
-    bio: 'bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-300',
+    bio: 'bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300',
     internal: 'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300',
     cultural: 'bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-300',
     social: 'bg-pink-100 text-pink-700 dark:bg-pink-900/50 dark:text-pink-300',
-    conscious: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300',
+    conscious: 'bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300',
     existential: 'bg-slate-100 text-slate-700 dark:bg-slate-700/50 dark:text-slate-300',
   };
 
@@ -229,7 +229,7 @@ export default function ProfilePage() {
               className="w-full h-full object-cover"
             />
           ) : (
-            <div className="w-full h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
+            <div className="w-full h-full bg-gradient-to-r from-green-500 via-purple-500 to-pink-500"></div>
           )}
           <button
             onClick={() => coverInputRef.current?.click()}
@@ -276,7 +276,7 @@ export default function ProfilePage() {
             </div>
             <Link
               href="/profile/settings"
-              className="pb-1 flex items-center justify-center w-11 h-11 bg-gradient-to-br from-gray-100 to-gray-50 dark:from-slate-700 dark:to-slate-600 rounded-full text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:from-indigo-50 hover:to-indigo-50 dark:hover:from-indigo-900/40 dark:hover:to-indigo-900/40 transition-all"
+              className="pb-1 flex items-center justify-center w-11 h-11 bg-gradient-to-br from-gray-100 to-gray-50 dark:from-slate-700 dark:to-slate-600 rounded-full text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 hover:from-green-50 hover:to-green-50 dark:hover:from-green-900/40 dark:hover:to-green-900/40 transition-all"
             >
               <Settings className="w-5 h-5" />
             </Link>
@@ -289,19 +289,19 @@ export default function ProfilePage() {
           )}
 
           <div className="grid grid-cols-3 lg:grid-cols-6 gap-3 mb-4">
-            <div className="rounded-xl p-3 bg-gradient-to-br from-indigo-50 to-indigo-50/50 dark:from-indigo-900/20 dark:to-indigo-900/10 border border-indigo-200/50 dark:border-indigo-800/30">
-              <div className="flex items-center justify-center gap-1 text-lg font-bold text-indigo-700 dark:text-indigo-300">
+            <div className="rounded-xl p-3 bg-gradient-to-br from-green-50 to-green-50/50 dark:from-green-900/20 dark:to-green-900/10 border border-green-200/50 dark:border-green-800/30">
+              <div className="flex items-center justify-center gap-1 text-lg font-bold text-green-700 dark:text-green-300">
                 <Zap className="w-4 h-4" />
                 {totalXp}
               </div>
-              <div className="text-xs text-indigo-600 dark:text-indigo-400 font-medium mt-1 text-center">XP</div>
+              <div className="text-xs text-green-600 dark:text-green-400 font-medium mt-1 text-center">XP</div>
             </div>
-            <div className="rounded-xl p-3 bg-gradient-to-br from-amber-50 to-amber-50/50 dark:from-amber-900/20 dark:to-amber-900/10 border border-amber-200/50 dark:border-amber-800/30">
-              <div className="flex items-center justify-center gap-1 text-lg font-bold text-amber-700 dark:text-amber-300">
+            <div className="rounded-xl p-3 bg-gradient-to-br from-green-50 to-green-50/50 dark:from-green-900/20 dark:to-green-900/10 border border-green-200/50 dark:border-green-800/30">
+              <div className="flex items-center justify-center gap-1 text-lg font-bold text-green-700 dark:text-green-300">
                 <Trophy className="w-4 h-4" />
                 {level}
               </div>
-              <div className="text-xs text-amber-600 dark:text-amber-400 font-medium mt-1 text-center">Level</div>
+              <div className="text-xs text-green-600 dark:text-green-400 font-medium mt-1 text-center">Level</div>
             </div>
             <div className="rounded-xl p-3 bg-gradient-to-br from-orange-50 to-orange-50/50 dark:from-orange-900/20 dark:to-orange-900/10 border border-orange-200/50 dark:border-orange-800/30">
               <div className="flex items-center justify-center gap-1 text-lg font-bold text-orange-700 dark:text-orange-300">
@@ -349,7 +349,7 @@ export default function ProfilePage() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex-1 flex items-center justify-center gap-2 py-4 text-sm font-medium transition-all relative ${
                   activeTab === tab.id
-                    ? 'text-indigo-600 dark:text-indigo-400 bg-white dark:bg-slate-800'
+                    ? 'text-green-600 dark:text-green-400 bg-white dark:bg-slate-800'
                     : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300'
                 }`}
               >
@@ -358,7 +358,7 @@ export default function ProfilePage() {
                 {activeTab === tab.id && (
                   <motion.div
                     layoutId="profileTabIndicator"
-                    className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400"
+                    className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-green-600 to-purple-600 dark:from-green-400 dark:to-purple-400"
                     transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                   />
                 )}
@@ -380,7 +380,7 @@ export default function ProfilePage() {
               <div>
                 {loadingPosts ? (
                   <div className="flex justify-center py-12">
-                    <div className="animate-spin rounded-full h-8 w-8 border-2 border-indigo-600 border-t-transparent"></div>
+                    <div className="animate-spin rounded-full h-8 w-8 border-2 border-green-600 border-t-transparent"></div>
                   </div>
                 ) : posts.length > 0 ? (
                   <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
@@ -449,7 +449,7 @@ export default function ProfilePage() {
                     <p className="text-gray-500 dark:text-gray-400 mb-6 font-medium">No posts yet</p>
                     <Link
                       href="/create"
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-medium hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg shadow-indigo-500/20"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-600 to-purple-600 text-white rounded-xl font-medium hover:from-green-700 hover:to-purple-700 transition-all shadow-lg shadow-green-500/20"
                     >
                       Create Your First Post
                       <ChevronRight className="w-4 h-4" />
@@ -470,7 +470,7 @@ export default function ProfilePage() {
                   {profile.goals && profile.goals.length > 0 ? (
                     <div className="flex flex-wrap gap-2">
                       {profile.goals.map((goal: string, i: number) => (
-                        <span key={i} className="px-3 py-2 bg-gradient-to-r from-indigo-100 to-purple-100 dark:from-indigo-900/40 dark:to-purple-900/40 text-indigo-700 dark:text-indigo-300 rounded-full text-sm font-medium border border-indigo-200 dark:border-indigo-800/50">
+                        <span key={i} className="px-3 py-2 bg-gradient-to-r from-green-100 to-purple-100 dark:from-green-900/40 dark:to-purple-900/40 text-green-700 dark:text-green-300 rounded-full text-sm font-medium border border-green-200 dark:border-green-800/50">
                           {goal.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
                         </span>
                       ))}
@@ -488,20 +488,20 @@ export default function ProfilePage() {
                   <h3 className="font-semibold text-gray-900 dark:text-white mb-4 text-lg">Activity Overview</h3>
                   <ActivityHeatmap userId={userId} />
                 </div>
-                <div className="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-indigo-900/20 dark:via-purple-900/20 dark:to-pink-900/20 rounded-xl p-5 border border-indigo-200/50 dark:border-indigo-800/30">
+                <div className="bg-gradient-to-br from-green-50 via-purple-50 to-pink-50 dark:from-green-900/20 dark:via-purple-900/20 dark:to-pink-900/20 rounded-xl p-5 border border-green-200/50 dark:border-green-800/30">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-800/50 dark:to-purple-800/50 flex items-center justify-center flex-shrink-0">
-                      <Lightbulb className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-100 to-purple-100 dark:from-green-800/50 dark:to-purple-800/50 flex items-center justify-center flex-shrink-0">
+                      <Lightbulb className="w-6 h-6 text-green-600 dark:text-green-400" />
                     </div>
                     <div className="flex-1">
                       <h4 className="font-semibold text-gray-900 dark:text-white text-base">Your Growth Journey</h4>
                       <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
-                        You've earned <span className="font-semibold text-indigo-600 dark:text-indigo-400">{totalXp} XP</span> and maintained a <span className="font-semibold text-orange-600 dark:text-orange-400">{streak}-day streak</span>. 
+                        You've earned <span className="font-semibold text-green-600 dark:text-green-400">{totalXp} XP</span> and maintained a <span className="font-semibold text-orange-600 dark:text-orange-400">{streak}-day streak</span>. 
                         Keep engaging to unlock new achievements!
                       </p>
                       <Link 
                         href="/assessments" 
-                        className="inline-flex items-center gap-1 text-sm font-medium text-indigo-600 dark:text-indigo-400 mt-3 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors"
+                        className="inline-flex items-center gap-1 text-sm font-medium text-green-600 dark:text-green-400 mt-3 hover:text-green-700 dark:hover:text-green-300 transition-colors"
                       >
                         Take an assessment <ChevronRight className="w-4 h-4" />
                       </Link>

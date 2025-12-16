@@ -15,7 +15,7 @@ const LAYER_CONFIG: Record<string, { color: string; icon: React.ReactNode }> = {
   internal: { color: 'bg-purple-500', icon: <Brain className="w-2.5 h-2.5" /> },
   cultural: { color: 'bg-yellow-500', icon: <Star className="w-2.5 h-2.5" /> },
   social: { color: 'bg-blue-500', icon: <Users className="w-2.5 h-2.5" /> },
-  conscious: { color: 'bg-indigo-500', icon: <Zap className="w-2.5 h-2.5" /> },
+  conscious: { color: 'bg-green-500', icon: <Zap className="w-2.5 h-2.5" /> },
   existential: { color: 'bg-pink-500', icon: <Sparkles className="w-2.5 h-2.5" /> },
 };
 

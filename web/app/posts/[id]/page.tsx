@@ -78,7 +78,7 @@ export default function PostDetailPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-4 border-green-500 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -96,7 +96,7 @@ export default function PostDetailPage() {
           <p className="text-gray-600 dark:text-gray-400 mb-6">The post you're looking for doesn't exist.</p>
           <a
             href="/feed"
-            className="inline-flex px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+            className="inline-flex px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
           >
             Back to Feed
           </a>
@@ -111,7 +111,7 @@ export default function PostDetailPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <a href="/feed" className="text-indigo-600 hover:text-indigo-700 mb-6 inline-block text-sm font-medium">
+        <a href="/feed" className="text-green-600 hover:text-green-700 mb-6 inline-block text-sm font-medium">
           ← Back to Feed
         </a>
         <EnhancedPostCard

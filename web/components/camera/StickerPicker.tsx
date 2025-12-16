@@ -102,7 +102,7 @@ export default function StickerPicker({ onSelect, onClose }: StickerPickerProps)
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search GIFs..."
-              className="w-full pl-10 pr-4 py-3 bg-gray-800 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full pl-10 pr-4 py-3 bg-gray-800 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500"
             />
           </div>
         </div>
@@ -133,7 +133,7 @@ export default function StickerPicker({ onSelect, onClose }: StickerPickerProps)
                   <button
                     key={gif.id}
                     onClick={() => handleGifSelect(gif)}
-                    className="relative aspect-square bg-gray-800 rounded-lg overflow-hidden hover:ring-2 hover:ring-indigo-500 transition-all"
+                    className="relative aspect-square bg-gray-800 rounded-lg overflow-hidden hover:ring-2 hover:ring-green-500 transition-all"
                   >
                     <img
                       src={gif.url}

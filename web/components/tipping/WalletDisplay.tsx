@@ -58,7 +58,7 @@ export default function WalletDisplay() {
   
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden">
-      <div className="bg-gradient-to-r from-amber-500 via-orange-500 to-pink-500 p-5 text-white">
+      <div className="bg-gradient-to-r from-green-500 via-orange-500 to-pink-500 p-5 text-white">
         <div className="flex items-center gap-2 mb-3">
           <Coins className="w-6 h-6" />
           <h2 className="text-lg font-semibold">Your Wallet</h2>

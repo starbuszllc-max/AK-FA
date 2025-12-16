@@ -137,7 +137,7 @@ export default function WalletPage() {
     return (
       <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
         <div className="flex items-center justify-center h-[60vh]">
-          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-indigo-600" />
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-green-600" />
         </div>
       </div>
     );
@@ -158,7 +158,7 @@ export default function WalletPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900 pb-24">
-      <div className="bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-800 pt-6 pb-32 px-4">
+      <div className="bg-gradient-to-br from-green-600 via-purple-600 to-green-800 pt-6 pb-32 px-4">
         <div className="max-w-lg mx-auto">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
@@ -211,7 +211,7 @@ export default function WalletPage() {
                 onClick={() => setActiveAccount(account)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap ${
                   activeAccount === account
-                    ? 'bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 shadow-lg'
+                    ? 'bg-white dark:bg-slate-800 text-green-600 dark:text-green-400 shadow-lg'
                     : 'bg-white/80 dark:bg-slate-800/80 text-gray-600 dark:text-gray-400'
                 }`}
               >
@@ -231,7 +231,7 @@ export default function WalletPage() {
                 exit={{ opacity: 0, y: -20 }}
                 className="space-y-4"
               >
-                <div className="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl p-5 text-white shadow-xl">
+                <div className="bg-gradient-to-br from-purple-500 to-green-600 rounded-2xl p-5 text-white shadow-xl">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
                       <Star className="w-5 h-5" />
@@ -329,7 +329,7 @@ export default function WalletPage() {
                         className={`relative p-4 rounded-xl border-2 transition-all ${
                           pkg.popular 
                             ? 'border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20' 
-                            : 'border-gray-200 dark:border-slate-700 hover:border-indigo-300'
+                            : 'border-gray-200 dark:border-slate-700 hover:border-green-300'
                         }`}
                       >
                         {pkg.popular && (
@@ -341,7 +341,7 @@ export default function WalletPage() {
                           <Coins className="w-4 h-4 text-yellow-500" />
                           <span className="font-bold text-gray-900 dark:text-white">{pkg.coins}</span>
                         </div>
-                        <p className="text-indigo-600 dark:text-indigo-400 font-semibold">${pkg.price}</p>
+                        <p className="text-green-600 dark:text-green-400 font-semibold">${pkg.price}</p>
                       </button>
                     ))}
                   </div>
@@ -379,7 +379,7 @@ export default function WalletPage() {
               >
                 {creditLoading ? (
                   <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 flex items-center justify-center">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" />
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600" />
                   </div>
                 ) : creditData ? (
                   <>
@@ -412,7 +412,7 @@ export default function WalletPage() {
 
                     <div className="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm">
                       <h3 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-                        <Shield className="w-4 h-4 text-indigo-500" />
+                        <Shield className="w-4 h-4 text-green-500" />
                         Credit Stats
                       </h3>
                       <div className="grid grid-cols-3 gap-3">
@@ -428,8 +428,8 @@ export default function WalletPage() {
                           </p>
                           <p className="text-xs text-gray-600 dark:text-gray-400">Late</p>
                         </div>
-                        <div className="text-center p-3 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl">
-                          <p className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
+                        <div className="text-center p-3 bg-green-50 dark:bg-green-900/20 rounded-xl">
+                          <p className="text-2xl font-bold text-green-600 dark:text-green-400">
                             {creditData.creditScore.totalLoansCompleted}
                           </p>
                           <p className="text-xs text-gray-600 dark:text-gray-400">Completed</p>
@@ -477,7 +477,7 @@ export default function WalletPage() {
                 <Clock className="w-4 h-4 text-gray-400" />
                 Recent Activity
               </h3>
-              <button className="text-indigo-600 dark:text-indigo-400 text-sm font-medium flex items-center gap-1">
+              <button className="text-green-600 dark:text-green-400 text-sm font-medium flex items-center gap-1">
                 See All <ChevronRight className="w-4 h-4" />
               </button>
             </div>
@@ -519,7 +519,7 @@ export default function WalletPage() {
             )}
           </div>
 
-          <div className="bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl p-4 text-white">
+          <div className="bg-gradient-to-r from-green-500 to-purple-500 rounded-2xl p-4 text-white">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
                 <DollarSign className="w-5 h-5" />

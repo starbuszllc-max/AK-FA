@@ -45,7 +45,7 @@ export default function FloatingComposeButton({ onClick, onCameraClick }: Floati
               exit={{ opacity: 0, y: 20, scale: 0 }}
               transition={{ delay: 0.05 }}
               onClick={handleCompose}
-              className="absolute bottom-[4.5rem] right-0 w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 text-white rounded-full shadow-lg flex items-center justify-center"
+              className="absolute bottom-[4.5rem] right-0 w-12 h-12 bg-gradient-to-br from-blue-500 to-green-600 text-white rounded-full shadow-lg flex items-center justify-center"
             >
               <PenSquare className="w-5 h-5" />
             </motion.button>
@@ -55,7 +55,7 @@ export default function FloatingComposeButton({ onClick, onCameraClick }: Floati
 
       <motion.button
         onClick={handleToggle}
-        className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-full shadow-lg flex items-center justify-center"
+        className="w-14 h-14 bg-gradient-to-br from-green-500 to-purple-600 text-white rounded-full shadow-lg flex items-center justify-center"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         initial={{ opacity: 0, scale: 0 }}

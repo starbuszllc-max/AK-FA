@@ -148,7 +148,7 @@ export function Header() {
   const isActive = (href: string) => pathname === href;
 
   return (
-    <header className="w-full bg-gradient-to-r from-white via-amber-50 to-white dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 shadow-md sticky top-0 z-50 border-b border-amber-200/30 dark:border-amber-900/20" style={{ height: isCollapsed ? '20px' : '84px', overflow: 'hidden', transition: 'height 0.3s ease-in-out' }}>
+    <header className="w-full bg-gradient-to-r from-white via-green-50 to-white dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 shadow-md sticky top-0 z-50 border-b border-green-200/30 dark:border-green-900/20" style={{ height: isCollapsed ? '20px' : '84px', overflow: 'hidden', transition: 'height 0.3s ease-in-out' }}>
       <div className="max-w-7xl mx-auto flex items-end justify-between gap-4" style={{ paddingTop: '0px', paddingBottom: '0px', paddingLeft: '0px', paddingRight: '5px', height: isCollapsed ? '20px' : '84px', opacity: isCollapsed ? 0 : 1, transition: 'opacity 0.3s ease-in-out', pointerEvents: isCollapsed ? 'none' : 'auto' }}>
         <Link href="/" className="flex items-center gap-2 group hover:opacity-80 transition-opacity duration-200" style={{ marginTop: 'auto', paddingLeft: '12px', paddingBottom: '2px' }}>
           <img 
@@ -157,7 +157,7 @@ export function Header() {
             className="h-28 md:h-36 w-auto"
           />
           <div className="hidden sm:block">
-            <h1 className="font-bold text-lg md:text-xl bg-gradient-to-r from-amber-700 via-amber-600 to-amber-700 dark:from-amber-400 dark:via-amber-300 dark:to-amber-400 bg-clip-text text-transparent">
+            <h1 className="font-bold text-lg md:text-xl bg-gradient-to-r from-green-700 via-green-600 to-green-700 dark:from-green-400 dark:via-green-300 dark:to-green-400 bg-clip-text text-transparent">
               Akorfa
             </h1>
             <p className="text-xs text-gray-600 dark:text-gray-400">Human Stack</p>
@@ -187,7 +187,7 @@ export function Header() {
               href={link.href} 
               className={`px-2 py-1.5 rounded-md text-xs font-medium transition-colors flex items-center gap-1.5 ${
                 isActive(link.href) 
-                  ? 'bg-indigo-50 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400' 
+                  ? 'bg-green-50 dark:bg-green-900/50 text-green-600 dark:text-green-400' 
                   : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
@@ -214,7 +214,7 @@ export function Header() {
             <div className="flex items-center gap-1">
               <Link 
                 href="/signup" 
-                className="px-3 py-1.5 text-xs font-medium bg-indigo-600 dark:bg-indigo-500 text-white rounded-md hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors"
+                className="px-3 py-1.5 text-xs font-medium bg-green-600 dark:bg-green-500 text-white rounded-md hover:bg-green-700 dark:hover:bg-green-600 transition-colors"
               >
                 Get Started
               </Link>
@@ -233,7 +233,7 @@ export function Header() {
                 onClick={() => setMenuOpen(false)}
                 className={`px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-2 ${
                   isActive(link.href) 
-                    ? 'bg-indigo-50 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400' 
+                    ? 'bg-green-50 dark:bg-green-900/50 text-green-600 dark:text-green-400' 
                     : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700'
                 }`}
               >
@@ -255,7 +255,7 @@ export function Header() {
               <Link 
                 href="/signup" 
                 onClick={() => setMenuOpen(false)}
-                className="px-3 py-2 text-sm font-medium bg-indigo-600 dark:bg-indigo-500 text-white rounded-md text-center"
+                className="px-3 py-2 text-sm font-medium bg-green-600 dark:bg-green-500 text-white rounded-md text-center"
               >
                 Get Started
               </Link>

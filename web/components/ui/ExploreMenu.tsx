@@ -31,9 +31,9 @@ const menuLinks = [
   { href: '/insight-school', label: 'Learn', icon: BookOpen, color: 'text-purple-500' },
   { href: '/assessments', label: 'Assess', icon: ClipboardCheck, color: 'text-pink-500' },
   { href: '/insights', label: 'Insights', icon: Zap, color: 'text-orange-500' },
-  { href: '/coach', label: 'Coach', icon: Lightbulb, color: 'text-amber-500' },
+  { href: '/coach', label: 'Coach', icon: Lightbulb, color: 'text-green-500' },
   { href: '/groups', label: 'Groups', icon: Users, color: 'text-cyan-500' },
-  { href: '/messages', label: 'Messages', icon: MessageCircle, color: 'text-indigo-500' },
+  { href: '/messages', label: 'Messages', icon: MessageCircle, color: 'text-green-500' },
   { href: '/leaderboard', label: 'Leaders', icon: TrendingUp, color: 'text-emerald-500' },
   { href: '/wallet', label: 'Wallet', icon: Wallet, color: 'text-violet-500' },
   { href: '/marketplace', label: 'Shop', icon: ShoppingBag, color: 'text-rose-500' },
@@ -166,7 +166,7 @@ export default function ExploreMenu({ isOpen, onClose, followerCount = 0 }: Expl
                     <Link
                       href={link.href}
                       onClick={onClose}
-                      className="flex flex-col items-center p-3 rounded-2xl transition-all group focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="flex flex-col items-center p-3 rounded-2xl transition-all group focus:outline-none focus:ring-2 focus:ring-green-500"
                     >
                       <Icon className="w-6 h-6 text-white mb-2 group-hover:scale-110 transition-transform" />
                       <span className="text-xs font-bold text-white text-center leading-relaxed tracking-wide">
@@ -183,7 +183,7 @@ export default function ExploreMenu({ isOpen, onClose, followerCount = 0 }: Expl
                 <Link
                   href="/signup"
                   onClick={onClose}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-2xl hover:from-indigo-600 hover:to-purple-600 transition-all shadow-lg shadow-indigo-500/25 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium bg-gradient-to-r from-green-500 to-purple-500 text-white rounded-2xl hover:from-green-600 hover:to-purple-600 transition-all shadow-lg shadow-green-500/25 focus:outline-none focus:ring-2 focus:ring-green-500"
                 >
                   <Sparkles className="w-4 h-4" />
                   Get Started

@@ -28,7 +28,7 @@ const layerColors: Record<string, string> = {
   environment: 'bg-emerald-500',
   biological: 'bg-blue-500',
   internal: 'bg-violet-500',
-  cultural: 'bg-amber-500',
+  cultural: 'bg-green-500',
   social: 'bg-pink-500',
   conscious: 'bg-purple-500',
   existential: 'bg-orange-500'
@@ -92,7 +92,7 @@ export default function AssessmentHistoryPage() {
     return (
       <div className="flex items-center justify-center min-h-[50vh]">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
           <p className="text-gray-500 dark:text-gray-400">Loading assessment history...</p>
         </div>
       </div>
@@ -105,7 +105,7 @@ export default function AssessmentHistoryPage() {
         <p className="text-red-500 mb-4">{error}</p>
         <button
           onClick={fetchAssessments}
-          className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+          className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
         >
           Try Again
         </button>
@@ -118,14 +118,14 @@ export default function AssessmentHistoryPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-            <History className="w-6 h-6 text-indigo-600" />
+            <History className="w-6 h-6 text-green-600" />
             Assessment History
           </h1>
           <p className="text-gray-500 dark:text-gray-400 mt-1">Track your growth across all 7 layers over time</p>
         </div>
         <Link
           href="/assessments"
-          className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
         >
           <Plus className="w-4 h-4" />
           New Assessment
@@ -134,14 +134,14 @@ export default function AssessmentHistoryPage() {
 
       {assessments.length === 0 ? (
         <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm p-12 text-center">
-          <div className="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/50 rounded-full flex items-center justify-center mx-auto mb-4">
-            <History className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
+          <div className="w-16 h-16 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center mx-auto mb-4">
+            <History className="w-8 h-8 text-green-600 dark:text-green-400" />
           </div>
           <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">No assessments yet</h2>
           <p className="text-gray-500 dark:text-gray-400 mb-6">Take your first assessment to start tracking your progress</p>
           <Link
             href="/assessments"
-            className="inline-block px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+            className="inline-block px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
           >
             Take Assessment
           </Link>
@@ -158,7 +158,7 @@ export default function AssessmentHistoryPage() {
                     onClick={() => setSelectedAssessment(assessment)}
                     className={`w-full text-left p-3 rounded-lg transition-colors ${
                       selectedAssessment?.id === assessment.id
-                        ? 'bg-indigo-50 dark:bg-indigo-900/30 border-2 border-indigo-300 dark:border-indigo-600'
+                        ? 'bg-green-50 dark:bg-green-900/30 border-2 border-green-300 dark:border-green-600'
                         : 'bg-gray-50 dark:bg-slate-700 hover:bg-gray-100 dark:hover:bg-slate-600 border-2 border-transparent'
                     }`}
                   >
@@ -193,7 +193,7 @@ export default function AssessmentHistoryPage() {
                   </div>
                   <div className="text-right">
                     <p className="text-sm text-gray-500 dark:text-gray-400">Overall Score</p>
-                    <p className="text-3xl font-bold text-indigo-600 dark:text-indigo-400">
+                    <p className="text-3xl font-bold text-green-600 dark:text-green-400">
                       {Number(selectedAssessment.overallScore).toFixed(1)}
                     </p>
                   </div>
@@ -230,9 +230,9 @@ export default function AssessmentHistoryPage() {
                 </div>
 
                 {selectedAssessment.insights && (
-                  <div className="mt-6 p-4 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg">
-                    <h4 className="font-medium text-indigo-800 dark:text-indigo-300 mb-2">Insights</h4>
-                    <p className="text-indigo-700 dark:text-indigo-200 text-sm">{selectedAssessment.insights}</p>
+                  <div className="mt-6 p-4 bg-green-50 dark:bg-green-900/30 rounded-lg">
+                    <h4 className="font-medium text-green-800 dark:text-green-300 mb-2">Insights</h4>
+                    <p className="text-green-700 dark:text-green-200 text-sm">{selectedAssessment.insights}</p>
                   </div>
                 )}
               </div>

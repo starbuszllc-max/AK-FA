@@ -8,9 +8,9 @@ const LAYERS = [
   { id: 'environment', label: 'Environment', emoji: '🌍', color: 'from-emerald-500 to-green-600' },
   { id: 'bio', label: 'Biological', emoji: '🧬', color: 'from-rose-500 to-pink-600' },
   { id: 'internal', label: 'Internal', emoji: '🧠', color: 'from-purple-500 to-violet-600' },
-  { id: 'cultural', label: 'Cultural', emoji: '🎭', color: 'from-amber-500 to-orange-600' },
+  { id: 'cultural', label: 'Cultural', emoji: '🎭', color: 'from-green-500 to-orange-600' },
   { id: 'social', label: 'Social', emoji: '👥', color: 'from-blue-500 to-cyan-600' },
-  { id: 'conscious', label: 'Conscious', emoji: '💭', color: 'from-indigo-500 to-blue-600' },
+  { id: 'conscious', label: 'Conscious', emoji: '💭', color: 'from-green-500 to-blue-600' },
   { id: 'existential', label: 'Existential', emoji: '✨', color: 'from-violet-500 to-purple-600' },
 ];
 
@@ -268,7 +268,7 @@ export default function CameraCapture({ onClose, onCapture, userId }: CameraCapt
               <p className="mb-4">{error}</p>
               <button
                 onClick={startCamera}
-                className="px-4 py-2 bg-indigo-600 rounded-lg"
+                className="px-4 py-2 bg-green-600 rounded-lg"
               >
                 Try Again
               </button>

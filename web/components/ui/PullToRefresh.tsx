@@ -79,7 +79,7 @@ export default function PullToRefresh({ onRefresh, children }: PullToRefreshProp
           <RefreshCw 
             className={`w-6 h-6 transition-colors ${
               pullDistance >= threshold || isRefreshing
-                ? 'text-indigo-600 dark:text-indigo-400' 
+                ? 'text-green-600 dark:text-green-400' 
                 : 'text-gray-400 dark:text-gray-500'
             }`}
           />
@@ -91,7 +91,7 @@ export default function PullToRefresh({ onRefresh, children }: PullToRefreshProp
         </p>
       )}
       {isRefreshing && (
-        <p className="text-center text-xs text-indigo-600 dark:text-indigo-400 -mt-2 mb-2">
+        <p className="text-center text-xs text-green-600 dark:text-green-400 -mt-2 mb-2">
           Refreshing...
         </p>
       )}

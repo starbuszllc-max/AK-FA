@@ -106,7 +106,7 @@ export function AICoach({ userId }: AICoachProps) {
   return (
     <div className="flex flex-col h-full">
       {error && (
-        <div className="bg-amber-50 border border-amber-200 text-amber-700 px-4 py-3 rounded-lg mb-4">
+        <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-4">
           <p className="text-sm">{error}</p>
         </div>
       )}
@@ -122,7 +122,7 @@ export function AICoach({ userId }: AICoachProps) {
               <button
                 key={i}
                 onClick={() => useSuggestion(suggestion)}
-                className="text-left p-3 rounded-lg border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50 transition-colors"
+                className="text-left p-3 rounded-lg border border-gray-200 hover:border-green-300 hover:bg-green-50 transition-colors"
               >
                 <div className="flex items-center gap-2 mb-1">
                   <span className={`text-xs px-2 py-0.5 rounded-full ${layerColors[suggestion.layer.toLowerCase()] || 'bg-gray-100 text-gray-700'}`}>
@@ -139,7 +139,7 @@ export function AICoach({ userId }: AICoachProps) {
 
       {suggestionsLoading && messages.length === 0 && (
         <div className="flex items-center justify-center py-8">
-          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-600"></div>
+          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-green-600"></div>
           <span className="ml-2 text-gray-500">Loading your personalized insights...</span>
         </div>
       )}
@@ -147,7 +147,7 @@ export function AICoach({ userId }: AICoachProps) {
       <div className="flex-1 overflow-y-auto space-y-4 mb-4 min-h-[200px]">
         {messages.length === 0 && !suggestionsLoading && (
           <div className="text-center py-8">
-            <Bot className="w-12 h-12 mx-auto text-indigo-400 mb-3" />
+            <Bot className="w-12 h-12 mx-auto text-green-400 mb-3" />
             <h3 className="text-lg font-medium text-gray-700 mb-2">Your AI Growth Coach</h3>
             <p className="text-gray-500 text-sm max-w-md mx-auto">
               Ask me anything about your personal development journey. I can help with goals, 
@@ -162,14 +162,14 @@ export function AICoach({ userId }: AICoachProps) {
             className={`flex gap-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             {msg.role === 'assistant' && (
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center flex-shrink-0">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-400 to-purple-500 flex items-center justify-center flex-shrink-0">
                 <Sparkles className="w-4 h-4 text-white" />
               </div>
             )}
             <div
               className={`max-w-[80%] rounded-2xl px-4 py-3 ${
                 msg.role === 'user'
-                  ? 'bg-indigo-600 text-white'
+                  ? 'bg-green-600 text-white'
                   : 'bg-gray-100 text-gray-800'
               }`}
             >
@@ -185,7 +185,7 @@ export function AICoach({ userId }: AICoachProps) {
 
         {loading && (
           <div className="flex gap-3 justify-start">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center flex-shrink-0">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-400 to-purple-500 flex items-center justify-center flex-shrink-0">
               <Sparkles className="w-4 h-4 text-white" />
             </div>
             <div className="bg-gray-100 rounded-2xl px-4 py-3">
@@ -207,13 +207,13 @@ export function AICoach({ userId }: AICoachProps) {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Ask your growth coach..."
-          className="flex-1 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+          className="flex-1 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
           disabled={loading}
         />
         <button
           type="submit"
           disabled={loading || !input.trim()}
-          className="px-4 py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="px-4 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           <Send className="w-5 h-5" />
         </button>

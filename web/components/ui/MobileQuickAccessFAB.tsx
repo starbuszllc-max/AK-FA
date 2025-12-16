@@ -31,7 +31,7 @@ export default function MobileQuickAccessFAB() {
         animate={{ scale: 1, opacity: 1 }}
         transition={{ type: 'spring', stiffness: 400, damping: 30 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed top-20 right-4 z-40 w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-lg shadow-indigo-500/40 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-indigo-300"
+        className="fixed top-20 right-4 z-40 w-12 h-12 rounded-full bg-gradient-to-br from-green-500 to-purple-600 text-white shadow-lg shadow-green-500/40 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-green-300"
         aria-label={isOpen ? 'Close quick access' : 'Open quick access'}
         aria-expanded={isOpen}
       >

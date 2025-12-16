@@ -167,7 +167,7 @@ export function VoiceCoach({ userId, onMessage }: VoiceCoachProps) {
             className={`w-24 h-24 rounded-full flex items-center justify-center transition-all ${
               isListening
                 ? 'bg-red-500 hover:bg-red-600 animate-pulse'
-                : 'bg-indigo-600 hover:bg-indigo-700'
+                : 'bg-green-600 hover:bg-green-700'
             } text-white shadow-lg disabled:opacity-50`}
           >
             {isProcessing ? (
@@ -204,7 +204,7 @@ export function VoiceCoach({ userId, onMessage }: VoiceCoachProps) {
             onClick={() => setAudioEnabled(!audioEnabled)}
             className={`p-3 rounded-full transition-all ${
               audioEnabled
-                ? 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400'
+                ? 'bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400'
                 : 'bg-gray-100 dark:bg-slate-700 text-gray-400'
             }`}
             title={audioEnabled ? 'Disable audio response' : 'Enable audio response'}
@@ -230,8 +230,8 @@ export function VoiceCoach({ userId, onMessage }: VoiceCoachProps) {
         )}
 
         {response && (
-          <div className="w-full bg-indigo-50 dark:bg-indigo-900/30 rounded-xl p-4">
-            <div className="text-xs text-indigo-600 dark:text-indigo-400 mb-1">Coach response:</div>
+          <div className="w-full bg-green-50 dark:bg-green-900/30 rounded-xl p-4">
+            <div className="text-xs text-green-600 dark:text-green-400 mb-1">Coach response:</div>
             <p className="text-gray-900 dark:text-white">{response}</p>
           </div>
         )}

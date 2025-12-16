@@ -74,7 +74,7 @@ export default function ChallengeComposer({ onChallengeCreated }: ChallengeCompo
 
   if (!demoMode) {
     return (
-      <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl p-6 text-center border border-indigo-100">
+      <div className="bg-gradient-to-r from-green-50 to-purple-50 rounded-xl p-6 text-center border border-green-100">
         <div className="text-3xl mb-2">🎯</div>
         <p className="text-gray-600">Enable demo mode from the feed to create challenges</p>
       </div>
@@ -88,7 +88,7 @@ export default function ChallengeComposer({ onChallengeCreated }: ChallengeCompo
           onClick={() => setIsExpanded(true)}
           className="w-full p-4 text-left flex items-center gap-3 hover:bg-gray-50 transition-colors"
         >
-          <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-xl">
+          <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-xl">
             🎯
           </div>
           <span className="text-gray-500">Create a new challenge...</span>
@@ -113,7 +113,7 @@ export default function ChallengeComposer({ onChallengeCreated }: ChallengeCompo
                 placeholder="Challenge title..."
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 maxLength={100}
               />
             </div>
@@ -124,7 +124,7 @@ export default function ChallengeComposer({ onChallengeCreated }: ChallengeCompo
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={3}
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"
                 maxLength={500}
               />
             </div>
@@ -135,7 +135,7 @@ export default function ChallengeComposer({ onChallengeCreated }: ChallengeCompo
                 <select
                   value={layer}
                   onChange={(e) => setLayer(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 >
                   {layers.map(l => (
                     <option key={l.value} value={l.value}>
@@ -150,7 +150,7 @@ export default function ChallengeComposer({ onChallengeCreated }: ChallengeCompo
                 <select
                   value={durationDays}
                   onChange={(e) => setDurationDays(Number(e.target.value))}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 >
                   <option value={3}>3 days</option>
                   <option value={7}>7 days</option>
@@ -171,7 +171,7 @@ export default function ChallengeComposer({ onChallengeCreated }: ChallengeCompo
                     onClick={() => setPointsReward(pts)}
                     className={`flex-1 py-2 rounded-lg text-sm font-medium transition-colors ${
                       pointsReward === pts
-                        ? 'bg-indigo-600 text-white'
+                        ? 'bg-green-600 text-white'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
                   >
@@ -186,7 +186,7 @@ export default function ChallengeComposer({ onChallengeCreated }: ChallengeCompo
             <button
               type="submit"
               disabled={loading || !title.trim() || !description.trim()}
-              className="px-6 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Creating...' : 'Create Challenge'}
             </button>

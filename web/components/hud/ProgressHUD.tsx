@@ -17,7 +17,7 @@ const LAYER_CONFIG: Record<string, { color: string; icon: React.ReactNode }> = {
   internal: { color: 'bg-purple-500', icon: <Brain className="w-3 h-3" /> },
   cultural: { color: 'bg-yellow-500', icon: <Star className="w-3 h-3" /> },
   social: { color: 'bg-blue-500', icon: <Users className="w-3 h-3" /> },
-  conscious: { color: 'bg-indigo-500', icon: <Zap className="w-3 h-3" /> },
+  conscious: { color: 'bg-green-500', icon: <Zap className="w-3 h-3" /> },
   existential: { color: 'bg-pink-500', icon: <Sparkles className="w-3 h-3" /> },
 };
 
@@ -158,7 +158,7 @@ export default function ProgressHUD({ userId, isVisible = true, sticky = false }
                 className="w-full flex flex-col items-center gap-1 px-2 py-3 hover:bg-gray-50/50 dark:hover:bg-slate-700/30 transition-colors"
               >
                 <div className="relative">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg ring-2 ring-white/50 dark:ring-slate-900/50">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-purple-600 flex items-center justify-center shadow-lg ring-2 ring-white/50 dark:ring-slate-900/50">
                     <Star className="w-5 h-5 text-white" />
                   </div>
                   {streak > 0 && (
@@ -169,7 +169,7 @@ export default function ProgressHUD({ userId, isVisible = true, sticky = false }
                 </div>
                 
                 <div className="text-center">
-                  <div className="font-bold text-base text-indigo-600 dark:text-indigo-400">
+                  <div className="font-bold text-base text-green-600 dark:text-green-400">
                     {loading ? '...' : Math.round(aKorfaScore)}
                   </div>
                   <div className="text-[9px] text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide">Score</div>
@@ -221,8 +221,8 @@ export default function ProgressHUD({ userId, isVisible = true, sticky = false }
               className="relative flex items-center justify-center w-12 h-12 bg-white/95 dark:bg-slate-800/95 backdrop-blur-md rounded-2xl shadow-xl border border-gray-200/50 dark:border-slate-700/50 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
             >
               <div className="flex flex-col items-center">
-                <Star className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
-                <span className="text-[9px] font-bold text-indigo-600 dark:text-indigo-400">{Math.round(aKorfaScore)}</span>
+                <Star className="w-5 h-5 text-green-600 dark:text-green-400" />
+                <span className="text-[9px] font-bold text-green-600 dark:text-green-400">{Math.round(aKorfaScore)}</span>
               </div>
               {unreadCount > 0 && (
                 <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-[10px] rounded-full flex items-center justify-center font-semibold shadow-md">

@@ -30,7 +30,7 @@ export default function FloatingCreateButton({ isVisible }: FloatingCreateButton
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              className="w-14 h-14 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/40 flex items-center justify-center text-white"
+              className="w-14 h-14 rounded-full bg-gradient-to-br from-green-500 to-purple-600 shadow-lg shadow-green-500/40 flex items-center justify-center text-white"
             >
               <Plus className="w-7 h-7" strokeWidth={2.5} />
             </motion.button>

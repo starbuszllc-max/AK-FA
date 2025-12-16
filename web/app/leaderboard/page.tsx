@@ -50,22 +50,22 @@ export default function LeaderboardPage() {
   const getRankIcon = (rank: number) => {
     if (rank === 1) return <Crown className="w-5 h-5 text-yellow-500" />;
     if (rank === 2) return <Medal className="w-5 h-5 text-gray-400" />;
-    if (rank === 3) return <Medal className="w-5 h-5 text-amber-600" />;
+    if (rank === 3) return <Medal className="w-5 h-5 text-green-600" />;
     return null;
   };
 
   const getRankBg = (rank: number) => {
-    if (rank === 1) return 'bg-gradient-to-r from-yellow-50 to-amber-50 dark:from-yellow-900/20 dark:to-amber-900/20 border-yellow-200 dark:border-yellow-800';
+    if (rank === 1) return 'bg-gradient-to-r from-yellow-50 to-green-50 dark:from-yellow-900/20 dark:to-green-900/20 border-yellow-200 dark:border-yellow-800';
     if (rank === 2) return 'bg-gradient-to-r from-gray-50 to-slate-50 dark:from-gray-800/50 dark:to-slate-800/50 border-gray-200 dark:border-gray-700';
-    if (rank === 3) return 'bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 border-amber-200 dark:border-amber-800';
+    if (rank === 3) return 'bg-gradient-to-r from-green-50 to-orange-50 dark:from-green-900/20 dark:to-orange-900/20 border-green-200 dark:border-green-800';
     return 'bg-white dark:bg-slate-800 border-gray-200 dark:border-slate-700';
   };
 
   return (
     <div className="max-w-3xl mx-auto px-3">
       <div className="text-center mb-4">
-        <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/50 rounded-full flex items-center justify-center mx-auto mb-2">
-          <Trophy className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+        <div className="w-12 h-12 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center mx-auto mb-2">
+          <Trophy className="w-6 h-6 text-green-600 dark:text-green-400" />
         </div>
         <h1 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
           Leaderboard
@@ -84,7 +84,7 @@ export default function LeaderboardPage() {
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium transition-all ${
                 activeTab === tab.id
-                  ? 'bg-indigo-600 text-white shadow-md'
+                  ? 'bg-green-600 text-white shadow-md'
                   : 'bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700'
               }`}
             >
@@ -97,7 +97,7 @@ export default function LeaderboardPage() {
 
       {loading ? (
         <div className="flex justify-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
         </div>
       ) : (
         <div className="space-y-2">
@@ -106,14 +106,14 @@ export default function LeaderboardPage() {
               key={entry.id}
               onClick={() => router.push(`/profile/${entry.id}`)}
               className={`p-3 rounded-lg border transition-all cursor-pointer hover:shadow-md ${getRankBg(entry.rank)} ${
-                entry.id === userId ? 'ring-2 ring-indigo-500' : ''
+                entry.id === userId ? 'ring-2 ring-green-500' : ''
               }`}
             >
               <div className="flex items-center gap-3">
                 <div className="w-8 text-center">
                   {getRankIcon(entry.rank) || (
                     <span className={`text-base font-bold ${
-                      entry.rank <= 10 ? 'text-indigo-600 dark:text-indigo-400' : 'text-gray-400'
+                      entry.rank <= 10 ? 'text-green-600 dark:text-green-400' : 'text-gray-400'
                     }`}>
                       {entry.rank}
                     </span>
@@ -127,7 +127,7 @@ export default function LeaderboardPage() {
                     className="w-10 h-10 rounded-full object-cover"
                   />
                 ) : (
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold text-sm">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-purple-500 flex items-center justify-center text-white font-bold text-sm">
                     {(entry.fullName || entry.username || '?')[0].toUpperCase()}
                   </div>
                 )}
@@ -136,7 +136,7 @@ export default function LeaderboardPage() {
                   <div className="text-sm font-semibold text-gray-900 dark:text-white truncate">
                     {entry.fullName || entry.username}
                     {entry.id === userId && (
-                      <span className="ml-1.5 text-[10px] bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-400 px-1.5 py-0.5 rounded-full">
+                      <span className="ml-1.5 text-[10px] bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 px-1.5 py-0.5 rounded-full">
                         You
                       </span>
                     )}

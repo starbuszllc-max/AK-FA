@@ -130,8 +130,8 @@ export default function DashboardPage() {
   if (!userId) {
     return (
       <div className="max-w-2xl mx-auto text-center py-16">
-        <div className="w-20 h-20 bg-indigo-100 dark:bg-indigo-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
-          <Sparkles className="w-10 h-10 text-indigo-600 dark:text-indigo-400" />
+        <div className="w-20 h-20 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
+          <Sparkles className="w-10 h-10 text-green-600 dark:text-green-400" />
         </div>
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Welcome to Akorfa</h1>
         <p className="text-gray-600 dark:text-gray-300 mb-8 max-w-md mx-auto">
@@ -139,7 +139,7 @@ export default function DashboardPage() {
         </p>
         <Link 
           href="/signup" 
-          className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700 transition-all"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl font-medium hover:bg-green-700 transition-all"
         >
           Get Started
           <ChevronRight className="w-4 h-4" />
@@ -176,7 +176,7 @@ export default function DashboardPage() {
           )}
           <Link 
             href="/coach"
-            className="px-2.5 py-1 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-md hover:from-indigo-700 hover:to-purple-700 transition-colors flex items-center gap-1 text-xs"
+            className="px-2.5 py-1 bg-gradient-to-r from-green-600 to-purple-600 text-white rounded-md hover:from-green-700 hover:to-purple-700 transition-colors flex items-center gap-1 text-xs"
           >
             <Sparkles className="w-3.5 h-3.5" />
             Coach
@@ -187,25 +187,25 @@ export default function DashboardPage() {
       <div className="p-4">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-lg font-bold">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-500 to-purple-600 flex items-center justify-center text-white text-lg font-bold">
               {levelInfo.level}
             </div>
             <div>
               <div className="text-xs text-gray-500 dark:text-gray-400">Level {levelInfo.level}</div>
               <div className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-1.5">
-                <Zap className="w-4 h-4 text-indigo-500" />
+                <Zap className="w-4 h-4 text-green-500" />
                 {totalXp} XP
               </div>
             </div>
           </div>
-          <Link href="/leaderboard" className="flex items-center gap-1.5 text-xs text-indigo-600 dark:text-indigo-400 hover:underline">
+          <Link href="/leaderboard" className="flex items-center gap-1.5 text-xs text-green-600 dark:text-green-400 hover:underline">
             <Trophy className="w-3.5 h-3.5" />
             Leaderboard
           </Link>
         </div>
         <div className="relative h-2 bg-gray-200 dark:bg-slate-700 rounded-full overflow-hidden">
           <div 
-            className="absolute inset-y-0 left-0 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full transition-all duration-500"
+            className="absolute inset-y-0 left-0 bg-gradient-to-r from-green-500 to-purple-600 rounded-full transition-all duration-500"
             style={{ width: `${levelInfo.progress}%` }}
           />
         </div>
@@ -252,7 +252,7 @@ export default function DashboardPage() {
         <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm p-4">
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-sm font-semibold text-gray-900 dark:text-white">Layer Progress</h2>
-            <Link href="/assessments" className="text-xs text-indigo-600 dark:text-indigo-400 hover:underline">
+            <Link href="/assessments" className="text-xs text-green-600 dark:text-green-400 hover:underline">
               Assess
             </Link>
           </div>
@@ -281,9 +281,9 @@ export default function DashboardPage() {
           <div className="grid grid-cols-2 gap-2">
             <Link 
               href="/insights"
-              className="p-3 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-colors"
+              className="p-3 bg-green-50 dark:bg-green-900/30 rounded-lg hover:bg-green-100 dark:hover:bg-green-900/50 transition-colors"
             >
-              <Sparkles className="w-4 h-4 text-indigo-600 dark:text-indigo-400 mb-1" />
+              <Sparkles className="w-4 h-4 text-green-600 dark:text-green-400 mb-1" />
               <div className="text-sm font-medium text-gray-900 dark:text-white">Insights</div>
               <div className="text-xs text-gray-500 dark:text-gray-400">AI guidance</div>
             </Link>
@@ -307,9 +307,9 @@ export default function DashboardPage() {
             </Link>
             <Link 
               href="/leaderboard"
-              className="p-3 bg-amber-50 dark:bg-amber-900/30 rounded-lg hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-colors"
+              className="p-3 bg-green-50 dark:bg-green-900/30 rounded-lg hover:bg-green-100 dark:hover:bg-green-900/50 transition-colors"
             >
-              <TrendingUp className="w-4 h-4 text-amber-600 dark:text-amber-400 mb-1" />
+              <TrendingUp className="w-4 h-4 text-green-600 dark:text-green-400 mb-1" />
               <div className="text-sm font-medium text-gray-900 dark:text-white">Leaderboard</div>
               <div className="text-xs text-gray-500 dark:text-gray-400">Rankings</div>
             </Link>
@@ -318,15 +318,15 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg p-4 text-white">
+      <div className="bg-gradient-to-r from-green-500 to-purple-600 rounded-lg p-4 text-white">
         <div className="flex items-center justify-between gap-3">
           <div>
             <h3 className="text-base font-bold">Ready to grow?</h3>
-            <p className="text-xs text-indigo-100">Join a challenge and earn XP.</p>
+            <p className="text-xs text-green-100">Join a challenge and earn XP.</p>
           </div>
           <Link 
             href="/challenges"
-            className="px-4 py-2 bg-white text-indigo-600 rounded-md text-sm font-medium hover:bg-indigo-50 transition-colors whitespace-nowrap"
+            className="px-4 py-2 bg-white text-green-600 rounded-md text-sm font-medium hover:bg-green-50 transition-colors whitespace-nowrap"
           >
             Challenges
           </Link>

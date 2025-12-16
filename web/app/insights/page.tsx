@@ -27,7 +27,7 @@ const layerColors: Record<string, string> = {
   internal: 'bg-purple-500',
   cultural: 'bg-orange-500',
   social: 'bg-pink-500',
-  conscious: 'bg-indigo-500',
+  conscious: 'bg-green-500',
   existential: 'bg-red-500',
 };
 
@@ -115,7 +115,7 @@ export default function InsightsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
       </div>
     );
   }
@@ -123,7 +123,7 @@ export default function InsightsPage() {
   if (!userId) {
     return (
       <div className="max-w-2xl mx-auto text-center py-16">
-        <Sparkles className="w-16 h-16 text-indigo-600 dark:text-indigo-400 mx-auto mb-6" />
+        <Sparkles className="w-16 h-16 text-green-600 dark:text-green-400 mx-auto mb-6" />
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
           Personalized Daily Insights
         </h1>
@@ -132,7 +132,7 @@ export default function InsightsPage() {
         </p>
         <a
           href="/signup"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700 transition-all"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl font-medium hover:bg-green-700 transition-all"
         >
           Get Started
           <ChevronRight className="w-4 h-4" />
@@ -161,7 +161,7 @@ export default function InsightsPage() {
       </div>
 
       {todayInsight ? (
-        <div className="bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl p-8 text-white mb-8 animate-fade-in">
+        <div className="bg-gradient-to-br from-green-600 to-purple-600 rounded-2xl p-8 text-white mb-8 animate-fade-in">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
               <Lightbulb className="w-5 h-5" />
@@ -215,7 +215,7 @@ export default function InsightsPage() {
         </div>
       ) : (
         <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 text-center mb-8">
-          <Sparkles className="w-12 h-12 text-indigo-600 dark:text-indigo-400 mx-auto mb-4" />
+          <Sparkles className="w-12 h-12 text-green-600 dark:text-green-400 mx-auto mb-4" />
           <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
             Generate Today&apos;s Insight
           </h3>
@@ -225,7 +225,7 @@ export default function InsightsPage() {
           <button
             onClick={generateInsight}
             disabled={generating}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700 disabled:opacity-50 transition-all"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl font-medium hover:bg-green-700 disabled:opacity-50 transition-all"
           >
             {generating ? (
               <>
@@ -245,7 +245,7 @@ export default function InsightsPage() {
       <div className="grid md:grid-cols-2 gap-6 mb-8">
         <div className="bg-white dark:bg-slate-800 rounded-xl p-6">
           <div className="flex items-center gap-2 mb-4">
-            <TrendingUp className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+            <TrendingUp className="w-5 h-5 text-green-600 dark:text-green-400" />
             <h3 className="font-semibold text-gray-900 dark:text-white">Score Trends</h3>
           </div>
           {trends.length > 0 ? (
@@ -253,7 +253,7 @@ export default function InsightsPage() {
               {trends.slice(-14).map((t, i) => (
                 <div
                   key={i}
-                  className="flex-1 bg-indigo-200 dark:bg-indigo-800 rounded-t transition-all hover:bg-indigo-300 dark:hover:bg-indigo-700"
+                  className="flex-1 bg-green-200 dark:bg-green-800 rounded-t transition-all hover:bg-green-300 dark:hover:bg-green-700"
                   style={{ height: `${(t.score / 100) * 100}%` }}
                   title={`${t.date}: ${t.score}`}
                 />
@@ -268,7 +268,7 @@ export default function InsightsPage() {
 
         <div className="bg-white dark:bg-slate-800 rounded-xl p-6">
           <div className="flex items-center gap-2 mb-4">
-            <Calendar className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+            <Calendar className="w-5 h-5 text-green-600 dark:text-green-400" />
             <h3 className="font-semibold text-gray-900 dark:text-white">Recent Activity</h3>
           </div>
           <div className="space-y-3">
@@ -318,7 +318,7 @@ export default function InsightsPage() {
                     
                     <button
                       onClick={() => setExpandedInsight(expandedInsight === insight.id ? null : insight.id)}
-                      className="mt-2 flex items-center gap-1 text-indigo-600 dark:text-indigo-400 text-xs hover:underline"
+                      className="mt-2 flex items-center gap-1 text-green-600 dark:text-green-400 text-xs hover:underline"
                     >
                       <BookOpen className="w-3 h-3" />
                       {expandedInsight === insight.id ? 'Hide details' : 'Read more'}

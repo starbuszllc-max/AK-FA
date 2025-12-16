@@ -77,7 +77,7 @@ export default function BottomNavBar() {
                       isVideoPage
                         ? isActive(navItems[0].href) ? 'bg-white/30 backdrop-blur-sm' : ''
                         : isActive(navItems[0].href)
-                          ? 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400'
+                          ? 'bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400'
                           : 'text-gray-500 dark:text-gray-400 group-hover:bg-gray-100 dark:group-hover:bg-slate-800'
                     }`}
                     style={isVideoPage ? {
@@ -91,7 +91,7 @@ export default function BottomNavBar() {
                       isVideoPage
                         ? 'text-white font-semibold'
                         : isActive(navItems[0].href)
-                          ? 'text-indigo-600 dark:text-indigo-400'
+                          ? 'text-green-600 dark:text-green-400'
                           : 'text-gray-500 dark:text-gray-400'
                     }`}
                     style={isVideoPage ? { textShadow: '0 0 2px #000, 0 0 4px #000, 0 0 6px rgba(255,255,255,0.4), 0 1px 3px rgba(0,0,0,0.9)' } : undefined}
@@ -101,7 +101,7 @@ export default function BottomNavBar() {
                   {isActive(navItems[0].href) && (
                     <motion.div
                       layoutId="bottomNavIndicator"
-                      className={`absolute -bottom-0 w-6 h-0.5 rounded-full ${isVideoPage ? 'bg-white' : 'bg-indigo-500'}`}
+                      className={`absolute -bottom-0 w-6 h-0.5 rounded-full ${isVideoPage ? 'bg-white' : 'bg-green-500'}`}
                       transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                     />
                   )}
@@ -157,7 +157,7 @@ export default function BottomNavBar() {
                           isVideoPage
                             ? active ? 'bg-white/30 backdrop-blur-sm' : ''
                             : active
-                              ? 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400'
+                              ? 'bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400'
                               : 'text-gray-500 dark:text-gray-400 group-hover:bg-gray-100 dark:group-hover:bg-slate-800'
                         }`}
                         style={isVideoPage ? {
@@ -171,7 +171,7 @@ export default function BottomNavBar() {
                           isVideoPage
                             ? 'text-white font-semibold'
                             : active
-                              ? 'text-indigo-600 dark:text-indigo-400'
+                              ? 'text-green-600 dark:text-green-400'
                               : 'text-gray-500 dark:text-gray-400'
                         }`}
                         style={isVideoPage ? { textShadow: '0 0 2px #000, 0 0 4px #000, 0 0 6px rgba(255,255,255,0.4), 0 1px 3px rgba(0,0,0,0.9)' } : undefined}
@@ -181,7 +181,7 @@ export default function BottomNavBar() {
                       {active && !item.isExplore && (
                         <motion.div
                           layoutId="bottomNavIndicator"
-                          className={`absolute -bottom-0 w-6 h-0.5 rounded-full ${isVideoPage ? 'bg-white' : 'bg-indigo-500'}`}
+                          className={`absolute -bottom-0 w-6 h-0.5 rounded-full ${isVideoPage ? 'bg-white' : 'bg-green-500'}`}
                           transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                         />
                       )}
@@ -202,7 +202,7 @@ export default function BottomNavBar() {
                       isVideoPage
                         ? isActive(navItems[4].href) ? 'bg-white/30 backdrop-blur-sm' : ''
                         : isActive(navItems[4].href)
-                          ? 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400'
+                          ? 'bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400'
                           : 'text-gray-500 dark:text-gray-400 group-hover:bg-gray-100 dark:group-hover:bg-slate-800'
                     }`}
                     style={isVideoPage ? {
@@ -216,7 +216,7 @@ export default function BottomNavBar() {
                       isVideoPage
                         ? 'text-white font-semibold'
                         : isActive(navItems[4].href)
-                          ? 'text-indigo-600 dark:text-indigo-400'
+                          ? 'text-green-600 dark:text-green-400'
                           : 'text-gray-500 dark:text-gray-400'
                     }`}
                     style={isVideoPage ? { textShadow: '0 0 2px #000, 0 0 4px #000, 0 0 6px rgba(255,255,255,0.4), 0 1px 3px rgba(0,0,0,0.9)' } : undefined}
@@ -226,7 +226,7 @@ export default function BottomNavBar() {
                   {isActive(navItems[4].href) && (
                     <motion.div
                       layoutId="bottomNavIndicator"
-                      className={`absolute -bottom-0 w-6 h-0.5 rounded-full ${isVideoPage ? 'bg-white' : 'bg-indigo-500'}`}
+                      className={`absolute -bottom-0 w-6 h-0.5 rounded-full ${isVideoPage ? 'bg-white' : 'bg-green-500'}`}
                       transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                     />
                   )}

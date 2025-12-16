@@ -108,13 +108,13 @@ export default function DailyDigest({ userId }: DailyDigestProps) {
 
   if (loading) {
     return (
-      <div className="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-xl p-6 border border-amber-200 dark:border-amber-800/30">
+      <div className="bg-gradient-to-br from-green-50 to-orange-50 dark:from-green-900/20 dark:to-orange-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800/30">
         <div className="flex items-center gap-2 mb-4">
-          <Newspaper className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+          <Newspaper className="w-5 h-5 text-green-600 dark:text-green-400" />
           <h3 className="font-semibold text-gray-900 dark:text-white">Daily Digest</h3>
         </div>
         <div className="flex items-center justify-center py-6">
-          <Loader2 className="w-6 h-6 animate-spin text-amber-500" />
+          <Loader2 className="w-6 h-6 animate-spin text-green-500" />
         </div>
       </div>
     );
@@ -122,14 +122,14 @@ export default function DailyDigest({ userId }: DailyDigestProps) {
 
   if (!digest) {
     return (
-      <div className="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-xl p-6 border border-amber-200 dark:border-amber-800/30">
+      <div className="bg-gradient-to-br from-green-50 to-orange-50 dark:from-green-900/20 dark:to-orange-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800/30">
         <div className="flex items-center gap-2 mb-4">
-          <Newspaper className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+          <Newspaper className="w-5 h-5 text-green-600 dark:text-green-400" />
           <h3 className="font-semibold text-gray-900 dark:text-white">Daily Digest</h3>
         </div>
         <div className="text-center py-4">
-          <div className="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
-            <Sparkles className="w-6 h-6 text-amber-500" />
+          <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
+            <Sparkles className="w-6 h-6 text-green-500" />
           </div>
           <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
             Get your AI-powered daily summary
@@ -137,7 +137,7 @@ export default function DailyDigest({ userId }: DailyDigestProps) {
           <button
             onClick={generateDigest}
             disabled={generating}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-amber-600 text-white rounded-lg font-medium hover:bg-amber-700 transition-colors disabled:opacity-50"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors disabled:opacity-50"
           >
             {generating ? (
               <>
@@ -163,7 +163,7 @@ export default function DailyDigest({ userId }: DailyDigestProps) {
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-xl p-6 border border-amber-200 dark:border-amber-800/30 cursor-pointer hover:shadow-md transition-shadow"
+        className="bg-gradient-to-br from-green-50 to-orange-50 dark:from-green-900/20 dark:to-orange-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800/30 cursor-pointer hover:shadow-md transition-shadow"
         onClick={() => {
           setExpanded(true);
           markAsRead();
@@ -171,10 +171,10 @@ export default function DailyDigest({ userId }: DailyDigestProps) {
       >
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
-            <Newspaper className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+            <Newspaper className="w-5 h-5 text-green-600 dark:text-green-400" />
             <h3 className="font-semibold text-gray-900 dark:text-white">Daily Digest</h3>
             {!digest.isRead && (
-              <span className="w-2 h-2 bg-amber-500 rounded-full animate-pulse" />
+              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
             )}
           </div>
           <span className="text-xs text-gray-500 dark:text-gray-400">
@@ -221,7 +221,7 @@ export default function DailyDigest({ userId }: DailyDigestProps) {
               className="bg-white dark:bg-slate-800 rounded-xl shadow-xl w-full max-w-lg max-h-[80vh] overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="bg-gradient-to-r from-amber-500 to-orange-500 p-4">
+              <div className="bg-gradient-to-r from-green-500 to-orange-500 p-4">
                 <div className="flex items-center justify-between text-white">
                   <div className="flex items-center gap-2">
                     <Newspaper className="w-5 h-5" />
@@ -235,7 +235,7 @@ export default function DailyDigest({ userId }: DailyDigestProps) {
                   </button>
                 </div>
                 <h2 className="text-xl font-bold text-white mt-2">{digest.title}</h2>
-                <p className="text-amber-100 text-sm mt-1">
+                <p className="text-green-100 text-sm mt-1">
                   {new Date(digest.digestDate).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
                 </p>
               </div>
@@ -277,7 +277,7 @@ export default function DailyDigest({ userId }: DailyDigestProps) {
                     <ul className="space-y-1">
                       {digest.highlights.map((highlight, idx) => (
                         <li key={idx} className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
-                          <span className="w-1.5 h-1.5 bg-amber-500 rounded-full" />
+                          <span className="w-1.5 h-1.5 bg-green-500 rounded-full" />
                           {highlight}
                         </li>
                       ))}
@@ -291,7 +291,7 @@ export default function DailyDigest({ userId }: DailyDigestProps) {
                     <ul className="space-y-2">
                       {digest.recommendations.map((rec, idx) => (
                         <li key={idx} className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-slate-700/50 rounded-lg p-3">
-                          <Sparkles className="w-4 h-4 text-amber-500 mt-0.5 flex-shrink-0" />
+                          <Sparkles className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
                           {rec}
                         </li>
                       ))}
@@ -303,7 +303,7 @@ export default function DailyDigest({ userId }: DailyDigestProps) {
               <div className="p-4 border-t border-gray-200 dark:border-slate-700">
                 <button
                   onClick={() => setExpanded(false)}
-                  className="w-full py-2 px-4 bg-amber-600 text-white rounded-lg font-medium hover:bg-amber-700 transition-colors"
+                  className="w-full py-2 px-4 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors"
                 >
                   Got It!
                 </button>

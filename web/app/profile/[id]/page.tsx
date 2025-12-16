@@ -49,11 +49,11 @@ export default function UserProfilePage() {
 
   const layerColors: Record<string, string> = {
     environment: 'bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300',
-    bio: 'bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-300',
+    bio: 'bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300',
     internal: 'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300',
     cultural: 'bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-300',
     social: 'bg-pink-100 text-pink-700 dark:bg-pink-900/50 dark:text-pink-300',
-    conscious: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300',
+    conscious: 'bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300',
     existential: 'bg-slate-100 text-slate-700 dark:bg-slate-700/50 dark:text-slate-300',
   };
 
@@ -173,7 +173,7 @@ export default function UserProfilePage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
       </div>
     );
   }
@@ -192,7 +192,7 @@ export default function UserProfilePage() {
         </p>
         <button
           onClick={() => router.back()}
-          className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700 transition-all"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl font-medium hover:bg-green-700 transition-all"
         >
           <ArrowLeft className="w-4 h-4" />
           Go Back
@@ -220,13 +220,13 @@ export default function UserProfilePage() {
               className="w-full h-full object-cover"
             />
           ) : (
-            <div className="w-full h-full bg-gradient-to-r from-indigo-500 to-purple-600"></div>
+            <div className="w-full h-full bg-gradient-to-r from-green-500 to-purple-600"></div>
           )}
         </div>
         <div className="px-6 pb-6">
           <div className="flex flex-col sm:flex-row sm:items-end gap-4 -mt-12 mb-4">
             <div className="flex items-end gap-4">
-              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-white dark:border-slate-700 overflow-hidden bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center shrink-0">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-white dark:border-slate-700 overflow-hidden bg-gradient-to-br from-purple-500 to-green-600 flex items-center justify-center shrink-0">
                 {profile.avatarUrl ? (
                   <img src={profile.avatarUrl} alt={profile.username} className="w-full h-full object-cover" />
                 ) : (
@@ -256,7 +256,7 @@ export default function UserProfilePage() {
                 ) : (
                   <button
                     onClick={handleFollow}
-                    className="flex items-center gap-1.5 px-3 py-2 text-sm bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700 transition-all"
+                    className="flex items-center gap-1.5 px-3 py-2 text-sm bg-green-600 text-white rounded-xl font-medium hover:bg-green-700 transition-all"
                   >
                     <UserPlus className="w-4 h-4" />
                     Follow
@@ -274,7 +274,7 @@ export default function UserProfilePage() {
             {isOwnProfile && (
               <Link
                 href="/profile"
-                className="px-3 py-2 text-sm text-indigo-600 dark:text-indigo-400 hover:underline"
+                className="px-3 py-2 text-sm text-green-600 dark:text-green-400 hover:underline"
               >
                 Edit Profile
               </Link>
@@ -288,14 +288,14 @@ export default function UserProfilePage() {
           <div className="grid grid-cols-3 gap-3 mb-3">
             <div className="text-center p-3 rounded-xl">
               <div className="flex items-center justify-center gap-1 text-2xl font-bold text-gray-900 dark:text-white">
-                <Zap className="w-5 h-5 text-indigo-500" />
+                <Zap className="w-5 h-5 text-green-500" />
                 {profile.totalXp}
               </div>
               <div className="text-sm text-gray-500 dark:text-gray-400">XP</div>
             </div>
             <div className="text-center p-3 rounded-xl">
               <div className="flex items-center justify-center gap-1 text-2xl font-bold text-gray-900 dark:text-white">
-                <Trophy className="w-5 h-5 text-amber-500" />
+                <Trophy className="w-5 h-5 text-green-500" />
                 {profile.level}
               </div>
               <div className="text-sm text-gray-500 dark:text-gray-400">Level</div>
@@ -342,7 +342,7 @@ export default function UserProfilePage() {
         </h2>
         {loadingPosts ? (
           <div className="flex justify-center py-8">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
           </div>
         ) : posts.length > 0 ? (
           <div className="grid grid-cols-3 gap-1">
@@ -421,7 +421,7 @@ export default function UserProfilePage() {
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Goals</h2>
           <div className="flex flex-wrap gap-2">
             {profile.goals.map((goal: string, i: number) => (
-              <span key={i} className="px-3 py-1 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 rounded-full text-sm">
+              <span key={i} className="px-3 py-1 bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 rounded-full text-sm">
                 {goal.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
               </span>
             ))}

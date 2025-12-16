@@ -123,7 +123,7 @@ export default function MusicPicker({ selectedTrack, onSelect, onClose }: MusicP
 
       <div className="flex items-center justify-between p-4 border-b border-gray-800">
         <div className="flex items-center gap-2">
-          <Music className="w-6 h-6 text-indigo-400" />
+          <Music className="w-6 h-6 text-green-400" />
           <h2 className="text-lg font-semibold text-white">Add Sound</h2>
         </div>
         <button onClick={onClose} className="text-gray-400 p-2">
@@ -139,7 +139,7 @@ export default function MusicPicker({ selectedTrack, onSelect, onClose }: MusicP
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search sounds..."
-            className="w-full pl-10 pr-4 py-3 bg-gray-800 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full pl-10 pr-4 py-3 bg-gray-800 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500"
           />
         </div>
       </div>
@@ -148,7 +148,7 @@ export default function MusicPicker({ selectedTrack, onSelect, onClose }: MusicP
         <button
           onClick={() => setTab('trending')}
           className={`px-4 py-2 rounded-full text-sm font-medium ${
-            tab === 'trending' ? 'bg-indigo-600 text-white' : 'bg-gray-800 text-gray-400'
+            tab === 'trending' ? 'bg-green-600 text-white' : 'bg-gray-800 text-gray-400'
           }`}
         >
           Trending
@@ -156,7 +156,7 @@ export default function MusicPicker({ selectedTrack, onSelect, onClose }: MusicP
         <button
           onClick={() => setTab('royalty-free')}
           className={`px-4 py-2 rounded-full text-sm font-medium ${
-            tab === 'royalty-free' ? 'bg-indigo-600 text-white' : 'bg-gray-800 text-gray-400'
+            tab === 'royalty-free' ? 'bg-green-600 text-white' : 'bg-gray-800 text-gray-400'
           }`}
         >
           Royalty Free
@@ -164,7 +164,7 @@ export default function MusicPicker({ selectedTrack, onSelect, onClose }: MusicP
         <button
           onClick={() => setTab('uploaded')}
           className={`px-4 py-2 rounded-full text-sm font-medium ${
-            tab === 'uploaded' ? 'bg-indigo-600 text-white' : 'bg-gray-800 text-gray-400'
+            tab === 'uploaded' ? 'bg-green-600 text-white' : 'bg-gray-800 text-gray-400'
           }`}
         >
           My Sounds
@@ -177,7 +177,7 @@ export default function MusicPicker({ selectedTrack, onSelect, onClose }: MusicP
             <button
               onClick={() => fileInputRef.current?.click()}
               disabled={uploading}
-              className="w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center mb-4 hover:bg-indigo-700 transition-colors disabled:opacity-50"
+              className="w-20 h-20 bg-green-600 rounded-full flex items-center justify-center mb-4 hover:bg-green-700 transition-colors disabled:opacity-50"
             >
               {uploading ? (
                 <Loader2 className="w-8 h-8 text-white animate-spin" />
@@ -197,7 +197,7 @@ export default function MusicPicker({ selectedTrack, onSelect, onClose }: MusicP
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               className={`flex items-center gap-3 p-3 rounded-xl transition-colors ${
-                selectedTrack?.id === track.id ? 'bg-indigo-600/30 border border-indigo-500' : 'bg-gray-800 hover:bg-gray-750'
+                selectedTrack?.id === track.id ? 'bg-green-600/30 border border-green-500' : 'bg-gray-800 hover:bg-gray-750'
               }`}
             >
               <button
@@ -220,7 +220,7 @@ export default function MusicPicker({ selectedTrack, onSelect, onClose }: MusicP
                 onClick={() => handleSelect(track)}
                 className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${
                   selectedTrack?.id === track.id 
-                    ? 'bg-indigo-600 text-white' 
+                    ? 'bg-green-600 text-white' 
                     : 'bg-gray-700 text-gray-400 hover:bg-gray-600'
                 }`}
               >
@@ -253,7 +253,7 @@ export default function MusicPicker({ selectedTrack, onSelect, onClose }: MusicP
       {selectedTrack && (
         <div className="p-4 border-t border-gray-800 bg-gray-900">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-indigo-600 rounded-lg flex items-center justify-center">
+            <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center">
               <Volume2 className="w-6 h-6 text-white" />
             </div>
             <div className="flex-1">

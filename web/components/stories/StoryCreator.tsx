@@ -15,7 +15,7 @@ const LAYER_OPTIONS = [
   { value: 'internal', label: 'Internal', color: 'bg-blue-500' },
   { value: 'cultural', label: 'Cultural', color: 'bg-yellow-500' },
   { value: 'social', label: 'Social', color: 'bg-purple-500' },
-  { value: 'conscious', label: 'Conscious', color: 'bg-indigo-500' },
+  { value: 'conscious', label: 'Conscious', color: 'bg-green-500' },
   { value: 'existential', label: 'Existential', color: 'bg-pink-500' },
 ];
 

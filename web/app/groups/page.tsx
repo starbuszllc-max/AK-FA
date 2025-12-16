@@ -19,9 +19,9 @@ const layerColors: Record<string, string> = {
   environment: 'from-green-500 to-emerald-500',
   biological: 'from-blue-500 to-cyan-500',
   internal: 'from-purple-500 to-violet-500',
-  cultural: 'from-orange-500 to-amber-500',
+  cultural: 'from-orange-500 to-green-500',
   social: 'from-pink-500 to-rose-500',
-  conscious: 'from-indigo-500 to-blue-500',
+  conscious: 'from-green-500 to-blue-500',
   existential: 'from-red-500 to-pink-500',
 };
 
@@ -82,8 +82,8 @@ export default function GroupsPage() {
   if (!userId) {
     return (
       <div className="max-w-2xl mx-auto text-center py-16">
-        <div className="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
-          <Users className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
+        <div className="w-16 h-16 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
+          <Users className="w-8 h-8 text-green-600 dark:text-green-400" />
         </div>
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
           Communities
@@ -93,7 +93,7 @@ export default function GroupsPage() {
         </p>
         <a
           href="/signup"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700 transition-all"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl font-medium hover:bg-green-700 transition-all"
         >
           Get Started
           <ChevronRight className="w-4 h-4" />
@@ -115,7 +115,7 @@ export default function GroupsPage() {
         </div>
         <button
           onClick={() => setShowCreateModal(true)}
-          className="flex items-center justify-center gap-1.5 px-3 py-1.5 bg-indigo-600 text-white rounded-md text-xs font-medium hover:bg-indigo-700 transition-all"
+          className="flex items-center justify-center gap-1.5 px-3 py-1.5 bg-green-600 text-white rounded-md text-xs font-medium hover:bg-green-700 transition-all"
         >
           <Plus className="w-3.5 h-3.5" />
           Create
@@ -129,13 +129,13 @@ export default function GroupsPage() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search..."
-          className="w-full pl-9 pr-3 py-2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 dark:text-white"
+          className="w-full pl-9 pr-3 py-2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-green-500 dark:text-white"
         />
       </div>
 
       {loading ? (
         <div className="flex justify-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
         </div>
       ) : filteredGroups.length === 0 ? (
         <div className="text-center py-12">
@@ -185,7 +185,7 @@ export default function GroupsPage() {
                 ) : (
                   <button
                     onClick={(e) => { e.stopPropagation(); joinGroup(group.id); }}
-                    className="w-full py-1.5 bg-indigo-600 text-white rounded-md text-xs font-medium hover:bg-indigo-700 transition-colors flex items-center justify-center gap-1"
+                    className="w-full py-1.5 bg-green-600 text-white rounded-md text-xs font-medium hover:bg-green-700 transition-colors flex items-center justify-center gap-1"
                   >
                     <UserPlus className="w-3 h-3" />
                     Join
@@ -291,7 +291,7 @@ function CreateGroupModal({ userId, onClose, onCreated }: { userId: string; onCl
               id="isPublic"
               checked={isPublic}
               onChange={(e) => setIsPublic(e.target.checked)}
-              className="rounded border-gray-300 text-indigo-600"
+              className="rounded border-gray-300 text-green-600"
             />
             <label htmlFor="isPublic" className="text-sm text-gray-700 dark:text-gray-300">
               Public community (anyone can join)
@@ -309,7 +309,7 @@ function CreateGroupModal({ userId, onClose, onCreated }: { userId: string; onCl
           <button
             onClick={handleCreate}
             disabled={!name.trim() || creating}
-            className="flex-1 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 disabled:opacity-50"
+            className="flex-1 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 disabled:opacity-50"
           >
             {creating ? 'Creating...' : 'Create'}
           </button>

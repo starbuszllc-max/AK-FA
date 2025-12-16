@@ -103,8 +103,8 @@ export default function ReferralsPage() {
   if (!userId) {
     return (
       <div className="max-w-md mx-auto text-center py-16 px-4">
-        <div className="w-16 h-16 bg-amber-100 dark:bg-amber-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
-          <Gift className="w-8 h-8 text-amber-600 dark:text-amber-400" />
+        <div className="w-16 h-16 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
+          <Gift className="w-8 h-8 text-green-600 dark:text-green-400" />
         </div>
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
           Invite & Earn
@@ -114,7 +114,7 @@ export default function ReferralsPage() {
         </p>
         <a
           href="/signup"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700 transition-all"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl font-medium hover:bg-green-700 transition-all"
         >
           Get Started
         </a>
@@ -125,7 +125,7 @@ export default function ReferralsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
       </div>
     );
   }
@@ -139,7 +139,7 @@ export default function ReferralsPage() {
       )}
 
       <div className="text-center space-y-2">
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 rounded-full text-sm font-medium">
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full text-sm font-medium">
           <Gift className="w-4 h-4" />
           Invite & Earn
         </div>
@@ -151,7 +151,7 @@ export default function ReferralsPage() {
         </p>
       </div>
 
-      <div className="bg-gradient-to-r from-amber-500 to-orange-500 rounded-2xl p-6 text-white">
+      <div className="bg-gradient-to-r from-green-500 to-orange-500 rounded-2xl p-6 text-white">
         <p className="text-white/80 text-sm mb-2">Your Referral Code</p>
         <div className="flex items-center gap-3">
           <div className="flex-1 bg-white/20 rounded-xl px-4 py-3 font-mono text-xl font-bold tracking-wider">
@@ -178,14 +178,14 @@ export default function ReferralsPage() {
       <div className="grid grid-cols-3 gap-4">
         <div className="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-4 text-center">
           <div className="flex items-center justify-center gap-1 text-2xl font-bold text-gray-900 dark:text-white mb-1">
-            <Users className="w-5 h-5 text-indigo-500" />
+            <Users className="w-5 h-5 text-green-500" />
             {stats.totalReferrals}
           </div>
           <p className="text-xs text-gray-500 dark:text-gray-400">Friends Invited</p>
         </div>
         <div className="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-4 text-center">
           <div className="flex items-center justify-center gap-1 text-2xl font-bold text-gray-900 dark:text-white mb-1">
-            <Gift className="w-5 h-5 text-amber-500" />
+            <Gift className="w-5 h-5 text-green-500" />
             {stats.pendingRewards}
           </div>
           <p className="text-xs text-gray-500 dark:text-gray-400">Pending Rewards</p>
@@ -214,7 +214,7 @@ export default function ReferralsPage() {
         <h3 className="font-semibold text-gray-900 dark:text-white mb-4">How It Works</h3>
         <div className="space-y-4">
           <div className="flex items-start gap-3">
-            <div className="w-8 h-8 bg-indigo-100 dark:bg-indigo-900/30 rounded-full flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold text-sm flex-shrink-0">
+            <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center text-green-600 dark:text-green-400 font-bold text-sm flex-shrink-0">
               1
             </div>
             <div>
@@ -223,7 +223,7 @@ export default function ReferralsPage() {
             </div>
           </div>
           <div className="flex items-start gap-3">
-            <div className="w-8 h-8 bg-indigo-100 dark:bg-indigo-900/30 rounded-full flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold text-sm flex-shrink-0">
+            <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center text-green-600 dark:text-green-400 font-bold text-sm flex-shrink-0">
               2
             </div>
             <div>
@@ -232,7 +232,7 @@ export default function ReferralsPage() {
             </div>
           </div>
           <div className="flex items-start gap-3">
-            <div className="w-8 h-8 bg-indigo-100 dark:bg-indigo-900/30 rounded-full flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold text-sm flex-shrink-0">
+            <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center text-green-600 dark:text-green-400 font-bold text-sm flex-shrink-0">
               3
             </div>
             <div>

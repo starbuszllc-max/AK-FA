@@ -36,9 +36,9 @@ const layerColors: Record<string, { bg: string; text: string; border: string }> 
   environment: { bg: 'bg-emerald-100 dark:bg-emerald-900/30', text: 'text-emerald-700 dark:text-emerald-300', border: 'border-emerald-200' },
   bio: { bg: 'bg-rose-100 dark:bg-rose-900/30', text: 'text-rose-700 dark:text-rose-300', border: 'border-rose-200' },
   internal: { bg: 'bg-purple-100 dark:bg-purple-900/30', text: 'text-purple-700 dark:text-purple-300', border: 'border-purple-200' },
-  cultural: { bg: 'bg-amber-100 dark:bg-amber-900/30', text: 'text-amber-700 dark:text-amber-300', border: 'border-amber-200' },
+  cultural: { bg: 'bg-green-100 dark:bg-green-900/30', text: 'text-green-700 dark:text-green-300', border: 'border-green-200' },
   social: { bg: 'bg-blue-100 dark:bg-blue-900/30', text: 'text-blue-700 dark:text-blue-300', border: 'border-blue-200' },
-  conscious: { bg: 'bg-indigo-100 dark:bg-indigo-900/30', text: 'text-indigo-700 dark:text-indigo-300', border: 'border-indigo-200' },
+  conscious: { bg: 'bg-green-100 dark:bg-green-900/30', text: 'text-green-700 dark:text-green-300', border: 'border-green-200' },
   existential: { bg: 'bg-violet-100 dark:bg-violet-900/30', text: 'text-violet-700 dark:text-violet-300', border: 'border-violet-200' }
 };
 
@@ -130,7 +130,7 @@ export default function ChallengeCard({ challenge, currentUserId, isJoined, onJo
             <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${layerStyle.bg} ${layerStyle.text}`}>
               {challenge.layer}
             </span>
-            <span className="flex items-center gap-1 text-xs text-amber-600 dark:text-amber-400">
+            <span className="flex items-center gap-1 text-xs text-green-600 dark:text-green-400">
               <Trophy className="w-3 h-3" />
               +{pointsReward} pts
             </span>
@@ -189,7 +189,7 @@ export default function ChallengeCard({ challenge, currentUserId, isJoined, onJo
           <button 
             onClick={handleJoin}
             disabled={joining}
-            className="w-full py-2 px-4 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full py-2 px-4 rounded-lg bg-green-600 text-white font-medium hover:bg-green-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {joining ? (
               <Loader2 className="w-4 h-4 animate-spin" />

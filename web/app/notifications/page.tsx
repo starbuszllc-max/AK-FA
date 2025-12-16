@@ -152,14 +152,14 @@ export default function NotificationsPage() {
       onClick={() => !notification.isRead && markAsRead(notification.id)}
       className={`p-4 border-b border-gray-100 dark:border-slate-700/50 cursor-pointer transition-colors ${
         !notification.isRead 
-          ? 'bg-indigo-50/50 dark:bg-indigo-900/10 hover:bg-indigo-50 dark:hover:bg-indigo-900/20' 
+          ? 'bg-green-50/50 dark:bg-green-900/10 hover:bg-green-50 dark:hover:bg-green-900/20' 
           : 'hover:bg-gray-50 dark:hover:bg-slate-800/50'
       }`}
     >
       <div className="flex items-start gap-3">
         <div className={`p-2.5 rounded-full ${
           !notification.isRead 
-            ? 'bg-indigo-100 dark:bg-indigo-900/30' 
+            ? 'bg-green-100 dark:bg-green-900/30' 
             : 'bg-gray-100 dark:bg-slate-700'
         }`}>
           {getIcon(notification.type)}
@@ -182,7 +182,7 @@ export default function NotificationsPage() {
           </p>
         </div>
         {!notification.isRead && (
-          <div className="w-2.5 h-2.5 bg-indigo-600 rounded-full flex-shrink-0 mt-2" />
+          <div className="w-2.5 h-2.5 bg-green-600 rounded-full flex-shrink-0 mt-2" />
         )}
       </div>
     </div>
@@ -236,7 +236,7 @@ export default function NotificationsPage() {
             {unreadCount > 0 && (
               <button
                 onClick={markAllRead}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-colors"
+                className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-lg transition-colors"
               >
                 <CheckCheck className="w-4 h-4" />
                 Mark all read
@@ -249,7 +249,7 @@ export default function NotificationsPage() {
       <div className="max-w-2xl mx-auto bg-white dark:bg-slate-800/50 min-h-[calc(100vh-180px)]">
         {loading ? (
           <div className="p-8 text-center">
-            <div className="w-8 h-8 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+            <div className="w-8 h-8 border-2 border-green-600 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
             <p className="text-gray-500 dark:text-gray-400">Loading notifications...</p>
           </div>
         ) : notifications.length === 0 ? (

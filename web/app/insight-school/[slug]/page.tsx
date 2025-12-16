@@ -601,7 +601,7 @@ export default function TrackDetailPage() {
     return (
       <div className="max-w-4xl mx-auto px-4 py-12 text-center">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Track not found</h1>
-        <Link href="/insight-school" className="text-indigo-600 hover:underline">
+        <Link href="/insight-school" className="text-green-600 hover:underline">
           Back to Insight School
         </Link>
       </div>
@@ -679,7 +679,7 @@ export default function TrackDetailPage() {
     <div className="max-w-5xl mx-auto px-4 py-6">
       <Link 
         href="/insight-school" 
-        className="inline-flex items-center gap-1 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 mb-6"
+        className="inline-flex items-center gap-1 text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 mb-6"
       >
         <ChevronLeft className="w-4 h-4" />
         Back to Insight School
@@ -721,7 +721,7 @@ export default function TrackDetailPage() {
                   onClick={() => setCurrentLessonIndex(index)}
                   className={`w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors ${
                     index === currentLessonIndex 
-                      ? 'bg-indigo-50 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400' 
+                      ? 'bg-green-50 dark:bg-green-900/50 text-green-600 dark:text-green-400' 
                       : 'hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-700 dark:text-gray-300'
                   }`}
                 >
@@ -756,11 +756,11 @@ export default function TrackDetailPage() {
               ))}
             </div>
 
-            <div className="bg-indigo-50 dark:bg-indigo-900/30 rounded-xl p-4 mb-6">
-              <h4 className="font-semibold text-indigo-900 dark:text-indigo-300 mb-2">Key Takeaways</h4>
+            <div className="bg-green-50 dark:bg-green-900/30 rounded-xl p-4 mb-6">
+              <h4 className="font-semibold text-green-900 dark:text-green-300 mb-2">Key Takeaways</h4>
               <ul className="space-y-2">
                 {currentLesson.keyTakeaways.map((takeaway, i) => (
-                  <li key={i} className="flex items-start gap-2 text-indigo-800 dark:text-indigo-200">
+                  <li key={i} className="flex items-start gap-2 text-green-800 dark:text-green-200">
                     <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
                     <span>{takeaway}</span>
                   </li>
@@ -773,7 +773,7 @@ export default function TrackDetailPage() {
               <ul className="space-y-2">
                 {currentLesson.examples.map((example, i) => (
                   <li key={i} className="flex items-start gap-2 text-gray-700 dark:text-gray-300">
-                    <Sparkles className="w-4 h-4 mt-0.5 flex-shrink-0 text-amber-500" />
+                    <Sparkles className="w-4 h-4 mt-0.5 flex-shrink-0 text-green-500" />
                     <span>{example}</span>
                   </li>
                 ))}
@@ -783,7 +783,7 @@ export default function TrackDetailPage() {
             <div className="flex flex-wrap items-center gap-3">
               <button
                 onClick={() => askAI('deepen')}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-lg hover:from-purple-600 hover:to-indigo-600 transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-green-500 text-white rounded-lg hover:from-purple-600 hover:to-green-600 transition-colors"
               >
                 <Sparkles className="w-4 h-4" />
                 Deepen with AI
@@ -812,7 +812,7 @@ export default function TrackDetailPage() {
               <button
                 onClick={() => setCurrentLessonIndex(Math.max(0, currentLessonIndex - 1))}
                 disabled={currentLessonIndex === 0}
-                className="inline-flex items-center gap-1 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="inline-flex items-center gap-1 text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <ChevronLeft className="w-4 h-4" />
                 Previous
@@ -820,7 +820,7 @@ export default function TrackDetailPage() {
               <button
                 onClick={() => setCurrentLessonIndex(Math.min(track.lessons.length - 1, currentLessonIndex + 1))}
                 disabled={currentLessonIndex === track.lessons.length - 1}
-                className="inline-flex items-center gap-1 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="inline-flex items-center gap-1 text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Next
                 <ChevronRight className="w-4 h-4" />
@@ -832,7 +832,7 @@ export default function TrackDetailPage() {
             <div className="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-6">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                  <Brain className="w-5 h-5 text-indigo-500" />
+                  <Brain className="w-5 h-5 text-green-500" />
                   {aiMode === 'deepen' ? 'AI Explanation' : 'Ask Your Question'}
                 </h3>
                 <button 
@@ -851,12 +851,12 @@ export default function TrackDetailPage() {
                       value={aiQuestion}
                       onChange={(e) => setAiQuestion(e.target.value)}
                       placeholder="What would you like to understand better?"
-                      className="flex-1 px-4 py-2 bg-gray-50 dark:bg-slate-700 border border-gray-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none text-gray-900 dark:text-white"
+                      className="flex-1 px-4 py-2 bg-gray-50 dark:bg-slate-700 border border-gray-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none text-gray-900 dark:text-white"
                     />
                     <button
                       type="submit"
                       disabled={!aiQuestion.trim() || aiLoading}
-                      className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <Send className="w-4 h-4" />
                     </button>
@@ -866,7 +866,7 @@ export default function TrackDetailPage() {
 
               {aiLoading ? (
                 <div className="flex items-center justify-center py-8">
-                  <Loader2 className="w-8 h-8 text-indigo-500 animate-spin" />
+                  <Loader2 className="w-8 h-8 text-green-500 animate-spin" />
                   <span className="ml-2 text-gray-600 dark:text-gray-400">Thinking...</span>
                 </div>
               ) : aiResponse ? (
@@ -874,7 +874,7 @@ export default function TrackDetailPage() {
                   <div className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{aiResponse}</div>
                   <button
                     onClick={() => { setAiResponse(''); setAiMode('question'); }}
-                    className="mt-4 text-indigo-600 dark:text-indigo-400 hover:underline text-sm"
+                    className="mt-4 text-green-600 dark:text-green-400 hover:underline text-sm"
                   >
                     Ask another question
                   </button>

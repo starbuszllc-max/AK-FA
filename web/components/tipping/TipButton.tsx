@@ -91,8 +91,8 @@ export default function TipButton({ receiverId, receiverName, postId, size = 'sm
   if (!userId || userId === receiverId) return null;
   
   const buttonClasses = size === 'sm' 
-    ? 'p-1.5 text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-900/30 rounded-full transition-colors'
-    : 'px-3 py-1.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-full flex items-center gap-1.5 text-sm font-medium hover:opacity-90 transition-opacity';
+    ? 'p-1.5 text-green-500 hover:bg-green-50 dark:hover:bg-green-900/30 rounded-full transition-colors'
+    : 'px-3 py-1.5 bg-gradient-to-r from-green-500 to-orange-500 text-white rounded-full flex items-center gap-1.5 text-sm font-medium hover:opacity-90 transition-opacity';
   
   return (
     <>
@@ -144,9 +144,9 @@ export default function TipButton({ receiverId, receiverName, postId, size = 'sm
                     </button>
                   </div>
                   
-                  <div className="flex items-center gap-2 mb-4 p-2 bg-amber-50 dark:bg-amber-900/30 rounded-lg">
-                    <Coins className="w-5 h-5 text-amber-500" />
-                    <span className="text-sm text-amber-700 dark:text-amber-300">
+                  <div className="flex items-center gap-2 mb-4 p-2 bg-green-50 dark:bg-green-900/30 rounded-lg">
+                    <Coins className="w-5 h-5 text-green-500" />
+                    <span className="text-sm text-green-700 dark:text-green-300">
                       Your balance: <strong>{userCoins} coins</strong>
                     </span>
                   </div>
@@ -159,15 +159,15 @@ export default function TipButton({ receiverId, receiverName, postId, size = 'sm
                         disabled={userCoins < gift.coins}
                         className={`p-3 rounded-xl border-2 transition-all ${
                           selectedGift?.id === gift.id
-                            ? 'border-amber-500 bg-amber-50 dark:bg-amber-900/30'
+                            ? 'border-green-500 bg-green-50 dark:bg-green-900/30'
                             : userCoins < gift.coins
                             ? 'border-gray-200 dark:border-gray-700 opacity-50 cursor-not-allowed'
-                            : 'border-gray-200 dark:border-gray-700 hover:border-amber-300'
+                            : 'border-gray-200 dark:border-gray-700 hover:border-green-300'
                         }`}
                       >
                         <div className="text-2xl mb-1">{gift.icon}</div>
                         <div className="text-xs font-medium text-gray-700 dark:text-gray-300">{gift.name}</div>
-                        <div className="text-xs text-amber-600 dark:text-amber-400">{gift.coins} coins</div>
+                        <div className="text-xs text-green-600 dark:text-green-400">{gift.coins} coins</div>
                       </button>
                     ))}
                   </div>
@@ -178,7 +178,7 @@ export default function TipButton({ receiverId, receiverName, postId, size = 'sm
                     value={message}
                     onChange={e => setMessage(e.target.value)}
                     maxLength={100}
-                    className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-green-500"
                   />
                   
                   {error && (
@@ -188,7 +188,7 @@ export default function TipButton({ receiverId, receiverName, postId, size = 'sm
                   <button
                     onClick={handleTip}
                     disabled={!selectedGift || loading}
-                    className="w-full py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    className="w-full py-2.5 bg-gradient-to-r from-green-500 to-orange-500 text-white rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
                     {loading ? (
                       <Loader2 className="w-4 h-4 animate-spin" />

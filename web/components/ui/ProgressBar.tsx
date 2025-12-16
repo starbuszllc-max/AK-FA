@@ -24,7 +24,7 @@ export default function ProgressBar({
   const percentage = Math.min(Math.max((value / max) * 100, 0), 100);
 
   const colorClasses = {
-    indigo: 'bg-indigo-600',
+    indigo: 'bg-green-600',
     green: 'bg-green-500',
     blue: 'bg-blue-500',
     purple: 'bg-purple-500',

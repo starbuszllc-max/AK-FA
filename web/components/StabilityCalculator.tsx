@@ -17,7 +17,7 @@ const metricInfo = {
     name: 'Resources',
     emoji: '💰',
     description: 'Available resources, energy, or capacity in the system',
-    color: 'from-amber-500 to-yellow-400',
+    color: 'from-green-500 to-yellow-400',
     min: 0,
     max: 1000,
     step: 10
@@ -62,7 +62,7 @@ const metricInfo = {
     name: 'Scaling Factor',
     emoji: '📊',
     description: 'Multiplier for agreement effect (1-3)',
-    color: 'from-indigo-500 to-blue-400',
+    color: 'from-green-500 to-blue-400',
     min: 1,
     max: 3,
     step: 1
@@ -169,7 +169,7 @@ export default function StabilityCalculator() {
 
   return (
     <div className="space-y-6">
-      <Card className="bg-gradient-to-br from-indigo-50 to-purple-50 border-indigo-100">
+      <Card className="bg-gradient-to-br from-green-50 to-purple-50 border-green-100">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             <span className="text-3xl">🧮</span>
@@ -180,17 +180,17 @@ export default function StabilityCalculator() {
           </div>
           <button
             onClick={() => setShowFormula(!showFormula)}
-            className="text-indigo-600 hover:text-indigo-800 text-sm font-medium flex items-center gap-1"
+            className="text-green-600 hover:text-green-800 text-sm font-medium flex items-center gap-1"
           >
             {showFormula ? '🔽 Hide' : '📐 Show'} Formula
           </button>
         </div>
 
         {showFormula && (
-          <div className="mb-6 p-4 bg-white rounded-lg border border-indigo-200">
+          <div className="mb-6 p-4 bg-white rounded-lg border border-green-200">
             <h4 className="font-semibold text-gray-800 mb-2">Stability Formula</h4>
             <div className="text-center py-4">
-              <div className="text-2xl font-mono text-indigo-700">
+              <div className="text-2xl font-mono text-green-700">
                 S = R × (L + G) / (|L - G| + C - A × n)
               </div>
             </div>
@@ -239,7 +239,7 @@ export default function StabilityCalculator() {
                       step={info.step}
                       value={metrics[key]}
                       onChange={(e) => setVal(key, Number(e.target.value))}
-                      className="flex-1 h-2 appearance-none rounded-full bg-gray-200 cursor-pointer accent-indigo-600"
+                      className="flex-1 h-2 appearance-none rounded-full bg-gray-200 cursor-pointer accent-green-600"
                     />
                     <span className="text-xs text-gray-400">{info.max}</span>
                     <input
@@ -248,7 +248,7 @@ export default function StabilityCalculator() {
                       min={info.min}
                       max={info.max}
                       step={info.step}
-                      className="w-20 border border-gray-300 rounded-lg px-2 py-1 text-center text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                      className="w-20 border border-gray-300 rounded-lg px-2 py-1 text-center text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500"
                       value={metrics[key]}
                       onChange={(e) => setVal(key, Number(e.target.value))}
                     />
@@ -362,9 +362,9 @@ export default function StabilityCalculator() {
               )}
 
               {!userId && !saved && (
-                <div className="flex items-center gap-3 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                <div className="flex items-center gap-3 p-4 bg-green-50 border border-green-200 rounded-lg">
                   <span className="text-xl">💡</span>
-                  <p className="text-sm text-amber-700">
+                  <p className="text-sm text-green-700">
                     Sign in to save your calculations and track your stability over time.
                   </p>
                 </div>
@@ -372,7 +372,7 @@ export default function StabilityCalculator() {
             </div>
           </Card>
 
-          <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-100">
+          <Card className="bg-gradient-to-br from-blue-50 to-green-50 border-blue-100">
             <h4 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
               <span>💡</span> Tips for Better Stability
             </h4>

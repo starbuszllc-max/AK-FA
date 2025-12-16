@@ -80,7 +80,7 @@ export default function StoriesPage() {
           {user && (
             <button
               onClick={() => setShowCreator(true)}
-              className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-lg font-medium hover:from-indigo-600 hover:to-purple-600 transition-all"
+              className="px-4 py-2 bg-gradient-to-r from-green-500 to-purple-500 text-white rounded-lg font-medium hover:from-green-600 hover:to-purple-600 transition-all"
             >
               Create Story
             </button>
@@ -95,7 +95,7 @@ export default function StoriesPage() {
 
         {loading ? (
           <div className="flex justify-center items-center py-8 sm:py-12">
-            <div className="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+            <div className="w-8 h-8 border-4 border-green-500 border-t-transparent rounded-full animate-spin" />
           </div>
         ) : storyGroups.length === 0 ? (
           <div className="text-center py-8 sm:py-12">
@@ -103,7 +103,7 @@ export default function StoriesPage() {
             {user && (
               <button
                 onClick={() => setShowCreator(true)}
-                className="px-6 py-3 bg-indigo-500 text-white rounded-lg font-medium hover:bg-indigo-600 transition-colors"
+                className="px-6 py-3 bg-green-500 text-white rounded-lg font-medium hover:bg-green-600 transition-colors"
               >
                 Create Your First Story
               </button>
@@ -117,13 +117,13 @@ export default function StoriesPage() {
                 onClick={() => setSelectedGroupIndex(idx)}
                 className="relative group overflow-hidden rounded-lg aspect-square"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-500 opacity-10 group-hover:opacity-20 transition-opacity" />
+                <div className="absolute inset-0 bg-gradient-to-br from-green-500 to-purple-500 opacity-10 group-hover:opacity-20 transition-opacity" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center p-3">
                   <div className="w-12 h-12 rounded-full overflow-hidden mb-2 ring-2 ring-white">
                     {group.user.avatarUrl ? (
                       <img src={group.user.avatarUrl} alt={group.user.username} className="w-full h-full object-cover" />
                     ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white font-medium">
+                      <div className="w-full h-full bg-gradient-to-br from-green-500 to-purple-500 flex items-center justify-center text-white font-medium">
                         {group.user.username.charAt(0).toUpperCase()}
                       </div>
                     )}

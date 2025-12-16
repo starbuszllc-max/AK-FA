@@ -106,8 +106,8 @@ export default function AIMentorPage() {
   if (!userId) {
     return (
       <div className="max-w-2xl mx-auto text-center py-16 px-4">
-        <div className="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
-          <Brain className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
+        <div className="w-16 h-16 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
+          <Brain className="w-8 h-8 text-green-600 dark:text-green-400" />
         </div>
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
           AI Mentor
@@ -117,7 +117,7 @@ export default function AIMentorPage() {
         </p>
         <a
           href="/signup"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700 transition-all"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl font-medium hover:bg-green-700 transition-all"
         >
           Get Started
         </a>
@@ -132,7 +132,7 @@ export default function AIMentorPage() {
           <div className="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-4 h-full overflow-hidden flex flex-col">
             <button
               onClick={startNewSession}
-              className="w-full px-4 py-2.5 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors mb-4 flex items-center justify-center gap-2"
+              className="w-full px-4 py-2.5 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors mb-4 flex items-center justify-center gap-2"
             >
               <Sparkles className="w-4 h-4" />
               New Session
@@ -151,7 +151,7 @@ export default function AIMentorPage() {
                     onClick={() => loadSession(session)}
                     className={`w-full text-left p-3 rounded-lg transition-colors ${
                       sessionId === session.id 
-                        ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400'
+                        ? 'bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400'
                         : 'hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-700 dark:text-gray-300'
                     }`}
                   >
@@ -169,7 +169,7 @@ export default function AIMentorPage() {
         <div className="flex-1 flex flex-col bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 overflow-hidden">
           <div className="flex-shrink-0 p-4 border-b border-gray-200 dark:border-slate-700">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl">
+              <div className="p-2 bg-gradient-to-br from-green-500 to-purple-600 rounded-xl">
                 <Brain className="w-5 h-5 text-white" />
               </div>
               <div>
@@ -182,8 +182,8 @@ export default function AIMentorPage() {
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {messages.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-center py-8">
-                <div className="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/30 rounded-full flex items-center justify-center mb-4">
-                  <Brain className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
+                <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
+                  <Brain className="w-8 h-8 text-green-600 dark:text-green-400" />
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
                   Welcome to Insight School
@@ -198,7 +198,7 @@ export default function AIMentorPage() {
                       onClick={() => sendMessage(topic.prompt)}
                       className="flex items-center gap-2 p-3 bg-gray-50 dark:bg-slate-700 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-600 transition-colors text-left"
                     >
-                      <topic.icon className="w-4 h-4 text-indigo-500 flex-shrink-0" />
+                      <topic.icon className="w-4 h-4 text-green-500 flex-shrink-0" />
                       <span className="text-sm text-gray-700 dark:text-gray-300">{topic.label}</span>
                     </button>
                   ))}
@@ -213,7 +213,7 @@ export default function AIMentorPage() {
                   <div
                     className={`max-w-[80%] p-4 rounded-2xl ${
                       message.role === 'user'
-                        ? 'bg-indigo-600 text-white rounded-br-md'
+                        ? 'bg-green-600 text-white rounded-br-md'
                         : 'bg-gray-100 dark:bg-slate-700 text-gray-900 dark:text-white rounded-bl-md'
                     }`}
                   >
@@ -225,7 +225,7 @@ export default function AIMentorPage() {
             {loading && (
               <div className="flex justify-start">
                 <div className="bg-gray-100 dark:bg-slate-700 p-4 rounded-2xl rounded-bl-md">
-                  <Loader2 className="w-5 h-5 text-indigo-500 animate-spin" />
+                  <Loader2 className="w-5 h-5 text-green-500 animate-spin" />
                 </div>
               </div>
             )}
@@ -245,13 +245,13 @@ export default function AIMentorPage() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask about human systems, behavior, or leadership..."
-                className="flex-1 px-4 py-3 bg-gray-50 dark:bg-slate-700 border border-gray-200 dark:border-slate-600 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="flex-1 px-4 py-3 bg-gray-50 dark:bg-slate-700 border border-gray-200 dark:border-slate-600 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
                 disabled={loading}
               />
               <button
                 type="submit"
                 disabled={loading || !input.trim()}
-                className="px-4 py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-4 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Send className="w-5 h-5" />
               </button>

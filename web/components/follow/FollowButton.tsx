@@ -103,7 +103,7 @@ export default function FollowButton({
       } ${
         isFollowing
           ? 'bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/30'
-          : 'bg-indigo-600 text-white hover:bg-indigo-700'
+          : 'bg-green-600 text-white hover:bg-green-700'
       } disabled:opacity-50`}
     >
       {loading ? (

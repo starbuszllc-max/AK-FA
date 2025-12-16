@@ -147,7 +147,7 @@ export default function SearchPage() {
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search posts, users, groups, comments..."
               autoFocus
-              className="w-full pl-9 pr-3 py-2.5 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full pl-9 pr-3 py-2.5 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
             />
           </div>
         </div>
@@ -160,7 +160,7 @@ export default function SearchPage() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors ${
                   activeTab === tab.id
-                    ? 'bg-indigo-600 text-white'
+                    ? 'bg-green-600 text-white'
                     : 'bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700'
                 }`}
               >
@@ -184,7 +184,7 @@ export default function SearchPage() {
       <div className="flex-1 overflow-y-auto px-3 pb-20">
         {loading ? (
           <div className="flex items-center justify-center py-12">
-            <Loader2 className="w-6 h-6 text-indigo-600 animate-spin" />
+            <Loader2 className="w-6 h-6 text-green-600 animate-spin" />
           </div>
         ) : !query || query.length < 2 ? (
           <div className="text-center py-12">
@@ -218,7 +218,7 @@ export default function SearchPage() {
                       className="block bg-white dark:bg-slate-800 rounded-lg p-3 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
                     >
                       <div className="flex items-start gap-2.5">
-                        <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                        <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-purple-600 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
                           {post.user?.username?.charAt(0).toUpperCase() || '?'}
                         </div>
                         <div className="flex-1 min-w-0">
@@ -273,7 +273,7 @@ export default function SearchPage() {
                           className="w-10 h-10 rounded-full object-cover"
                         />
                       ) : (
-                        <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
+                        <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
                           {user.username.charAt(0).toUpperCase()}
                         </div>
                       )}
@@ -283,7 +283,7 @@ export default function SearchPage() {
                             {user.username}
                           </span>
                           {user.level > 1 && (
-                            <span className="px-1.5 py-0.5 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-[10px] rounded-full">
+                            <span className="px-1.5 py-0.5 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 text-[10px] rounded-full">
                               Lvl {user.level}
                             </span>
                           )}
@@ -390,7 +390,7 @@ export default function SearchPage() {
                           <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2">
                             {truncate(comment.content, 120)}
                           </p>
-                          <p className="text-xs text-indigo-500 mt-1">
+                          <p className="text-xs text-green-500 mt-1">
                             View in post →
                           </p>
                         </div>

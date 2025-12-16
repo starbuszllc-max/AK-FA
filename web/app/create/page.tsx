@@ -21,9 +21,9 @@ const LAYER_OPTIONS = [
   { id: 'environment', label: 'Environment', emoji: '🌍', color: 'bg-emerald-500' },
   { id: 'bio', label: 'Biological', emoji: '🧬', color: 'bg-rose-500' },
   { id: 'internal', label: 'Internal', emoji: '🧠', color: 'bg-purple-500' },
-  { id: 'cultural', label: 'Cultural', emoji: '🎭', color: 'bg-amber-500' },
+  { id: 'cultural', label: 'Cultural', emoji: '🎭', color: 'bg-green-500' },
   { id: 'social', label: 'Social', emoji: '👥', color: 'bg-blue-500' },
-  { id: 'conscious', label: 'Conscious', emoji: '💭', color: 'bg-indigo-500' },
+  { id: 'conscious', label: 'Conscious', emoji: '💭', color: 'bg-green-500' },
   { id: 'existential', label: 'Existential', emoji: '✨', color: 'bg-violet-500' },
 ];
 
@@ -168,7 +168,7 @@ export default function CreatePage() {
           <button
             onClick={handlePost}
             disabled={posting}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-full text-sm font-medium disabled:opacity-50 flex items-center gap-2"
+            className="px-4 py-2 bg-green-600 text-white rounded-full text-sm font-medium disabled:opacity-50 flex items-center gap-2"
           >
             {posting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
             Post
@@ -197,9 +197,9 @@ export default function CreatePage() {
 
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <Sparkles className="w-5 h-5 text-indigo-400" />
+              <Sparkles className="w-5 h-5 text-green-400" />
               <span className="text-white font-medium">AI Suggestions</span>
-              {generatingCaption && <Loader2 className="w-4 h-4 text-indigo-400 animate-spin" />}
+              {generatingCaption && <Loader2 className="w-4 h-4 text-green-400 animate-spin" />}
             </div>
             <div className="space-y-2">
               {aiSuggestions.map((suggestion, index) => (
@@ -285,7 +285,7 @@ export default function CreatePage() {
               };
               input.click();
             }}
-            className="w-full py-5 bg-gradient-to-r from-purple-500 via-violet-500 to-indigo-500 rounded-2xl flex items-center justify-center gap-4 active:scale-[0.98] transition-transform"
+            className="w-full py-5 bg-gradient-to-r from-purple-500 via-violet-500 to-green-500 rounded-2xl flex items-center justify-center gap-4 active:scale-[0.98] transition-transform"
           >
             <div className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center">
               <Image className="w-7 h-7 text-white" strokeWidth={2.5} />

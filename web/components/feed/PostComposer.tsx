@@ -54,7 +54,7 @@ export default function PostComposer({ onPostCreated }: PostComposerProps) {
     return (
       <div className="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
         <div className="flex items-center justify-center py-4">
-          <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+          <div className="w-6 h-6 border-2 border-green-500 border-t-transparent rounded-full animate-spin" />
         </div>
       </div>
     );

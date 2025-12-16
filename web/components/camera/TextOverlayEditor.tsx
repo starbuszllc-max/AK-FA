@@ -75,7 +75,7 @@ export default function TextOverlayEditor({ overlays, onUpdate, onClose }: TextO
         <button onClick={onClose} className="text-white p-2">
           <X className="w-6 h-6" />
         </button>
-        <button onClick={handleDone} className="text-white px-4 py-2 bg-indigo-600 rounded-full text-sm font-medium">
+        <button onClick={handleDone} className="text-white px-4 py-2 bg-green-600 rounded-full text-sm font-medium">
           Done
         </button>
       </div>
@@ -216,7 +216,7 @@ export default function TextOverlayEditor({ overlays, onUpdate, onClose }: TextO
         <button
           onClick={handleAdd}
           disabled={!currentOverlay.text.trim()}
-          className="w-full py-3 bg-indigo-600 text-white rounded-xl font-medium disabled:opacity-50"
+          className="w-full py-3 bg-green-600 text-white rounded-xl font-medium disabled:opacity-50"
         >
           Add Text
         </button>

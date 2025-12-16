@@ -49,9 +49,9 @@ const layerColors: Record<string, { bg: string; text: string; ring: string; grad
   environment: { bg: 'bg-emerald-100 dark:bg-emerald-900/30', text: 'text-emerald-700 dark:text-emerald-300', ring: 'ring-emerald-400', gradient: 'from-emerald-400 to-teal-500' },
   bio: { bg: 'bg-rose-100 dark:bg-rose-900/30', text: 'text-rose-700 dark:text-rose-300', ring: 'ring-rose-400', gradient: 'from-rose-400 to-pink-500' },
   internal: { bg: 'bg-purple-100 dark:bg-purple-900/30', text: 'text-purple-700 dark:text-purple-300', ring: 'ring-purple-400', gradient: 'from-purple-400 to-violet-500' },
-  cultural: { bg: 'bg-amber-100 dark:bg-amber-900/30', text: 'text-amber-700 dark:text-amber-300', ring: 'ring-amber-400', gradient: 'from-amber-400 to-orange-500' },
+  cultural: { bg: 'bg-green-100 dark:bg-green-900/30', text: 'text-green-700 dark:text-green-300', ring: 'ring-green-400', gradient: 'from-green-400 to-orange-500' },
   social: { bg: 'bg-blue-100 dark:bg-blue-900/30', text: 'text-blue-700 dark:text-blue-300', ring: 'ring-blue-400', gradient: 'from-blue-400 to-cyan-500' },
-  conscious: { bg: 'bg-indigo-100 dark:bg-indigo-900/30', text: 'text-indigo-700 dark:text-indigo-300', ring: 'ring-indigo-400', gradient: 'from-indigo-400 to-blue-500' },
+  conscious: { bg: 'bg-green-100 dark:bg-green-900/30', text: 'text-green-700 dark:text-green-300', ring: 'ring-green-400', gradient: 'from-green-400 to-blue-500' },
   existential: { bg: 'bg-violet-100 dark:bg-violet-900/30', text: 'text-violet-700 dark:text-violet-300', ring: 'ring-violet-400', gradient: 'from-violet-400 to-purple-500' },
 };
 
@@ -398,8 +398,8 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
                   onClick={() => handleShareOption('feed')}
                   className="flex flex-col items-center gap-2 p-3 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-2xl transition-colors"
                 >
-                  <div className="w-14 h-14 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center">
-                    <svg className="w-7 h-7 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-14 h-14 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+                    <svg className="w-7 h-7 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
                     </svg>
                   </div>
@@ -432,8 +432,8 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
                   onClick={() => handleShareOption('copy')}
                   className="flex flex-col items-center gap-2 p-3 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-2xl transition-colors"
                 >
-                  <div className="w-14 h-14 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center">
-                    <svg className="w-7 h-7 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-14 h-14 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+                    <svg className="w-7 h-7 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
                     </svg>
                   </div>
@@ -443,7 +443,7 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
               {typeof navigator !== 'undefined' && 'share' in navigator && (
                 <button
                   onClick={() => handleShareOption('external')}
-                  className="w-full py-4 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-2xl font-semibold hover:from-indigo-600 hover:to-purple-600 transition-colors shadow-lg flex items-center justify-center gap-2"
+                  className="w-full py-4 bg-gradient-to-r from-green-500 to-purple-500 text-white rounded-2xl font-semibold hover:from-green-600 hover:to-purple-600 transition-colors shadow-lg flex items-center justify-center gap-2"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
@@ -475,7 +475,7 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
                 className="w-10 h-10 rounded-full object-cover ring-2 ring-white dark:ring-slate-800"
               />
             ) : (
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white font-medium ring-2 ring-white dark:ring-slate-800">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-purple-500 flex items-center justify-center text-white font-medium ring-2 ring-white dark:ring-slate-800">
                 {username.charAt(0).toUpperCase()}
               </div>
             )}
@@ -523,7 +523,7 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
           {post.badges.map((badge) => (
             <span 
               key={badge.id}
-              className="inline-flex items-center gap-1 px-2 py-0.5 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 rounded-full text-xs font-medium"
+              className="inline-flex items-center gap-1 px-2 py-0.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-xs font-medium"
             >
               <span>{badge.icon}</span>
               <span>{badge.name}</span>
@@ -587,7 +587,7 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
                         <div className="scale-75 group-hover:scale-100 transition-transform duration-300">
-                          <svg className="w-16 h-16 text-amber-400 drop-shadow-xl" fill="currentColor" viewBox="0 0 20 20">
+                          <svg className="w-16 h-16 text-green-400 drop-shadow-xl" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
                           </svg>
                         </div>
@@ -606,7 +606,7 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
                     </>
                   )}
                   <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="px-2.5 py-1.5 bg-black/70 backdrop-blur-sm text-xs font-semibold text-amber-400">
+                    <div className="px-2.5 py-1.5 bg-black/70 backdrop-blur-sm text-xs font-semibold text-green-400">
                       {isVideo ? '▶ Video' : '🖼 Image'}
                     </div>
                   </div>
@@ -705,7 +705,7 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
                     placeholder={replyingTo ? `Reply to @${replyingTo.username}...` : "Write a comment..."}
-                    className="flex-1 px-3 py-2 bg-gray-50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 dark:text-white transition-all"
+                    className="flex-1 px-3 py-2 bg-gray-50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600 rounded-xl text-sm focus:ring-2 focus:ring-green-500/20 focus:border-green-500 dark:text-white transition-all"
                     maxLength={300}
                   />
                   <motion.button
@@ -713,7 +713,7 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
                     disabled={!newComment.trim() || submittingComment}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-sm font-medium rounded-xl hover:from-indigo-600 hover:to-purple-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all shrink-0"
+                    className="px-4 py-2 bg-gradient-to-r from-green-500 to-purple-500 text-white text-sm font-medium rounded-xl hover:from-green-600 hover:to-purple-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all shrink-0"
                   >
                     {submittingComment ? (
                       <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin inline-block" />
@@ -732,7 +732,7 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
 
             {loadingComments ? (
               <div className="text-center py-4">
-                <div className="w-5 h-5 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin mx-auto" />
+                <div className="w-5 h-5 border-2 border-green-500 border-t-transparent rounded-full animate-spin mx-auto" />
               </div>
             ) : comments.length === 0 ? (
               <p className="text-center text-gray-400 dark:text-gray-500 text-sm py-2">No comments yet</p>
@@ -772,7 +772,7 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
                       {currentUserId && (
                         <button
                           onClick={() => handleReply(comment)}
-                          className="mt-1 text-xs text-gray-400 dark:text-gray-500 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors"
+                          className="mt-1 text-xs text-gray-400 dark:text-gray-500 hover:text-green-500 dark:hover:text-green-400 transition-colors"
                         >
                           Reply
                         </button>

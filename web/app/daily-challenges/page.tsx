@@ -216,12 +216,12 @@ export default function DailyChallengesPage() {
                     {challenge.difficulty}
                   </span>
                   <span className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
-                    <Zap className="w-3 h-3 text-indigo-500" />
+                    <Zap className="w-3 h-3 text-green-500" />
                     +{challenge.pointsReward} XP
                   </span>
                   {challenge.coinReward > 0 && (
                     <span className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
-                      <Gift className="w-3 h-3 text-amber-500" />
+                      <Gift className="w-3 h-3 text-green-500" />
                       +{challenge.coinReward} coins
                     </span>
                   )}
@@ -231,7 +231,7 @@ export default function DailyChallengesPage() {
                 <button
                   onClick={() => completeChallenge(challenge.id)}
                   disabled={completingId === challenge.id}
-                  className="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-50"
+                  className="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50"
                 >
                   {completingId === challenge.id ? 'Completing...' : 'Complete'}
                 </button>
@@ -248,7 +248,7 @@ export default function DailyChallengesPage() {
           </p>
           <a
             href="/signup"
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700 transition-colors"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-green-600 text-white rounded-xl font-medium hover:bg-green-700 transition-colors"
           >
             Get Started
           </a>

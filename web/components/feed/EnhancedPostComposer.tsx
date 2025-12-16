@@ -10,9 +10,9 @@ const layers = [
   { value: 'environment', label: 'Environment', emoji: '🌍', color: 'bg-emerald-500' },
   { value: 'bio', label: 'Biological', emoji: '🧬', color: 'bg-rose-500' },
   { value: 'internal', label: 'Internal', emoji: '🧠', color: 'bg-purple-500' },
-  { value: 'cultural', label: 'Cultural', emoji: '🎭', color: 'bg-amber-500' },
+  { value: 'cultural', label: 'Cultural', emoji: '🎭', color: 'bg-green-500' },
   { value: 'social', label: 'Social', emoji: '👥', color: 'bg-blue-500' },
-  { value: 'conscious', label: 'Conscious', emoji: '💭', color: 'bg-indigo-500' },
+  { value: 'conscious', label: 'Conscious', emoji: '💭', color: 'bg-green-500' },
   { value: 'existential', label: 'Existential', emoji: '✨', color: 'bg-violet-500' },
 ] as const;
 
@@ -124,7 +124,7 @@ export default function EnhancedPostComposer({ onPostCreated, onToast }: Enhance
     return (
       <div className="p-6 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl shadow-lg border border-gray-100 dark:border-slate-700">
         <div className="flex items-center justify-center py-4">
-          <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+          <div className="w-6 h-6 border-2 border-green-500 border-t-transparent rounded-full animate-spin" />
         </div>
       </div>
     );
@@ -135,7 +135,7 @@ export default function EnhancedPostComposer({ onPostCreated, onToast }: Enhance
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="p-6 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-xl border border-indigo-200/50 dark:border-indigo-800/50 text-center"
+        className="p-6 bg-gradient-to-br from-green-50 to-purple-50 dark:from-green-900/20 dark:to-purple-900/20 rounded-xl border border-green-200/50 dark:border-green-800/50 text-center"
       >
         <div className="text-3xl mb-3">✍️</div>
         <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-1">Join the conversation</h3>
@@ -144,7 +144,7 @@ export default function EnhancedPostComposer({ onPostCreated, onToast }: Enhance
           href="/auth/login"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="inline-block px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl font-medium hover:from-indigo-600 hover:to-purple-600 transition-all shadow-lg shadow-indigo-500/25"
+          className="inline-block px-5 py-2.5 bg-gradient-to-r from-green-500 to-purple-500 text-white rounded-xl font-medium hover:from-green-600 hover:to-purple-600 transition-all shadow-lg shadow-green-500/25"
         >
           Sign In to Post
         </motion.a>
@@ -164,7 +164,7 @@ export default function EnhancedPostComposer({ onPostCreated, onToast }: Enhance
       className="p-5 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl shadow-lg border border-gray-100 dark:border-slate-700"
     >
       <div className="flex items-start gap-3">
-        <div className="w-11 h-11 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white font-medium shrink-0 text-lg shadow-lg shadow-indigo-500/25 overflow-hidden">
+        <div className="w-11 h-11 rounded-full bg-gradient-to-br from-green-500 to-purple-500 flex items-center justify-center text-white font-medium shrink-0 text-lg shadow-lg shadow-green-500/25 overflow-hidden">
           {userAvatar ? (
             <img src={userAvatar} alt={userName} className="w-full h-full object-cover" />
           ) : (
@@ -269,7 +269,7 @@ export default function EnhancedPostComposer({ onPostCreated, onToast }: Enhance
                         setLayer(l.value);
                         setShowLayerDropdown(false);
                       }}
-                      className={`w-full px-3 py-2 text-left flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors ${layer === l.value ? 'bg-indigo-50 dark:bg-indigo-900/30' : ''}`}
+                      className={`w-full px-3 py-2 text-left flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors ${layer === l.value ? 'bg-green-50 dark:bg-green-900/30' : ''}`}
                     >
                       <span className={`w-2 h-2 rounded-full ${l.color}`} />
                       <span className="text-sm text-gray-700 dark:text-gray-300">{l.emoji} {l.label}</span>
@@ -329,7 +329,7 @@ export default function EnhancedPostComposer({ onPostCreated, onToast }: Enhance
         </div>
 
         <div className="flex items-center gap-3">
-          <span className={`text-xs ${content.length > 450 ? 'text-amber-500' : content.length > 500 ? 'text-red-500' : 'text-gray-400 dark:text-gray-500'}`}>
+          <span className={`text-xs ${content.length > 450 ? 'text-green-500' : content.length > 500 ? 'text-red-500' : 'text-gray-400 dark:text-gray-500'}`}>
             {content.length}/500
           </span>
           <motion.button 
@@ -337,7 +337,7 @@ export default function EnhancedPostComposer({ onPostCreated, onToast }: Enhance
             disabled={loading || !content.trim() || content.length > 500}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="px-5 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-medium rounded-xl hover:from-indigo-600 hover:to-purple-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-indigo-500/25 disabled:shadow-none"
+            className="px-5 py-2 bg-gradient-to-r from-green-500 to-purple-500 text-white font-medium rounded-xl hover:from-green-600 hover:to-purple-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-green-500/25 disabled:shadow-none"
           >
             {loading ? (
               <span className="flex items-center gap-2">

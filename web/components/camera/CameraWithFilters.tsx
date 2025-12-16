@@ -116,7 +116,7 @@ export default function CameraWithFilters({ onCapture, onClose }: CameraWithFilt
           <p className="text-lg mb-4">{error}</p>
           <button
             onClick={startCamera}
-            className="px-6 py-3 bg-indigo-600 rounded-xl font-medium"
+            className="px-6 py-3 bg-green-600 rounded-xl font-medium"
           >
             Try Again
           </button>
@@ -169,7 +169,7 @@ export default function CameraWithFilters({ onCapture, onClose }: CameraWithFilt
             </button>
             <button
               onClick={confirmCapture}
-              className="px-8 py-3 bg-indigo-600 text-white rounded-xl font-medium"
+              className="px-8 py-3 bg-green-600 text-white rounded-xl font-medium"
             >
               Use Photo
             </button>

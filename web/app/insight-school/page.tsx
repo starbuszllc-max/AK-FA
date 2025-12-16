@@ -137,7 +137,7 @@ export default function InsightSchoolPage() {
   return (
     <div className="max-w-4xl mx-auto space-y-4 px-3 py-4">
       <div className="text-center space-y-2">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 rounded-full text-xs font-medium">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 rounded-full text-xs font-medium">
           <Brain className="w-3.5 h-3.5" />
           Insight School
         </div>
@@ -149,7 +149,7 @@ export default function InsightSchoolPage() {
         </p>
       </div>
 
-      <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg p-4 text-white">
+      <div className="bg-gradient-to-r from-green-500 to-purple-600 rounded-lg p-4 text-white">
         <div className="flex items-center gap-3">
           <div className="p-2 bg-white/20 rounded-lg">
             <Zap className="w-5 h-5" />
@@ -160,7 +160,7 @@ export default function InsightSchoolPage() {
           </div>
           <Link
             href="/insight-school/stability-equation"
-            className="px-3 py-1.5 bg-white text-indigo-600 rounded-md text-xs font-medium hover:bg-white/90 transition-colors whitespace-nowrap"
+            className="px-3 py-1.5 bg-white text-green-600 rounded-md text-xs font-medium hover:bg-white/90 transition-colors whitespace-nowrap"
           >
             Learn
           </Link>
@@ -169,7 +169,7 @@ export default function InsightSchoolPage() {
 
       <div className="space-y-3">
         <h2 className="text-sm font-semibold text-gray-900 dark:text-white flex items-center gap-1.5">
-          <BookOpen className="w-4 h-4 text-indigo-500" />
+          <BookOpen className="w-4 h-4 text-green-500" />
           Foundation Tracks
         </h2>
         <div className="grid gap-2 md:grid-cols-2">
@@ -181,7 +181,7 @@ export default function InsightSchoolPage() {
 
       <div className="space-y-3">
         <h2 className="text-sm font-semibold text-gray-900 dark:text-white flex items-center gap-1.5">
-          <Crown className="w-4 h-4 text-amber-500" />
+          <Crown className="w-4 h-4 text-green-500" />
           Advanced Tracks
         </h2>
         <div className="grid gap-2 md:grid-cols-2">
@@ -200,7 +200,7 @@ export default function InsightSchoolPage() {
         </p>
         <Link
           href="/ai-mentor"
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 text-white rounded-md text-xs font-medium hover:bg-indigo-700 transition-colors"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-600 text-white rounded-md text-xs font-medium hover:bg-green-700 transition-colors"
         >
           <Brain className="w-3.5 h-3.5" />
           Talk to Mentor
@@ -231,7 +231,7 @@ function TrackCard({ track, userId }: { track: Track; userId: string | null }) {
           </div>
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+          <h3 className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
             {track.name}
           </h3>
           <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 line-clamp-2">
@@ -250,7 +250,7 @@ function TrackCard({ track, userId }: { track: Track; userId: string | null }) {
               <span className="text-[10px] font-bold" style={{ color: track.color }}>{progress}%</span>
             </div>
           ) : (
-            <Play className="w-4 h-4 text-gray-400 group-hover:text-indigo-500 transition-colors" />
+            <Play className="w-4 h-4 text-gray-400 group-hover:text-green-500 transition-colors" />
           )}
         </div>
       </div>

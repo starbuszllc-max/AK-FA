@@ -63,17 +63,17 @@ export default function SignupPage() {
   if (success) {
     return (
       <div className="max-w-md mx-auto text-center py-16 px-4">
-        <div className="w-20 h-20 bg-indigo-100 dark:bg-indigo-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
-          <Mail className="w-10 h-10 text-indigo-600 dark:text-indigo-400" />
+        <div className="w-20 h-20 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
+          <Mail className="w-10 h-10 text-green-600 dark:text-green-400" />
         </div>
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
           Check Your Email
         </h1>
         <p className="text-gray-600 dark:text-gray-300 mb-6">
-          We've sent a verification link to <span className="font-semibold text-indigo-600 dark:text-indigo-400">{email}</span>
+          We've sent a verification link to <span className="font-semibold text-green-600 dark:text-green-400">{email}</span>
         </p>
-        <div className="bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-800 rounded-xl p-4 mb-6">
-          <p className="text-amber-800 dark:text-amber-200 text-sm">
+        <div className="bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-xl p-4 mb-6">
+          <p className="text-green-800 dark:text-green-200 text-sm">
             Click the link in your email to verify your account and continue to onboarding.
           </p>
         </div>
@@ -87,8 +87,8 @@ export default function SignupPage() {
   return (
     <div className="max-w-md mx-auto py-16 px-4">
       <div className="text-center mb-8">
-        <div className="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
-          <Sparkles className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
+        <div className="w-16 h-16 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
+          <Sparkles className="w-8 h-8 text-green-600 dark:text-green-400" />
         </div>
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
           Create Your Account
@@ -116,7 +116,7 @@ export default function SignupPage() {
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               placeholder="Enter your name"
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent"
               required
             />
           </div>
@@ -133,7 +133,7 @@ export default function SignupPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent"
               required
             />
           </div>
@@ -150,7 +150,7 @@ export default function SignupPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="At least 6 characters"
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent"
               minLength={6}
               required
             />
@@ -160,7 +160,7 @@ export default function SignupPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl font-medium hover:bg-green-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? (
             <>
@@ -178,7 +178,7 @@ export default function SignupPage() {
 
       <p className="mt-6 text-center text-gray-600 dark:text-gray-400">
         Already have an account?{' '}
-        <Link href="/login" className="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">
+        <Link href="/login" className="text-green-600 dark:text-green-400 hover:underline font-medium">
           Sign in
         </Link>
       </p>

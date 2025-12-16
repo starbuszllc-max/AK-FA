@@ -36,8 +36,8 @@ const levelColors: Record<number, { bg: string; text: string; bar: string }> = {
   1: { bg: 'bg-gray-100', text: 'text-gray-700', bar: 'bg-gray-400' },
   2: { bg: 'bg-blue-100', text: 'text-blue-700', bar: 'bg-blue-500' },
   3: { bg: 'bg-purple-100', text: 'text-purple-700', bar: 'bg-purple-500' },
-  4: { bg: 'bg-amber-100', text: 'text-amber-700', bar: 'bg-amber-500' },
-  5: { bg: 'bg-gradient-to-r from-amber-100 to-yellow-100', text: 'text-amber-800', bar: 'bg-gradient-to-r from-amber-500 to-yellow-500' }
+  4: { bg: 'bg-green-100', text: 'text-green-700', bar: 'bg-green-500' },
+  5: { bg: 'bg-gradient-to-r from-green-100 to-yellow-100', text: 'text-green-800', bar: 'bg-gradient-to-r from-green-500 to-yellow-500' }
 };
 
 export function LevelDisplay({ score }: LevelDisplayProps) {

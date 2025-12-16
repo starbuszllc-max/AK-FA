@@ -50,9 +50,9 @@ const layerColors: Record<string, string> = {
   environment: 'bg-emerald-500',
   bio: 'bg-rose-500',
   internal: 'bg-purple-500',
-  cultural: 'bg-amber-500',
+  cultural: 'bg-green-500',
   social: 'bg-blue-500',
-  conscious: 'bg-indigo-500',
+  conscious: 'bg-green-500',
   existential: 'bg-violet-500'
 };
 
@@ -163,11 +163,11 @@ export default function SavedRoutines({ userId, availableChallenges = [] }: Save
     return (
       <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-gray-200 dark:border-slate-700">
         <div className="flex items-center gap-2 mb-4">
-          <Repeat className="w-5 h-5 text-indigo-500" />
+          <Repeat className="w-5 h-5 text-green-500" />
           <h3 className="font-semibold text-gray-900 dark:text-white">Saved Routines</h3>
         </div>
         <div className="flex items-center justify-center py-8">
-          <Loader2 className="w-6 h-6 animate-spin text-indigo-500" />
+          <Loader2 className="w-6 h-6 animate-spin text-green-500" />
         </div>
       </div>
     );
@@ -178,12 +178,12 @@ export default function SavedRoutines({ userId, availableChallenges = [] }: Save
       <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-gray-200 dark:border-slate-700">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <Repeat className="w-5 h-5 text-indigo-500" />
+            <Repeat className="w-5 h-5 text-green-500" />
             <h3 className="font-semibold text-gray-900 dark:text-white">Saved Routines</h3>
           </div>
           <button
             onClick={() => setShowCreateModal(true)}
-            className="flex items-center gap-1 px-3 py-1.5 text-sm bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+            className="flex items-center gap-1 px-3 py-1.5 text-sm bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
           >
             <Plus className="w-4 h-4" />
             New
@@ -200,7 +200,7 @@ export default function SavedRoutines({ userId, availableChallenges = [] }: Save
             </p>
             <button
               onClick={() => setShowCreateModal(true)}
-              className="text-indigo-600 dark:text-indigo-400 text-sm font-medium hover:underline"
+              className="text-green-600 dark:text-green-400 text-sm font-medium hover:underline"
             >
               Create your first routine
             </button>
@@ -248,7 +248,7 @@ export default function SavedRoutines({ userId, availableChallenges = [] }: Save
                   </div>
                   <div className="flex items-center gap-2">
                     <button
-                      className="p-2 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-lg transition-colors"
+                      className="p-2 text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/30 rounded-lg transition-colors"
                       title="Start routine"
                     >
                       <Play className="w-4 h-4" />
@@ -309,7 +309,7 @@ export default function SavedRoutines({ userId, availableChallenges = [] }: Save
                     value={newRoutine.name}
                     onChange={(e) => setNewRoutine(prev => ({ ...prev, name: e.target.value }))}
                     placeholder="e.g., Morning Growth Routine"
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-transparent"
                   />
                 </div>
 
@@ -322,7 +322,7 @@ export default function SavedRoutines({ userId, availableChallenges = [] }: Save
                     onChange={(e) => setNewRoutine(prev => ({ ...prev, description: e.target.value }))}
                     placeholder="What's this routine for?"
                     rows={2}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none"
                   />
                 </div>
 
@@ -337,7 +337,7 @@ export default function SavedRoutines({ userId, availableChallenges = [] }: Save
                         onClick={() => setNewRoutine(prev => ({ ...prev, frequency: freq }))}
                         className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-colors ${
                           newRoutine.frequency === freq
-                            ? 'bg-indigo-600 text-white'
+                            ? 'bg-green-600 text-white'
                             : 'bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-600'
                         }`}
                       >
@@ -359,7 +359,7 @@ export default function SavedRoutines({ userId, availableChallenges = [] }: Save
                           onClick={() => toggleChallengeSelection(challenge.id)}
                           className={`w-full flex items-center justify-between p-3 rounded-lg border transition-colors ${
                             newRoutine.selectedChallenges.includes(challenge.id)
-                              ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30'
+                              ? 'border-green-500 bg-green-50 dark:bg-green-900/30'
                               : 'border-gray-200 dark:border-slate-600 hover:border-gray-300'
                           }`}
                         >
@@ -370,7 +370,7 @@ export default function SavedRoutines({ userId, availableChallenges = [] }: Save
                             </span>
                           </div>
                           {newRoutine.selectedChallenges.includes(challenge.id) && (
-                            <Check className="w-4 h-4 text-indigo-600" />
+                            <Check className="w-4 h-4 text-green-600" />
                           )}
                         </button>
                       ))}
@@ -389,7 +389,7 @@ export default function SavedRoutines({ userId, availableChallenges = [] }: Save
                 <button
                   onClick={handleCreateRoutine}
                   disabled={creating || !newRoutine.name.trim()}
-                  className="flex-1 py-2 px-4 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                  className="flex-1 py-2 px-4 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
                 >
                   {creating ? (
                     <>

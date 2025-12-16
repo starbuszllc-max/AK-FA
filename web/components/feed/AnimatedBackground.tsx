@@ -5,10 +5,10 @@ import { motion } from 'framer-motion';
 export default function AnimatedBackground() {
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-      <div className="absolute inset-0 bg-gradient-to-b from-indigo-50/50 via-white to-purple-50/30 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950/50 amoled:from-black amoled:via-black amoled:to-black" />
+      <div className="absolute inset-0 bg-gradient-to-b from-green-50/50 via-white to-purple-50/30 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950/50 amoled:from-black amoled:via-black amoled:to-black" />
       
       <motion.div
-        className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-indigo-200/20 to-purple-200/20 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-full blur-3xl"
+        className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-green-200/20 to-purple-200/20 dark:from-green-900/20 dark:to-purple-900/20 rounded-full blur-3xl"
         animate={{
           x: [0, 30, 0],
           y: [0, -20, 0],
@@ -22,7 +22,7 @@ export default function AnimatedBackground() {
       />
       
       <motion.div
-        className="absolute top-40 right-20 w-96 h-96 bg-gradient-to-bl from-rose-200/15 to-amber-200/15 dark:from-rose-900/15 dark:to-amber-900/15 rounded-full blur-3xl"
+        className="absolute top-40 right-20 w-96 h-96 bg-gradient-to-bl from-rose-200/15 to-green-200/15 dark:from-rose-900/15 dark:to-green-900/15 rounded-full blur-3xl"
         animate={{
           x: [0, -40, 0],
           y: [0, 30, 0],
@@ -54,7 +54,7 @@ export default function AnimatedBackground() {
       {[...Array(6)].map((_, i) => (
         <motion.div
           key={i}
-          className="absolute w-2 h-2 bg-indigo-400/20 dark:bg-indigo-500/20 rounded-full"
+          className="absolute w-2 h-2 bg-green-400/20 dark:bg-green-500/20 rounded-full"
           style={{
             left: `${15 + i * 15}%`,
             top: `${20 + (i % 3) * 25}%`,

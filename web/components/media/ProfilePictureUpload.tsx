@@ -78,7 +78,7 @@ export default function ProfilePictureUpload({
         {displayUrl ? (
           <img src={displayUrl} alt="Profile" className="w-full h-full object-cover" />
         ) : (
-          <div className="w-full h-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center">
+          <div className="w-full h-full bg-gradient-to-br from-purple-500 to-green-600 flex items-center justify-center">
             <User className="w-1/2 h-1/2 text-white/80" />
           </div>
         )}

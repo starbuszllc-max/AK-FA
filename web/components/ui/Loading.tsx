@@ -17,7 +17,7 @@ export default function Loading({ message = 'Loading...', size = 'md', className
 
   return (
     <div className={`flex flex-col items-center justify-center py-8 ${className}`}>
-      <div className={`${sizeClasses[size]} border-indigo-600 border-t-transparent rounded-full animate-spin`}></div>
+      <div className={`${sizeClasses[size]} border-green-600 border-t-transparent rounded-full animate-spin`}></div>
       {message && <span className="mt-2 text-gray-500 text-sm">{message}</span>}
     </div>
   );

@@ -19,12 +19,12 @@ const FILTERS: Filter[] = [
   { id: 'vivid', name: 'Vivid', style: 'saturate(1.4) contrast(1.1)', thumbnail: 'bg-pink-500' },
   { id: 'warm', name: 'Warm', style: 'sepia(0.3) saturate(1.2) brightness(1.05)', thumbnail: 'bg-orange-500' },
   { id: 'cool', name: 'Cool', style: 'hue-rotate(-15deg) saturate(1.1) brightness(1.05)', thumbnail: 'bg-blue-500' },
-  { id: 'vintage', name: 'Vintage', style: 'sepia(0.5) contrast(1.1) brightness(0.95)', thumbnail: 'bg-amber-700' },
+  { id: 'vintage', name: 'Vintage', style: 'sepia(0.5) contrast(1.1) brightness(0.95)', thumbnail: 'bg-green-700' },
   { id: 'noir', name: 'B&W', style: 'grayscale(1) contrast(1.2)', thumbnail: 'bg-gray-800' },
   { id: 'fade', name: 'Fade', style: 'contrast(0.9) brightness(1.1) saturate(0.8)', thumbnail: 'bg-slate-400' },
   { id: 'dramatic', name: 'Drama', style: 'contrast(1.3) saturate(1.2) brightness(0.9)', thumbnail: 'bg-purple-700' },
   { id: 'dreamy', name: 'Dreamy', style: 'brightness(1.1) saturate(0.9) blur(0.3px)', thumbnail: 'bg-pink-300' },
-  { id: 'cinematic', name: 'Cinema', style: 'contrast(1.2) saturate(1.1) sepia(0.15)', thumbnail: 'bg-indigo-600' },
+  { id: 'cinematic', name: 'Cinema', style: 'contrast(1.2) saturate(1.1) sepia(0.15)', thumbnail: 'bg-green-600' },
 ];
 
 const SPEED_OPTIONS = [
@@ -305,7 +305,7 @@ export default function TikTokCamera({ onClose, onComplete, userId }: TikTokCame
         <div className="text-center text-white p-8">
           <Camera className="w-16 h-16 mx-auto mb-4 opacity-50" />
           <p className="text-lg mb-4">{error}</p>
-          <button onClick={startCamera} className="px-6 py-3 bg-indigo-600 rounded-xl font-medium mr-3">
+          <button onClick={startCamera} className="px-6 py-3 bg-green-600 rounded-xl font-medium mr-3">
             Try Again
           </button>
           <button onClick={onClose} className="px-6 py-3 bg-gray-700 rounded-xl font-medium">
@@ -589,7 +589,7 @@ export default function TikTokCamera({ onClose, onComplete, userId }: TikTokCame
               {segments.length > 0 && (
                 <button
                   onClick={handleComplete}
-                  className="w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center text-white"
+                  className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center text-white"
                 >
                   <Check className="w-6 h-6" />
                 </button>
@@ -627,7 +627,7 @@ export default function TikTokCamera({ onClose, onComplete, userId }: TikTokCame
             </button>
             <button
               onClick={handleComplete}
-              className="px-8 py-3 bg-indigo-600 text-white rounded-full font-medium flex items-center gap-2"
+              className="px-8 py-3 bg-green-600 text-white rounded-full font-medium flex items-center gap-2"
             >
               <Check className="w-5 h-5" />
               Continue

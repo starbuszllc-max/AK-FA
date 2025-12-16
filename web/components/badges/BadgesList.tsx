@@ -73,7 +73,7 @@ export function BadgesList({ userId }: BadgesListProps) {
           <div className="bg-white rounded-xl shadow-2xl p-8 text-center animate-bounce pointer-events-auto">
             <div className="text-4xl mb-4">🎉</div>
             <h3 className="text-xl font-bold text-gray-800">Badge Earned!</h3>
-            <p className="text-amber-600 font-semibold mt-2">{showNewBadge.name}</p>
+            <p className="text-green-600 font-semibold mt-2">{showNewBadge.name}</p>
             <p className="text-gray-500 text-sm mt-1">{showNewBadge.description}</p>
           </div>
         </div>

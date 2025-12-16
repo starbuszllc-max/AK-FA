@@ -73,7 +73,7 @@ export default function ChallengeList({ refreshTrigger }: ChallengeListProps) {
     return (
       <div className="flex justify-center py-8">
         <div className="animate-pulse flex flex-col items-center gap-2">
-          <div className="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+          <div className="w-8 h-8 border-4 border-green-500 border-t-transparent rounded-full animate-spin"></div>
           <span className="text-gray-500">Loading challenges...</span>
         </div>
       </div>

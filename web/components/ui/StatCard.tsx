@@ -32,7 +32,7 @@ export default function StatCard({ title, value, subtitle, icon, trend, classNam
           )}
         </div>
         {icon && (
-          <div className="p-2 bg-indigo-50 dark:bg-indigo-900/30 rounded-md text-indigo-600 dark:text-indigo-400">
+          <div className="p-2 bg-green-50 dark:bg-green-900/30 rounded-md text-green-600 dark:text-green-400">
             {icon}
           </div>
         )}

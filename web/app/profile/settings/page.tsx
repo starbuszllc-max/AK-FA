@@ -186,7 +186,7 @@ export default function ProfileSettingsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
       </div>
     );
   }
@@ -194,14 +194,14 @@ export default function ProfileSettingsPage() {
   if (!userId) {
     return (
       <div className="max-w-md mx-auto text-center py-16">
-        <div className="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
-          <User className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
+        <div className="w-16 h-16 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
+          <User className="w-8 h-8 text-green-600 dark:text-green-400" />
         </div>
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Settings</h2>
         <p className="text-gray-600 dark:text-gray-300 mb-6">Please sign up to access settings.</p>
         <Link
           href="/signup"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700 transition-all"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl font-medium hover:bg-green-700 transition-all"
         >
           Get Started
         </Link>
@@ -252,7 +252,7 @@ export default function ProfileSettingsPage() {
                   onClick={() => setActiveTab(tab.id)}
                   className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-all ${
                     activeTab === tab.id
-                      ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 border-l-4 border-indigo-600'
+                      ? 'bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 border-l-4 border-green-600'
                       : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 border-l-4 border-transparent'
                   }`}
                 >
@@ -306,7 +306,7 @@ export default function ProfileSettingsPage() {
                           type="text"
                           value={profile.username}
                           onChange={(e) => setProfile({ ...profile, username: e.target.value })}
-                          className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-xl dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                          className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-xl dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
                           placeholder="Your username"
                         />
                       </div>
@@ -316,7 +316,7 @@ export default function ProfileSettingsPage() {
                           type="text"
                           value={profile.fullName}
                           onChange={(e) => setProfile({ ...profile, fullName: e.target.value })}
-                          className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-xl dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                          className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-xl dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
                           placeholder="Your full name"
                         />
                       </div>
@@ -328,7 +328,7 @@ export default function ProfileSettingsPage() {
                         value={profile.bio}
                         onChange={(e) => setProfile({ ...profile, bio: e.target.value })}
                         rows={4}
-                        className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-xl dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all resize-none"
+                        className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-xl dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all resize-none"
                         placeholder="Tell us about yourself..."
                         maxLength={300}
                       />
@@ -338,7 +338,7 @@ export default function ProfileSettingsPage() {
                     <button
                       onClick={saveProfile}
                       disabled={saving}
-                      className="mt-6 w-full py-3 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
+                      className="mt-6 w-full py-3 bg-green-600 text-white rounded-xl font-medium hover:bg-green-700 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
                     >
                       {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                       Save Changes
@@ -353,7 +353,7 @@ export default function ProfileSettingsPage() {
                         className="w-full flex items-center justify-between p-4 rounded-xl border border-gray-200 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-700 transition-all"
                       >
                         <div className="flex items-center gap-3">
-                          <Download className="w-5 h-5 text-indigo-500" />
+                          <Download className="w-5 h-5 text-green-500" />
                           <div className="text-left">
                             <p className="font-medium text-gray-900 dark:text-white">Export Your Data</p>
                             <p className="text-sm text-gray-500 dark:text-gray-400">Download a copy of your data</p>
@@ -373,8 +373,8 @@ export default function ProfileSettingsPage() {
                   <div className="space-y-4">
                     <div className="flex items-center justify-between p-4 rounded-xl border border-gray-200 dark:border-slate-600">
                       <div className="flex items-center gap-4">
-                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${appSettings.darkMode ? 'bg-slate-700' : 'bg-amber-100'}`}>
-                          {appSettings.darkMode ? <Moon className="w-6 h-6 text-indigo-400" /> : <Sun className="w-6 h-6 text-amber-500" />}
+                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${appSettings.darkMode ? 'bg-slate-700' : 'bg-green-100'}`}>
+                          {appSettings.darkMode ? <Moon className="w-6 h-6 text-green-400" /> : <Sun className="w-6 h-6 text-green-500" />}
                         </div>
                         <div>
                           <p className="font-medium text-gray-900 dark:text-white">Theme</p>
@@ -383,22 +383,22 @@ export default function ProfileSettingsPage() {
                       </div>
                       <button
                         onClick={toggleDarkMode}
-                        className={`relative w-14 h-8 rounded-full transition-colors ${appSettings.darkMode ? 'bg-indigo-600' : 'bg-gray-300 dark:bg-slate-600'}`}
+                        className={`relative w-14 h-8 rounded-full transition-colors ${appSettings.darkMode ? 'bg-green-600' : 'bg-gray-300 dark:bg-slate-600'}`}
                       >
                         <motion.span
                           className="absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow-md flex items-center justify-center"
                           animate={{ x: appSettings.darkMode ? 24 : 0 }}
                           transition={{ type: 'spring', stiffness: 500, damping: 30 }}
                         >
-                          {appSettings.darkMode ? <Moon className="w-3 h-3 text-indigo-600" /> : <Sun className="w-3 h-3 text-amber-500" />}
+                          {appSettings.darkMode ? <Moon className="w-3 h-3 text-green-600" /> : <Sun className="w-3 h-3 text-green-500" />}
                         </motion.span>
                       </button>
                     </div>
 
                     <div className="p-4 rounded-xl border border-gray-200 dark:border-slate-600">
                       <div className="flex items-center gap-4 mb-4">
-                        <div className="w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center">
-                          <Languages className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+                        <div className="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/50 flex items-center justify-center">
+                          <Languages className="w-6 h-6 text-green-600 dark:text-green-400" />
                         </div>
                         <div>
                           <p className="font-medium text-gray-900 dark:text-white">Language</p>
@@ -408,7 +408,7 @@ export default function ProfileSettingsPage() {
                       <select
                         value={appSettings.language}
                         onChange={(e) => setAppSettings({ ...appSettings, language: e.target.value })}
-                        className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-xl dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-indigo-500"
+                        className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-xl dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-green-500"
                       >
                         <option value="en">English</option>
                         <option value="es">Spanish</option>
@@ -428,8 +428,8 @@ export default function ProfileSettingsPage() {
                   <div className="space-y-4">
                     <div className="flex items-center justify-between p-4 rounded-xl border border-gray-200 dark:border-slate-600">
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center">
-                          <Smartphone className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+                        <div className="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/50 flex items-center justify-center">
+                          <Smartphone className="w-6 h-6 text-green-600 dark:text-green-400" />
                         </div>
                         <div>
                           <p className="font-medium text-gray-900 dark:text-white">Push Notifications</p>
@@ -438,7 +438,7 @@ export default function ProfileSettingsPage() {
                       </div>
                       <button
                         onClick={() => setAppSettings(prev => ({ ...prev, notifications: !prev.notifications }))}
-                        className={`relative w-14 h-8 rounded-full transition-colors ${appSettings.notifications ? 'bg-indigo-600' : 'bg-gray-300 dark:bg-slate-600'}`}
+                        className={`relative w-14 h-8 rounded-full transition-colors ${appSettings.notifications ? 'bg-green-600' : 'bg-gray-300 dark:bg-slate-600'}`}
                       >
                         <motion.span
                           className="absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow-md"
@@ -450,8 +450,8 @@ export default function ProfileSettingsPage() {
 
                     <div className="flex items-center justify-between p-4 rounded-xl border border-gray-200 dark:border-slate-600">
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center">
-                          <Mail className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+                        <div className="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/50 flex items-center justify-center">
+                          <Mail className="w-6 h-6 text-green-600 dark:text-green-400" />
                         </div>
                         <div>
                           <p className="font-medium text-gray-900 dark:text-white">Email Notifications</p>
@@ -460,7 +460,7 @@ export default function ProfileSettingsPage() {
                       </div>
                       <button
                         onClick={() => setAppSettings(prev => ({ ...prev, emailNotifications: !prev.emailNotifications }))}
-                        className={`relative w-14 h-8 rounded-full transition-colors ${appSettings.emailNotifications ? 'bg-indigo-600' : 'bg-gray-300 dark:bg-slate-600'}`}
+                        className={`relative w-14 h-8 rounded-full transition-colors ${appSettings.emailNotifications ? 'bg-green-600' : 'bg-gray-300 dark:bg-slate-600'}`}
                       >
                         <motion.span
                           className="absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow-md"
@@ -481,8 +481,8 @@ export default function ProfileSettingsPage() {
                     <div className="space-y-4">
                       <div className="flex items-center justify-between p-4 rounded-xl border border-gray-200 dark:border-slate-600">
                         <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center">
-                            <Globe className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+                          <div className="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/50 flex items-center justify-center">
+                            <Globe className="w-6 h-6 text-green-600 dark:text-green-400" />
                           </div>
                           <div>
                             <p className="font-medium text-gray-900 dark:text-white">Public Profile</p>
@@ -491,7 +491,7 @@ export default function ProfileSettingsPage() {
                         </div>
                         <button
                           onClick={() => setAppSettings(prev => ({ ...prev, publicProfile: !prev.publicProfile }))}
-                          className={`relative w-14 h-8 rounded-full transition-colors ${appSettings.publicProfile ? 'bg-indigo-600' : 'bg-gray-300 dark:bg-slate-600'}`}
+                          className={`relative w-14 h-8 rounded-full transition-colors ${appSettings.publicProfile ? 'bg-green-600' : 'bg-gray-300 dark:bg-slate-600'}`}
                         >
                           <motion.span
                             className="absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow-md"
@@ -503,8 +503,8 @@ export default function ProfileSettingsPage() {
 
                       <div className="flex items-center justify-between p-4 rounded-xl border border-gray-200 dark:border-slate-600">
                         <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center">
-                            {appSettings.showActivity ? <Eye className="w-6 h-6 text-indigo-600 dark:text-indigo-400" /> : <EyeOff className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />}
+                          <div className="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/50 flex items-center justify-center">
+                            {appSettings.showActivity ? <Eye className="w-6 h-6 text-green-600 dark:text-green-400" /> : <EyeOff className="w-6 h-6 text-green-600 dark:text-green-400" />}
                           </div>
                           <div>
                             <p className="font-medium text-gray-900 dark:text-white">Show Activity</p>
@@ -513,7 +513,7 @@ export default function ProfileSettingsPage() {
                         </div>
                         <button
                           onClick={() => setAppSettings(prev => ({ ...prev, showActivity: !prev.showActivity }))}
-                          className={`relative w-14 h-8 rounded-full transition-colors ${appSettings.showActivity ? 'bg-indigo-600' : 'bg-gray-300 dark:bg-slate-600'}`}
+                          className={`relative w-14 h-8 rounded-full transition-colors ${appSettings.showActivity ? 'bg-green-600' : 'bg-gray-300 dark:bg-slate-600'}`}
                         >
                           <motion.span
                             className="absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow-md"
@@ -529,7 +529,7 @@ export default function ProfileSettingsPage() {
                     <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Security</h2>
                     <button className="w-full flex items-center justify-between p-4 rounded-xl border border-gray-200 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-700 transition-all">
                       <div className="flex items-center gap-3">
-                        <Lock className="w-5 h-5 text-indigo-500" />
+                        <Lock className="w-5 h-5 text-green-500" />
                         <div className="text-left">
                           <p className="font-medium text-gray-900 dark:text-white">Change Password</p>
                           <p className="text-sm text-gray-500 dark:text-gray-400">Update your account password</p>
@@ -565,28 +565,28 @@ export default function ProfileSettingsPage() {
                   <div className="space-y-3">
                     <a href="#" className="flex items-center justify-between p-4 rounded-xl border border-gray-200 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-700 transition-all">
                       <div className="flex items-center gap-3">
-                        <HelpCircle className="w-5 h-5 text-indigo-500" />
+                        <HelpCircle className="w-5 h-5 text-green-500" />
                         <span className="font-medium text-gray-900 dark:text-white">FAQ</span>
                       </div>
                       <ChevronRight className="w-5 h-5 text-gray-400" />
                     </a>
                     <a href="#" className="flex items-center justify-between p-4 rounded-xl border border-gray-200 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-700 transition-all">
                       <div className="flex items-center gap-3">
-                        <Mail className="w-5 h-5 text-indigo-500" />
+                        <Mail className="w-5 h-5 text-green-500" />
                         <span className="font-medium text-gray-900 dark:text-white">Contact Support</span>
                       </div>
                       <ChevronRight className="w-5 h-5 text-gray-400" />
                     </a>
                     <a href="#" className="flex items-center justify-between p-4 rounded-xl border border-gray-200 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-700 transition-all">
                       <div className="flex items-center gap-3">
-                        <Shield className="w-5 h-5 text-indigo-500" />
+                        <Shield className="w-5 h-5 text-green-500" />
                         <span className="font-medium text-gray-900 dark:text-white">Privacy Policy</span>
                       </div>
                       <ChevronRight className="w-5 h-5 text-gray-400" />
                     </a>
                     <a href="#" className="flex items-center justify-between p-4 rounded-xl border border-gray-200 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-700 transition-all">
                       <div className="flex items-center gap-3">
-                        <Globe className="w-5 h-5 text-indigo-500" />
+                        <Globe className="w-5 h-5 text-green-500" />
                         <span className="font-medium text-gray-900 dark:text-white">Terms of Service</span>
                       </div>
                       <ChevronRight className="w-5 h-5 text-gray-400" />

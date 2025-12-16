@@ -124,7 +124,7 @@ export default function CategoryTabs({ activeCategory, onCategoryChange, variant
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -5, scale: 0.9 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute top-full right-0 mt-1 px-2 py-1 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full"
+                    className="absolute top-full right-0 mt-1 px-2 py-1 bg-gradient-to-r from-purple-600 to-green-600 rounded-full"
                   >
                     <span className="text-xs font-bold text-white whitespace-nowrap">
                       {Math.round(akorScore)}
@@ -151,13 +151,13 @@ export default function CategoryTabs({ activeCategory, onCategoryChange, variant
             {activeCategory === category.id && (
               <motion.div
                 layoutId="activeTabNormal"
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-500"
+                className="absolute bottom-0 left-0 right-0 h-0.5 bg-green-500"
                 transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
               />
             )}
             <span className={
               activeCategory === category.id 
-                ? 'text-indigo-600 dark:text-indigo-400' 
+                ? 'text-green-600 dark:text-green-400' 
                 : 'text-gray-600 dark:text-gray-400'
             }>
               {category.label}

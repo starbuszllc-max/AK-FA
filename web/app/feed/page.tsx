@@ -207,10 +207,10 @@ export default function FeedPage() {
               animate={{ opacity: 1, y: 0 }}
               className="mb-6"
             >
-              <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-slate-900 via-amber-600 to-yellow-600 dark:from-amber-300 dark:via-amber-500 dark:to-yellow-500 bg-clip-text text-transparent">
+              <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-slate-900 via-green-600 to-yellow-600 dark:from-green-300 dark:via-green-500 dark:to-yellow-500 bg-clip-text text-transparent">
                 Community Feed
               </h1>
-              <p className="text-slate-600 dark:text-amber-200/70 mt-1 font-medium">
+              <p className="text-slate-600 dark:text-green-200/70 mt-1 font-medium">
                 Discover insights from the Akorfa community
               </p>
             </motion.div>
@@ -375,7 +375,7 @@ export default function FeedPage() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="relative mb-6">
-              <div className="w-24 h-24 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center mx-auto shadow-lg shadow-amber-500/30">
+              <div className="w-24 h-24 bg-gradient-to-br from-green-400 to-orange-500 rounded-full flex items-center justify-center mx-auto shadow-lg shadow-green-500/30">
                 <Trophy className="w-12 h-12 text-white" />
               </div>
               <motion.div
@@ -384,7 +384,7 @@ export default function FeedPage() {
                 transition={{ delay: 0.3, type: 'spring' }}
                 className="absolute -top-2 -right-2 w-8 h-8"
               >
-                <Sparkles className="w-8 h-8 text-amber-400" />
+                <Sparkles className="w-8 h-8 text-green-400" />
               </motion.div>
               <motion.div
                 initial={{ scale: 0 }}
@@ -421,7 +421,7 @@ export default function FeedPage() {
               <Link
                 href="/profile"
                 onClick={() => setShowProfileUnlockedModal(false)}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-medium hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg shadow-indigo-500/25"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-600 to-purple-600 text-white rounded-xl font-medium hover:from-green-700 hover:to-purple-700 transition-all shadow-lg shadow-green-500/25"
               >
                 View Your Profile
                 <ChevronRight className="w-5 h-5" />

@@ -60,7 +60,7 @@ export default function NewsPage() {
       <div className="sticky top-0 z-40 bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-700 shadow-sm">
         <div className="max-w-6xl mx-auto px-3 py-3">
           <div className="flex items-center gap-2 mb-3">
-            <Newspaper className="w-6 h-6 text-indigo-500" />
+            <Newspaper className="w-6 h-6 text-green-500" />
             <div>
               <h1 className="text-lg font-bold text-gray-900 dark:text-white">Verified News</h1>
               <p className="text-xs text-gray-600 dark:text-gray-400">Trusted sources</p>
@@ -73,7 +73,7 @@ export default function NewsPage() {
                 onClick={() => setCategory(cat.id)}
                 className={`px-3 py-1.5 rounded-full whitespace-nowrap text-xs font-medium transition-colors ${
                   category === cat.id
-                    ? 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-300'
+                    ? 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-300'
                     : 'bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-slate-700'
                 }`}
               >
@@ -142,7 +142,7 @@ export default function NewsPage() {
                       <span className="text-xs font-medium text-gray-700 dark:text-gray-300 truncate">
                         {article.newsSource.name}
                       </span>
-                      <span className="ml-auto px-1.5 py-0.5 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-300 text-[10px] rounded-full flex-shrink-0">
+                      <span className="ml-auto px-1.5 py-0.5 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-300 text-[10px] rounded-full flex-shrink-0">
                         {article.category}
                       </span>
                     </div>
@@ -163,7 +163,7 @@ export default function NewsPage() {
                         href={article.sourceUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-0.5 text-indigo-600 dark:text-indigo-400 hover:underline"
+                        className="flex items-center gap-0.5 text-green-600 dark:text-green-400 hover:underline"
                       >
                         Read
                         <ExternalLink className="w-2.5 h-2.5" />

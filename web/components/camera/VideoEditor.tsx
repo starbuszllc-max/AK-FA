@@ -175,7 +175,7 @@ export default function VideoEditor({ mediaUrl, mediaType, onComplete, onBack }:
 
         <button
           onClick={handleComplete}
-          className="px-4 py-2 bg-indigo-600 text-white rounded-full text-sm font-medium"
+          className="px-4 py-2 bg-green-600 text-white rounded-full text-sm font-medium"
         >
           Next
         </button>
@@ -257,7 +257,7 @@ export default function VideoEditor({ mediaUrl, mediaType, onComplete, onBack }:
             </button>
             <div className="flex-1 h-1 bg-gray-700 rounded-full overflow-hidden">
               <div
-                className="h-full bg-indigo-500"
+                className="h-full bg-green-500"
                 style={{ width: `${(currentTime / duration) * 100}%` }}
               />
             </div>
@@ -297,7 +297,7 @@ export default function VideoEditor({ mediaUrl, mediaType, onComplete, onBack }:
           onClick={() => setShowMusicPicker(true)}
           className="flex flex-col items-center gap-1 text-white"
         >
-          <div className={`w-12 h-12 rounded-full flex items-center justify-center ${selectedMusic ? 'bg-indigo-600' : 'bg-white/10'}`}>
+          <div className={`w-12 h-12 rounded-full flex items-center justify-center ${selectedMusic ? 'bg-green-600' : 'bg-white/10'}`}>
             <Music className="w-6 h-6" />
           </div>
           <span className="text-xs">Sound</span>

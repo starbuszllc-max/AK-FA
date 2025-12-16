@@ -40,9 +40,9 @@ const layerColors: Record<string, { bg: string; text: string }> = {
   environment: { bg: 'bg-emerald-100', text: 'text-emerald-700' },
   bio: { bg: 'bg-rose-100', text: 'text-rose-700' },
   internal: { bg: 'bg-purple-100', text: 'text-purple-700' },
-  cultural: { bg: 'bg-amber-100', text: 'text-amber-700' },
+  cultural: { bg: 'bg-green-100', text: 'text-green-700' },
   social: { bg: 'bg-blue-100', text: 'text-blue-700' },
-  conscious: { bg: 'bg-indigo-100', text: 'text-indigo-700' },
+  conscious: { bg: 'bg-green-100', text: 'text-green-700' },
   existential: { bg: 'bg-violet-100', text: 'text-violet-700' },
 };
 
@@ -190,7 +190,7 @@ export default function PostCard({ post, currentUserId, onLike, onCommentAdded }
               className="w-8 h-8 md:w-9 md:h-9 rounded-full object-cover"
             />
           ) : (
-            <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white text-sm font-medium">
+            <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-gradient-to-br from-green-500 to-purple-500 flex items-center justify-center text-white text-sm font-medium">
               {username.charAt(0).toUpperCase()}
             </div>
           )}
@@ -322,7 +322,7 @@ export default function PostCard({ post, currentUserId, onLike, onCommentAdded }
                 <button
                   type="submit"
                   disabled={!newComment.trim() || submittingComment}
-                  className="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shrink-0"
+                  className="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shrink-0"
                 >
                   {submittingComment ? '...' : 'Send'}
                 </button>

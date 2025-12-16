@@ -72,7 +72,7 @@ export default function DailyFlow({ userId, onClose }: DailyFlowProps) {
             ? 'Your assessment is up to date!' 
             : 'Take a quick assessment to understand your current state',
           icon: <Target className="w-6 h-6" />,
-          color: 'from-indigo-500 to-purple-500',
+          color: 'from-green-500 to-purple-500',
           action: hasRecentAssessment ? 'View Results' : 'Start Assessment',
           href: '/assessments',
           completed: hasRecentAssessment
@@ -188,7 +188,7 @@ export default function DailyFlow({ userId, onClose }: DailyFlowProps) {
 
   return (
     <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl overflow-hidden">
-      <div className="bg-gradient-to-r from-indigo-500 to-purple-600 p-4">
+      <div className="bg-gradient-to-r from-green-500 to-purple-600 p-4">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-white font-bold text-lg">Your Daily Journey</h2>
@@ -224,13 +224,13 @@ export default function DailyFlow({ userId, onClose }: DailyFlowProps) {
 
       <div className="p-4 space-y-3">
         {focusLayer && (
-          <div className="flex items-center gap-2 px-3 py-2 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg">
-            <div className="w-6 h-6 bg-indigo-500 rounded-full flex items-center justify-center text-white">
+          <div className="flex items-center gap-2 px-3 py-2 bg-green-50 dark:bg-green-900/30 rounded-lg">
+            <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white">
               {getLayerIcon(focusLayer)}
             </div>
             <div className="text-sm">
               <span className="text-gray-600 dark:text-gray-400">Today's focus: </span>
-              <span className="font-semibold text-indigo-600 dark:text-indigo-400 capitalize">
+              <span className="font-semibold text-green-600 dark:text-green-400 capitalize">
                 {focusLayer} Layer
               </span>
             </div>
@@ -247,7 +247,7 @@ export default function DailyFlow({ userId, onClose }: DailyFlowProps) {
               step.completed 
                 ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800' 
                 : idx === currentStep 
-                  ? 'bg-white dark:bg-slate-700 border-indigo-300 dark:border-indigo-600 shadow-lg' 
+                  ? 'bg-white dark:bg-slate-700 border-green-300 dark:border-green-600 shadow-lg' 
                   : 'bg-gray-50 dark:bg-slate-800 border-gray-200 dark:border-slate-700 opacity-60'
             }`}
           >
@@ -281,7 +281,7 @@ export default function DailyFlow({ userId, onClose }: DailyFlowProps) {
                 <Link
                   href={step.href}
                   onClick={() => markStepComplete(step.id)}
-                  className="flex items-center gap-1 px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-sm font-medium rounded-lg hover:from-indigo-600 hover:to-purple-600 transition-all shadow-lg shadow-indigo-500/25"
+                  className="flex items-center gap-1 px-4 py-2 bg-gradient-to-r from-green-500 to-purple-500 text-white text-sm font-medium rounded-lg hover:from-green-600 hover:to-purple-600 transition-all shadow-lg shadow-green-500/25"
                 >
                   {step.action}
                   <ArrowRight className="w-4 h-4" />

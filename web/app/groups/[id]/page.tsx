@@ -41,9 +41,9 @@ const layerColors: Record<string, string> = {
   environment: 'from-green-500 to-emerald-500',
   biological: 'from-blue-500 to-cyan-500',
   internal: 'from-purple-500 to-violet-500',
-  cultural: 'from-orange-500 to-amber-500',
+  cultural: 'from-orange-500 to-green-500',
   social: 'from-pink-500 to-rose-500',
-  conscious: 'from-indigo-500 to-blue-500',
+  conscious: 'from-green-500 to-blue-500',
   existential: 'from-red-500 to-pink-500',
 };
 
@@ -127,7 +127,7 @@ export default function GroupDetailPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
       </div>
     );
   }
@@ -143,7 +143,7 @@ export default function GroupDetailPage() {
         </p>
         <button
           onClick={() => router.push('/groups')}
-          className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700 transition-all"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl font-medium hover:bg-green-700 transition-all"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Communities
@@ -196,7 +196,7 @@ export default function GroupDetailPage() {
               ) : (
                 <button
                   onClick={handleJoin}
-                  className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700 transition-all"
+                  className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-xl font-medium hover:bg-green-700 transition-all"
                 >
                   <UserPlus className="w-4 h-4" />
                   Join Group
@@ -214,7 +214,7 @@ export default function GroupDetailPage() {
           onClick={() => setActiveTab('posts')}
           className={`flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all ${
             activeTab === 'posts'
-              ? 'bg-indigo-600 text-white'
+              ? 'bg-green-600 text-white'
               : 'bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700'
           }`}
         >
@@ -225,7 +225,7 @@ export default function GroupDetailPage() {
           onClick={() => setActiveTab('members')}
           className={`flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all ${
             activeTab === 'members'
-              ? 'bg-indigo-600 text-white'
+              ? 'bg-green-600 text-white'
               : 'bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700'
           }`}
         >

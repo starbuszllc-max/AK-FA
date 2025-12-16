@@ -81,7 +81,7 @@ export default function ChallengeCreator({ userId, onCreated }: ChallengeCreator
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-colors"
+        className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors"
       >
         <Plus className="w-4 h-4" />
         Create Challenge
@@ -105,7 +105,7 @@ export default function ChallengeCreator({ userId, onCreated }: ChallengeCreator
             >
               <div className="flex items-center justify-between mb-5">
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                  <Trophy className="w-5 h-5 text-amber-500" />
+                  <Trophy className="w-5 h-5 text-green-500" />
                   Create a Challenge
                 </h2>
                 <button onClick={() => setIsOpen(false)} className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full">
@@ -124,7 +124,7 @@ export default function ChallengeCreator({ userId, onCreated }: ChallengeCreator
                     onChange={e => setTitle(e.target.value)}
                     placeholder="e.g., 7-Day Gratitude Journal"
                     maxLength={100}
-                    className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500"
                   />
                 </div>
                 
@@ -138,7 +138,7 @@ export default function ChallengeCreator({ userId, onCreated }: ChallengeCreator
                     placeholder="Describe the challenge and what participants should do..."
                     rows={3}
                     maxLength={500}
-                    className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white resize-none focus:outline-none focus:ring-2 focus:ring-green-500"
                   />
                   <div className="text-right text-xs text-gray-400 mt-1">{description.length}/500</div>
                 </div>
@@ -179,7 +179,7 @@ export default function ChallengeCreator({ userId, onCreated }: ChallengeCreator
                           onClick={() => setDurationDays(d.days)}
                           className={`px-2 py-1.5 rounded-lg text-xs font-medium transition-all ${
                             durationDays === d.days
-                              ? 'bg-indigo-500 text-white'
+                              ? 'bg-green-500 text-white'
                               : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200'
                           }`}
                         >
@@ -202,7 +202,7 @@ export default function ChallengeCreator({ userId, onCreated }: ChallengeCreator
                           onClick={() => setPointsReward(pts)}
                           className={`px-2 py-1.5 rounded-lg text-xs font-medium transition-all ${
                             pointsReward === pts
-                              ? 'bg-amber-500 text-white'
+                              ? 'bg-green-500 text-white'
                               : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200'
                           }`}
                         >
@@ -220,7 +220,7 @@ export default function ChallengeCreator({ userId, onCreated }: ChallengeCreator
                 <button
                   type="submit"
                   disabled={loading || !title.trim() || !description.trim()}
-                  className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="w-full py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   {loading ? (
                     <Loader2 className="w-4 h-4 animate-spin" />

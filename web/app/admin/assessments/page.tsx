@@ -51,7 +51,7 @@ export default function AdminAssessments() {
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Assessments (Admin)</h1>
         <button
-          className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors"
           onClick={downloadCSV}
           disabled={loading || assessments.length === 0}
         >
@@ -62,7 +62,7 @@ export default function AdminAssessments() {
 
       {loading ? (
         <div className="flex items-center justify-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
         </div>
       ) : assessments.length === 0 ? (
         <div className="text-center py-12 text-gray-500 dark:text-gray-400">

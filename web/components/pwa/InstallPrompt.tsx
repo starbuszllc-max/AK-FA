@@ -73,7 +73,7 @@ export default function InstallPrompt() {
       >
         <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-slate-700 p-4">
           <div className="flex items-start gap-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center flex-shrink-0">
+            <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-purple-600 rounded-xl flex items-center justify-center flex-shrink-0">
               <Smartphone className="w-6 h-6 text-white" />
             </div>
             
@@ -96,7 +96,7 @@ export default function InstallPrompt() {
                 {!isIOS && deferredPrompt && (
                   <button
                     onClick={handleInstall}
-                    className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors"
                   >
                     <Download className="w-4 h-4" />
                     Install
