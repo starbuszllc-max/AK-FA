@@ -22,7 +22,8 @@ import {
   Plus,
   MoreHorizontal,
   Sparkles,
-  Shield
+  Shield,
+  X
 } from 'lucide-react';
 
 interface WalletData {
@@ -93,6 +94,24 @@ export default function WalletPage() {
   const [activeAccount, setActiveAccount] = useState<'points' | 'coins' | 'credit'>('points');
   const [creditData, setCreditData] = useState<CreditData | null>(null);
   const [creditLoading, setCreditLoading] = useState(false);
+  
+  // Modal states
+  const [showAddFunds, setShowAddFunds] = useState(false);
+  const [showSend, setShowSend] = useState(false);
+  const [showWithdraw, setShowWithdraw] = useState(false);
+  const [showBuyCoinModal, setShowBuyCoinModal] = useState(false);
+  const [showBorrow, setShowBorrow] = useState(false);
+  const [showRepay, setShowRepay] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  
+  // Form states
+  const [sendForm, setSendForm] = useState({ recipientId: '', amount: '' });
+  const [withdrawForm, setWithdrawForm] = useState({ amount: '' });
+  const [borrowForm, setBorrowForm] = useState({ amount: '', termDays: '7' });
+  const [repayForm, setRepayForm] = useState({ loanId: '', amount: '' });
+
+  const mockUserId = typeof window !== 'undefined' ? localStorage.getItem('demo_user_id') || 'demo-user' : 'demo-user';
 
   useEffect(() => {
     fetchWallet();
@@ -106,7 +125,6 @@ export default function WalletPage() {
 
   const fetchWallet = async () => {
     try {
-      const mockUserId = 'demo-user';
       const res = await fetch(`/api/wallet?userId=${mockUserId}`);
       const result = await res.json();
       setData(result);
@@ -120,7 +138,6 @@ export default function WalletPage() {
   const fetchCredit = async () => {
     setCreditLoading(true);
     try {
-      const mockUserId = 'demo-user';
       const res = await fetch(`/api/credit?userId=${mockUserId}`);
       const result = await res.json();
       if (!result.error) {
@@ -130,6 +147,197 @@ export default function WalletPage() {
       console.error('Failed to fetch credit:', error);
     } finally {
       setCreditLoading(false);
+    }
+  };
+
+  const handleAddFunds = async () => {
+    setSubmitting(true);
+    try {
+      // Mock Stripe integration
+      setMessage({ type: 'success', text: 'Redirecting to payment...' });
+      setTimeout(() => {
+        setShowAddFunds(false);
+        setMessage(null);
+      }, 2000);
+    } catch (error) {
+      setMessage({ type: 'error', text: 'Failed to add funds' });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleSend = async () => {
+    if (!sendForm.recipientId || !sendForm.amount) {
+      setMessage({ type: 'error', text: 'Please fill all fields' });
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const res = await fetch('/api/gifts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          senderId: mockUserId,
+          receiverId: sendForm.recipientId,
+          coinAmount: parseInt(sendForm.amount),
+          giftType: 'coins'
+        })
+      });
+
+      if (res.ok) {
+        setMessage({ type: 'success', text: `Sent ${sendForm.amount} coins!` });
+        setSendForm({ recipientId: '', amount: '' });
+        setTimeout(() => {
+          setShowSend(false);
+          fetchWallet();
+          setMessage(null);
+        }, 2000);
+      } else {
+        setMessage({ type: 'error', text: 'Failed to send coins' });
+      }
+    } catch (error) {
+      setMessage({ type: 'error', text: 'Failed to send coins' });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleWithdraw = async () => {
+    if (!withdrawForm.amount) {
+      setMessage({ type: 'error', text: 'Please enter amount' });
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const res = await fetch('/api/payouts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: mockUserId,
+          pointsToConvert: parseInt(withdrawForm.amount),
+          paymentMethod: 'stripe'
+        })
+      });
+
+      if (res.ok) {
+        setMessage({ type: 'success', text: 'Withdrawal initiated!' });
+        setWithdrawForm({ amount: '' });
+        setTimeout(() => {
+          setShowWithdraw(false);
+          fetchWallet();
+          setMessage(null);
+        }, 2000);
+      } else {
+        setMessage({ type: 'error', text: 'Failed to process withdrawal' });
+      }
+    } catch (error) {
+      setMessage({ type: 'error', text: 'Failed to process withdrawal' });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleBuyCoin = async (coins: number, price: number) => {
+    setSubmitting(true);
+    try {
+      // Mock Stripe payment
+      const res = await fetch('/api/wallet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: mockUserId,
+          action: 'buy_coins',
+          amount: coins
+        })
+      });
+
+      if (res.ok) {
+        setMessage({ type: 'success', text: `Successfully purchased ${coins} coins for $${price}!` });
+        setTimeout(() => {
+          setShowBuyCoinModal(false);
+          fetchWallet();
+          setMessage(null);
+        }, 2000);
+      }
+    } catch (error) {
+      setMessage({ type: 'error', text: 'Failed to purchase coins' });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleBorrow = async () => {
+    if (!borrowForm.amount) {
+      setMessage({ type: 'error', text: 'Please enter amount' });
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const res = await fetch('/api/credit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: mockUserId,
+          amount: parseInt(borrowForm.amount),
+          termDays: parseInt(borrowForm.termDays)
+        })
+      });
+
+      if (res.ok) {
+        setMessage({ type: 'success', text: 'Loan approved!' });
+        setBorrowForm({ amount: '', termDays: '7' });
+        setTimeout(() => {
+          setShowBorrow(false);
+          fetchCredit();
+          setMessage(null);
+        }, 2000);
+      } else {
+        const err = await res.json();
+        setMessage({ type: 'error', text: err.error || 'Failed to process loan' });
+      }
+    } catch (error) {
+      setMessage({ type: 'error', text: 'Failed to process loan' });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleRepay = async () => {
+    if (!repayForm.loanId || !repayForm.amount) {
+      setMessage({ type: 'error', text: 'Please fill all fields' });
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const res = await fetch('/api/credit/repay', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: mockUserId,
+          loanId: repayForm.loanId,
+          amount: parseInt(repayForm.amount)
+        })
+      });
+
+      if (res.ok) {
+        setMessage({ type: 'success', text: 'Repayment successful!' });
+        setRepayForm({ loanId: '', amount: '' });
+        setTimeout(() => {
+          setShowRepay(false);
+          fetchCredit();
+          setMessage(null);
+        }, 2000);
+      } else {
+        setMessage({ type: 'error', text: 'Failed to process repayment' });
+      }
+    } catch (error) {
+      setMessage({ type: 'error', text: 'Failed to process repayment' });
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -180,21 +388,21 @@ export default function WalletPage() {
                 </div>
               </div>
             </div>
-            <button className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
+            <button className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition-colors">
               <MoreHorizontal className="w-5 h-5 text-white" />
             </button>
           </div>
 
           <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1">
-            <button className="flex items-center gap-2 px-4 py-2.5 bg-white/20 rounded-xl text-white text-sm font-medium shrink-0">
+            <button onClick={() => setShowAddFunds(true)} className="flex items-center gap-2 px-4 py-2.5 bg-white/20 rounded-xl text-white text-sm font-medium shrink-0 hover:bg-white/30 transition-colors">
               <Plus className="w-4 h-4" />
               Add Funds
             </button>
-            <button className="flex items-center gap-2 px-4 py-2.5 bg-white/20 rounded-xl text-white text-sm font-medium shrink-0">
+            <button onClick={() => setShowSend(true)} className="flex items-center gap-2 px-4 py-2.5 bg-white/20 rounded-xl text-white text-sm font-medium shrink-0 hover:bg-white/30 transition-colors">
               <Send className="w-4 h-4" />
               Send
             </button>
-            <button className="flex items-center gap-2 px-4 py-2.5 bg-white/20 rounded-xl text-white text-sm font-medium shrink-0">
+            <button onClick={() => setShowWithdraw(true)} className="flex items-center gap-2 px-4 py-2.5 bg-white/20 rounded-xl text-white text-sm font-medium shrink-0 hover:bg-white/30 transition-colors">
               <ArrowDownRight className="w-4 h-4" />
               Withdraw
             </button>
@@ -326,7 +534,9 @@ export default function WalletPage() {
                     ].map((pkg) => (
                       <button
                         key={pkg.coins}
-                        className={`relative p-4 rounded-xl border-2 transition-all ${
+                        onClick={() => handleBuyCoin(pkg.coins, pkg.price)}
+                        disabled={submitting}
+                        className={`relative p-4 rounded-xl border-2 transition-all hover:scale-105 ${
                           pkg.popular 
                             ? 'border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20' 
                             : 'border-gray-200 dark:border-slate-700 hover:border-green-300'
@@ -410,6 +620,17 @@ export default function WalletPage() {
                       </div>
                     </div>
 
+                    <div className="flex gap-2">
+                      <button onClick={() => setShowBorrow(true)} className="flex-1 px-4 py-2.5 bg-green-600 text-white rounded-xl font-medium hover:bg-green-700 transition-colors">
+                        Borrow
+                      </button>
+                      {creditData.activeLoans.length > 0 && (
+                        <button onClick={() => setShowRepay(true)} className="flex-1 px-4 py-2.5 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition-colors">
+                          Repay
+                        </button>
+                      )}
+                    </div>
+
                     <div className="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm">
                       <h3 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
                         <Shield className="w-4 h-4 text-green-500" />
@@ -477,7 +698,7 @@ export default function WalletPage() {
                 <Clock className="w-4 h-4 text-gray-400" />
                 Recent Activity
               </h3>
-              <button className="text-green-600 dark:text-green-400 text-sm font-medium flex items-center gap-1">
+              <button className="text-green-600 dark:text-green-400 text-sm font-medium flex items-center gap-1 hover:opacity-80">
                 See All <ChevronRight className="w-4 h-4" />
               </button>
             </div>
@@ -519,20 +740,146 @@ export default function WalletPage() {
             )}
           </div>
 
-          <div className="bg-gradient-to-r from-green-500 to-purple-500 rounded-2xl p-4 text-white">
+          <button onClick={() => setShowWithdraw(true)} className="w-full bg-gradient-to-r from-green-500 to-purple-500 rounded-2xl p-4 text-white hover:shadow-lg transition-shadow">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
                 <DollarSign className="w-5 h-5" />
               </div>
-              <div className="flex-1">
+              <div className="flex-1 text-left">
                 <p className="font-semibold">Convert Points to Cash</p>
                 <p className="text-white/80 text-sm">1,000 AP = $1.00 USD</p>
               </div>
               <ChevronRight className="w-5 h-5 text-white/60" />
             </div>
-          </div>
+          </button>
         </div>
       </div>
+
+      {/* Modals */}
+      <AnimatePresence>
+        {showAddFunds && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+            <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} exit={{ scale: 0.9 }} className="bg-white dark:bg-slate-800 rounded-2xl p-6 max-w-sm w-full">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white">Add Funds</h2>
+                <button onClick={() => setShowAddFunds(false)} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <input type="number" placeholder="Amount ($)" min="1" className="w-full px-4 py-2 border border-gray-200 dark:border-slate-700 rounded-lg mb-4 dark:bg-slate-700 dark:text-white" />
+              <button onClick={handleAddFunds} disabled={submitting} className="w-full px-4 py-2.5 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 disabled:opacity-50 transition-colors">
+                {submitting ? 'Processing...' : 'Continue to Payment'}
+              </button>
+              {message && (
+                <div className={`mt-3 p-3 rounded-lg text-sm ${message.type === 'success' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'}`}>
+                  {message.text}
+                </div>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+
+        {showSend && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+            <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} exit={{ scale: 0.9 }} className="bg-white dark:bg-slate-800 rounded-2xl p-6 max-w-sm w-full">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white">Send Coins</h2>
+                <button onClick={() => setShowSend(false)} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <input type="text" placeholder="Recipient ID" value={sendForm.recipientId} onChange={(e) => setSendForm({...sendForm, recipientId: e.target.value})} className="w-full px-4 py-2 border border-gray-200 dark:border-slate-700 rounded-lg mb-3 dark:bg-slate-700 dark:text-white" />
+              <input type="number" placeholder="Amount (Coins)" min="1" value={sendForm.amount} onChange={(e) => setSendForm({...sendForm, amount: e.target.value})} className="w-full px-4 py-2 border border-gray-200 dark:border-slate-700 rounded-lg mb-4 dark:bg-slate-700 dark:text-white" />
+              <button onClick={handleSend} disabled={submitting} className="w-full px-4 py-2.5 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 disabled:opacity-50 transition-colors">
+                {submitting ? 'Sending...' : 'Send Coins'}
+              </button>
+              {message && (
+                <div className={`mt-3 p-3 rounded-lg text-sm ${message.type === 'success' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'}`}>
+                  {message.text}
+                </div>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+
+        {showWithdraw && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+            <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} exit={{ scale: 0.9 }} className="bg-white dark:bg-slate-800 rounded-2xl p-6 max-w-sm w-full">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white">Withdraw Points</h2>
+                <button onClick={() => setShowWithdraw(false)} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Min: 1,000 AP = $1.00 USD</p>
+              <input type="number" placeholder="Amount (AP)" min="1000" value={withdrawForm.amount} onChange={(e) => setWithdrawForm({amount: e.target.value})} className="w-full px-4 py-2 border border-gray-200 dark:border-slate-700 rounded-lg mb-4 dark:bg-slate-700 dark:text-white" />
+              <button onClick={handleWithdraw} disabled={submitting || !wallet.canWithdraw} className="w-full px-4 py-2.5 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 disabled:opacity-50 transition-colors">
+                {submitting ? 'Processing...' : 'Withdraw'}
+              </button>
+              {message && (
+                <div className={`mt-3 p-3 rounded-lg text-sm ${message.type === 'success' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'}`}>
+                  {message.text}
+                </div>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+
+        {showBorrow && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+            <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} exit={{ scale: 0.9 }} className="bg-white dark:bg-slate-800 rounded-2xl p-6 max-w-sm w-full">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white">Borrow</h2>
+                <button onClick={() => setShowBorrow(false)} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <input type="number" placeholder="Amount (AP)" min="1" value={borrowForm.amount} onChange={(e) => setBorrowForm({...borrowForm, amount: e.target.value})} className="w-full px-4 py-2 border border-gray-200 dark:border-slate-700 rounded-lg mb-3 dark:bg-slate-700 dark:text-white" />
+              <select value={borrowForm.termDays} onChange={(e) => setBorrowForm({...borrowForm, termDays: e.target.value})} className="w-full px-4 py-2 border border-gray-200 dark:border-slate-700 rounded-lg mb-4 dark:bg-slate-700 dark:text-white">
+                <option value="7">7 Days</option>
+                <option value="14">14 Days</option>
+                <option value="30">30 Days</option>
+              </select>
+              <button onClick={handleBorrow} disabled={submitting} className="w-full px-4 py-2.5 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 disabled:opacity-50 transition-colors">
+                {submitting ? 'Processing...' : 'Request Loan'}
+              </button>
+              {message && (
+                <div className={`mt-3 p-3 rounded-lg text-sm ${message.type === 'success' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'}`}>
+                  {message.text}
+                </div>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+
+        {showRepay && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+            <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} exit={{ scale: 0.9 }} className="bg-white dark:bg-slate-800 rounded-2xl p-6 max-w-sm w-full">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white">Repay Loan</h2>
+                <button onClick={() => setShowRepay(false)} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <select value={repayForm.loanId} onChange={(e) => setRepayForm({...repayForm, loanId: e.target.value})} className="w-full px-4 py-2 border border-gray-200 dark:border-slate-700 rounded-lg mb-3 dark:bg-slate-700 dark:text-white">
+                <option value="">Select Loan</option>
+                {creditData?.activeLoans.map(loan => (
+                  <option key={loan.id} value={loan.id}>{loan.amount} AP - Due {new Date(loan.dueDate).toLocaleDateString()}</option>
+                ))}
+              </select>
+              <input type="number" placeholder="Amount (AP)" min="1" value={repayForm.amount} onChange={(e) => setRepayForm({...repayForm, amount: e.target.value})} className="w-full px-4 py-2 border border-gray-200 dark:border-slate-700 rounded-lg mb-4 dark:bg-slate-700 dark:text-white" />
+              <button onClick={handleRepay} disabled={submitting} className="w-full px-4 py-2.5 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 disabled:opacity-50 transition-colors">
+                {submitting ? 'Processing...' : 'Repay'}
+              </button>
+              {message && (
+                <div className={`mt-3 p-3 rounded-lg text-sm ${message.type === 'success' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'}`}>
+                  {message.text}
+                </div>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
