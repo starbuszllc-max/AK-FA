@@ -15,13 +15,12 @@ export function Header() {
   const [profile, setProfile] = useState<any>(null);
   const [score, setScore] = useState(0);
   const [balance, setBalance] = useState(0);
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [showCompactHeader, setShowCompactHeader] = useState(false);
   const scrollPauseTimeout = React.useRef<ReturnType<typeof setTimeout> | null>(null);
-  const lastScrollY = React.useRef(0);
   const pathname = usePathname();
 
-  // Show collapsed header if scrolled past threshold and not explicitly expanded
-  const isCollapsed = scrollY > 100 && !isExpanded;
+  // Collapsed when scrolled past threshold OR when showCompactHeader is true
+  const isCollapsed = scrollY > 100 || showCompactHeader;
 
   useEffect(() => {
     const demoUserId = localStorage.getItem('demo_user_id');
@@ -62,9 +61,12 @@ export function Header() {
       const currentScrollY = window.scrollY;
       setScrollY(currentScrollY);
       
-      // If scrolled past threshold, collapse the header
+      // If scrolled past threshold, show compact header and keep it showing
       if (currentScrollY > 100) {
-        setIsExpanded(false);
+        setShowCompactHeader(true);
+      } else {
+        // If back at top, show full header
+        setShowCompactHeader(false);
       }
       
       // Clear previous pause timeout
@@ -72,20 +74,20 @@ export function Header() {
         clearTimeout(scrollPauseTimeout.current);
       }
       
-      // Expand after scroll pause (1.5 seconds of no scrolling)
+      // After scroll pause, expand to full header
       scrollPauseTimeout.current = setTimeout(() => {
-        setIsExpanded(true);
-      }, 1500);
-      
-      lastScrollY.current = currentScrollY;
+        if (currentScrollY > 100) {
+          setShowCompactHeader(false);
+        }
+      }, 2000); // 2 seconds of no scrolling
     };
     
-    const handleTap = (e: Event) => {
-      // Only expand on direct tap/click, not on link clicks
-      if ((e as any).target?.closest('a, button[class*="logout"], button[class*="menu"]')) {
-        return;
+    const handleTap = () => {
+      // On any tap, expand to full header
+      setShowCompactHeader(false);
+      if (scrollPauseTimeout.current) {
+        clearTimeout(scrollPauseTimeout.current);
       }
-      setIsExpanded(true);
     };
     
     window.addEventListener('scroll', handleScroll, { passive: true });
