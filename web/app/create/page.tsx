@@ -254,18 +254,16 @@ export default function CreatePage() {
         <div className="w-10" />
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center px-6">
-        <div className="w-full max-w-sm space-y-4">
+      <div className="flex-1 flex flex-col items-center justify-center px-4 md:px-6">
+        <div className="w-full max-w-md space-y-3">
           <button
             onClick={() => setStep('camera')}
-            className="w-full py-5 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 rounded-2xl flex items-center justify-center gap-4 active:scale-[0.98] transition-transform"
+            className="w-full py-3 bg-white/10 hover:bg-white/20 rounded-xl flex items-center gap-3 active:scale-[0.98] transition-all"
           >
-            <div className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center">
-              <Camera className="w-7 h-7 text-white" strokeWidth={2.5} />
-            </div>
-            <div className="text-left">
-              <span className="text-white font-semibold text-lg block">Camera</span>
-              <span className="text-white/70 text-sm">Record video or take photo</span>
+            <Camera className="w-5 h-5 text-green-400 flex-shrink-0 ml-3" strokeWidth={2.5} />
+            <div className="text-left flex-1">
+              <span className="text-white font-medium text-sm block">Camera</span>
+              <span className="text-white/60 text-xs">Record video or take photo</span>
             </div>
           </button>
 
@@ -285,14 +283,12 @@ export default function CreatePage() {
               };
               input.click();
             }}
-            className="w-full py-5 bg-gradient-to-r from-purple-500 via-violet-500 to-green-500 rounded-2xl flex items-center justify-center gap-4 active:scale-[0.98] transition-transform"
+            className="w-full py-3 bg-white/10 hover:bg-white/20 rounded-xl flex items-center gap-3 active:scale-[0.98] transition-all"
           >
-            <div className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center">
-              <Image className="w-7 h-7 text-white" strokeWidth={2.5} />
-            </div>
-            <div className="text-left">
-              <span className="text-white font-semibold text-lg block">Gallery</span>
-              <span className="text-white/70 text-sm">Upload from your device</span>
+            <Image className="w-5 h-5 text-blue-400 flex-shrink-0 ml-3" strokeWidth={2.5} />
+            <div className="text-left flex-1">
+              <span className="text-white font-medium text-sm block">Gallery</span>
+              <span className="text-white/60 text-xs">Upload from your device</span>
             </div>
           </button>
 
@@ -301,29 +297,27 @@ export default function CreatePage() {
               setStep('caption');
               setEditedMedia(null);
             }}
-            className="w-full py-5 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 rounded-2xl flex items-center justify-center gap-4 active:scale-[0.98] transition-transform"
+            className="w-full py-3 bg-white/10 hover:bg-white/20 rounded-xl flex items-center gap-3 active:scale-[0.98] transition-all"
           >
-            <div className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center">
-              <Type className="w-7 h-7 text-white" strokeWidth={2.5} />
-            </div>
-            <div className="text-left">
-              <span className="text-white font-semibold text-lg block">Text Post</span>
-              <span className="text-white/70 text-sm">Share your thoughts</span>
+            <Type className="w-5 h-5 text-purple-400 flex-shrink-0 ml-3" strokeWidth={2.5} />
+            <div className="text-left flex-1">
+              <span className="text-white font-medium text-sm block">Text Post</span>
+              <span className="text-white/60 text-xs">Share your thoughts</span>
             </div>
           </button>
         </div>
       </div>
 
       <div
-        className="px-6 pb-6"
-        style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 24px)' }}
+        className="px-4 md:px-6 pb-6"
+        style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 16px)' }}
       >
-        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Sparkles className="w-5 h-5 text-yellow-400" />
-            <span className="font-medium text-white">Tips for great content</span>
+        <div className="bg-white/5 rounded-lg p-3">
+          <div className="flex items-center gap-2 mb-1">
+            <Sparkles className="w-4 h-4 text-yellow-400 flex-shrink-0" />
+            <span className="font-medium text-white text-sm">Tips for great content</span>
           </div>
-          <p className="text-white/60 text-sm">
+          <p className="text-white/50 text-xs">
             Use good lighting, add captions, and tag the right layer to reach more people.
           </p>
         </div>

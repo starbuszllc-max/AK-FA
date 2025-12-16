@@ -73,7 +73,7 @@ export default function CameraCapture({ onClose, onCapture, userId }: CameraCapt
       }
       
       const constraints = {
-        video: { facingMode, width: { ideal: 1280 }, height: { ideal: 720 } },
+        video: { facingMode, width: { ideal: 720 }, height: { ideal: 1280 } },
         audio: mode === 'video'
       };
       
