@@ -3,7 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { User, Flame, Zap, Trophy, ArrowLeft, UserPlus, UserMinus, MessageCircle, Users, Grid3X3, Heart } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { User, Flame, Zap, Trophy, ArrowLeft, UserPlus, UserMinus, MessageCircle, Users, Grid3X3, Heart, X } from 'lucide-react';
 import { BadgesList, LevelDisplay } from '../../../components/badges';
 import { ActivityHeatmap } from '../../../components/heatmap';
 
@@ -45,6 +46,7 @@ export default function UserProfilePage() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loadingPosts, setLoadingPosts] = useState(false);
   const [currentUserId] = useState(() => typeof window !== 'undefined' ? localStorage.getItem('demo_user_id') : null);
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const isOwnProfile = currentUserId === profileId;
 
   const layerColors: Record<string, string> = {
@@ -285,29 +287,50 @@ export default function UserProfilePage() {
             <p className="text-gray-700 dark:text-gray-300 mb-4">{profile.bio}</p>
           )}
 
-          <div className="grid grid-cols-3 gap-3 mb-3">
-            <div className="text-center p-3 rounded-xl">
-              <div className="flex items-center justify-center gap-1 text-2xl font-bold text-gray-900 dark:text-white">
-                <Zap className="w-5 h-5 text-green-500" />
-                {profile.totalXp}
+          {isOwnProfile && (
+            <div className="grid grid-cols-3 gap-3 mb-3">
+              <div className="text-center p-3 rounded-xl">
+                <div className="flex items-center justify-center gap-1 text-2xl font-bold text-gray-900 dark:text-white">
+                  <Zap className="w-5 h-5 text-green-500" />
+                  {profile.totalXp}
+                </div>
+                <div className="text-sm text-gray-500 dark:text-gray-400">XP</div>
               </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">XP</div>
-            </div>
-            <div className="text-center p-3 rounded-xl">
-              <div className="flex items-center justify-center gap-1 text-2xl font-bold text-gray-900 dark:text-white">
-                <Trophy className="w-5 h-5 text-green-500" />
-                {profile.level}
+              <div className="text-center p-3 rounded-xl">
+                <div className="flex items-center justify-center gap-1 text-2xl font-bold text-gray-900 dark:text-white">
+                  <Trophy className="w-5 h-5 text-green-500" />
+                  {profile.level}
+                </div>
+                <div className="text-sm text-gray-500 dark:text-gray-400">Level</div>
               </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">Level</div>
-            </div>
-            <div className="text-center p-3 rounded-xl">
-              <div className="flex items-center justify-center gap-1 text-2xl font-bold text-gray-900 dark:text-white">
-                <Flame className="w-5 h-5 text-orange-500" />
-                {profile.currentStreak}
+              <div className="text-center p-3 rounded-xl">
+                <div className="flex items-center justify-center gap-1 text-2xl font-bold text-gray-900 dark:text-white">
+                  <Flame className="w-5 h-5 text-orange-500" />
+                  {profile.currentStreak}
+                </div>
+                <div className="text-sm text-gray-500 dark:text-gray-400">Streak</div>
               </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">Streak</div>
             </div>
-          </div>
+          )}
+
+          {!isOwnProfile && (
+            <div className="grid grid-cols-2 gap-3 mb-3">
+              <div className="text-center p-3 rounded-xl">
+                <div className="flex items-center justify-center gap-1 text-2xl font-bold text-gray-900 dark:text-white">
+                  <Trophy className="w-5 h-5 text-green-500" />
+                  {profile.level}
+                </div>
+                <div className="text-sm text-gray-500 dark:text-gray-400">Level</div>
+              </div>
+              <div className="text-center p-3 rounded-xl">
+                <div className="flex items-center justify-center gap-1 text-2xl font-bold text-gray-900 dark:text-white">
+                  <Flame className="w-5 h-5 text-orange-500" />
+                  {profile.currentStreak}
+                </div>
+                <div className="text-sm text-gray-500 dark:text-gray-400">Streak</div>
+              </div>
+            </div>
+          )}
 
           <div className="grid grid-cols-2 gap-3 mb-4">
             <div className="text-center p-3 rounded-xl">
@@ -326,7 +349,7 @@ export default function UserProfilePage() {
             </div>
           </div>
 
-          <LevelDisplay score={Number(profile.akorfaScore || 0)} />
+          {isOwnProfile && <LevelDisplay score={Number(profile.akorfaScore || 0)} />}
         </div>
       </div>
 
@@ -345,18 +368,20 @@ export default function UserProfilePage() {
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
           </div>
         ) : posts.length > 0 ? (
-          <div className="grid grid-cols-3 gap-1">
-            {posts.map((post) => {
-              const hasMedia = post.mediaUrls && post.mediaUrls.length > 0;
-              const firstMedia = hasMedia ? post.mediaUrls![0] : null;
-              const firstMediaType = post.mediaTypes && post.mediaTypes.length > 0 ? post.mediaTypes[0] : null;
-              const isVideo = firstMediaType === 'video' || (firstMedia && (firstMedia.includes('.mp4') || firstMedia.includes('.webm') || firstMedia.includes('.mov')));
-              
-              return (
-                <div
-                  key={post.id}
-                  className="aspect-square bg-gray-100 dark:bg-slate-700 overflow-hidden relative group cursor-pointer"
-                >
+          <>
+            <div className="grid grid-cols-3 gap-1">
+              {posts.map((post) => {
+                const hasMedia = post.mediaUrls && post.mediaUrls.length > 0;
+                const firstMedia = hasMedia ? post.mediaUrls![0] : null;
+                const firstMediaType = post.mediaTypes && post.mediaTypes.length > 0 ? post.mediaTypes[0] : null;
+                const isVideo = firstMediaType === 'video' || (firstMedia && (firstMedia.includes('.mp4') || firstMedia.includes('.webm') || firstMedia.includes('.mov')));
+                
+                return (
+                  <div
+                    key={post.id}
+                    onClick={() => setSelectedPost(post)}
+                    className="aspect-square bg-gray-100 dark:bg-slate-700 overflow-hidden relative group cursor-pointer"
+                  >
                   {hasMedia && firstMedia ? (
                     isVideo ? (
                       <video
@@ -399,10 +424,67 @@ export default function UserProfilePage() {
                       <Grid3X3 className="w-4 h-4" />
                     </div>
                   )}
-                </div>
-              );
-            })}
-          </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <AnimatePresence>
+              {selectedPost && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setSelectedPost(null)}
+                  className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+                >
+                  <motion.div
+                    initial={{ scale: 0.9 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0.9 }}
+                    onClick={(e) => e.stopPropagation()}
+                    className="relative max-w-2xl max-h-[90vh] w-full flex flex-col"
+                  >
+                    {selectedPost.content && selectedPost.mediaUrls && selectedPost.mediaUrls.length > 0 && (
+                      <div className="text-white text-sm md:text-base mb-3 p-3 bg-black/40 rounded-lg backdrop-blur-md">
+                        {selectedPost.content}
+                      </div>
+                    )}
+                    {selectedPost.mediaUrls && selectedPost.mediaUrls.length > 0 ? (
+                      selectedPost.mediaTypes?.[0] === 'video' || selectedPost.mediaUrls[0].includes('.mp4') ? (
+                        <video
+                          src={selectedPost.mediaUrls[0]}
+                          className="w-full h-full object-contain rounded-lg"
+                          controls
+                          autoPlay
+                          playsInline
+                        />
+                      ) : (
+                        <img
+                          src={selectedPost.mediaUrls[0]}
+                          alt=""
+                          className="w-full h-full object-contain rounded-lg"
+                        />
+                      )
+                    ) : (
+                      <div className="w-full aspect-square bg-gradient-to-br from-gray-200 dark:from-slate-600 to-gray-300 dark:to-slate-700 rounded-lg flex items-center justify-center p-6">
+                        <p className="text-gray-600 dark:text-gray-300 text-center font-medium text-lg">
+                          {selectedPost.content}
+                        </p>
+                      </div>
+                    )}
+                    
+                    <button
+                      onClick={() => setSelectedPost(null)}
+                      className="absolute bottom-4 left-1/2 -translate-x-1/2 w-12 h-12 bg-white/20 hover:bg-white/30 text-white rounded-full flex items-center justify-center transition-colors backdrop-blur-md"
+                    >
+                      <X className="w-6 h-6" />
+                    </button>
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </>
         ) : (
           <div className="text-center py-8">
             <Grid3X3 className="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
