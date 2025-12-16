@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useScrollVisibility } from '@/hooks/useScrollVisibility';
 
-const EXCLUDED_PATHS = ['/', '/profile/settings', '/login', '/signup', '/logout', '/onboarding'];
+const EXCLUDED_PATHS = ['/profile/settings', '/login', '/signup', '/logout', '/onboarding'];
 
 const LAYER_CONFIG: Record<string, { color: string; icon: React.ReactNode }> = {
   environment: { color: 'bg-green-500', icon: <Leaf className="w-2.5 h-2.5" /> },
