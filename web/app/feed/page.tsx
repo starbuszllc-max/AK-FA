@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { Sparkles, Trophy, ChevronRight } from 'lucide-react';
+import { Sparkles, Trophy, ChevronRight, X } from 'lucide-react';
 import EnhancedPostComposer from '../../components/feed/EnhancedPostComposer';
 import EnhancedPostCard from '../../components/feed/EnhancedPostCard';
 import AnimatedBackground from '../../components/feed/AnimatedBackground';
@@ -42,6 +42,7 @@ export default function FeedPage() {
   const [showCamera, setShowCamera] = useState(false);
   const [showProfileUnlockedModal, setShowProfileUnlockedModal] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const observerRef = useRef<HTMLDivElement>(null);
   const pageRef = useRef(1);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -346,6 +347,62 @@ export default function FeedPage() {
       type={toast.type}
       onClose={() => setToast(prev => ({ ...prev, visible: false }))}
     />
+
+    <AnimatePresence>
+      {selectedPost && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={() => setSelectedPost(null)}
+          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+        >
+          <motion.div
+            initial={{ scale: 0.9 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 0.9 }}
+            onClick={(e) => e.stopPropagation()}
+            className="relative max-w-2xl max-h-[90vh] w-full flex flex-col"
+          >
+            {selectedPost.content && selectedPost.mediaUrls && selectedPost.mediaUrls.length > 0 && (
+              <div className="text-white text-sm md:text-base mb-3 p-3 bg-black/40 rounded-lg backdrop-blur-md">
+                {selectedPost.content}
+              </div>
+            )}
+            {selectedPost.mediaUrls && selectedPost.mediaUrls.length > 0 ? (
+              selectedPost.mediaTypes?.[0] === 'video' || selectedPost.mediaUrls[0].includes('.mp4') ? (
+                <video
+                  src={selectedPost.mediaUrls[0]}
+                  className="w-full h-full object-contain rounded-lg"
+                  controls
+                  autoPlay
+                  playsInline
+                />
+              ) : (
+                <img
+                  src={selectedPost.mediaUrls[0]}
+                  alt=""
+                  className="w-full h-full object-contain rounded-lg"
+                />
+              )
+            ) : (
+              <div className="w-full aspect-square bg-gradient-to-br from-gray-200 dark:from-slate-600 to-gray-300 dark:to-slate-700 rounded-lg flex items-center justify-center p-6">
+                <p className="text-gray-600 dark:text-gray-300 text-center font-medium text-lg">
+                  {selectedPost.content}
+                </p>
+              </div>
+            )}
+            
+            <button
+              onClick={() => setSelectedPost(null)}
+              className="absolute bottom-4 left-1/2 -translate-x-1/2 w-12 h-12 bg-white/20 hover:bg-white/30 text-white rounded-full flex items-center justify-center transition-colors backdrop-blur-md"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
 
     <AnimatePresence>
       {showCamera && (

@@ -43,6 +43,7 @@ interface PostProps {
   currentUserId: string | null;
   onLike?: (postId: string) => void;
   onCommentAdded?: (postId: string) => void;
+  onMediaClick?: (post: PostProps['post']) => void;
 }
 
 const layerColors: Record<string, { bg: string; text: string; ring: string; gradient: string }> = {

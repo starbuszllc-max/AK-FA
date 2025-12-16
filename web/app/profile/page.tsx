@@ -462,6 +462,11 @@ export default function ProfilePage() {
                           onClick={(e) => e.stopPropagation()}
                           className="relative max-w-2xl max-h-[90vh] w-full flex flex-col"
                         >
+                          {selectedPost.content && selectedPost.mediaUrls && selectedPost.mediaUrls.length > 0 && (
+                            <div className="text-white text-sm md:text-base mb-3 p-3 bg-black/40 rounded-lg backdrop-blur-md">
+                              {selectedPost.content}
+                            </div>
+                          )}
                           {selectedPost.mediaUrls && selectedPost.mediaUrls.length > 0 ? (
                             selectedPost.mediaTypes?.[0] === 'video' || selectedPost.mediaUrls[0].includes('.mp4') ? (
                               <video
