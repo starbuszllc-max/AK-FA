@@ -100,7 +100,7 @@ export default function ExploreMenu({ isOpen, onClose, followerCount = 0 }: Expl
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 100, scale: 0.95 }}
             transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-            className="fixed bottom-20 left-3 right-3 sm:left-auto sm:right-4 sm:w-96 z-50 rounded-3xl shadow-2xl overflow-hidden"
+            className="fixed bottom-20 left-3 right-3 sm:left-auto sm:right-4 sm:w-96 z-50 rounded-3xl shadow-2xl overflow-hidden bg-gradient-to-br from-green-500/20 via-green-600/15 to-emerald-700/10 backdrop-blur-xl border border-green-400/30"
             style={{ marginBottom: 'env(safe-area-inset-bottom, 0px)' }}
           >
             <div className="p-4 text-white">
