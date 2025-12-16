@@ -15,12 +15,13 @@ export function Header() {
   const [profile, setProfile] = useState<any>(null);
   const [score, setScore] = useState(0);
   const [balance, setBalance] = useState(0);
-  const [showCompactHeader, setShowCompactHeader] = useState(false);
+  const [showFullHeader, setShowFullHeader] = useState(true);
   const scrollPauseTimeout = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isScrolling = React.useRef(false);
   const pathname = usePathname();
 
-  // Collapsed when scrolled past threshold OR when showCompactHeader is true
-  const isCollapsed = scrollY > 100 || showCompactHeader;
+  // Show compact header when scrolled down AND full header is not forced visible
+  const isCollapsed = scrollY > 100 && !showFullHeader;
 
   useEffect(() => {
     const demoUserId = localStorage.getItem('demo_user_id');
@@ -61,30 +62,33 @@ export function Header() {
       const currentScrollY = window.scrollY;
       setScrollY(currentScrollY);
       
-      // If scrolled past threshold, show compact header and keep it showing
+      // When scrolling past threshold, hide full header (show compact)
       if (currentScrollY > 100) {
-        setShowCompactHeader(true);
+        setShowFullHeader(false);
       } else {
-        // If back at top, show full header
-        setShowCompactHeader(false);
+        // Back at top, show full header
+        setShowFullHeader(true);
       }
+      
+      // Mark that we're scrolling
+      isScrolling.current = true;
       
       // Clear previous pause timeout
       if (scrollPauseTimeout.current) {
         clearTimeout(scrollPauseTimeout.current);
       }
       
-      // After scroll pause, expand to full header
+      // After scroll pause, show full header
       scrollPauseTimeout.current = setTimeout(() => {
-        if (currentScrollY > 100) {
-          setShowCompactHeader(false);
-        }
+        isScrolling.current = false;
+        setShowFullHeader(true);
       }, 2000); // 2 seconds of no scrolling
     };
     
     const handleTap = () => {
-      // On any tap, expand to full header
-      setShowCompactHeader(false);
+      // On any tap/touch, show full header
+      setShowFullHeader(true);
+      isScrolling.current = false;
       if (scrollPauseTimeout.current) {
         clearTimeout(scrollPauseTimeout.current);
       }
