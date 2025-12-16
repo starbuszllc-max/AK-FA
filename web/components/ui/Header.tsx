@@ -157,21 +157,21 @@ export function Header() {
   return (
     <header className={`w-full bg-gradient-to-r from-white via-green-50 to-white dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 shadow-md sticky top-0 z-50 border-b border-green-200/30 dark:border-green-900/20 transition-all duration-300 ease-out`} style={{ height: isCollapsed ? '48px' : '84px' }}>
       <div className={`max-w-7xl mx-auto flex items-center justify-between gap-4 transition-all duration-300 ${isCollapsed ? 'px-4' : ''}`} style={{ paddingTop: isCollapsed ? '0px' : '8px', paddingBottom: isCollapsed ? '0px' : '12px', paddingLeft: isCollapsed ? '16px' : '0px', paddingRight: '5px', height: isCollapsed ? '48px' : '84px', display: 'flex', alignItems: 'center' }}>
-        <Link href="/" className="flex items-center gap-2 group hover:opacity-80 transition-opacity duration-200" style={{ paddingLeft: '12px' }}>
-          <img 
-            src="/logo.png" 
-            alt="Akorfa" 
-            className={`w-auto transition-all duration-300 ${isCollapsed ? 'h-8' : 'h-12 md:h-16'}`}
-          />
-          {!isCollapsed && (
+        {!isCollapsed && (
+          <Link href="/" className="flex items-center gap-2 group hover:opacity-80 transition-opacity duration-200" style={{ paddingLeft: '12px' }}>
+            <img 
+              src="/logo.png" 
+              alt="Akorfa" 
+              className="w-auto h-12 md:h-16"
+            />
             <div className="hidden sm:block">
               <h1 className="font-bold text-lg md:text-xl bg-gradient-to-r from-green-700 via-green-600 to-green-700 dark:from-green-400 dark:via-green-300 dark:to-green-400 bg-clip-text text-transparent">
                 Akorfa
               </h1>
               <p className="text-xs text-gray-600 dark:text-gray-400">Human Stack</p>
             </div>
-          )}
-        </Link>
+          </Link>
+        )}
 
         {isCollapsed && user && (
           <div className="hidden md:flex items-center gap-3 flex-1 justify-center">
@@ -188,21 +188,23 @@ export function Header() {
           </div>
         )}
         
-        <div className="flex items-center gap-1 md:hidden">
-          <ThemeToggle />
-          <button 
-            className="p-1.5 text-gray-600 dark:text-gray-300"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              {menuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
-          </button>
-        </div>
+        {!isCollapsed && (
+          <div className="flex items-center gap-1 md:hidden">
+            <ThemeToggle />
+            <button 
+              className="p-1.5 text-gray-600 dark:text-gray-300"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {menuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
+          </div>
+        )}
 
         <nav className={`${isCollapsed ? 'hidden' : 'hidden md:flex'} items-center gap-0.5`}>
           {navLinks.map((link) => (
