@@ -3,12 +3,68 @@ import React, { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import TipButton from '@/components/tipping/TipButton';
 
+function CommentLikeButton({ commentId, userId, initialLikeCount }: { commentId: string; userId: string | null; initialLikeCount: number }) {
+  const [likeCount, setLikeCount] = useState(initialLikeCount);
+  const [hasLiked, setHasLiked] = useState(false);
+  const [isLiking, setIsLiking] = useState(false);
+
+  const handleLike = async () => {
+    if (!userId || isLiking || hasLiked) return;
+    
+    setIsLiking(true);
+    try {
+      const resp = await fetch('/api/comment-reactions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          comment_id: commentId,
+          user_id: userId,
+          reaction_type: 'like'
+        })
+      });
+
+      if (resp.ok) {
+        const data = await resp.json();
+        setLikeCount(data.newLikeCount || likeCount + 1);
+        setHasLiked(true);
+      } else {
+        const error = await resp.json();
+        if (error.error?.includes('Already')) {
+          setHasLiked(true);
+        }
+      }
+    } catch (err) {
+      console.error('Error liking comment:', err);
+    } finally {
+      setIsLiking(false);
+    }
+  };
+
+  return (
+    <button
+      onClick={handleLike}
+      disabled={!userId || isLiking || hasLiked}
+      className={`flex items-center gap-1 text-xs transition-colors ${
+        hasLiked ? 'text-rose-500' : userId ? 'text-gray-500 hover:text-rose-500' : 'text-gray-400 cursor-not-allowed'
+      }`}
+    >
+      <svg className={`w-3.5 h-3.5 ${hasLiked ? 'fill-current' : ''}`} fill={hasLiked ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={hasLiked ? 0 : 1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+      </svg>
+      <span>{likeCount}</span>
+    </button>
+  );
+}
+
 interface Comment {
   id: string;
   postId: string;
   userId: string | null;
   content: string;
   createdAt: string;
+  likeCount?: number;
+  isTopComment?: boolean;
+  coinReward?: number;
   profiles: {
     username: string | null;
     avatarUrl: string | null;
@@ -537,13 +593,23 @@ export default function PostCard({ post, currentUserId, onLike, onCommentAdded, 
           ) : (
             <div className="space-y-3">
               {comments.map((comment) => (
-                <div key={comment.id} className="flex gap-2">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center text-white text-xs font-medium shrink-0">
+                <div key={comment.id} className={`flex gap-2 ${comment.isTopComment ? 'relative' : ''}`}>
+                  {comment.isTopComment && (
+                    <div className="absolute -top-2 -left-1 z-10">
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-gradient-to-r from-yellow-400 to-amber-500 text-white text-xs font-bold rounded-full shadow-lg">
+                        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                        Top Comment +{comment.coinReward || 5} coins
+                      </span>
+                    </div>
+                  )}
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-medium shrink-0 ${comment.isTopComment ? 'bg-gradient-to-br from-yellow-400 to-amber-500 ring-2 ring-yellow-300' : 'bg-gradient-to-br from-gray-300 to-gray-400'}`}>
                     {(comment.profiles?.username || 'A').charAt(0).toUpperCase()}
                   </div>
-                  <div className="flex-1 bg-gray-50 rounded-lg px-3 py-2">
+                  <div className={`flex-1 rounded-lg px-3 py-2 ${comment.isTopComment ? 'bg-gradient-to-r from-yellow-50 to-amber-50 border border-yellow-200' : 'bg-gray-50'}`}>
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-sm font-medium text-gray-800">
+                      <span className={`text-sm font-medium ${comment.isTopComment ? 'text-amber-800' : 'text-gray-800'}`}>
                         {comment.profiles?.username || 'Anonymous'}
                       </span>
                       <span className="text-xs text-gray-400">
@@ -551,6 +617,13 @@ export default function PostCard({ post, currentUserId, onLike, onCommentAdded, 
                       </span>
                     </div>
                     <p className="text-sm text-gray-700">{comment.content}</p>
+                    <div className="flex items-center gap-3 mt-2">
+                      <CommentLikeButton 
+                        commentId={comment.id}
+                        userId={currentUserId}
+                        initialLikeCount={comment.likeCount || 0}
+                      />
+                    </div>
                   </div>
                 </div>
               ))}

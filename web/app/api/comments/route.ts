@@ -19,6 +19,9 @@ export async function GET(req: Request) {
         userId: comments.userId,
         content: comments.content,
         isHelpful: comments.isHelpful,
+        likeCount: comments.likeCount,
+        isTopComment: comments.isTopComment,
+        coinReward: comments.coinReward,
         createdAt: comments.createdAt,
         profiles: {
           username: profiles.username,
@@ -28,7 +31,7 @@ export async function GET(req: Request) {
       .from(comments)
       .leftJoin(profiles, eq(comments.userId, profiles.id))
       .where(eq(comments.postId, postId))
-      .orderBy(desc(comments.createdAt));
+      .orderBy(desc(comments.isTopComment), desc(comments.likeCount), desc(comments.createdAt));
 
     return NextResponse.json({comments: allComments});
   } catch (err: any) {
