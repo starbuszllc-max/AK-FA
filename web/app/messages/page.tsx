@@ -422,7 +422,7 @@ function MessagesContent() {
   if (!userId) {
     return (
       <div className="max-w-2xl mx-auto text-center py-16 px-4">
-        <div className="w-20 h-20 bg-gradient-to-br from-[#C9A962] to-[#000000] rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+        <div className="w-20 h-20 bg-gradient-to-br from-[#16a34a] to-[#000000] rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
           <MessageCircle className="w-10 h-10 text-white" />
         </div>
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Messages</h1>
@@ -431,7 +431,7 @@ function MessagesContent() {
         </p>
         <Link
           href="/signup"
-          className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#C9A962] to-[#000000] text-white rounded-full font-semibold hover:opacity-90 transition-all shadow-lg"
+          className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#16a34a] to-[#000000] text-white rounded-full font-semibold hover:opacity-90 transition-all shadow-lg"
         >
           Get Started
         </Link>
@@ -443,7 +443,7 @@ function MessagesContent() {
     return (
       <div className="flex items-center justify-center min-h-[80vh]">
         <div className="text-center">
-          <Loader2 className="w-10 h-10 animate-spin text-[#C9A962] mx-auto mb-4" />
+          <Loader2 className="w-10 h-10 animate-spin text-[#16a34a] mx-auto mb-4" />
           <p className="text-gray-500 dark:text-gray-400">Loading messages...</p>
         </div>
       </div>
@@ -456,36 +456,36 @@ function MessagesContent() {
         <div className="h-full flex rounded-xl overflow-hidden shadow-xl border border-gray-200 dark:border-slate-700">
           
           <div className={`w-full md:w-[380px] flex flex-col bg-white dark:bg-[#111111] ${selectedConversation ? 'hidden md:flex' : ''}`}>
-            <div className="p-4 bg-[#000000] border-b border-[#C9A962]/20">
+            <div className="p-4 bg-[#000000] border-b border-[#16a34a]/20">
               <div className="flex items-center justify-between mb-4">
-                <h1 className="text-2xl font-bold text-[#C9A962]">Chats</h1>
+                <h1 className="text-2xl font-bold text-[#16a34a]">Chats</h1>
                 <div className="flex items-center gap-2">
-                  <button className="p-2 hover:bg-[#C9A962]/20 rounded-full transition-colors">
-                    <Camera className="w-5 h-5 text-[#C9A962]" />
+                  <button className="p-2 hover:bg-[#16a34a]/20 rounded-full transition-colors">
+                    <Camera className="w-5 h-5 text-[#16a34a]" />
                   </button>
                   <div className="relative" ref={optionsMenuRef}>
                     <button 
                       onClick={() => setShowOptionsMenu(!showOptionsMenu)}
-                      className="p-2 hover:bg-[#C9A962]/20 rounded-full transition-colors"
+                      className="p-2 hover:bg-[#16a34a]/20 rounded-full transition-colors"
                     >
-                      <MoreVertical className="w-5 h-5 text-[#C9A962]" />
+                      <MoreVertical className="w-5 h-5 text-[#16a34a]" />
                     </button>
                     {showOptionsMenu && (
-                      <div className="absolute right-0 top-12 w-56 bg-white dark:bg-[#1a1a1a] rounded-xl shadow-2xl border border-gray-200 dark:border-[#C9A962]/20 py-2 z-50">
-                        <button className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-[#C9A962]/10 flex items-center gap-3 text-gray-700 dark:text-gray-200">
+                      <div className="absolute right-0 top-12 w-56 bg-white dark:bg-[#1a1a1a] rounded-xl shadow-2xl border border-gray-200 dark:border-[#16a34a]/20 py-2 z-50">
+                        <button className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-[#16a34a]/10 flex items-center gap-3 text-gray-700 dark:text-gray-200">
                           <User className="w-5 h-5" />
                           <span>New Group</span>
                         </button>
-                        <button className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-[#C9A962]/10 flex items-center gap-3 text-gray-700 dark:text-gray-200">
+                        <button className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-[#16a34a]/10 flex items-center gap-3 text-gray-700 dark:text-gray-200">
                           <MessageCircle className="w-5 h-5" />
                           <span>Broadcast List</span>
                         </button>
-                        <button className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-[#C9A962]/10 flex items-center gap-3 text-gray-700 dark:text-gray-200">
+                        <button className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-[#16a34a]/10 flex items-center gap-3 text-gray-700 dark:text-gray-200">
                           <VolumeX className="w-5 h-5" />
                           <span>Muted Chats</span>
                         </button>
-                        <div className="border-t border-gray-200 dark:border-[#C9A962]/20 my-1"></div>
-                        <button className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-[#C9A962]/10 flex items-center gap-3 text-gray-700 dark:text-gray-200">
+                        <div className="border-t border-gray-200 dark:border-[#16a34a]/20 my-1"></div>
+                        <button className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-[#16a34a]/10 flex items-center gap-3 text-gray-700 dark:text-gray-200">
                           <Flag className="w-5 h-5" />
                           <span>Settings</span>
                         </button>
@@ -501,7 +501,7 @@ function MessagesContent() {
                   placeholder="Search conversations..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-[#1a1a1a] border border-[#C9A962]/30 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-[#C9A962] text-white placeholder-gray-400"
+                  className="w-full pl-10 pr-4 py-2.5 bg-[#1a1a1a] border border-[#16a34a]/30 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-[green-600] text-white placeholder-gray-400"
                 />
               </div>
             </div>
@@ -510,8 +510,8 @@ function MessagesContent() {
               {filteredConversations.length === 0 ? (
                 <div className="p-8 text-center text-gray-500 h-full flex items-center justify-center">
                   <div>
-                    <div className="w-16 h-16 bg-[#1a1a1a] rounded-full flex items-center justify-center mx-auto mb-4 border border-[#C9A962]/30">
-                      <MessageCircle className="w-8 h-8 text-[#C9A962]" />
+                    <div className="w-16 h-16 bg-[#1a1a1a] rounded-full flex items-center justify-center mx-auto mb-4 border border-[#16a34a]/30">
+                      <MessageCircle className="w-8 h-8 text-[#16a34a]" />
                     </div>
                     <p className="font-medium text-gray-300">No conversations yet</p>
                     <p className="text-sm mt-2 text-gray-500">Start following people and send them a message!</p>
@@ -523,34 +523,34 @@ function MessagesContent() {
                     <button
                       key={conv.id}
                       onClick={() => selectConversation(conv)}
-                      className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-[#1a1a1a] transition-colors text-left border-b border-[#C9A962]/10 ${
+                      className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-[#1a1a1a] transition-colors text-left border-b border-[#16a34a]/10 ${
                         selectedConversation?.id === conv.id 
-                          ? 'bg-[#C9A962]/10 border-l-4 border-l-[#C9A962]' 
+                          ? 'bg-[#16a34a]/10 border-l-4 border-l-[green-600]' 
                           : ''
                       }`}
                     >
                       <div className="relative flex-shrink-0">
-                        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#C9A962] to-[#000000] flex items-center justify-center overflow-hidden ring-2 ring-[#C9A962]/30">
+                        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#16a34a] to-[#000000] flex items-center justify-center overflow-hidden ring-2 ring-[green-600]/30">
                           {conv.otherUser.avatarUrl ? (
                             <img src={conv.otherUser.avatarUrl} alt="" className="w-full h-full object-cover" />
                           ) : (
                             <User className="w-7 h-7 text-white" />
                           )}
                         </div>
-                        <div className="absolute bottom-0 right-0 w-4 h-4 bg-[#C9A962] rounded-full border-2 border-[#0a0a0a]" />
+                        <div className="absolute bottom-0 right-0 w-4 h-4 bg-[#16a34a] rounded-full border-2 border-[#0a0a0a]" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
                           <span className="font-semibold text-white truncate">
                             {conv.otherUser.username}
                           </span>
-                          <span className={`text-xs flex-shrink-0 ml-2 ${conv.unreadCount > 0 ? 'text-[#C9A962] font-semibold' : 'text-gray-500'}`}>
+                          <span className={`text-xs flex-shrink-0 ml-2 ${conv.unreadCount > 0 ? 'text-[#16a34a] font-semibold' : 'text-gray-500'}`}>
                             {new Date(conv.lastMessageAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                           </span>
                         </div>
                         <div className="flex items-center gap-1">
                           {conv.lastMessage && conv.lastMessage.senderId === userId && (
-                            <CheckCheck className="w-4 h-4 text-[#C9A962] flex-shrink-0" />
+                            <CheckCheck className="w-4 h-4 text-[#16a34a] flex-shrink-0" />
                           )}
                           {conv.lastMessage && (
                             <p className={`text-sm truncate flex-1 ${conv.unreadCount > 0 ? 'font-semibold text-gray-200' : 'text-gray-400'}`}>
@@ -558,7 +558,7 @@ function MessagesContent() {
                             </p>
                           )}
                           {conv.unreadCount > 0 && (
-                            <span className="w-5 h-5 bg-[#C9A962] text-black text-xs rounded-full flex items-center justify-center font-bold flex-shrink-0">
+                            <span className="w-5 h-5 bg-[#16a34a] text-black text-xs rounded-full flex items-center justify-center font-bold flex-shrink-0">
                               {conv.unreadCount}
                             </span>
                           )}
@@ -574,69 +574,69 @@ function MessagesContent() {
           <div className={`flex-1 flex flex-col bg-[#0f0f0f] ${!selectedConversation ? 'hidden md:flex' : ''}`}>
             {selectedConversation ? (
               <>
-                <div className="px-4 py-3 bg-[#000000] border-b border-[#C9A962]/20 flex items-center justify-between">
+                <div className="px-4 py-3 bg-[#000000] border-b border-[#16a34a]/20 flex items-center justify-between">
                   <div className="flex items-center gap-3 flex-1">
                     <button
                       onClick={() => setSelectedConversation(null)}
-                      className="md:hidden p-2 hover:bg-[#C9A962]/20 rounded-full"
+                      className="md:hidden p-2 hover:bg-[#16a34a]/20 rounded-full"
                     >
-                      <ArrowLeft className="w-5 h-5 text-[#C9A962]" />
+                      <ArrowLeft className="w-5 h-5 text-[#16a34a]" />
                     </button>
                     <button
                       onClick={() => setShowProfile(true)}
                       className="flex items-center gap-3 hover:opacity-80 transition-opacity"
                     >
                       <div className="relative">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#C9A962] to-[#000000] flex items-center justify-center overflow-hidden ring-2 ring-[#C9A962]/50">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#16a34a] to-[#000000] flex items-center justify-center overflow-hidden ring-2 ring-[green-600]/50">
                           {selectedConversation.otherUser.avatarUrl ? (
                             <img src={selectedConversation.otherUser.avatarUrl} alt="" className="w-full h-full object-cover" />
                           ) : (
                             <User className="w-5 h-5 text-white" />
                           )}
                         </div>
-                        <div className="absolute bottom-0 right-0 w-3 h-3 bg-[#C9A962] rounded-full border-2 border-[#000000]" />
+                        <div className="absolute bottom-0 right-0 w-3 h-3 bg-[#16a34a] rounded-full border-2 border-[#000000]" />
                       </div>
                       <div className="text-left">
                         <p className="font-semibold text-white text-sm">
                           {selectedConversation.otherUser.username}
                         </p>
-                        <p className="text-xs text-[#C9A962]">online</p>
+                        <p className="text-xs text-[#16a34a]">online</p>
                       </div>
                     </button>
                   </div>
                   <div className="flex items-center gap-1">
-                    <button className="p-2 hover:bg-[#C9A962]/20 rounded-full transition-colors">
-                      <Video className="w-5 h-5 text-[#C9A962]" />
+                    <button className="p-2 hover:bg-[#16a34a]/20 rounded-full transition-colors">
+                      <Video className="w-5 h-5 text-[#16a34a]" />
                     </button>
-                    <button className="p-2 hover:bg-[#C9A962]/20 rounded-full transition-colors">
-                      <Phone className="w-5 h-5 text-[#C9A962]" />
+                    <button className="p-2 hover:bg-[#16a34a]/20 rounded-full transition-colors">
+                      <Phone className="w-5 h-5 text-[#16a34a]" />
                     </button>
                     <div className="relative">
                       <button 
                         onClick={() => setShowChatMenu(!showChatMenu)}
-                        className="p-2 hover:bg-[#C9A962]/20 rounded-full transition-colors"
+                        className="p-2 hover:bg-[#16a34a]/20 rounded-full transition-colors"
                       >
-                        <MoreVertical className="w-5 h-5 text-[#C9A962]" />
+                        <MoreVertical className="w-5 h-5 text-[#16a34a]" />
                       </button>
                       {showChatMenu && (
-                        <div className="absolute right-0 top-12 w-56 bg-white dark:bg-[#1a1a1a] rounded-xl shadow-2xl border border-gray-200 dark:border-[#C9A962]/20 py-2 z-50">
+                        <div className="absolute right-0 top-12 w-56 bg-white dark:bg-[#1a1a1a] rounded-xl shadow-2xl border border-gray-200 dark:border-[#16a34a]/20 py-2 z-50">
                           <button 
                             onClick={() => setShowProfile(true)}
-                            className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-[#C9A962]/10 flex items-center gap-3 text-gray-700 dark:text-gray-200"
+                            className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-[#16a34a]/10 flex items-center gap-3 text-gray-700 dark:text-gray-200"
                           >
                             <User className="w-5 h-5" />
                             <span>View Profile</span>
                           </button>
-                          <button className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-[#C9A962]/10 flex items-center gap-3 text-gray-700 dark:text-gray-200">
+                          <button className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-[#16a34a]/10 flex items-center gap-3 text-gray-700 dark:text-gray-200">
                             <VolumeX className="w-5 h-5" />
                             <span>Mute Notifications</span>
                           </button>
-                          <button className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-[#C9A962]/10 flex items-center gap-3 text-gray-700 dark:text-gray-200">
+                          <button className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-[#16a34a]/10 flex items-center gap-3 text-gray-700 dark:text-gray-200">
                             <Search className="w-5 h-5" />
                             <span>Search in Chat</span>
                           </button>
-                          <div className="border-t border-gray-200 dark:border-[#C9A962]/20 my-1"></div>
-                          <button className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-[#C9A962]/10 flex items-center gap-3 text-gray-700 dark:text-gray-200">
+                          <div className="border-t border-gray-200 dark:border-[#16a34a]/20 my-1"></div>
+                          <button className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-[#16a34a]/10 flex items-center gap-3 text-gray-700 dark:text-gray-200">
                             <Ban className="w-5 h-5" />
                             <span>Block User</span>
                           </button>
@@ -658,8 +658,8 @@ function MessagesContent() {
                 >
                   {messages.length === 0 && selectedConversation.id === 'new' && (
                     <div className="flex items-center justify-center h-full">
-                      <div className="text-center bg-[#1a1a1a]/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-[#C9A962]/20">
-                        <div className="w-16 h-16 bg-gradient-to-br from-[#C9A962] to-[#000000] rounded-full flex items-center justify-center mx-auto mb-4 ring-4 ring-[#C9A962]/30">
+                      <div className="text-center bg-[#1a1a1a]/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-[#16a34a]/20">
+                        <div className="w-16 h-16 bg-gradient-to-br from-[#16a34a] to-[#000000] rounded-full flex items-center justify-center mx-auto mb-4 ring-4 ring-[green-600]/30">
                           {selectedConversation.otherUser.avatarUrl ? (
                             <img src={selectedConversation.otherUser.avatarUrl} alt="" className="w-full h-full object-cover rounded-full" />
                           ) : (
@@ -682,7 +682,7 @@ function MessagesContent() {
                       <div key={msg.id}>
                         {showDate && (
                           <div className="flex justify-center my-4">
-                            <span className="px-4 py-1.5 bg-[#1a1a1a]/90 backdrop-blur-sm rounded-full text-xs text-[#C9A962] shadow-sm border border-[#C9A962]/20">
+                            <span className="px-4 py-1.5 bg-[#1a1a1a]/90 backdrop-blur-sm rounded-full text-xs text-[#16a34a] shadow-sm border border-[#16a34a]/20">
                               {formatDateSeparator(msg.createdAt)}
                             </span>
                           </div>
@@ -692,14 +692,14 @@ function MessagesContent() {
                           <div
                             className={`relative max-w-[75%] px-3 py-2 shadow-md ${
                               isMe
-                                ? 'bg-gradient-to-br from-[#C9A962] to-[#a88a4a] rounded-2xl rounded-tr-sm'
-                                : 'bg-[#1a1a1a] border border-[#C9A962]/20 rounded-2xl rounded-tl-sm'
+                                ? 'bg-gradient-to-br from-[#16a34a] to-[#15803d] rounded-2xl rounded-tr-sm'
+                                : 'bg-[#1a1a1a] border border-[#16a34a]/20 rounded-2xl rounded-tl-sm'
                             }`}
                             onClick={() => setSelectedMessageId(selectedMessageId === msg.id ? null : msg.id)}
                           >
                             {msg.messageType === 'audio' && msg.mediaUrl ? (
                               <div className="flex items-center gap-3 min-w-[200px]">
-                                <div className={`w-10 h-10 ${isMe ? 'bg-black/30' : 'bg-[#C9A962]'} rounded-full flex items-center justify-center flex-shrink-0`}>
+                                <div className={`w-10 h-10 ${isMe ? 'bg-black/30' : 'bg-[#16a34a]'} rounded-full flex items-center justify-center flex-shrink-0`}>
                                   <Mic className="w-5 h-5 text-white" />
                                 </div>
                                 <div className="flex-1">
@@ -741,20 +741,20 @@ function MessagesContent() {
                             </div>
                             
                             {selectedMessageId === msg.id && (
-                              <div className={`absolute ${isMe ? 'right-full mr-2' : 'left-full ml-2'} top-0 flex items-center gap-1 bg-[#1a1a1a] rounded-lg p-1 border border-[#C9A962]/20 shadow-lg`}>
+                              <div className={`absolute ${isMe ? 'right-full mr-2' : 'left-full ml-2'} top-0 flex items-center gap-1 bg-[#1a1a1a] rounded-lg p-1 border border-[#16a34a]/20 shadow-lg`}>
                                 <button 
                                   onClick={(e) => { e.stopPropagation(); copyMessageText(msg.content); }}
-                                  className="p-2 hover:bg-[#C9A962]/20 rounded-lg transition-colors"
+                                  className="p-2 hover:bg-[#16a34a]/20 rounded-lg transition-colors"
                                   title="Copy"
                                 >
-                                  <Copy className="w-4 h-4 text-[#C9A962]" />
+                                  <Copy className="w-4 h-4 text-[#16a34a]" />
                                 </button>
                                 <button 
                                   onClick={(e) => e.stopPropagation()}
-                                  className="p-2 hover:bg-[#C9A962]/20 rounded-lg transition-colors"
+                                  className="p-2 hover:bg-[#16a34a]/20 rounded-lg transition-colors"
                                   title="Reply"
                                 >
-                                  <Reply className="w-4 h-4 text-[#C9A962]" />
+                                  <Reply className="w-4 h-4 text-[#16a34a]" />
                                 </button>
                               </div>
                             )}
@@ -767,7 +767,7 @@ function MessagesContent() {
                   <div ref={messagesEndRef} />
                 </div>
 
-                <form onSubmit={sendMessage} className="p-3 bg-[#000000] border-t border-[#C9A962]/20">
+                <form onSubmit={sendMessage} className="p-3 bg-[#000000] border-t border-[#16a34a]/20">
                   <input
                     type="file"
                     ref={fileInputRef}
@@ -799,7 +799,7 @@ function MessagesContent() {
                           <button
                             type="button"
                             onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                            className={`p-2 rounded-full transition-colors ${showEmojiPicker ? 'bg-[#C9A962]/30 text-[#C9A962]' : 'text-gray-400 hover:bg-[#C9A962]/20 hover:text-[#C9A962]'}`}
+                            className={`p-2 rounded-full transition-colors ${showEmojiPicker ? 'bg-[#16a34a]/30 text-[#16a34a]' : 'text-gray-400 hover:bg-[#16a34a]/20 hover:text-[#16a34a]'}`}
                           >
                             <Smile className="w-6 h-6" />
                           </button>
@@ -818,16 +818,16 @@ function MessagesContent() {
                           <button
                             type="button"
                             onClick={() => setShowAttachMenu(!showAttachMenu)}
-                            className={`p-2 rounded-full transition-colors ${showAttachMenu ? 'bg-[#C9A962]/30 text-[#C9A962]' : 'text-gray-400 hover:bg-[#C9A962]/20 hover:text-[#C9A962]'}`}
+                            className={`p-2 rounded-full transition-colors ${showAttachMenu ? 'bg-[#16a34a]/30 text-[#16a34a]' : 'text-gray-400 hover:bg-[#16a34a]/20 hover:text-[#16a34a]'}`}
                           >
                             {uploading ? <Loader2 className="w-6 h-6 animate-spin" /> : <Paperclip className="w-6 h-6" />}
                           </button>
                           {showAttachMenu && (
-                            <div className="absolute bottom-14 left-0 w-48 bg-[#1a1a1a] rounded-xl shadow-2xl border border-[#C9A962]/20 py-2 z-50">
+                            <div className="absolute bottom-14 left-0 w-48 bg-[#1a1a1a] rounded-xl shadow-2xl border border-[#16a34a]/20 py-2 z-50">
                               <button 
                                 type="button"
                                 onClick={() => fileInputRef.current?.click()}
-                                className="w-full px-4 py-3 text-left hover:bg-[#C9A962]/10 flex items-center gap-3 text-gray-200"
+                                className="w-full px-4 py-3 text-left hover:bg-[#16a34a]/10 flex items-center gap-3 text-gray-200"
                               >
                                 <div className="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center">
                                   <ImageIcon className="w-5 h-5 text-white" />
@@ -837,7 +837,7 @@ function MessagesContent() {
                               <button 
                                 type="button"
                                 onClick={() => fileInputRef.current?.click()}
-                                className="w-full px-4 py-3 text-left hover:bg-[#C9A962]/10 flex items-center gap-3 text-gray-200"
+                                className="w-full px-4 py-3 text-left hover:bg-[#16a34a]/10 flex items-center gap-3 text-gray-200"
                               >
                                 <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
                                   <Camera className="w-5 h-5 text-white" />
@@ -855,7 +855,7 @@ function MessagesContent() {
                             value={newMessage}
                             onChange={(e) => setNewMessage(e.target.value)}
                             placeholder="Type a message"
-                            className="w-full px-4 py-3 bg-[#1a1a1a] border border-[#C9A962]/30 rounded-full focus:outline-none focus:ring-2 focus:ring-[#C9A962] text-white text-[15px] placeholder-gray-500"
+                            className="w-full px-4 py-3 bg-[#1a1a1a] border border-[#16a34a]/30 rounded-full focus:outline-none focus:ring-2 focus:ring-[green-600] text-white text-[15px] placeholder-gray-500"
                           />
                         </div>
                         
@@ -863,7 +863,7 @@ function MessagesContent() {
                           <button
                             type="submit"
                             disabled={sending}
-                            className="w-12 h-12 bg-gradient-to-br from-[#C9A962] to-[#a88a4a] text-black rounded-full flex items-center justify-center hover:opacity-90 transition-opacity shadow-lg disabled:opacity-50"
+                            className="w-12 h-12 bg-gradient-to-br from-[#16a34a] to-[#15803d] text-black rounded-full flex items-center justify-center hover:opacity-90 transition-opacity shadow-lg disabled:opacity-50"
                           >
                             {sending ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
                           </button>
@@ -871,7 +871,7 @@ function MessagesContent() {
                           <button
                             type="button"
                             onClick={startRecording}
-                            className="w-12 h-12 bg-gradient-to-br from-[#C9A962] to-[#a88a4a] text-black rounded-full flex items-center justify-center hover:opacity-90 transition-opacity shadow-lg"
+                            className="w-12 h-12 bg-gradient-to-br from-[#16a34a] to-[#15803d] text-black rounded-full flex items-center justify-center hover:opacity-90 transition-opacity shadow-lg"
                           >
                             <Mic className="w-5 h-5" />
                           </button>
@@ -886,12 +886,12 @@ function MessagesContent() {
                 <div className="text-center max-w-md px-8">
                   <div className="w-[200px] h-[200px] mx-auto mb-8 opacity-80">
                     <svg viewBox="0 0 303 172" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-                      <path d="M229.565 160.229C262.212 149.245 286.931 118.241 283.39 73.4194C278.009 5.31929 212.365 -11.5738 171.472 8.48673C115.998 37.0182 41.706 24.5765 22.1979 69.8712C2.68967 115.166 24.4655 135.141 65.0847 160.229" stroke="#C9A962" strokeWidth="2"/>
-                      <path d="M151.5 122C180.495 122 204 98.495 204 69.5C204 40.505 180.495 17 151.5 17C122.505 17 99 40.505 99 69.5C99 98.495 122.505 122 151.5 122Z" fill="#C9A962" fillOpacity="0.1"/>
-                      <path d="M151.5 89C162.27 89 171 80.2696 171 69.5C171 58.7304 162.27 50 151.5 50C140.73 50 132 58.7304 132 69.5C132 80.2696 140.73 89 151.5 89Z" fill="#C9A962"/>
+                      <path d="M229.565 160.229C262.212 149.245 286.931 118.241 283.39 73.4194C278.009 5.31929 212.365 -11.5738 171.472 8.48673C115.998 37.0182 41.706 24.5765 22.1979 69.8712C2.68967 115.166 24.4655 135.141 65.0847 160.229" stroke="green-600" strokeWidth="2"/>
+                      <path d="M151.5 122C180.495 122 204 98.495 204 69.5C204 40.505 180.495 17 151.5 17C122.505 17 99 40.505 99 69.5C99 98.495 122.505 122 151.5 122Z" fill="green-600" fillOpacity="0.1"/>
+                      <path d="M151.5 89C162.27 89 171 80.2696 171 69.5C171 58.7304 162.27 50 151.5 50C140.73 50 132 58.7304 132 69.5C132 80.2696 140.73 89 151.5 89Z" fill="green-600"/>
                     </svg>
                   </div>
-                  <h2 className="text-3xl font-light text-[#C9A962] mb-4">Akorfa Messages</h2>
+                  <h2 className="text-3xl font-light text-[#16a34a] mb-4">Akorfa Messages</h2>
                   <p className="text-gray-400 text-sm leading-relaxed">
                     Send and receive messages with other Akorfa users. Select a conversation or start a new one from someone's profile.
                   </p>
@@ -920,7 +920,7 @@ export default function MessagesPage() {
   return (
     <Suspense fallback={
       <div className="flex items-center justify-center min-h-[80vh]">
-        <Loader2 className="w-10 h-10 animate-spin text-[#C9A962]" />
+        <Loader2 className="w-10 h-10 animate-spin text-[#16a34a]" />
       </div>
     }>
       <MessagesContent />
