@@ -184,8 +184,8 @@ export default function ProgressHUD({ userId, isVisible = true, sticky = false }
                     exit={{ height: 0, opacity: 0 }}
                     className="border-t border-gray-100/50 dark:border-slate-700/50"
                   >
-                    <div className="py-2 px-2 space-y-2">
-                      <div className="flex flex-col items-center gap-1 py-1.5 px-1 bg-orange-50/80 dark:bg-orange-900/20 rounded-xl">
+                    <div className="py-2 px-2 flex flex-row space-x-2">
+                      <div className="flex-1 flex flex-col items-center gap-1 py-1.5 px-1 bg-orange-50/80 dark:bg-orange-900/20 rounded-xl">
                         <Flame className="w-4 h-4 text-orange-500" />
                         <div className="text-center">
                           <div className="font-bold text-sm text-orange-600 dark:text-orange-400">{streak}</div>
@@ -193,7 +193,7 @@ export default function ProgressHUD({ userId, isVisible = true, sticky = false }
                         </div>
                       </div>
                       
-                      <div className="flex flex-col items-center gap-1 py-1.5 px-1 bg-green-50/80 dark:bg-green-900/20 rounded-xl">
+                      <div className="flex-1 flex flex-col items-center gap-1 py-1.5 px-1 bg-green-50/80 dark:bg-green-900/20 rounded-xl">
                         <TrendingUp className="w-4 h-4 text-green-500" />
                         <div className="text-center">
                           <div className="font-bold text-sm text-green-600 dark:text-green-400">{averageLayerScore}%</div>
