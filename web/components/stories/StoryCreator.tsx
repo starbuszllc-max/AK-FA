@@ -90,18 +90,18 @@ export default function StoryCreator({ userId, onClose, onCreated }: StoryCreato
 
   return (
     <div className="fixed inset-0 bg-black z-50 flex flex-col">
-      <div className="flex items-center justify-between p-4">
+      <div className="flex items-center justify-between p-2 md:p-4">
         <button
           onClick={onClose}
           className="p-2 hover:bg-white/10 rounded-full transition-colors"
         >
           <X className="w-6 h-6 text-white" />
         </button>
-        <h2 className="text-white font-medium">Create Story</h2>
+        <h2 className="text-white font-medium text-sm md:text-base">Create Story</h2>
         <div className="w-10" />
       </div>
 
-      <div className="flex justify-center gap-4 mb-4">
+      <div className="flex justify-center gap-2 md:gap-4 mb-2 md:mb-4 px-2">
         <button
           onClick={() => setMode('media')}
           className={`flex items-center gap-2 px-4 py-2 rounded-full transition-colors ${
@@ -122,9 +122,9 @@ export default function StoryCreator({ userId, onClose, onCreated }: StoryCreato
         </button>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center p-2 md:p-4">
+      <div className="flex-1 flex flex-col items-center justify-center p-1 md:p-4 min-h-0">
         {mode === 'media' ? (
-          <div className="w-full h-full md:max-w-md md:aspect-[9/16] bg-gray-900 rounded-2xl overflow-hidden relative flex flex-col">
+          <div className="w-full h-full max-h-[50vh] md:max-w-md md:aspect-[9/16] md:max-h-none bg-gray-900 rounded-2xl overflow-hidden relative flex flex-col">
             {previewUrl ? (
               <>
                 {mediaType === 'video' ? (
@@ -191,7 +191,7 @@ export default function StoryCreator({ userId, onClose, onCreated }: StoryCreato
         )}
       </div>
 
-      <div className="p-4 space-y-4">
+      <div className="p-2 md:p-4 space-y-2 md:space-y-4">
         {mode === 'media' && previewUrl && (
           <input
             type="text"
