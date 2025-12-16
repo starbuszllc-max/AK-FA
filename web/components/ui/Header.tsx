@@ -15,9 +15,12 @@ export function Header() {
   const [profile, setProfile] = useState<any>(null);
   const [score, setScore] = useState(0);
   const [balance, setBalance] = useState(0);
+  const [forceExpanded, setForceExpanded] = useState(false);
+  const scrollPauseTimeout = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   const pathname = usePathname();
 
-  const isCollapsed = scrollY > 100;
+  // Collapse after scrolling past threshold, but can be overridden by forceExpanded
+  const isCollapsed = scrollY > 100 && !forceExpanded;
 
   useEffect(() => {
     const demoUserId = localStorage.getItem('demo_user_id');
@@ -56,9 +59,35 @@ export function Header() {
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
+      setForceExpanded(false); // Collapse while scrolling
+      
+      // Clear previous timeout
+      if (scrollPauseTimeout.current) {
+        clearTimeout(scrollPauseTimeout.current);
+      }
+      
+      // Expand after scroll pause
+      scrollPauseTimeout.current = setTimeout(() => {
+        setForceExpanded(true);
+      }, 1500);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    
+    const handleTap = () => {
+      setForceExpanded(true);
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('touchstart', handleTap, { passive: true });
+    window.addEventListener('click', handleTap, { passive: true });
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('touchstart', handleTap);
+      window.removeEventListener('click', handleTap);
+      if (scrollPauseTimeout.current) {
+        clearTimeout(scrollPauseTimeout.current);
+      }
+    };
   }, []);
 
   function handleLogout() {
