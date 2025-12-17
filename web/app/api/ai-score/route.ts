@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { postScores, posts, wallets, pointsLog } from '@akorfa/shared';
 import { eq, sql } from 'drizzle-orm';
-import { getAIClient, hasOpenAIKey } from '@/lib/openai';
+import { getAIClient, hasOpenAIKey, createChatCompletion } from '@/lib/openai';
 
 export async function GET(req: NextRequest) {
   try {
@@ -84,7 +84,7 @@ Example response:
 
 Return ONLY valid JSON.`;
 
-    const response = await aiClient.chat.completions.create({
+    const response = await createChatCompletion({
       model: hasOpenAIKey() ? 'gpt-4o-mini' : 'mixtral-8x7b-32768',
       messages: [{ role: 'user', content: prompt }],
       ...(hasOpenAIKey() && { response_format: { type: 'json_object' } })

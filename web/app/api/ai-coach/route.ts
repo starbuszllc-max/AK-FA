@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getAIClient, hasOpenAIKey, hasGroqKey } from '../../../lib/openai';
+import { getAIClient, hasOpenAIKey, hasGroqKey, createChatCompletion, getOpenAI } from '../../../lib/openai';
 import { db } from '@/lib/db';
 import { profiles, assessments, posts, challengeParticipants, userBadges } from '@akorfa/shared';
 import { eq, desc } from 'drizzle-orm';
@@ -102,9 +102,9 @@ Your role:
       { role: 'user', content: message }
     ];
 
-    const response = await aiClient.chat.completions.create({
+    const response = await createChatCompletion({
       model: hasOpenAIKey() ? 'gpt-4o-mini' : 'mixtral-8x7b-32768',
-      messages,
+      messages: messages as any,
       max_tokens: 1024
     });
 

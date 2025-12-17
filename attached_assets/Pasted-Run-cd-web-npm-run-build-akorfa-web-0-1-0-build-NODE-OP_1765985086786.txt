@@ -1,0 +1,39 @@
+Run cd web && npm run build
+
+> akorfa-web@0.1.0 build
+> NODE_OPTIONS=--max-old-space-size=4096 next build
+
+⚠ No build cache found. Please configure build caching for faster rebuilds. Read more: https://nextjs.org/docs/messages/no-cache
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+   ▲ Next.js 16.0.10 (Turbopack)
+
+ ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 9.6s
+   Running TypeScript ...
+Failed to compile.
+
+./app/api/ai-coach/route.ts:105:54
+Type error: This expression is not callable.
+  Each member of the union type '{ (body: ChatCompletionCreateParamsNonStreaming, options?: RequestOptions | undefined): APIPromise<ChatCompletion>; (body: ChatCompletionCreateParamsStreaming, options?: RequestOptions | undefined): APIPromise<...>; (body: ChatCompletionCreateParamsBase, options?: RequestOptions | undefined): APIPromise<...>; } | { ...' has signatures, but none of those signatures are compatible with each other.
+
+  103 |     ];
+  104 |
+> 105 |     const response = await aiClient.chat.completions.create({
+      |                                                      ^
+  106 |       model: hasOpenAIKey() ? 'gpt-4o-mini' : 'mixtral-8x7b-32768',
+  107 |       messages,
+  108 |       max_tokens: 1024
+Next.js build worker exited with code: 1 and signal: null
+npm error Lifecycle script `build` failed with error:
+npm error code 1
+npm error path /home/runner/work/akorfa/akorfa/web
+npm error workspace akorfa-web@0.1.0
+npm error location /home/runner/work/akorfa/akorfa/web
+npm error command failed
+npm error command sh -c NODE_OPTIONS=--max-old-space-size=4096 next build
+Error: Process completed with exit code 1.

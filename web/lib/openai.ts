@@ -43,3 +43,21 @@ export function getAIClient(): OpenAI | Groq | null {
   if (hasGroqKey()) return getGroq();
   return null;
 }
+
+export async function createChatCompletion(params: {
+  model: string;
+  messages: Array<{ role: string; content: string }>;
+  max_tokens?: number;
+  response_format?: { type: string };
+}) {
+  const client = getAIClient();
+  if (!client) {
+    throw new Error('No AI provider configured');
+  }
+
+  if (hasOpenAIKey()) {
+    return await (client as OpenAI).chat.completions.create(params as any);
+  } else {
+    return await (client as Groq).chat.completions.create(params as any);
+  }
+}

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getAIClient, hasOpenAIKey } from '../../../../lib/openai';
+import { getAIClient, hasOpenAIKey, createChatCompletion } from '../../../../lib/openai';
 import { db } from '../../../../lib/db';
 import { profiles, assessments, dailyInsights } from '@akorfa/shared';
 import { eq, desc } from 'drizzle-orm';
@@ -60,12 +60,12 @@ Generate a JSON response:
 
 Make it personal, warm, and motivating. Reference their goals if possible. The deepExplanation should feel like a wise friend explaining complex concepts in simple terms that anyone can understand.`;
 
-      const response = await aiClient.chat.completions.create({
+      const response = await createChatCompletion({
         model: hasOpenAIKey() ? 'gpt-4o-mini' : 'mixtral-8x7b-32768',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: 'Generate my personalized daily insight.' }
-        ],
+        ] as any,
         response_format: { type: 'json_object' },
         max_tokens: 600
       });
