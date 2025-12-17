@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MoreVertical, Trash2, Bell, Edit2, Sparkles, X } from 'lucide-react';
 import LayeredLikeIcon from '@/components/ui/icons/LayeredLikeIcon';
 import ProfilePreviewPopup from './ProfilePreviewPopup';
+import VideoPreviewModal from './VideoPreviewModal';
 
 interface Comment {
   id: string;
@@ -151,6 +152,7 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
   const [editContent, setEditContent] = useState(post.content);
   const [editingPost, setEditingPost] = useState(false);
   const [showAddStory, setShowAddStory] = useState(false);
+  const [selectedVideoUrl, setSelectedVideoUrl] = useState<string | null>(null);
 
   useEffect(() => {
     setFailedMediaIndices(new Set());
@@ -604,6 +606,14 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
         />
       )}
 
+      {selectedVideoUrl && (
+        <VideoPreviewModal
+          videoUrl={selectedVideoUrl}
+          isOpen={!!selectedVideoUrl}
+          onClose={() => setSelectedVideoUrl(null)}
+        />
+      )}
+
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-3">
           <div 
@@ -761,7 +771,7 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
               
               const handleMediaClick = () => {
                 if (isVideo) {
-                  router.push(`/live?video=${encodeURIComponent(url)}`);
+                  setSelectedVideoUrl(url);
                 } else {
                   setPreviewImage(url);
                 }
