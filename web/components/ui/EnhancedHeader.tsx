@@ -46,7 +46,7 @@ export default function EnhancedHeader() {
   
   const isExcludedPage = EXCLUDED_PATHS.some(path => pathname?.startsWith(path));
   const isNotificationPage = pathname === '/notifications';
-  const isDiscoverPage = pathname === '/discover';
+  const isSearchPage = pathname === '/search';
 
   // Removed scroll pause auto-expand - only user interaction expands now
 
@@ -147,9 +147,9 @@ export default function EnhancedHeader() {
             transition={{ duration: 0.25, ease: 'easeOut' }}
             className="flex flex-col items-end gap-0.5"
           >
-            {!isDiscoverPage && (
+            {!isSearchPage && (
               <Link
-                href="/discover"
+                href="/search"
                 className="w-14 h-14 bg-black/30 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-black/50 transition-colors"
               >
                 <Search className="w-8 h-8 text-white" strokeWidth={2.5} style={{filter: 'drop-shadow(0 2px 12px rgba(0, 0, 0, 0.8)) drop-shadow(-2px -2px 8px rgba(0, 0, 0, 0.7)) drop-shadow(inset 0 1px 3px rgba(0, 0, 0, 0.8))'}} />
