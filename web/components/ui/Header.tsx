@@ -109,11 +109,7 @@ export function Header() {
         clearTimeout(scrollPauseTimeout.current);
       }
       
-      // After 1.5s of no scrolling, expand header back
-      scrollPauseTimeout.current = setTimeout(() => {
-        setShowFullHeader(true);
-        scrollDirection = null;
-      }, 1500);
+      // Removed auto-expand on scroll pause - only scroll up expands now
     };
     
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -239,13 +235,13 @@ export function Header() {
         )}
 
         {isCollapsed && (
-          <div className="flex items-center gap-3 ml-auto pr-4 pb-1">
-            <div className="flex items-center gap-1.5 px-2 py-1 bg-green-50 dark:bg-green-900/30 rounded-lg whitespace-nowrap">
+          <div className="absolute left-1/2 -translate-x-1/2 bottom-2 flex items-center gap-6">
+            <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-green-50 dark:bg-green-900/30 rounded-lg whitespace-nowrap">
               <Zap className="w-3.5 h-3.5 text-green-600 dark:text-green-400 flex-shrink-0" />
               <span className="text-xs font-bold text-green-700 dark:text-green-300">{Math.round(score)}</span>
               <span className="text-[10px] text-green-600 dark:text-green-400">Score</span>
             </div>
-            <div className="flex items-center gap-1.5 px-2 py-1 bg-blue-50 dark:bg-blue-900/30 rounded-lg whitespace-nowrap">
+            <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-blue-50 dark:bg-blue-900/30 rounded-lg whitespace-nowrap">
               <TrendingUp className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 flex-shrink-0" />
               <span className="text-xs font-bold text-blue-700 dark:text-blue-300">{balance}%</span>
               <span className="text-[10px] text-blue-600 dark:text-blue-400">Balance</span>

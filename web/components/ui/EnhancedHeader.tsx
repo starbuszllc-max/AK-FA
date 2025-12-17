@@ -40,34 +40,15 @@ export default function EnhancedHeader() {
   const isScrolledUp = useScrollVisibility({ threshold: 30 });
   const scrollPauseTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   
-  // Show expanded when scrolled up, paused, or at top; collapse when scrolling down
-  const isExpanded = isScrolledUp || scrollPaused;
-
+  // Show expanded only when scrolled up; hide from homepage/feed
+  const isExpanded = isScrolledUp;
+  const isHomepageOrFeed = pathname === '/' || pathname === '/feed' || pathname?.includes('/feed');
+  
   const isExcludedPage = EXCLUDED_PATHS.some(path => pathname?.startsWith(path));
   const isNotificationPage = pathname === '/notifications';
   const isDiscoverPage = pathname === '/discover';
 
-  // Detect scroll pause - show expanded header when user stops scrolling
-  useEffect(() => {
-    const handleScroll = () => {
-      if (scrollPauseTimeout.current) {
-        clearTimeout(scrollPauseTimeout.current);
-      }
-      setScrollPaused(false);
-      
-      scrollPauseTimeout.current = setTimeout(() => {
-        setScrollPaused(true);
-      }, 1500); // Show expanded after 1.5 seconds of no scrolling
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      if (scrollPauseTimeout.current) {
-        clearTimeout(scrollPauseTimeout.current);
-      }
-    };
-  }, []);
+  // Removed scroll pause auto-expand - only user interaction expands now
 
   useEffect(() => {
     if (isScrolledUp) {
@@ -144,7 +125,7 @@ export default function EnhancedHeader() {
     }
   };
 
-  if (isExcludedPage) return null;
+  if (isExcludedPage || isHomepageOrFeed) return null;
 
   const averageLayerScore = layerScores.length > 0 
     ? Math.round(layerScores.reduce((sum, l) => sum + l.score, 0) / layerScores.length) 
