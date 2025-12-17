@@ -239,7 +239,7 @@ export function Header() {
         )}
 
         {isCollapsed && (
-          <div className="flex items-center gap-3 justify-center flex-shrink-0">
+          <div className="flex items-center gap-3 ml-auto pr-4 pb-1">
             <div className="flex items-center gap-1.5 px-2 py-1 bg-green-50 dark:bg-green-900/30 rounded-lg whitespace-nowrap">
               <Zap className="w-3.5 h-3.5 text-green-600 dark:text-green-400 flex-shrink-0" />
               <span className="text-xs font-bold text-green-700 dark:text-green-300">{Math.round(score)}</span>
