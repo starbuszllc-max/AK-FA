@@ -285,16 +285,32 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
 
   async function handleDeletePost() {
     if (!confirm('Are you sure you want to delete this post?')) return;
+    if (!currentUserId) {
+      setShareToastMessage('Must be logged in to delete posts');
+      setShowShareToast(true);
+      setTimeout(() => setShowShareToast(false), 2500);
+      return;
+    }
     try {
-      const res = await fetch(`/api/posts/${post.id}`, { method: 'DELETE' });
+      const res = await fetch(`/api/posts/${post.id}?user_id=${currentUserId}`, { method: 'DELETE' });
       if (res.ok) {
         setShowPostMenu(false);
         setShareToastMessage('Post deleted');
         setShowShareToast(true);
         setTimeout(() => setShowShareToast(false), 2500);
+        // Optionally refresh the page or remove from list
+        window.location.reload();
+      } else {
+        const error = await res.json();
+        setShareToastMessage(error.error || 'Failed to delete post');
+        setShowShareToast(true);
+        setTimeout(() => setShowShareToast(false), 2500);
       }
     } catch (err) {
       console.error('Error deleting post:', err);
+      setShareToastMessage('Error deleting post');
+      setShowShareToast(true);
+      setTimeout(() => setShowShareToast(false), 2500);
     }
   }
 
