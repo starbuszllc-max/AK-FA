@@ -242,14 +242,14 @@ export function Header() {
         )}
 
         {isCollapsed && (
-          <div className="flex items-center gap-3 flex-1 justify-center">
-            <div className="flex items-center gap-1.5 px-2 py-1 bg-green-50 dark:bg-green-900/30 rounded-lg">
-              <Zap className="w-3.5 h-3.5 text-green-600 dark:text-green-400" />
+          <div className="flex items-center gap-3 justify-center flex-shrink-0">
+            <div className="flex items-center gap-1.5 px-2 py-1 bg-green-50 dark:bg-green-900/30 rounded-lg whitespace-nowrap">
+              <Zap className="w-3.5 h-3.5 text-green-600 dark:text-green-400 flex-shrink-0" />
               <span className="text-xs font-bold text-green-700 dark:text-green-300">{Math.round(score)}</span>
               <span className="text-[10px] text-green-600 dark:text-green-400">Score</span>
             </div>
-            <div className="flex items-center gap-1.5 px-2 py-1 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
-              <TrendingUp className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+            <div className="flex items-center gap-1.5 px-2 py-1 bg-blue-50 dark:bg-blue-900/30 rounded-lg whitespace-nowrap">
+              <TrendingUp className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 flex-shrink-0" />
               <span className="text-xs font-bold text-blue-700 dark:text-blue-300">{balance}%</span>
               <span className="text-[10px] text-blue-600 dark:text-blue-400">Balance</span>
             </div>
