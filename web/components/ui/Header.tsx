@@ -222,20 +222,20 @@ export function Header() {
           </Link>
         )}
 
-        <div className={`flex items-center gap-4 transition-opacity duration-300 absolute bottom-1 left-1/2 -translate-x-1/2 ${isCollapsed ? 'flex' : 'hidden'}`}>
-          <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-green-50 dark:bg-green-900/30 rounded-lg whitespace-nowrap">
-            <Zap className="w-3.5 h-3.5 text-green-600 dark:text-green-400 flex-shrink-0" />
-            <span className="text-xs font-bold text-green-700 dark:text-green-300">{Math.round(score)}</span>
-            <span className="text-[10px] text-green-600 dark:text-green-400">Score</span>
+        <div className={`flex items-center gap-2 transition-opacity duration-300 absolute bottom-0.5 left-1/2 -translate-x-1/2 ${isCollapsed ? 'flex' : 'hidden'}`}>
+          <div className="flex items-center gap-1 px-1.5 py-1 bg-green-50 dark:bg-green-900/30 rounded-md whitespace-nowrap">
+            <Zap className="w-2.5 h-2.5 text-green-600 dark:text-green-400 flex-shrink-0" />
+            <span className="text-[10px] font-bold text-green-700 dark:text-green-300">{Math.round(score)}</span>
+            <span className="text-[8px] text-green-600 dark:text-green-400">Score</span>
           </div>
-          <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-blue-50 dark:bg-blue-900/30 rounded-lg whitespace-nowrap">
-            <TrendingUp className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 flex-shrink-0" />
-            <span className="text-xs font-bold text-blue-700 dark:text-blue-300">{balance}%</span>
-            <span className="text-[10px] text-blue-600 dark:text-blue-400">Balance</span>
+          <div className="flex items-center gap-1 px-1.5 py-1 bg-blue-50 dark:bg-blue-900/30 rounded-md whitespace-nowrap">
+            <TrendingUp className="w-2.5 h-2.5 text-blue-600 dark:text-blue-400 flex-shrink-0" />
+            <span className="text-[10px] font-bold text-blue-700 dark:text-blue-300">{balance}%</span>
+            <span className="text-[8px] text-blue-600 dark:text-blue-400">Balance</span>
           </div>
         </div>
         
-        <div className="flex items-center gap-1 md:hidden">
+        <div className={`flex items-center gap-1 md:hidden ${isCollapsed ? 'hidden' : ''}`}>
           <ThemeToggle />
           <button 
             className="p-1.5 text-gray-600 dark:text-gray-300"
