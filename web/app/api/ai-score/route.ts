@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { postScores, posts, wallets, pointsLog } from '@akorfa/shared';
 import { eq, sql } from 'drizzle-orm';
-import OpenAI from 'openai';
+import { getOpenAI, hasOpenAIKey } from '@/lib/openai';
 
 function getOpenAIClient() {
-  return new OpenAI();
+  return getOpenAI();
 }
 
 export async function GET(req: NextRequest) {
@@ -49,6 +49,20 @@ export async function POST(req: NextRequest) {
 
     if (existingScore) {
       return NextResponse.json({ score: existingScore, cached: true });
+    }
+
+    if (!hasOpenAIKey()) {
+      return NextResponse.json({ 
+        score: { 
+          postId, 
+          qualityScore: 50, 
+          layerImpact: {}, 
+          isHelpful: false, 
+          aiAnalysis: 'OpenAI integration not configured', 
+          bonusPoints: 0 
+        }, 
+        analyzed: false 
+      });
     }
 
     const prompt = `Analyze this post for personal growth value using the 7-Layer Human Stability Framework (Environment, Bio, Internal, Cultural, Social, Conscious, Existential).
