@@ -3,6 +3,7 @@ import '../styles/layered-icons.css';
 import React, { Suspense } from 'react';
 import { ThemeProvider } from '../lib/ThemeContext';
 import ConditionalHeader from '../components/ui/ConditionalHeader';
+import EnhancedHeader from '../components/ui/EnhancedHeader';
 import Footer from '../components/ui/Footer';
 import InstallPrompt from '../components/pwa/InstallPrompt';
 import BottomNavBar from '../components/ui/BottomNavBar';
@@ -42,6 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-screen bg-gray-50 dark:bg-slate-900 amoled:bg-black text-gray-900 dark:text-gray-100 flex flex-col transition-colors duration-200">
         <ThemeProvider>
           <ConditionalHeader />
+          <EnhancedHeader />
           <main className="flex-1 pb-16">
             <Suspense fallback={<LoadingScreen />}>
               {children}

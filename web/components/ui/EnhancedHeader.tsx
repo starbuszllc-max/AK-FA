@@ -40,8 +40,8 @@ export default function EnhancedHeader() {
   const isScrolledUp = useScrollVisibility({ threshold: 30 });
   const scrollPauseTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   
-  // Always show expanded header unless user manually collapses it
-  const isExpanded = (isScrolledUp || scrollPaused || !manualCollapse);
+  // Show expanded when scrolled up, paused, or at top; collapse when scrolling down
+  const isExpanded = isScrolledUp || scrollPaused;
 
   const isExcludedPage = EXCLUDED_PATHS.some(path => pathname?.startsWith(path));
   const isNotificationPage = pathname === '/notifications';
@@ -251,7 +251,6 @@ export default function EnhancedHeader() {
             animate={{ opacity: 1, scale: 1, x: 0 }}
             exit={{ opacity: 0, scale: 0.8, x: 20 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
-            onClick={() => setManualCollapse(true)}
             className="flex items-center gap-2 px-3 py-2 bg-black/40 backdrop-blur-md rounded-full hover:bg-black/60 transition-colors shadow-lg"
           >
             {userId && (
