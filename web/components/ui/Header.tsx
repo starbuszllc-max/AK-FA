@@ -20,11 +20,8 @@ export function Header() {
   const isScrolling = React.useRef(false);
   const pathname = usePathname();
 
-  // Show compact header on all pages EXCEPT homepage
-  // Non-homepage: always show compact (never expand)
-  // Homepage: compact header can show/hide based on scroll
-  const isHomepage = pathname === '/';
-  const isCollapsed = !isHomepage ? true : (scrollY > 100 && !showFullHeader);
+  // Show full header when expanded, collapsed (compact) when scrolling down
+  const isCollapsed = scrollY > 100 && !showFullHeader;
 
   useEffect(() => {
     const demoUserId = localStorage.getItem('demo_user_id');
@@ -61,13 +58,6 @@ export function Header() {
   };
 
   useEffect(() => {
-    // Only enable scroll collapse on homepage
-    const isHomepage = pathname === '/';
-    if (!isHomepage) {
-      setShowFullHeader(true);
-      return;
-    }
-
     let lastScrollY = 0;
     let scrollDirection: 'up' | 'down' | null = null;
     let lastScrollTime = Date.now();
@@ -108,8 +98,6 @@ export function Header() {
       if (scrollPauseTimeout.current) {
         clearTimeout(scrollPauseTimeout.current);
       }
-      
-      // Removed auto-expand on scroll pause - only scroll up expands now
     };
     
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -234,38 +222,34 @@ export function Header() {
           </Link>
         )}
 
-        {isCollapsed && (
-          <div className="absolute left-1/2 -translate-x-1/2 bottom-2 flex items-center gap-6">
-            <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-green-50 dark:bg-green-900/30 rounded-lg whitespace-nowrap">
-              <Zap className="w-3.5 h-3.5 text-green-600 dark:text-green-400 flex-shrink-0" />
-              <span className="text-xs font-bold text-green-700 dark:text-green-300">{Math.round(score)}</span>
-              <span className="text-[10px] text-green-600 dark:text-green-400">Score</span>
-            </div>
-            <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-blue-50 dark:bg-blue-900/30 rounded-lg whitespace-nowrap">
-              <TrendingUp className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 flex-shrink-0" />
-              <span className="text-xs font-bold text-blue-700 dark:text-blue-300">{balance}%</span>
-              <span className="text-[10px] text-blue-600 dark:text-blue-400">Balance</span>
-            </div>
+        <div className={`flex items-center gap-4 transition-opacity duration-300 ${isCollapsed ? 'flex' : 'hidden md:flex'}`}>
+          <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-green-50 dark:bg-green-900/30 rounded-lg whitespace-nowrap">
+            <Zap className="w-3.5 h-3.5 text-green-600 dark:text-green-400 flex-shrink-0" />
+            <span className="text-xs font-bold text-green-700 dark:text-green-300">{Math.round(score)}</span>
+            <span className="text-[10px] text-green-600 dark:text-green-400">Score</span>
           </div>
-        )}
+          <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-blue-50 dark:bg-blue-900/30 rounded-lg whitespace-nowrap">
+            <TrendingUp className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 flex-shrink-0" />
+            <span className="text-xs font-bold text-blue-700 dark:text-blue-300">{balance}%</span>
+            <span className="text-[10px] text-blue-600 dark:text-blue-400">Balance</span>
+          </div>
+        </div>
         
-        {!isCollapsed && (
-          <div className="flex items-center gap-1 md:hidden">
-            <ThemeToggle />
-            <button 
-              className="p-1.5 text-gray-600 dark:text-gray-300"
-              onClick={() => setMenuOpen(!menuOpen)}
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                {menuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
-            </button>
-          </div>
-        )}
+        <div className="flex items-center gap-1 md:hidden">
+          <ThemeToggle />
+          <button 
+            className="p-1.5 text-gray-600 dark:text-gray-300"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {menuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
+        </div>
 
         <nav className={`${isCollapsed ? 'hidden' : 'hidden md:flex'} items-center gap-0.5`}>
           {navLinks.map((link) => (
