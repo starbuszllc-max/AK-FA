@@ -235,7 +235,7 @@ export function Header() {
           </div>
         </div>
         
-        <div className={`flex items-center gap-1 md:hidden ${isCollapsed ? 'hidden' : ''}`}>
+        <div className={`flex items-center gap-1 md:hidden ${isCollapsed ? 'hidden' : ''}`} style={{ paddingBottom: '8px' }}>
           <ThemeToggle />
           <button 
             className="p-1.5 text-gray-600 dark:text-gray-300"
