@@ -60,21 +60,33 @@ export function Header() {
   useEffect(() => {
     let lastScrollY = 0;
     let scrollDirection: 'up' | 'down' | null = null;
+    let lastScrollTime = Date.now();
     
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
+      const currentTime = Date.now();
+      const timeSinceLastScroll = currentTime - lastScrollTime;
       
-      // Determine scroll direction
-      if (currentScrollY > lastScrollY) {
+      // Ignore scroll events within 50ms (likely layout shifts from media loading)
+      if (timeSinceLastScroll < 50) {
+        return;
+      }
+      
+      lastScrollTime = currentTime;
+      
+      // Determine scroll direction with minimum threshold to avoid noise
+      const scrollDelta = currentScrollY - lastScrollY;
+      if (scrollDelta > 10) {
         scrollDirection = 'down';
-      } else if (currentScrollY < lastScrollY) {
+      } else if (scrollDelta < -20) {
+        // Require significant scroll up (20px) to avoid layout shift noise
         scrollDirection = 'up';
       }
       
       lastScrollY = currentScrollY;
       setScrollY(currentScrollY);
       
-      // Always show full header when at top or scrolling up
+      // Always show full header when at top or scrolling up significantly
       if (currentScrollY < 50 || scrollDirection === 'up') {
         setShowFullHeader(true);
       } else if (scrollDirection === 'down' && currentScrollY > 200) {
