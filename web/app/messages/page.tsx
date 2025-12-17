@@ -94,6 +94,7 @@ function MessagesContent() {
   const [storiesLoading, setStoriesLoading] = useState(true);
   const [viewedStoryTimestamps, setViewedStoryTimestamps] = useState<Record<string, string>>({});
   const [showCameraCapture, setShowCameraCapture] = useState(false);
+  const [userOnlineStatus, setUserOnlineStatus] = useState<Record<string, boolean>>({});
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -289,6 +290,10 @@ function MessagesContent() {
       const res = await fetch(`/api/messages?userId=${userId}&conversationId=${conversationId}`);
       const data = await res.json();
       setMessages(data.messages || []);
+      // Refresh conversations list to update unread count after marking as read
+      if (userId) {
+        await fetchConversations(userId);
+      }
     } catch (error) {
       console.error('Error fetching messages:', error);
     }
@@ -774,7 +779,7 @@ function MessagesContent() {
                             <User className="w-7 h-7 text-white" />
                           )}
                         </div>
-                        <div className="absolute bottom-0 right-0 w-4 h-4 bg-[#16a34a] rounded-full border-2 border-white dark:border-[#0a0a0a]" />
+                        <div className={`absolute bottom-0 right-0 w-4 h-4 rounded-full border-2 border-white dark:border-[#0a0a0a] ${userOnlineStatus[conv.otherUser.id] ? 'bg-[#16a34a]' : 'bg-gray-400'}`} />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
@@ -831,13 +836,15 @@ function MessagesContent() {
                             <User className="w-5 h-5 text-white" />
                           )}
                         </div>
-                        <div className="absolute bottom-0 right-0 w-3 h-3 bg-[#16a34a] rounded-full border-2 border-white dark:border-[#000000]" />
+                        <div className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white dark:border-[#000000] ${userOnlineStatus[selectedConversation.otherUser.id] ? 'bg-[#16a34a]' : 'bg-gray-400'}`} />
                       </div>
                       <div className="text-left">
                         <p className="font-semibold text-gray-900 dark:text-white text-sm">
                           {selectedConversation.otherUser.username}
                         </p>
-                        <p className="text-xs text-[#16a34a]">online</p>
+                        <p className={`text-xs ${userOnlineStatus[selectedConversation.otherUser.id] ? 'text-[#16a34a]' : 'text-gray-500'}`}>
+                          {userOnlineStatus[selectedConversation.otherUser.id] ? 'online' : 'offline'}
+                        </p>
                       </div>
                     </button>
                   </div>
