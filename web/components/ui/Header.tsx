@@ -20,8 +20,10 @@ export function Header() {
   const isScrolling = React.useRef(false);
   const pathname = usePathname();
 
-  // Show compact header when scrolled down AND full header is not forced visible
-  const isCollapsed = scrollY > 100 && !showFullHeader;
+  // Show compact header on all pages EXCEPT homepage (where it can collapse/expand with scroll)
+  // On non-homepage pages, always show compact header (never expand to full header)
+  const isHomepage = pathname === '/';
+  const isCollapsed = !isHomepage || (isHomepage && scrollY > 100 && !showFullHeader);
 
   useEffect(() => {
     const demoUserId = localStorage.getItem('demo_user_id');
@@ -58,6 +60,13 @@ export function Header() {
   };
 
   useEffect(() => {
+    // Only enable scroll collapse on homepage
+    const isHomepage = pathname === '/';
+    if (!isHomepage) {
+      setShowFullHeader(true);
+      return;
+    }
+
     let lastScrollY = 0;
     let scrollDirection: 'up' | 'down' | null = null;
     let lastScrollTime = Date.now();
@@ -114,7 +123,7 @@ export function Header() {
         clearTimeout(scrollPauseTimeout.current);
       }
     };
-  }, []);
+  }, [pathname]);
 
   function handleLogout() {
     localStorage.removeItem('demo_user_id');
