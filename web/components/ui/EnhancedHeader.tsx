@@ -40,9 +40,9 @@ export default function EnhancedHeader() {
   const isScrolledUp = useScrollVisibility({ threshold: 30 });
   const scrollPauseTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   
-  // Show expanded only when scrolled up; hide from homepage/feed
+  // Show expanded only when scrolled up; hide from homepage only
   const isExpanded = isScrolledUp;
-  const isHomepageOrFeed = pathname === '/' || pathname === '/feed' || pathname?.includes('/feed');
+  const isHomepageOrFeed = pathname === '/';
   
   const isExcludedPage = EXCLUDED_PATHS.some(path => pathname?.startsWith(path));
   const isNotificationPage = pathname === '/notifications';
