@@ -114,8 +114,10 @@ export default function TikTokCamera({ onClose, onComplete, userId }: TikTokCame
       const constraints: MediaStreamConstraints = {
         video: {
           facingMode,
-          width: { ideal: 1080 },
-          height: { ideal: 1920 },
+          width: { ideal: 1080, min: 480 },
+          height: { ideal: 1920, min: 640 },
+          aspectRatio: { ideal: 9/16 },
+          frameRate: { ideal: 30, max: 60 },
         },
         audio: mode === 'video'
       };
@@ -324,34 +326,29 @@ export default function TikTokCamera({ onClose, onComplete, userId }: TikTokCame
       className="fixed inset-0 z-50 bg-black flex flex-col"
     >
       <div
-        className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-4 pt-4"
-        style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 16px)' }}
+        className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-4"
+        style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 12px)' }}
       >
-        <button onClick={onClose} className="w-10 h-10 bg-black/40 backdrop-blur-sm rounded-full flex items-center justify-center text-white">
-          <X className="w-6 h-6" />
+        <button 
+          onClick={onClose} 
+          className="w-10 h-10 bg-black/30 backdrop-blur-md rounded-full flex items-center justify-center text-white active:scale-90 transition-transform"
+        >
+          <X className="w-5 h-5" />
         </button>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <button
             onClick={() => setShowTimerPanel(!showTimerPanel)}
-            className={`w-10 h-10 rounded-full flex items-center justify-center ${timer > 0 ? 'bg-yellow-500' : 'bg-black/40 backdrop-blur-sm'} text-white`}
+            className={`w-10 h-10 rounded-full flex items-center justify-center active:scale-90 transition-transform ${timer > 0 ? 'bg-yellow-500' : 'bg-black/30 backdrop-blur-md'} text-white`}
           >
             <Timer className="w-5 h-5" />
-            {timer > 0 && <span className="absolute text-[10px] font-bold">{timer}s</span>}
           </button>
 
           <button
             onClick={toggleFlash}
-            className={`w-10 h-10 rounded-full flex items-center justify-center ${flashEnabled ? 'bg-yellow-500' : 'bg-black/40 backdrop-blur-sm'} text-white`}
+            className={`w-10 h-10 rounded-full flex items-center justify-center active:scale-90 transition-transform ${flashEnabled ? 'bg-yellow-500' : 'bg-black/30 backdrop-blur-md'} text-white`}
           >
             {flashEnabled ? <Zap className="w-5 h-5" /> : <ZapOff className="w-5 h-5" />}
-          </button>
-
-          <button
-            onClick={() => setShowSpeedPanel(!showSpeedPanel)}
-            className="w-10 h-10 bg-black/40 backdrop-blur-sm rounded-full flex items-center justify-center text-white"
-          >
-            <Gauge className="w-5 h-5" />
           </button>
         </div>
       </div>
@@ -359,17 +356,18 @@ export default function TikTokCamera({ onClose, onComplete, userId }: TikTokCame
       <AnimatePresence>
         {showTimerPanel && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute top-20 right-4 z-30 bg-black/80 backdrop-blur-md rounded-2xl p-3"
+            initial={{ opacity: 0, y: -10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            transition={{ duration: 0.15 }}
+            className="absolute top-16 right-4 z-30 bg-black/70 backdrop-blur-xl rounded-2xl p-2"
           >
-            <div className="flex gap-2">
+            <div className="flex gap-1.5">
               {TIMER_OPTIONS.map((t) => (
                 <button
                   key={t}
                   onClick={() => { setTimer(t); setShowTimerPanel(false); }}
-                  className={`px-4 py-2 rounded-full text-sm font-medium ${timer === t ? 'bg-white text-black' : 'bg-white/20 text-white'}`}
+                  className={`px-4 py-2 rounded-full text-sm font-semibold transition-all ${timer === t ? 'bg-white text-black' : 'bg-white/15 text-white hover:bg-white/25'}`}
                 >
                   {t === 0 ? 'Off' : `${t}s`}
                 </button>
@@ -377,60 +375,31 @@ export default function TikTokCamera({ onClose, onComplete, userId }: TikTokCame
             </div>
           </motion.div>
         )}
-
-        {showSpeedPanel && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute top-20 right-4 z-30 bg-black/80 backdrop-blur-md rounded-2xl p-3"
-          >
-            <div className="flex gap-1">
-              {SPEED_OPTIONS.map((s) => (
-                <button
-                  key={s.value}
-                  onClick={() => { setSpeed(s.value); setShowSpeedPanel(false); }}
-                  className={`px-3 py-2 rounded-full text-xs font-medium ${speed === s.value ? 'bg-white text-black' : 'bg-white/20 text-white'}`}
-                >
-                  {s.label}
-                </button>
-              ))}
-            </div>
-          </motion.div>
-        )}
       </AnimatePresence>
 
-      <div className="absolute right-4 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-4">
-        <button onClick={flipCamera} className="w-12 h-12 bg-black/40 backdrop-blur-sm rounded-full flex items-center justify-center text-white">
-          <motion.div animate={{ rotateY: isFlipping ? 180 : 0 }} transition={{ duration: 0.3 }}>
-            <RotateCcw className="w-6 h-6" />
+      <div className="absolute right-3 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-5">
+        <button 
+          onClick={flipCamera} 
+          className="w-11 h-11 bg-black/30 backdrop-blur-md rounded-full flex items-center justify-center text-white active:scale-90 transition-transform"
+        >
+          <motion.div animate={{ rotateY: isFlipping ? 180 : 0 }} transition={{ duration: 0.3, ease: "easeInOut" }}>
+            <RotateCcw className="w-5 h-5" />
           </motion.div>
         </button>
 
         <button
           onClick={() => setShowBeautyPanel(!showBeautyPanel)}
-          className={`w-12 h-12 rounded-full flex items-center justify-center ${beautyLevel > 0 ? 'bg-pink-500' : 'bg-black/40 backdrop-blur-sm'} text-white`}
+          className={`w-11 h-11 rounded-full flex items-center justify-center active:scale-90 transition-transform ${beautyLevel > 0 ? 'bg-pink-500' : 'bg-black/30 backdrop-blur-md'} text-white`}
         >
-          <Wand2 className="w-6 h-6" />
+          <Sparkles className="w-5 h-5" />
         </button>
 
-        <button
-          onClick={() => setShowEffectsPanel(!showEffectsPanel)}
-          className="w-12 h-12 bg-black/40 backdrop-blur-sm rounded-full flex items-center justify-center text-white"
-        >
-          <Sparkles className="w-6 h-6" />
+        <button className="w-11 h-11 bg-black/30 backdrop-blur-md rounded-full flex items-center justify-center text-white active:scale-90 transition-transform">
+          <Type className="w-5 h-5" />
         </button>
 
-        <button className="w-12 h-12 bg-black/40 backdrop-blur-sm rounded-full flex items-center justify-center text-white">
-          <Type className="w-6 h-6" />
-        </button>
-
-        <button className="w-12 h-12 bg-black/40 backdrop-blur-sm rounded-full flex items-center justify-center text-white">
-          <Music className="w-6 h-6" />
-        </button>
-
-        <button className="w-12 h-12 bg-black/40 backdrop-blur-sm rounded-full flex items-center justify-center text-white">
-          <Sticker className="w-6 h-6" />
+        <button className="w-11 h-11 bg-black/30 backdrop-blur-md rounded-full flex items-center justify-center text-white active:scale-90 transition-transform">
+          <Music className="w-5 h-5" />
         </button>
       </div>
 
@@ -459,80 +428,78 @@ export default function TikTokCamera({ onClose, onComplete, userId }: TikTokCame
       </AnimatePresence>
 
       <motion.div
-        className="flex-1 relative overflow-hidden flex items-center justify-center bg-black"
+        className="absolute inset-0 z-0"
         onPanEnd={(_, info) => handleFilterSwipe(info)}
         drag="x"
         dragConstraints={{ left: 0, right: 0 }}
         dragElastic={0.2}
       >
-        <div className="w-full max-w-sm aspect-[9/16] relative overflow-hidden bg-black">
-          {capturedMedia ? (
-            mode === 'photo' ? (
-              <img src={capturedMedia} alt="Captured" className="w-full h-full object-cover" />
-            ) : (
-              <video src={capturedMedia} className="w-full h-full object-cover" controls />
-            )
+        {capturedMedia ? (
+          mode === 'photo' ? (
+            <img src={capturedMedia} alt="Captured" className="w-full h-full object-cover" />
           ) : (
-            <motion.video
-              ref={videoRef}
-              autoPlay
-              playsInline
-              muted
-              className="w-full h-full object-cover bg-black"
-              animate={{ 
-                rotateY: isFlipping ? 90 : 0,
-                scale: isFlipping ? 0.9 : 1
-              }}
-              transition={{ duration: 0.15 }}
-              style={{
-                filter: currentFilter.style !== 'none' ? currentFilter.style : undefined,
-                ...getBeautyStyle()
-              }}
-            />
-          )}
-          <canvas ref={canvasRef} className="hidden" />
+            <video src={capturedMedia} className="w-full h-full object-cover" controls />
+          )
+        ) : (
+          <motion.video
+            ref={videoRef}
+            autoPlay
+            playsInline
+            muted
+            className="absolute inset-0 w-full h-full object-cover"
+            animate={{ 
+              rotateY: isFlipping ? 90 : 0,
+              scale: isFlipping ? 0.9 : 1
+            }}
+            transition={{ duration: 0.15, ease: "easeOut" }}
+            style={{
+              filter: currentFilter.style !== 'none' ? currentFilter.style : undefined,
+              ...getBeautyStyle()
+            }}
+          />
+        )}
+        <canvas ref={canvasRef} className="hidden" />
 
-          <AnimatePresence>
-            {countdown > 0 && (
-              <motion.div
+        <AnimatePresence>
+          {countdown > 0 && (
+            <motion.div
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 1.5, opacity: 0 }}
+              className="absolute inset-0 flex items-center justify-center bg-black/40 z-20"
+            >
+              <motion.span
+                key={countdown}
                 initial={{ scale: 0.5, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 1.5, opacity: 0 }}
-                className="absolute inset-0 flex items-center justify-center bg-black/40"
+                exit={{ scale: 2, opacity: 0 }}
+                className="text-white text-9xl font-bold"
               >
-                <motion.span
-                  key={countdown}
-                  initial={{ scale: 0.5, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 2, opacity: 0 }}
-                  className="text-white text-9xl font-bold"
-                >
-                  {countdown}
-                </motion.span>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {!capturedMedia && (
-            <div className="absolute bottom-4 left-4 right-4 flex justify-center gap-1">
-              {FILTERS.map((filter, index) => (
-                <button
-                  key={filter.id}
-                  onClick={() => setSelectedFilter(index)}
-                  className={`w-2 h-2 rounded-full transition-all ${
-                    selectedFilter === index ? 'w-4 bg-white' : 'bg-white/50'
-                  }`}
-                />
-              ))}
-            </div>
+                {countdown}
+              </motion.span>
+            </motion.div>
           )}
+        </AnimatePresence>
 
-          {!capturedMedia && selectedFilter > 0 && (
-            <div className="absolute top-1/2 left-4 -translate-y-1/2 bg-black/60 backdrop-blur-sm rounded-lg px-3 py-1.5">
-              <span className="text-white text-sm font-medium">{currentFilter.name}</span>
-            </div>
-          )}
-        </div>
+        {!capturedMedia && (
+          <div className="absolute bottom-36 left-4 right-4 flex justify-center gap-1.5 z-10">
+            {FILTERS.map((filter, index) => (
+              <button
+                key={filter.id}
+                onClick={() => setSelectedFilter(index)}
+                className={`w-2 h-2 rounded-full transition-all duration-200 ${
+                  selectedFilter === index ? 'w-6 bg-white' : 'bg-white/50'
+                }`}
+              />
+            ))}
+          </div>
+        )}
+
+        {!capturedMedia && selectedFilter > 0 && (
+          <div className="absolute top-1/2 left-4 -translate-y-1/2 bg-black/60 backdrop-blur-sm rounded-lg px-3 py-1.5 z-10">
+            <span className="text-white text-sm font-medium">{currentFilter.name}</span>
+          </div>
+        )}
       </motion.div>
 
       {mode === 'video' && (
@@ -563,73 +530,79 @@ export default function TikTokCamera({ onClose, onComplete, userId }: TikTokCame
       )}
 
       <div
-        className="absolute bottom-0 left-0 right-0 z-20 pb-8"
-        style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 32px)' }}
+        className="absolute bottom-0 left-0 right-0 z-20"
+        style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 24px)' }}
       >
         {!capturedMedia ? (
           <>
-            <div className="flex justify-center gap-8 mb-6">
+            <div className="flex justify-center items-center gap-6 mb-5">
               <button
                 onClick={() => setMode('photo')}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  mode === 'photo' ? 'bg-white text-black' : 'text-white/70'
+                className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
+                  mode === 'photo' ? 'bg-white/90 text-black shadow-lg' : 'text-white/60 hover:text-white'
                 }`}
               >
                 Photo
               </button>
               <button
                 onClick={() => setMode('video')}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  mode === 'video' ? 'bg-white text-black' : 'text-white/70'
+                className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
+                  mode === 'video' ? 'bg-white/90 text-black shadow-lg' : 'text-white/60 hover:text-white'
                 }`}
               >
                 Video
               </button>
             </div>
 
-            <div className="flex items-center justify-center gap-8">
-              {segments.length > 0 && (
+            <div className="flex items-center justify-center gap-10">
+              {segments.length > 0 ? (
                 <button
                   onClick={handleComplete}
-                  className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center text-white"
+                  className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white shadow-lg active:scale-95 transition-transform"
                 >
                   <Check className="w-6 h-6" />
                 </button>
+              ) : (
+                <div className="w-12" />
               )}
 
-              <button
+              <motion.button
                 onClick={isRecording ? stopRecording : startCountdownThenRecord}
-                className={`w-20 h-20 rounded-full border-4 border-white flex items-center justify-center transition-all ${
-                  isRecording ? 'bg-red-500 scale-110' : ''
+                whileTap={{ scale: 0.95 }}
+                className={`relative w-[72px] h-[72px] rounded-full flex items-center justify-center transition-all duration-200 ${
+                  isRecording ? '' : 'border-[3px] border-white/80'
                 }`}
               >
                 {mode === 'photo' ? (
-                  <div className="w-16 h-16 rounded-full bg-white" />
+                  <motion.div 
+                    whileTap={{ scale: 0.9 }}
+                    className="w-[62px] h-[62px] rounded-full bg-white shadow-lg" 
+                  />
                 ) : isRecording ? (
                   <motion.div
-                    animate={{ scale: [1, 1.1, 1] }}
-                    transition={{ repeat: Infinity, duration: 1 }}
-                    className="w-8 h-8 rounded bg-white"
+                    initial={{ scale: 1, borderRadius: 36 }}
+                    animate={{ scale: 1, borderRadius: 8 }}
+                    className="w-8 h-8 bg-red-500 rounded-lg"
                   />
                 ) : (
-                  <div className="w-16 h-16 rounded-full bg-red-500" />
+                  <div className="w-[62px] h-[62px] rounded-full bg-red-500 shadow-lg" />
                 )}
-              </button>
+              </motion.button>
 
               <div className="w-12" />
             </div>
           </>
         ) : (
-          <div className="flex justify-center gap-6">
+          <div className="flex justify-center gap-5">
             <button
               onClick={() => setCapturedMedia(null)}
-              className="px-6 py-3 bg-white/20 text-white rounded-full font-medium"
+              className="px-7 py-3 bg-white/15 backdrop-blur-sm text-white rounded-full font-semibold active:scale-95 transition-transform"
             >
               Retake
             </button>
             <button
               onClick={handleComplete}
-              className="px-8 py-3 bg-green-600 text-white rounded-full font-medium flex items-center gap-2"
+              className="px-8 py-3 bg-green-500 text-white rounded-full font-semibold flex items-center gap-2 shadow-lg active:scale-95 transition-transform"
             >
               <Check className="w-5 h-5" />
               Continue
