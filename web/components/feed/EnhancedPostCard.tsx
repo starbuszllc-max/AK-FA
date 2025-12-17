@@ -752,7 +752,7 @@ export default function EnhancedPostCard({ post, currentUserId, onLike, onCommen
         const visibleMedia = mediaUrls.filter((_, idx) => !failedMediaIndices.has(idx));
         
         return visibleMedia.length > 0 ? (
-        <div className="-mx-3 md:-mx-5 mt-4 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
+        <div className="-mx-3 md:-mx-5 mt-4 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] z-0">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-0">
             {mediaUrls.map((url: string, idx: number) => {
               if (failedMediaIndices.has(idx)) return null;

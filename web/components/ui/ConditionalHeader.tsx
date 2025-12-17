@@ -10,5 +10,10 @@ export default function ConditionalHeader() {
     return null;
   }
   
-  return <Header />;
+  return (
+    <>
+      <Header />
+      <div className="h-[48px]" aria-hidden="true" />
+    </>
+  );
 }
