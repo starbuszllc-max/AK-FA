@@ -34,6 +34,7 @@ export default function SignupPage() {
           data: {
             full_name: fullName,
           },
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
         },
       });
 
@@ -42,14 +43,27 @@ export default function SignupPage() {
         return;
       }
 
-      if (data.session && data.user) {
-        localStorage.setItem('demo_user_id', data.user.id);
-        setSuccess(true);
-        setTimeout(() => {
-          router.push('/onboarding');
-          router.refresh();
-        }, 1500);
-      } else if (data.user) {
+      if (data.user) {
+        // Send verification email via Resend instead of Supabase
+        try {
+          const verificationLink = `${window.location.origin}/auth/callback?code=${data.session?.access_token || ''}`;
+          
+          await fetch('/api/email/send', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              type: 'verification',
+              email,
+              verificationUrl: verificationLink,
+            }),
+          });
+        } catch (err) {
+          console.error('Error sending verification email:', err);
+        }
+
+        if (data.session) {
+          localStorage.setItem('demo_user_id', data.user.id);
+        }
         setSuccess(true);
         setError(null);
       }
