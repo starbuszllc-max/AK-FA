@@ -19,7 +19,7 @@ To use Resend as the email provider for Supabase Auth emails (verification, pass
    - **Port:** `465` (SSL) or `587` (TLS)
    - **Username:** `resend`
    - **Password:** Your Resend API Key
-   - **From Address:** `noreply@akorfa.com` (or your verified domain)
+   - **From Address:** `noreply@akorfa.publicvm.com`
    - **From Name:** `Akorfa`
 
 ### 3. Using the Email Service

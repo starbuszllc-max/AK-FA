@@ -6,7 +6,7 @@ export const emailService = {
   async sendVerificationEmail(email: string, verificationUrl: string) {
     try {
       const result = await resend.emails.send({
-        from: 'noreply@akorfa.com',
+        from: 'noreply@akorfa.publicvm.com',
         to: email,
         subject: 'Verify your Akorfa account',
         html: `
@@ -32,7 +32,7 @@ export const emailService = {
   async sendPasswordResetEmail(email: string, resetUrl: string) {
     try {
       const result = await resend.emails.send({
-        from: 'noreply@akorfa.com',
+        from: 'noreply@akorfa.publicvm.com',
         to: email,
         subject: 'Reset your Akorfa password',
         html: `
@@ -64,7 +64,7 @@ export const emailService = {
       ` : '';
 
       const result = await resend.emails.send({
-        from: 'noreply@akorfa.com',
+        from: 'noreply@akorfa.publicvm.com',
         to: email,
         subject,
         html: `
