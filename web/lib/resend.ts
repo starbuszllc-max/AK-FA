@@ -13,11 +13,16 @@ function getResend(): Resend {
   return resend;
 }
 
+function getSenderEmail(): string {
+  const domain = process.env.RESEND_FROM_DOMAIN || 'noreply@akorfa.publicvm.com';
+  return `noreply@${domain}`;
+}
+
 export const emailService = {
   async sendVerificationEmail(email: string, verificationUrl: string) {
     try {
       const result = await getResend().emails.send({
-        from: 'noreply@akorfa.publicvm.com',
+        from: getSenderEmail(),
         to: email,
         subject: 'Verify your Akorfa account',
         html: `
@@ -43,7 +48,7 @@ export const emailService = {
   async sendPasswordResetEmail(email: string, resetUrl: string) {
     try {
       const result = await getResend().emails.send({
-        from: 'noreply@akorfa.publicvm.com',
+        from: getSenderEmail(),
         to: email,
         subject: 'Reset your Akorfa password',
         html: `
@@ -75,7 +80,7 @@ export const emailService = {
       ` : '';
 
       const result = await getResend().emails.send({
-        from: 'noreply@akorfa.publicvm.com',
+        from: getSenderEmail(),
         to: email,
         subject,
         html: `
