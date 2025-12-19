@@ -101,7 +101,7 @@ export async function POST(req: Request) {
       temperature: 0.7
     });
 
-    const aiResponse = completion.choices[0]?.message?.content || 'I apologize, I could not generate a response.';
+    const aiResponse = completion.choices[0]?.message?.content as string || 'I apologize, I could not generate a response.';
     messages.push({ role: 'assistant', content: aiResponse });
 
     if (session) {

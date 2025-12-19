@@ -108,7 +108,7 @@ Your role:
       max_tokens: 1024
     });
 
-    const coachMessage = response.choices[0].message.content;
+    const coachMessage = response.choices[0].message.content as string;
 
     return NextResponse.json({ 
       message: coachMessage,
@@ -171,7 +171,7 @@ Respond with JSON in this format: { "suggestions": [{ "title": "short title", "d
       max_tokens: 512
     });
 
-    const result = JSON.parse(response.choices[0].message.content || '{}');
+    const result = JSON.parse((response.choices[0].message.content as string) || '{}');
 
     return NextResponse.json({ 
       suggestions: result.suggestions || [],
