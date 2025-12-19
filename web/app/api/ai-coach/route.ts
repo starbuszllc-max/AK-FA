@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getAIClient, hasOpenAIKey, createChatCompletion, getOpenAI } from '../../../lib/openai';
+import { getGroq, hasGroq } from '../../../lib/groq';
 import { db } from '@/lib/db';
 import { profiles, assessments, posts, challengeParticipants, userBadges } from '@akorfa/shared';
 import { eq, desc } from 'drizzle-orm';
@@ -53,10 +53,9 @@ export async function POST(req: Request) {
 
     const context = await getUserContext(user_id);
 
-    const aiClient = getAIClient();
-    if (!aiClient) {
+    if (!hasGroq()) {
       return NextResponse.json({ 
-        message: `Hello! I'm your AI coach. I can see you're on your personal growth journey. Your Akorfa score is currently ${context.profile?.akorfaScore || 0}. To get personalized insights, please configure OpenAI in your environment variables. In the meantime, I'd suggest focusing on your lowest-scoring layer for the biggest impact!`,
+        message: `Hello! I'm your AI coach. I can see you're on your personal growth journey. Your Akorfa score is currently ${context.profile?.akorfaScore || 0}. To get personalized insights, please try again. In the meantime, I'd suggest focusing on your lowest-scoring layer for the biggest impact!`,
         context: {
           score: context.profile?.akorfaScore,
           layerScores: context.profile?.layerScores,
@@ -102,8 +101,9 @@ Your role:
       { role: 'user', content: message }
     ];
 
-    const response = await createChatCompletion({
-      model: 'gpt-4o-mini',
+    const groq = getGroq();
+    const response = await groq.chat.completions.create({
+      model: 'deepseek/deepseek-chat',
       messages: messages as any,
       max_tokens: 1024
     });
@@ -135,7 +135,7 @@ export async function GET(req: Request) {
 
     const context = await getUserContext(userId);
 
-    if (!hasOpenAIKey()) {
+    if (!hasGroq()) {
       return NextResponse.json({ 
         suggestions: [
           { title: 'Complete an Assessment', description: 'Take your first assessment to get personalized insights', layer: 'internal' },
@@ -149,7 +149,7 @@ export async function GET(req: Request) {
       });
     }
 
-    const openai = getOpenAI();
+    const groq = getGroq();
 
     const systemPrompt = `You are an AI Personal Growth Coach for Akorfa. Based on the user's data, generate 3 personalized growth suggestions.
 
@@ -162,13 +162,12 @@ User Context:
 
 Respond with JSON in this format: { "suggestions": [{ "title": "short title", "description": "one sentence description", "layer": "one of the seven layers" }] }`;
 
-    const response = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
+    const response = await groq.chat.completions.create({
+      model: 'deepseek/deepseek-chat',
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: 'Generate my personalized growth suggestions.' }
       ],
-      response_format: { type: 'json_object' },
       max_tokens: 512
     });
 
