@@ -102,7 +102,7 @@ Your role:
     ];
 
     const groq = getGroq();
-    const model = process.env.GROQ_API_KEY ? 'mixtral-8x7b-32768' : 'deepseek/deepseek-chat';
+    const model = process.env.GROQ_API_KEY ? 'llama-3.1-70b-versatile' : 'deepseek/deepseek-chat';
     const response = await groq.chat.completions.create({
       model,
       messages: messages as any,
@@ -163,7 +163,7 @@ User Context:
 
 Respond with JSON in this format: { "suggestions": [{ "title": "short title", "description": "one sentence description", "layer": "one of the seven layers" }] }`;
 
-    const model = process.env.GROQ_API_KEY ? 'mixtral-8x7b-32768' : 'deepseek/deepseek-chat';
+    const model = process.env.GROQ_API_KEY ? 'llama-3.1-70b-versatile' : 'deepseek/deepseek-chat';
     const response = await groq.chat.completions.create({
       model,
       messages: [
