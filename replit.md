@@ -20,6 +20,11 @@ Next.js API routes (Route Handlers) manage server-side logic and interact with a
 ### Authentication & Authorization
 The platform uses Supabase Auth for real email/password authentication. Users can sign up with their email, receive confirmation emails, and log in securely. Session management is handled via Supabase's SSR package with middleware integration. The auth flow includes proper handling of email confirmation requirements.
 
+**Replit Migration Status (Dec 2024):**
+- Database: Migrated to Replit's Neon Postgres (connected via DATABASE_URL)
+- ORM: Drizzle ORM with schema in `shared/src/schema.ts`
+- Supabase: Still used for authentication and file storage (requires NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY)
+
 **Auth Flow (Updated Dec 2024):**
 1. All "Get Started" buttons redirect to `/signup` (not `/onboarding`)
 2. After successful signup with session, users are redirected to `/onboarding`
