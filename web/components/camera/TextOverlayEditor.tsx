@@ -59,6 +59,7 @@ export default function TextOverlayEditor({ overlays, onUpdate, onClose }: TextO
     backgroundColor: 'transparent',
     fontFamily: FONT_FAMILIES[0].family
   });
+  const [activeTab, setActiveTab] = useState<'font' | 'size' | 'color' | 'bg' | 'style' | 'align'>('font');
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleAdd = () => {
@@ -85,31 +86,31 @@ export default function TextOverlayEditor({ overlays, onUpdate, onClose }: TextO
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 bg-black/95 flex flex-col"
+      className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex flex-col"
     >
-      {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-800" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 16px)' }}>
-        <button onClick={onClose} className="text-gray-400 hover:text-white">
-          <X className="w-6 h-6" />
+      {/* Header - Compact */}
+      <div className="flex items-center justify-between p-3 gap-2" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 12px)' }}>
+        <button onClick={onClose} className="text-white hover:text-gray-300 flex-shrink-0">
+          <X className="w-5 h-5" />
         </button>
-        <span className="text-white font-semibold">Add Text</span>
+        <span className="text-white font-semibold text-sm flex-1 text-center">Add Text</span>
         <button
           onClick={handleDone}
-          className="px-4 py-2 bg-green-600 text-white rounded-full text-sm font-medium hover:bg-green-700 flex items-center gap-2"
+          className="px-3 py-1.5 bg-green-600 text-white rounded-full text-xs font-medium hover:bg-green-700 flex items-center gap-1 flex-shrink-0"
         >
-          <Check className="w-4 h-4" />
+          <Check className="w-3 h-3" />
           Done
         </button>
       </div>
 
-      {/* Preview */}
-      <div className="flex-1 flex items-center justify-center p-4 bg-gradient-to-b from-gray-900 to-black">
-        <div className="relative w-full max-w-sm aspect-[9/16] bg-gray-900 rounded-xl overflow-hidden">
+      {/* Preview - Transparent Background, Smaller Canvas */}
+      <div className="flex-1 flex items-center justify-center px-3 py-4">
+        <div className="relative w-full max-w-xs aspect-[9/16] rounded-lg overflow-hidden shadow-lg" style={{ background: 'rgba(0,0,0,0.2)' }}>
           {/* Existing Overlays */}
           {overlays.map((overlay) => (
             <div
               key={overlay.id}
-              className="absolute px-2 py-1 rounded"
+              className="absolute px-1 py-0.5"
               style={{
                 left: `${overlay.x}%`,
                 top: `${overlay.y}%`,
@@ -121,29 +122,30 @@ export default function TextOverlayEditor({ overlays, onUpdate, onClose }: TextO
                 color: overlay.color,
                 backgroundColor: overlay.backgroundColor,
                 fontFamily: overlay.fontFamily || 'sans-serif',
-                textShadow: '0 2px 8px rgba(0,0,0,0.8)'
+                textShadow: '0 1px 4px rgba(0,0,0,0.8)',
+                pointerEvents: 'none'
               }}
             >
               {overlay.text}
             </div>
           ))}
 
-          {/* Current Text Input */}
+          {/* Current Text Input - No Border Background */}
           <input
             ref={inputRef}
             type="text"
             value={currentOverlay.text}
             onChange={(e) => setCurrentOverlay({ ...currentOverlay, text: e.target.value })}
             onKeyDown={(e) => e.key === 'Enter' && handleAdd()}
-            placeholder="Type text..."
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-transparent border-2 border-green-500 outline-none text-center w-5/6 p-2 rounded"
+            placeholder="Type here..."
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-transparent border-none outline-none text-center w-5/6 p-1"
             style={{
               fontSize: `${currentOverlay.fontSize}px`,
               fontWeight: currentOverlay.fontWeight,
               fontStyle: currentOverlay.fontStyle,
               color: currentOverlay.color,
               fontFamily: currentOverlay.fontFamily || 'sans-serif',
-              textShadow: '0 2px 8px rgba(0,0,0,0.8)',
+              textShadow: '0 2px 6px rgba(0,0,0,0.9)',
               backgroundColor: currentOverlay.backgroundColor
             }}
             autoFocus
@@ -151,152 +153,190 @@ export default function TextOverlayEditor({ overlays, onUpdate, onClose }: TextO
         </div>
       </div>
 
-      {/* Tools */}
-      <div className="border-t border-gray-800 bg-black overflow-y-auto max-h-96 space-y-4 p-4">
-        {/* Font Family */}
-        <div>
-          <p className="text-gray-400 text-xs uppercase mb-2 font-semibold">Font</p>
-          <div className="grid grid-cols-4 gap-2">
-            {FONT_FAMILIES.map((f) => (
-              <motion.button
-                key={f.id}
-                whileHover={{ scale: 1.05 }}
-                onClick={() => setCurrentOverlay({ ...currentOverlay, fontFamily: f.family })}
-                className={`p-2 rounded text-xs font-medium transition-all ${
-                  currentOverlay.fontFamily === f.family
-                    ? 'bg-green-600 text-white'
-                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                }`}
-                style={{ fontFamily: f.family }}
-              >
-                {f.name}
-              </motion.button>
-            ))}
-          </div>
-        </div>
+      {/* Tabs - Horizontal */}
+      <div className="flex gap-2 px-3 pb-2 overflow-x-auto border-t border-white/10">
+        {[
+          { id: 'font', label: 'Font', icon: 'Aa' },
+          { id: 'size', label: 'Size', icon: '↔️' },
+          { id: 'color', label: 'Color', icon: '🎨' },
+          { id: 'bg', label: 'BG', icon: '⬜' },
+          { id: 'style', label: 'Style', icon: '✨' },
+          { id: 'align', label: 'Align', icon: '⏐' }
+        ].map((tab) => (
+          <motion.button
+            key={tab.id}
+            whileHover={{ scale: 1.05 }}
+            onClick={() => setActiveTab(tab.id as any)}
+            className={`px-3 py-1.5 rounded text-xs font-medium whitespace-nowrap transition-all ${
+              activeTab === tab.id
+                ? 'bg-green-600 text-white'
+                : 'bg-white/10 text-gray-300 hover:bg-white/20'
+            }`}
+          >
+            {tab.icon}
+          </motion.button>
+        ))}
+      </div>
 
-        {/* Font Size */}
-        <div>
-          <p className="text-gray-400 text-xs uppercase mb-2 font-semibold">Size: {currentOverlay.fontSize}px</p>
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => setCurrentOverlay({ ...currentOverlay, fontSize: Math.max(16, currentOverlay.fontSize - 4) })}
-              className="p-2 bg-gray-800 rounded hover:bg-gray-700"
-            >
-              <Minus className="w-4 h-4 text-white" />
-            </button>
-            <div className="flex-1 h-2 bg-gray-700 rounded">
-              <div
-                className="h-full bg-green-600 rounded transition-all"
-                style={{ width: `${((currentOverlay.fontSize - 16) / 72) * 100}%` }}
-              />
+      {/* Tools - Compact Horizontal Panels */}
+      <div className="bg-black/50 backdrop-blur border-t border-white/10 overflow-y-auto max-h-40 p-3 space-y-3">
+        {/* Font Family Tab */}
+        {activeTab === 'font' && (
+          <div>
+            <p className="text-gray-400 text-xs uppercase mb-1.5 font-semibold">Font</p>
+            <div className="grid grid-cols-4 gap-1.5">
+              {FONT_FAMILIES.map((f) => (
+                <motion.button
+                  key={f.id}
+                  whileHover={{ scale: 1.05 }}
+                  onClick={() => setCurrentOverlay({ ...currentOverlay, fontFamily: f.family })}
+                  className={`p-1.5 rounded text-xs font-medium transition-all ${
+                    currentOverlay.fontFamily === f.family
+                      ? 'bg-green-600 text-white'
+                      : 'bg-white/10 text-gray-300 hover:bg-white/20'
+                  }`}
+                  style={{ fontFamily: f.family }}
+                >
+                  {f.name}
+                </motion.button>
+              ))}
             </div>
-            <button
-              onClick={() => setCurrentOverlay({ ...currentOverlay, fontSize: Math.min(80, currentOverlay.fontSize + 4) })}
-              className="p-2 bg-gray-800 rounded hover:bg-gray-700"
-            >
-              <Plus className="w-4 h-4 text-white" />
-            </button>
           </div>
-        </div>
+        )}
 
-        {/* Text Color */}
-        <div>
-          <p className="text-gray-400 text-xs uppercase mb-2 font-semibold">Text Color</p>
-          <div className="grid grid-cols-6 gap-2">
-            {COLORS.map((color) => (
-              <motion.button
-                key={color}
-                whileHover={{ scale: 1.1 }}
-                onClick={() => setCurrentOverlay({ ...currentOverlay, color })}
-                className={`w-10 h-10 rounded transition-all ${
-                  currentOverlay.color === color ? 'ring-2 ring-white' : ''
-                }`}
-                style={{ backgroundColor: color, border: color === '#ffffff' ? '1px solid #ccc' : 'none' }}
+        {/* Font Size Tab */}
+        {activeTab === 'size' && (
+          <div>
+            <p className="text-gray-400 text-xs uppercase mb-1.5 font-semibold">Size: {currentOverlay.fontSize}px</p>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setCurrentOverlay({ ...currentOverlay, fontSize: Math.max(16, currentOverlay.fontSize - 4) })}
+                className="p-1 bg-white/10 rounded hover:bg-white/20"
+              >
+                <Minus className="w-3 h-3 text-white" />
+              </button>
+              <input
+                type="range"
+                min="16"
+                max="80"
+                value={currentOverlay.fontSize}
+                onChange={(e) => setCurrentOverlay({ ...currentOverlay, fontSize: parseInt(e.target.value) })}
+                className="flex-1 h-1.5 bg-white/20 rounded cursor-pointer"
               />
-            ))}
+              <button
+                onClick={() => setCurrentOverlay({ ...currentOverlay, fontSize: Math.min(80, currentOverlay.fontSize + 4) })}
+                className="p-1 bg-white/10 rounded hover:bg-white/20"
+              >
+                <Plus className="w-3 h-3 text-white" />
+              </button>
+            </div>
           </div>
-        </div>
+        )}
 
-        {/* Background Color */}
-        <div>
-          <p className="text-gray-400 text-xs uppercase mb-2 font-semibold">Background</p>
-          <div className="grid grid-cols-6 gap-2">
-            {BG_COLORS.map((color) => (
+        {/* Text Color Tab */}
+        {activeTab === 'color' && (
+          <div>
+            <p className="text-gray-400 text-xs uppercase mb-1.5 font-semibold">Text Color</p>
+            <div className="grid grid-cols-6 gap-1.5">
+              {COLORS.map((color) => (
+                <motion.button
+                  key={color}
+                  whileHover={{ scale: 1.1 }}
+                  onClick={() => setCurrentOverlay({ ...currentOverlay, color })}
+                  className={`w-7 h-7 rounded transition-all ${
+                    currentOverlay.color === color ? 'ring-2 ring-white' : ''
+                  }`}
+                  style={{ backgroundColor: color, border: color === '#ffffff' ? '1px solid #999' : 'none' }}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Background Color Tab */}
+        {activeTab === 'bg' && (
+          <div>
+            <p className="text-gray-400 text-xs uppercase mb-1.5 font-semibold">Background</p>
+            <div className="grid grid-cols-6 gap-1.5">
+              {BG_COLORS.map((color) => (
+                <motion.button
+                  key={color}
+                  whileHover={{ scale: 1.1 }}
+                  onClick={() => setCurrentOverlay({ ...currentOverlay, backgroundColor: color })}
+                  className={`w-7 h-7 rounded transition-all border-2 ${
+                    currentOverlay.backgroundColor === color ? 'ring-2 ring-white border-white' : 'border-gray-600'
+                  }`}
+                  style={{ backgroundColor: color === 'transparent' ? 'rgba(0,0,0,0.3)' : color }}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Style Tab */}
+        {activeTab === 'style' && (
+          <div>
+            <p className="text-gray-400 text-xs uppercase mb-1.5 font-semibold">Style</p>
+            <div className="flex gap-1.5">
               <motion.button
-                key={color}
-                whileHover={{ scale: 1.1 }}
-                onClick={() => setCurrentOverlay({ ...currentOverlay, backgroundColor: color })}
-                className={`w-10 h-10 rounded transition-all border-2 ${
-                  currentOverlay.backgroundColor === color ? 'ring-2 ring-white border-white' : 'border-gray-600'
-                }`}
-                style={{ backgroundColor: color === 'transparent' ? '#1a1a1a' : color }}
-                title={color === 'transparent' ? 'Transparent' : color}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Style Buttons */}
-        <div>
-          <p className="text-gray-400 text-xs uppercase mb-2 font-semibold">Style</p>
-          <div className="flex gap-2">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              onClick={() => setCurrentOverlay({ ...currentOverlay, fontWeight: currentOverlay.fontWeight === 'bold' ? 'normal' : 'bold' })}
-              className={`flex-1 p-2 rounded transition-all flex items-center justify-center gap-2 ${
-                currentOverlay.fontWeight === 'bold'
-                  ? 'bg-green-600 text-white'
-                  : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-              }`}
-            >
-              <Bold className="w-4 h-4" />
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              onClick={() => setCurrentOverlay({ ...currentOverlay, fontStyle: currentOverlay.fontStyle === 'italic' ? 'normal' : 'italic' })}
-              className={`flex-1 p-2 rounded transition-all flex items-center justify-center gap-2 ${
-                currentOverlay.fontStyle === 'italic'
-                  ? 'bg-green-600 text-white'
-                  : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-              }`}
-            >
-              <Italic className="w-4 h-4" />
-            </motion.button>
-          </div>
-        </div>
-
-        {/* Alignment */}
-        <div>
-          <p className="text-gray-400 text-xs uppercase mb-2 font-semibold">Align</p>
-          <div className="flex gap-2">
-            {(['left', 'center', 'right'] as const).map((align) => (
-              <motion.button
-                key={align}
                 whileHover={{ scale: 1.05 }}
-                onClick={() => setCurrentOverlay({ ...currentOverlay, textAlign: align })}
-                className={`flex-1 p-2 rounded transition-all ${
-                  currentOverlay.textAlign === align
+                onClick={() => setCurrentOverlay({ ...currentOverlay, fontWeight: currentOverlay.fontWeight === 'bold' ? 'normal' : 'bold' })}
+                className={`flex-1 p-2 rounded transition-all flex items-center justify-center text-xs font-medium ${
+                  currentOverlay.fontWeight === 'bold'
                     ? 'bg-green-600 text-white'
-                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                    : 'bg-white/10 text-gray-300 hover:bg-white/20'
                 }`}
               >
-                {align === 'left' && <AlignLeft className="w-4 h-4 mx-auto" />}
-                {align === 'center' && <AlignCenter className="w-4 h-4 mx-auto" />}
-                {align === 'right' && <AlignRight className="w-4 h-4 mx-auto" />}
+                <Bold className="w-3 h-3" />
               </motion.button>
-            ))}
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                onClick={() => setCurrentOverlay({ ...currentOverlay, fontStyle: currentOverlay.fontStyle === 'italic' ? 'normal' : 'italic' })}
+                className={`flex-1 p-2 rounded transition-all flex items-center justify-center text-xs font-medium ${
+                  currentOverlay.fontStyle === 'italic'
+                    ? 'bg-green-600 text-white'
+                    : 'bg-white/10 text-gray-300 hover:bg-white/20'
+                }`}
+              >
+                <Italic className="w-3 h-3" />
+              </motion.button>
+            </div>
           </div>
-        </div>
+        )}
+
+        {/* Alignment Tab */}
+        {activeTab === 'align' && (
+          <div>
+            <p className="text-gray-400 text-xs uppercase mb-1.5 font-semibold">Align</p>
+            <div className="flex gap-1.5">
+              {(['left', 'center', 'right'] as const).map((align) => (
+                <motion.button
+                  key={align}
+                  whileHover={{ scale: 1.05 }}
+                  onClick={() => setCurrentOverlay({ ...currentOverlay, textAlign: align })}
+                  className={`flex-1 p-2 rounded transition-all text-xs font-medium ${
+                    currentOverlay.textAlign === align
+                      ? 'bg-green-600 text-white'
+                      : 'bg-white/10 text-gray-300 hover:bg-white/20'
+                  }`}
+                >
+                  {align === 'left' && <AlignLeft className="w-3 h-3 mx-auto" />}
+                  {align === 'center' && <AlignCenter className="w-3 h-3 mx-auto" />}
+                  {align === 'right' && <AlignRight className="w-3 h-3 mx-auto" />}
+                </motion.button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Add Button */}
         <motion.button
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={handleAdd}
-          className="w-full py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-all"
+          className="w-full py-2 bg-green-600 text-white rounded font-medium text-sm hover:bg-green-700 transition-all"
         >
-          Add Text to Canvas
+          Add Text
         </motion.button>
       </div>
     </motion.div>
