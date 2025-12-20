@@ -4,7 +4,7 @@ import React, { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import VideoEditor from '@/components/camera/VideoEditor';
-import { Video, Camera, Upload, X, Send, Loader2, Sparkles, Music } from 'lucide-react';
+import { Upload, X, Send, Loader2 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 
 type EditorStep = 'selection' | 'editor' | 'caption';
@@ -15,6 +15,8 @@ interface EditedMedia {
   textOverlays: any[];
   stickers: any[];
   music: any | null;
+  filters: any | null;
+  background: any | null;
 }
 
 const LAYER_OPTIONS = [
@@ -38,14 +40,9 @@ export default function CreatePage() {
   const [posting, setPosting] = useState(false);
   const [generatingCaption, setGeneratingCaption] = useState(false);
   const [aiSuggestions, setAiSuggestions] = useState<string[]>([]);
-  const [isRecording, setIsRecording] = useState(false);
   
   const videoInputRef = useRef<HTMLInputElement>(null);
   const photoInputRef = useRef<HTMLInputElement>(null);
-  const streamRef = useRef<MediaStream | null>(null);
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  const recordedChunksRef = useRef<Blob[]>([]);
-  const videoPreviewRef = useRef<HTMLVideoElement>(null);
 
   const handleEditorComplete = (data: EditedMedia) => {
     setEditedMedia(data);
@@ -106,7 +103,9 @@ export default function CreatePage() {
           metadata: editedMedia ? {
             textOverlays: editedMedia.textOverlays,
             stickers: editedMedia.stickers,
-            music: editedMedia.music
+            music: editedMedia.music,
+            filters: editedMedia.filters,
+            background: editedMedia.background
           } : undefined
         })
       });
@@ -118,49 +117,6 @@ export default function CreatePage() {
       console.error('Error posting:', err);
     }
     setPosting(false);
-  };
-
-  const startVideoRecording = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: true });
-      streamRef.current = stream;
-      
-      if (videoPreviewRef.current) {
-        videoPreviewRef.current.srcObject = stream;
-      }
-
-      const mimeType = 'video/webm;codecs=vp9';
-      const recorder = new MediaRecorder(stream, { mimeType });
-      mediaRecorderRef.current = recorder;
-      recordedChunksRef.current = [];
-
-      recorder.ondataavailable = (e) => {
-        if (e.data.size > 0) {
-          recordedChunksRef.current.push(e.data);
-        }
-      };
-
-      recorder.onstop = () => {
-        const blob = new Blob(recordedChunksRef.current, { type: 'video/webm' });
-        const url = URL.createObjectURL(blob);
-        setCapturedMedia({ url, type: 'video' });
-        setStep('editor');
-        
-        stream.getTracks().forEach(track => track.stop());
-      };
-
-      recorder.start();
-      setIsRecording(true);
-    } catch (error) {
-      console.error('Error accessing camera:', error);
-    }
-  };
-
-  const stopVideoRecording = () => {
-    if (mediaRecorderRef.current && isRecording) {
-      mediaRecorderRef.current.stop();
-      setIsRecording(false);
-    }
   };
 
   const handleFileSelect = (type: 'video' | 'image') => {
@@ -180,11 +136,10 @@ export default function CreatePage() {
     }
   };
 
-  // Selection screen - TikTok style
+  // Selection screen
   if (step === 'selection') {
     return (
       <div className="min-h-screen bg-black flex flex-col">
-        {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-800" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 16px)' }}>
           <button onClick={() => router.back()} className="text-gray-400 hover:text-white">
             <X className="w-6 h-6" />
@@ -193,60 +148,34 @@ export default function CreatePage() {
           <div className="w-6" />
         </div>
 
-        {/* Selection Grid */}
-        <div className="flex-1 flex flex-col items-center justify-center px-6 gap-8">
-          {/* Quick Actions */}
-          <div className="w-full space-y-4">
-            {/* Record Video - Featured */}
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={startVideoRecording}
-              className="w-full relative overflow-hidden rounded-2xl p-8 flex flex-col items-center justify-center gap-4 bg-gradient-to-br from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 transition-all shadow-lg"
-            >
-              <Video className="w-12 h-12 text-white" />
-              <div>
-                <p className="text-white font-bold text-lg">Record Video</p>
-                <p className="text-red-100 text-sm">Tap and hold to record</p>
-              </div>
-            </motion.button>
+        <div className="flex-1 flex flex-col items-center justify-center px-6 gap-6">
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => handleFileSelect('image')}
+            className="w-full rounded-2xl p-8 flex flex-col items-center justify-center gap-4 bg-gradient-to-br from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 transition-all shadow-lg"
+          >
+            <Upload className="w-12 h-12 text-white" />
+            <div>
+              <p className="text-white font-bold text-lg">Upload Photo</p>
+              <p className="text-purple-100 text-sm">Choose from your device</p>
+            </div>
+          </motion.button>
 
-            {/* Take Photo */}
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => handleFileSelect('image')}
-              className="w-full rounded-2xl p-8 flex flex-col items-center justify-center gap-4 bg-gradient-to-br from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 transition-all shadow-lg"
-            >
-              <Camera className="w-12 h-12 text-white" />
-              <div>
-                <p className="text-white font-bold text-lg">Take Photo</p>
-                <p className="text-orange-100 text-sm">Use your camera</p>
-              </div>
-            </motion.button>
-
-            {/* Upload */}
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => handleFileSelect('video')}
-              className="w-full rounded-2xl p-8 flex flex-col items-center justify-center gap-4 bg-gradient-to-br from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 transition-all shadow-lg"
-            >
-              <Upload className="w-12 h-12 text-white" />
-              <div>
-                <p className="text-white font-bold text-lg">Upload Media</p>
-                <p className="text-purple-100 text-sm">From your device</p>
-              </div>
-            </motion.button>
-          </div>
-
-          {/* Tips */}
-          <div className="text-center text-gray-400 text-sm max-w-xs">
-            <p>✨ Add text, effects, and music during editing</p>
-          </div>
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => handleFileSelect('video')}
+            className="w-full rounded-2xl p-8 flex flex-col items-center justify-center gap-4 bg-gradient-to-br from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 transition-all shadow-lg"
+          >
+            <Upload className="w-12 h-12 text-white" />
+            <div>
+              <p className="text-white font-bold text-lg">Upload Video</p>
+              <p className="text-blue-100 text-sm">Choose from your device</p>
+            </div>
+          </motion.button>
         </div>
 
-        {/* Hidden file inputs */}
         <input
           ref={videoInputRef}
           type="file"
@@ -261,32 +190,10 @@ export default function CreatePage() {
           onChange={(e) => handleFileChange(e, 'image')}
           className="hidden"
         />
-
-        {/* Recording Preview */}
-        {isRecording && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="absolute inset-0 bg-black/80 flex flex-col items-center justify-center z-50"
-          >
-            <video ref={videoPreviewRef} autoPlay muted className="w-full h-full object-cover" />
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-4">
-              <motion.button
-                animate={{ scale: [1, 1.1, 1] }}
-                transition={{ repeat: Infinity, duration: 1.5 }}
-                onClick={stopVideoRecording}
-                className="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center shadow-lg"
-              >
-                <div className="w-6 h-6 bg-white rounded-sm" />
-              </motion.button>
-            </div>
-          </motion.div>
-        )}
       </div>
     );
   }
 
-  // Editor screen
   if (step === 'editor' && capturedMedia) {
     return (
       <AnimatePresence>
@@ -303,11 +210,9 @@ export default function CreatePage() {
     );
   }
 
-  // Caption screen
   if (step === 'caption') {
     return (
       <div className="min-h-screen bg-black flex flex-col">
-        {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-800" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 16px)' }}>
           <button onClick={() => setStep('editor')} className="text-gray-400 hover:text-white">
             <X className="w-6 h-6" />
@@ -324,7 +229,6 @@ export default function CreatePage() {
         </div>
 
         <div className="flex-1 overflow-y-auto p-4 space-y-6">
-          {/* Media Preview */}
           {editedMedia && (
             <div className="flex gap-4">
               <div className="w-20 h-28 bg-gray-900 rounded-lg overflow-hidden flex-shrink-0">
@@ -347,7 +251,6 @@ export default function CreatePage() {
             </div>
           )}
 
-          {/* AI Suggestions */}
           {generatingCaption ? (
             <div className="flex items-center justify-center py-6">
               <Loader2 className="w-5 h-5 animate-spin text-green-500" />
@@ -369,7 +272,6 @@ export default function CreatePage() {
             </div>
           ) : null}
 
-          {/* Layer Selection */}
           <div className="space-y-2">
             <p className="text-xs text-gray-500 uppercase tracking-wider">Human Stack Layer</p>
             <div className="grid grid-cols-3 gap-3">

@@ -3,12 +3,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  X, Check, Type, Music, Sticker, Scissors, Volume2, VolumeX,
-  RotateCcw, Play, Pause, Undo2, Redo2, Sparkles, Wand2
+  X, Check, Type, Music, Smile, Wand2, Undo2, Redo2, Plus, Minus
 } from 'lucide-react';
 import TextOverlayEditor, { TextOverlay } from './TextOverlayEditor';
-import StickerPicker from './StickerPicker';
-import MusicPicker from './MusicPicker';
 
 interface VideoEditorProps {
   mediaUrl: string;
@@ -19,110 +16,53 @@ interface VideoEditorProps {
     textOverlays: TextOverlay[];
     stickers: { type: 'emoji' | 'gif'; content: string; x: number; y: number }[];
     music: { title: string; artist: string; url: string } | null;
+    filters: string | null;
+    background: string | null;
   }) => void;
   onBack: () => void;
 }
 
-interface StickerItem {
-  id: string;
-  type: 'emoji' | 'gif';
-  content: string;
-  x: number;
-  y: number;
-}
+const FILTERS = [
+  { id: 'none', name: 'None', filter: 'none' },
+  { id: 'brightness', name: 'Bright', filter: 'brightness(1.2)' },
+  { id: 'contrast', name: 'Contrast', filter: 'contrast(1.3)' },
+  { id: 'saturate', name: 'Vivid', filter: 'saturate(1.4)' },
+  { id: 'sepia', name: 'Sepia', filter: 'sepia(0.8)' },
+  { id: 'grayscale', name: 'B&W', filter: 'grayscale(1)' },
+  { id: 'invert', name: 'Invert', filter: 'invert(1)' },
+  { id: 'blur', name: 'Blur', filter: 'blur(3px)' },
+];
 
-interface HistoryState {
-  textOverlays: TextOverlay[];
-  stickers: StickerItem[];
-}
+const EMOJIS = ['😀', '😂', '😍', '🔥', '💯', '✨', '🎉', '👍', '❤️', '🎬', '⭐', '🌟'];
+
+const FONTS = [
+  { id: 'sans', name: 'Sans', family: '"Helvetica Neue", sans-serif' },
+  { id: 'serif', name: 'Serif', family: 'Georgia, serif' },
+  { id: 'mono', name: 'Mono', family: '"Courier New", monospace' },
+  { id: 'display', name: 'Display', family: '"Impact", display' },
+  { id: 'cursive', name: 'Cursive', family: '"Brush Script MT", cursive' },
+];
 
 export default function VideoEditor({ mediaUrl, mediaType, onComplete, onBack }: VideoEditorProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   
   const [textOverlays, setTextOverlays] = useState<TextOverlay[]>([]);
-  const [stickers, setStickers] = useState<StickerItem[]>([]);
-  const [selectedMusic, setSelectedMusic] = useState<any>(null);
-  
+  const [stickers, setStickers] = useState<{ type: 'emoji' | 'gif'; content: string; x: number; y: number; id: string }[]>([]);
+  const [selectedFilter, setSelectedFilter] = useState('none');
   const [showTextEditor, setShowTextEditor] = useState(false);
-  const [showStickerPicker, setShowStickerPicker] = useState(false);
-  const [showMusicPicker, setShowMusicPicker] = useState(false);
-  
-  const [history, setHistory] = useState<HistoryState[]>([{ textOverlays: [], stickers: [] }]);
-  const [historyIndex, setHistoryIndex] = useState(0);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [activeTab, setActiveTab] = useState<'filters' | 'text' | 'stickers' | 'fonts'>('filters');
 
-  useEffect(() => {
-    if (videoRef.current && mediaType === 'video') {
-      videoRef.current.onloadedmetadata = () => {
-        setDuration(videoRef.current?.duration || 0);
-      };
-      videoRef.current.ontimeupdate = () => {
-        setCurrentTime(videoRef.current?.currentTime || 0);
-      };
-    }
-  }, [mediaType]);
-
-  const saveToHistory = () => {
-    const newHistory = history.slice(0, historyIndex + 1);
-    newHistory.push({ textOverlays: [...textOverlays], stickers: [...stickers] });
-    setHistory(newHistory);
-    setHistoryIndex(newHistory.length - 1);
-  };
-
-  const undo = () => {
-    if (historyIndex > 0) {
-      const newIndex = historyIndex - 1;
-      setHistoryIndex(newIndex);
-      setTextOverlays([...history[newIndex].textOverlays]);
-      setStickers([...history[newIndex].stickers]);
-    }
-  };
-
-  const redo = () => {
-    if (historyIndex < history.length - 1) {
-      const newIndex = historyIndex + 1;
-      setHistoryIndex(newIndex);
-      setTextOverlays([...history[newIndex].textOverlays]);
-      setStickers([...history[newIndex].stickers]);
-    }
-  };
-
-  const togglePlayPause = () => {
-    if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause();
-      } else {
-        videoRef.current.play();
-      }
-      setIsPlaying(!isPlaying);
-    }
-  };
-
-  const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
-    }
-  };
-
-  const handleTextUpdate = (newOverlays: TextOverlay[]) => {
-    setTextOverlays(newOverlays);
-    saveToHistory();
-  };
-
-  const handleStickerSelect = (sticker: { type: 'emoji' | 'gif'; content: string }) => {
-    const newSticker: StickerItem = {
+  const handleAddSticker = (emoji: string) => {
+    const newSticker = {
       id: Date.now().toString(),
-      ...sticker,
+      type: 'emoji' as const,
+      content: emoji,
       x: 50,
       y: 50
     };
     setStickers([...stickers, newSticker]);
-    saveToHistory();
-    setShowStickerPicker(false);
   };
 
   const handleComplete = () => {
@@ -131,14 +71,10 @@ export default function VideoEditor({ mediaUrl, mediaType, onComplete, onBack }:
       type: mediaType,
       textOverlays,
       stickers: stickers.map(s => ({ type: s.type, content: s.content, x: s.x, y: s.y })),
-      music: selectedMusic
+      music: null,
+      filters: selectedFilter !== 'none' ? selectedFilter : null,
+      background: null
     });
-  };
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
   return (
@@ -148,46 +84,33 @@ export default function VideoEditor({ mediaUrl, mediaType, onComplete, onBack }:
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-50 bg-black flex flex-col"
     >
+      {/* Header */}
       <div
-        className="flex items-center justify-between p-4"
+        className="flex items-center justify-between p-4 border-b border-gray-800"
         style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 16px)' }}
       >
-        <button onClick={onBack} className="text-white p-2">
+        <button onClick={onBack} className="text-gray-400 hover:text-white">
           <X className="w-6 h-6" />
         </button>
-
-        <div className="flex items-center gap-2">
-          <button
-            onClick={undo}
-            disabled={historyIndex === 0}
-            className="w-10 h-10 bg-black/40 backdrop-blur-sm rounded-full flex items-center justify-center text-white disabled:opacity-30"
-          >
-            <Undo2 className="w-5 h-5" />
-          </button>
-          <button
-            onClick={redo}
-            disabled={historyIndex >= history.length - 1}
-            className="w-10 h-10 bg-black/40 backdrop-blur-sm rounded-full flex items-center justify-center text-white disabled:opacity-30"
-          >
-            <Redo2 className="w-5 h-5" />
-          </button>
-        </div>
-
+        <h1 className="text-white font-semibold">Edit</h1>
         <button
           onClick={handleComplete}
-          className="px-4 py-2 bg-green-600 text-white rounded-full text-sm font-medium"
+          className="px-4 py-2 bg-green-600 text-white rounded-full text-sm font-medium hover:bg-green-700 flex items-center gap-2"
         >
+          <Check className="w-4 h-4" />
           Next
         </button>
       </div>
 
-      <div className="flex-1 relative flex items-center justify-center p-4">
-        <div className="relative w-full max-w-sm aspect-[9/16] bg-gray-900 rounded-xl overflow-hidden">
+      {/* Main Canvas */}
+      <div className="flex-1 flex items-center justify-center p-4 bg-gradient-to-b from-gray-900 to-black">
+        <div className="relative w-full max-w-sm aspect-[9/16] bg-gray-900 rounded-xl overflow-hidden shadow-2xl">
           {mediaType === 'video' ? (
             <video
               ref={videoRef}
               src={mediaUrl}
               className="w-full h-full object-cover"
+              style={{ filter: FILTERS.find(f => f.id === selectedFilter)?.filter || 'none' }}
               loop
               playsInline
             />
@@ -196,149 +119,161 @@ export default function VideoEditor({ mediaUrl, mediaType, onComplete, onBack }:
               src={mediaUrl}
               alt="Preview"
               className="w-full h-full object-cover"
+              style={{ filter: FILTERS.find(f => f.id === selectedFilter)?.filter || 'none' }}
             />
           )}
 
+          {/* Text Overlays */}
           {textOverlays.map((overlay) => (
             <div
               key={overlay.id}
-              className="absolute cursor-move px-2 py-1 rounded"
+              className="absolute px-2 py-1 rounded cursor-move"
               style={{
                 left: `${overlay.x}%`,
                 top: `${overlay.y}%`,
                 transform: 'translate(-50%, -50%)',
-                fontSize: overlay.fontSize,
+                fontSize: `${overlay.fontSize}px`,
                 fontWeight: overlay.fontWeight,
                 fontStyle: overlay.fontStyle,
                 textAlign: overlay.textAlign,
                 color: overlay.color,
                 backgroundColor: overlay.backgroundColor,
-                textShadow: '0 2px 4px rgba(0,0,0,0.5)'
+                fontFamily: overlay.fontFamily || 'sans-serif',
+                textShadow: '0 2px 8px rgba(0,0,0,0.8)',
+                zIndex: 10
               }}
             >
               {overlay.text}
             </div>
           ))}
 
+          {/* Stickers */}
           {stickers.map((sticker) => (
             <div
               key={sticker.id}
-              className="absolute cursor-move"
+              className="absolute text-3xl cursor-move select-none"
               style={{
                 left: `${sticker.x}%`,
                 top: `${sticker.y}%`,
-                transform: 'translate(-50%, -50%)'
+                transform: 'translate(-50%, -50%)',
+                zIndex: 20
+              }}
+              draggable
+              onDragEnd={(e) => {
+                const rect = e.currentTarget.parentElement?.getBoundingClientRect();
+                if (rect) {
+                  const newX = ((e.clientX - rect.left) / rect.width) * 100;
+                  const newY = ((e.clientY - rect.top) / rect.height) * 100;
+                  setStickers(stickers.map(s => 
+                    s.id === sticker.id ? { ...s, x: newX, y: newY } : s
+                  ));
+                }
               }}
             >
-              {sticker.type === 'emoji' ? (
-                <span className="text-5xl">{sticker.content}</span>
-              ) : (
-                <img src={sticker.content} alt="sticker" className="w-24 h-24 object-contain" />
-              )}
+              {sticker.content}
             </div>
           ))}
-
-          {selectedMusic && (
-            <div className="absolute bottom-4 left-4 right-4 bg-black/60 backdrop-blur-sm rounded-lg p-2 flex items-center gap-2">
-              <Music className="w-5 h-5 text-white" />
-              <div className="flex-1 truncate">
-                <p className="text-white text-sm font-medium truncate">{selectedMusic.title}</p>
-              </div>
-            </div>
-          )}
         </div>
       </div>
 
-      {mediaType === 'video' && (
-        <div className="px-4 pb-2">
-          <div className="flex items-center gap-3">
-            <button onClick={togglePlayPause} className="text-white">
-              {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6" />}
-            </button>
-            <div className="flex-1 h-1 bg-gray-700 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-green-500"
-                style={{ width: `${(currentTime / duration) * 100}%` }}
-              />
-            </div>
-            <span className="text-white text-xs">{formatTime(currentTime)}/{formatTime(duration)}</span>
-            <button onClick={toggleMute} className="text-white">
-              {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
-            </button>
-          </div>
+      {/* Tool Tabs */}
+      <div className="border-t border-gray-800 bg-black">
+        <div className="flex gap-4 p-4 overflow-x-auto">
+          <button
+            onClick={() => setActiveTab('filters')}
+            className={`px-4 py-2 rounded-full font-medium transition-all whitespace-nowrap ${
+              activeTab === 'filters'
+                ? 'bg-green-600 text-white'
+                : 'bg-gray-900 text-gray-400 hover:text-white'
+            }`}
+          >
+            <Wand2 className="w-4 h-4 inline mr-2" />
+            Filters
+          </button>
+          <button
+            onClick={() => setActiveTab('text')}
+            className={`px-4 py-2 rounded-full font-medium transition-all whitespace-nowrap ${
+              activeTab === 'text'
+                ? 'bg-green-600 text-white'
+                : 'bg-gray-900 text-gray-400 hover:text-white'
+            }`}
+          >
+            <Type className="w-4 h-4 inline mr-2" />
+            Text
+          </button>
+          <button
+            onClick={() => setActiveTab('stickers')}
+            className={`px-4 py-2 rounded-full font-medium transition-all whitespace-nowrap ${
+              activeTab === 'stickers'
+                ? 'bg-green-600 text-white'
+                : 'bg-gray-900 text-gray-400 hover:text-white'
+            }`}
+          >
+            <Smile className="w-4 h-4 inline mr-2" />
+            Stickers
+          </button>
         </div>
-      )}
 
-      <div
-        className="p-4 flex items-center justify-center gap-6"
-        style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 16px)' }}
-      >
-        <button
-          onClick={() => setShowTextEditor(true)}
-          className="flex flex-col items-center gap-1 text-white"
-        >
-          <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center">
-            <Type className="w-6 h-6" />
+        {/* Filters Tab */}
+        {activeTab === 'filters' && (
+          <div className="px-4 pb-4 grid grid-cols-4 gap-2">
+            {FILTERS.map((f) => (
+              <motion.button
+                key={f.id}
+                whileHover={{ scale: 1.05 }}
+                onClick={() => setSelectedFilter(f.id)}
+                className={`p-3 rounded-lg font-medium text-sm transition-all ${
+                  selectedFilter === f.id
+                    ? 'bg-green-600 text-white ring-2 ring-green-400'
+                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                }`}
+              >
+                {f.name}
+              </motion.button>
+            ))}
           </div>
-          <span className="text-xs">Text</span>
-        </button>
+        )}
 
-        <button
-          onClick={() => setShowStickerPicker(true)}
-          className="flex flex-col items-center gap-1 text-white"
-        >
-          <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center">
-            <Sticker className="w-6 h-6" />
+        {/* Text Tab */}
+        {activeTab === 'text' && (
+          <div className="px-4 pb-4">
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => setShowTextEditor(true)}
+              className="w-full py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-all flex items-center justify-center gap-2"
+            >
+              <Plus className="w-5 h-5" />
+              Add Text
+            </motion.button>
           </div>
-          <span className="text-xs">Stickers</span>
-        </button>
+        )}
 
-        <button
-          onClick={() => setShowMusicPicker(true)}
-          className="flex flex-col items-center gap-1 text-white"
-        >
-          <div className={`w-12 h-12 rounded-full flex items-center justify-center ${selectedMusic ? 'bg-green-600' : 'bg-white/10'}`}>
-            <Music className="w-6 h-6" />
+        {/* Stickers Tab */}
+        {activeTab === 'stickers' && (
+          <div className="px-4 pb-4 grid grid-cols-6 gap-2">
+            {EMOJIS.map((emoji) => (
+              <motion.button
+                key={emoji}
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => handleAddSticker(emoji)}
+                className="p-3 bg-gray-800 rounded-lg text-2xl hover:bg-gray-700 transition-all"
+              >
+                {emoji}
+              </motion.button>
+            ))}
           </div>
-          <span className="text-xs">Sound</span>
-        </button>
-
-        <button className="flex flex-col items-center gap-1 text-white">
-          <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center">
-            <Sparkles className="w-6 h-6" />
-          </div>
-          <span className="text-xs">Effects</span>
-        </button>
-
-        <button className="flex flex-col items-center gap-1 text-white">
-          <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center">
-            <Scissors className="w-6 h-6" />
-          </div>
-          <span className="text-xs">Trim</span>
-        </button>
+        )}
       </div>
 
+      {/* Text Editor Modal */}
       <AnimatePresence>
         {showTextEditor && (
           <TextOverlayEditor
             overlays={textOverlays}
-            onUpdate={handleTextUpdate}
+            onUpdate={setTextOverlays}
             onClose={() => setShowTextEditor(false)}
-          />
-        )}
-
-        {showStickerPicker && (
-          <StickerPicker
-            onSelect={handleStickerSelect}
-            onClose={() => setShowStickerPicker(false)}
-          />
-        )}
-
-        {showMusicPicker && (
-          <MusicPicker
-            selectedTrack={selectedMusic}
-            onSelect={setSelectedMusic}
-            onClose={() => setShowMusicPicker(false)}
           />
         )}
       </AnimatePresence>
